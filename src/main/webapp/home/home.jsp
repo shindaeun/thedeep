@@ -23,9 +23,9 @@
 <button type="button" class="white">삭제</button>
 
 	<tr class="board">
-		<td style="width:20%;" class="head">!123</td>
+		<td style="width:20%;" class="head">!1234</td>
 		<td style="width:20%;">!</td>
-		<td style="width:20%;" class="head">!123</td>
+		<td style="width:20%;" class="head">!1234</td>
 		<td style="width:20%;">!123</td>
 		<td style="width:20%;" class="head">!123</td>
 	</tr>
