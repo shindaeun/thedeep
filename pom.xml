@@ -12,6 +12,8 @@
 	<properties>
 		<spring.maven.artifact.version>4.2.4.RELEASE</spring.maven.artifact.version>
 		<egovframework.rte.version>3.7.0</egovframework.rte.version>
+		<org.apache.tiles-version>3.0.3</org.apache.tiles-version> 
+		
 	</properties>
 
 	<repositories>
@@ -48,6 +50,144 @@
 	</repositories>
 
 	<dependencies>
+	<!-- tiles 설정  S -->
+
+		
+
+		<dependency>
+
+			<groupId>org.apache.tiles</groupId>
+
+			<artifactId>tiles-core</artifactId>
+
+			<version>${org.apache.tiles-version}</version>
+
+	
+
+			<!-- needed to exclude slf4j which causes incompatibilities -->
+
+			<exclusions>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>slf4j-nop</artifactId>
+
+				</exclusion>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>slf4j-api</artifactId>
+
+				</exclusion>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>jcl-over-slf4j</artifactId>
+
+				</exclusion>
+
+			</exclusions>
+
+		</dependency>
+
+		
+
+		<dependency>
+
+			<groupId>org.apache.tiles</groupId>
+
+			<artifactId>tiles-servlet</artifactId>
+
+			<version>${org.apache.tiles-version}</version>
+
+	
+
+			<!-- needed to exclude slf4j which causes incompatibilities -->
+
+			<exclusions>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>slf4j-nop</artifactId>
+
+				</exclusion>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>slf4j-api</artifactId>
+
+				</exclusion>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>jcl-over-slf4j</artifactId>
+
+				</exclusion>
+
+			</exclusions>
+
+		</dependency>
+
+		
+
+		<dependency>
+
+			<groupId>org.apache.tiles</groupId>
+
+			<artifactId>tiles-extras</artifactId>
+
+			<version>${org.apache.tiles-version}</version>
+
+	
+
+			<!-- needed to exclude slf4j which causes incompatibilities -->
+
+			<exclusions>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>slf4j-nop</artifactId>
+
+				</exclusion>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>slf4j-api</artifactId>
+
+				</exclusion>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>jcl-over-slf4j</artifactId>
+
+				</exclusion>
+
+			</exclusions>
+
+		</dependency>
+
+
+
+
+		<!-- tiles 설정 E -->
 		<!-- oracle -->
 		<dependency>
 			<groupId>com.oracle</groupId>
@@ -60,6 +200,7 @@
 			<version>1.4</version>
 		</dependency>
 		<!-- oracle -->
+		
 		<!-- 표준프레임워크 실행환경 -->
 		<dependency>
 			<groupId>egovframework.rte</groupId>

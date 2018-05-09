@@ -6,6 +6,17 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
                 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+<!-- tiles s -->
+ 	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1" 
+	p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView" /> 
+	<!--Don't add suffix or prefix like you do with .jsp files-->
+	
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer" >
+		<property name="definitions">
+			<value>/WEB-INF/config/tiles/tiles.xml</value>
+		</property>
+	</bean>
+	<!-- tiles e -->
 
 	<!-- controller,service,Repository 기능 사용하겠다 -->
 	<context:component-scan base-package="thedeep">
