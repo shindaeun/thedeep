@@ -19,6 +19,22 @@ public class HomeController {
 		
 		return "product/outerDetail";
 	}
+	@RequestMapping(value="/noticeList.do")
+	public String selectNoticeList() throws Exception{
+		return "board/noticeList";
+	}
+	@RequestMapping(value="/noticeDetail.do")
+	public String noticeDetail() throws Exception{
+		return "board/noticeDetail";
+	}
+	@RequestMapping(value="/userBoard.do")
+	public String userBoard() throws Exception{
+		return "member/userBoard";
+	}
+	@RequestMapping(value="/cart.do")
+	public String cart() throws Exception{
+		return "member/cart";
+	}
 
 }
 

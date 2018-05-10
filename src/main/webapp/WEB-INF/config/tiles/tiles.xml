@@ -43,7 +43,15 @@
 	<definition name="product/*" extends="layout1"><!-- =>layout1 적용할 범위 설정 -->
 		<put-attribute name="content" value="/product/{1}.jsp" />
 	</definition>
-	
+	<definition name="board/*" extends="layout1"><!-- =>layout1 적용할 범위 설정 -->
+		<put-attribute name="content" value="/board/{1}.jsp" />
+	</definition>
+	<definition name="admin/*" extends="layout1"><!-- =>layout1 적용할 범위 설정 -->
+		<put-attribute name="content" value="/admin/{1}.jsp" />
+	</definition>
+	<definition name="member/*" extends="layout1"><!-- =>layout1 적용할 범위 설정 -->
+		<put-attribute name="content" value="/member/{1}.jsp" />
+	</definition>
 
 
 
