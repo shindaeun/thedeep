@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
 	$(function() {
 		$("#btnBuy").click(function() {
@@ -34,11 +35,11 @@
 				<td>${result.name}</td>
 				<td>${result.rdate}</td>
 				<td>${result.hit}</td>
-				<td>${result.name}</td>
+				<td><input type="number"></td>
 				<td></td>
 			</tr>
 		</c:forEach>
-		<tr class="board">
+		<tr class="board" align="right">
 			<td colspan="10">결제금액 123500원 + 배송비 0 월 = 123500원(적립금 64원)</td>
 		</tr>
 		<tr align="right">

@@ -6,6 +6,5 @@
 		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 		<typeAlias alias="searchVO" type="thedeep.service.DefaultVO"/>
 
-		
     </typeAliases>
 </configuration>
