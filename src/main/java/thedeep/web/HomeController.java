@@ -10,7 +10,6 @@ public class HomeController {
 	
 	@RequestMapping(value="/home.do")
 	public String selectEmpList1() throws Exception{
-		
 		return "home/home";
 	}
 	
