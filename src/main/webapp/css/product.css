@@ -1,23 +1,38 @@
 table.product {
+	margin-top: 20px;
+	margin-bottom: 20px;
 	width:100%;
 	border: 1px solid #555555;
 	border-collapse: collapse;
 }
-tr.board {
+td.product,tr.product {
 	border: 1px solid #555555;
 	padding: 5px;
 	text-align: center;
 	height:200px;
 }
 
-table.line {
+table.top {
+   margin-bottom: 20px;
    width:100%;
    border-collapse: collapse;
    background-color: #D5D5D5;
 }
-td,tr.line {
+td.top,tr.top {
    height: 10px;
    text-align: left;
-   padding: 5px;
+   padding: 8px;
+   border-bottom: 0px #000000;
+}
+
+table.line {
+   width:100%;
+   border-collapse: collapse;
+   background-color: black;
+}
+td,tr.line {
+   height: 1px;
+   text-align: left;
+   padding: 1px;
    border-bottom: 0px #000000;
 }

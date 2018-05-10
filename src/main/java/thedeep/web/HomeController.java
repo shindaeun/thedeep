@@ -14,8 +14,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/outerDetail.do")
-	public String selectEmpList2() throws Exception{
-		
+	public String selectOuter() throws Exception{
 		return "product/outerDetail";
 	}
 	@RequestMapping(value="/noticeList.do")
