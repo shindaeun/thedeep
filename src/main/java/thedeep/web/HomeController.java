@@ -13,6 +13,7 @@ public class HomeController {
 		return "home/home";
 	}
 	
+
 	@RequestMapping(value="/productList.do")
 	public String selectProductList() throws Exception{
 	
@@ -30,6 +31,11 @@ public class HomeController {
 	@RequestMapping(value="/noticeModify.do")
 	public String selectNoticeModify() throws Exception{
 		return "board/noticeModify";
+	}
+	@RequestMapping(value="/outerDetail.do")
+	public String selectOuter() throws Exception{
+		return "product/outerDetail";
+
 	}
 	@RequestMapping(value="/noticeList.do")
 	public String selectNoticeList() throws Exception{

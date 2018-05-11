@@ -30,7 +30,11 @@ table.line {
    border-collapse: collapse;
    background-color: black;
 }
+<<<<<<< Updated upstream
 td.line,tr.line {
+=======
+td,tr.line {
+>>>>>>> Stashed changes
    height: 1px;
    text-align: left;
    padding: 1px;
