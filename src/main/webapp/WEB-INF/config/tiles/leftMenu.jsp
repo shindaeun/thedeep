@@ -6,7 +6,7 @@
           <div class="container-2 w-container">
             <nav role="navigation" class="nav-menu w-nav-menu">
             	<a href="#" class="nav-link-2 w-nav-link">best50</a>
-            	<a href="#" class="nav-link-3 w-nav-link">outer</a>
+            	<a href="/productList.do?gname=outer" class="nav-link-3 w-nav-link">outer</a>
             	<a href="#" class="nav-link-4 w-nav-link">top</a>
             	<a href="#" class="nav-link-8 w-nav-link">bottom</a>
             	<a href="#" class="nav-link-5 w-nav-link">dress</a>

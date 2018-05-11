@@ -30,7 +30,7 @@ table.line {
    border-collapse: collapse;
    background-color: black;
 }
-td,tr.line {
+td.line,tr.line {
    height: 1px;
    text-align: left;
    padding: 1px;
