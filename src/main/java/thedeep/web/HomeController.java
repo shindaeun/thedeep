@@ -13,10 +13,29 @@ public class HomeController {
 		return "home/home";
 	}
 	
+
+	@RequestMapping(value="/productList.do")
+	public String selectProductList() throws Exception{
+	
+		return "product/productList";
+	}
+	@RequestMapping(value="/productDetail.do")
+	public String selectProductDetail() throws Exception{
+	
+		return "product/productDetail";
+	}
+	@RequestMapping(value="/noticeWrite.do")
+	public String selectNoticeWrite() throws Exception{
+		return "board/noticeWrite";
+	}
+	@RequestMapping(value="/noticeModify.do")
+	public String selectNoticeModify() throws Exception{
+		return "board/noticeModify";
+	}
 	@RequestMapping(value="/outerDetail.do")
-	public String selectEmpList2() throws Exception{
-		
+	public String selectOuter() throws Exception{
 		return "product/outerDetail";
+
 	}
 	@RequestMapping(value="/noticeList.do")
 	public String selectNoticeList() throws Exception{
@@ -26,6 +45,45 @@ public class HomeController {
 	public String noticeDetail() throws Exception{
 		return "board/noticeDetail";
 	}
+	
+	
+	@RequestMapping(value="/reviewWrite.do")
+	public String selectReviewWrite() throws Exception{
+		return "board/reviewWrite";
+	}
+	@RequestMapping(value="/reviewList.do")
+	public String selectReviewList() throws Exception{
+		return "board/reviewList";
+	}
+	@RequestMapping(value="/reviewDetail.do")
+	public String selectReviewDetail() throws Exception{
+		return "board/reviewDetail";
+	}
+	@RequestMapping(value="/reviewModify.do")
+	public String selectReviewModify() throws Exception{
+		return "board/reviewModify";
+	}
+	@RequestMapping(value="/pwdCheck.do")
+	public String selectPwdCheck() throws Exception{
+		return "popup/pwdCheck";
+	}
+	@RequestMapping(value="/productAdd.do")
+	public String selectProductAdd() throws Exception{
+		return "product/productAdd";
+	}
+	@RequestMapping(value="/productModify.do")
+	public String selectProductModify() throws Exception{
+		return "product/productModify";
+	}
+	@RequestMapping(value="/productListView.do")
+	public String selectProductListView() throws Exception{
+		return "product/productListView";
+	}
+	@RequestMapping(value="/group.do")
+	public String selectgroup() throws Exception{
+		return "product/group";
+	}
+	
 	@RequestMapping(value="/userBoard.do")
 	public String userBoard() throws Exception{
 		return "member/userBoard";
@@ -34,46 +92,9 @@ public class HomeController {
 	public String cart() throws Exception{
 		return "member/cart";
 	}
-	@RequestMapping(value="/coupon.do")
-	public String coupon() throws Exception{
-		return "member/coupon";
-	}
-	@RequestMapping(value="/point.do")
-	public String point() throws Exception{
-		return "member/point";
-	}
-	@RequestMapping(value="/order.do")
-	public String order() throws Exception{
-		return "member/order";
-	}
-	@RequestMapping(value="/couponPopup.do")
-	public String couponPopup() throws Exception{
-		return "popup/couponPopup";
-	}
-
-	@RequestMapping(value="/orderComplete.do")
-	public String orderComplete() throws Exception{
-		return "member/orderComplete";
-	}
-	@RequestMapping(value="/orderList.do")
-	public String orderList() throws Exception{
-		return "admin/orderList";
-	}
-	@RequestMapping(value="/orderDetail.do")
-	public String orderDetail() throws Exception{
-		return "admin/orderDetail";
-	}
-	@RequestMapping(value="/adminBoard.do")
-	public String adminBoard() throws Exception{
-		return "admin/adminBoard";
-	}
-	@RequestMapping(value="/reviewReply.do")
-	public String reviewReply() throws Exception{
-		return "admin/reviewReply";
-	}
-	@RequestMapping(value="/qnaReply.do")
-	public String qnaReply() throws Exception{
-		return "admin/qnaReply";
+	@RequestMapping(value="/test.do")
+	public String test() throws Exception{
+		return "product/test";
 	}
 
 }
