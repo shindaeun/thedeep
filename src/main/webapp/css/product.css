@@ -1,23 +1,39 @@
 table.product {
-	width:100%;
-	border: 1px solid #555555;
-	border-collapse: collapse;
+   margin-top: 20px;
+   margin-bottom: 20px;
+   width:100%;
+   border: 1px solid #555555;
+   border-collapse: collapse;
 }
-tr.board {
-	border: 1px solid #555555;
-	padding: 5px;
-	text-align: center;
-	height:200px;
+td.product,tr.product {
+   border: 1px solid #555555;
+   padding: 5px;
+   text-align: center;
+   height:200px;
+}
+
+table.top {
+   margin-bottom: 20px;
+   width:100%;
+   border-collapse: collapse;
+   background-color: #D5D5D5;
+}
+td.top,tr.top {
+   height: 10px;
+   text-align: left;
+   font-weight: bold;
+   padding: 8px;
+   border-bottom: 0px #000000;
 }
 
 table.line {
    width:100%;
    border-collapse: collapse;
-   background-color: #D5D5D5;
+   background-color: black;
 }
-td,tr.line {
-   height: 10px;
+td.line,tr.line {
+   height: 1px;
    text-align: left;
-   padding: 5px;
+   padding: 1px;
    border-bottom: 0px #000000;
 }
