@@ -50,7 +50,7 @@ $(window).load(function () {
 			<td class="gubun">2048-05</td>
 			<td>배송준비중</td>
 			<td>
-			<input type="text"/>
+			<input type="text" size="10"/>
 			<button type="button" class="white" id="btnWrite">입력</button>
 			</td>
 		</tr>

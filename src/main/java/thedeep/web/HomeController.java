@@ -50,10 +50,7 @@ public class HomeController {
 	public String couponPopup() throws Exception{
 		return "popup/couponPopup";
 	}
-	@RequestMapping(value="/postPopup.do")
-	public String postPopup() throws Exception{
-		return "popup/postPopup";
-	}
+
 	@RequestMapping(value="/orderComplete.do")
 	public String orderComplete() throws Exception{
 		return "member/orderComplete";
@@ -65,6 +62,18 @@ public class HomeController {
 	@RequestMapping(value="/orderDetail.do")
 	public String orderDetail() throws Exception{
 		return "admin/orderDetail";
+	}
+	@RequestMapping(value="/adminBoard.do")
+	public String adminBoard() throws Exception{
+		return "admin/adminBoard";
+	}
+	@RequestMapping(value="/reviewReply.do")
+	public String reviewReply() throws Exception{
+		return "admin/reviewReply";
+	}
+	@RequestMapping(value="/qnaReply.do")
+	public String qnaReply() throws Exception{
+		return "admin/qnaReply";
 	}
 
 }

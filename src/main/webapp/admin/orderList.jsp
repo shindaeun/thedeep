@@ -3,19 +3,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <br><br>
 <form name="frm">
-	<table>
+	<table width="100%">
 		<tr>
-			<td><select name="searchCondition">
+			<th><select name="searchCondition">
 					<option value="title">아이디</option>
 					<option value="content">상품명</option>
 			</select> <input type="text" name="searchKeyword" id="searchKeyword">
-				<button type="button" id="btnSearch" class="white">검색</button></td>
+				<button type="button" id="btnSearch" class="white">검색</button></th>
 		</tr>
+		<tr><td></td></tr>
 		<tr>
-			<td><input type="checkbox" name="dstate" />입금 전&nbsp;&nbsp; <input
+			<th><input type="checkbox" name="dstate" />입금 전&nbsp;&nbsp; <input
 				type="checkbox" name="dstate" />상품 준비 중&nbsp;&nbsp; <input type="checkbox"
 				name="dstate" />배송 준비 중&nbsp;&nbsp; <input type="checkbox" name="dstate" />배송 중&nbsp;&nbsp;
-				<input type="checkbox" name="dstate" />배송완료</td>
+				<input type="checkbox" name="dstate" />배송완료</th>
 		</tr>
 	</table>
 </form>
@@ -32,13 +33,13 @@
 	</tr>
 	<c:forEach var="result" items="${resultList }" varStatus="status">
 		<tr class="board">
-			<td>${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}</td>
-			<td><a href="/boardModify.do?unq=${result.unq}">${result.title}</a></td>
-			<td>${result.name}</td>
-			<td>${result.rdate}</td>
-			<td>${result.hit}</td>
-			<td>${result.name}</td>
-			<td>${result.rdate}</td>
+			<td>1${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}</td>
+			<td>1<a href="/boardModify.do?unq=${result.unq}">${result.title}</a></td>
+			<td>${result.name}1</td>
+			<td>${result.rdate}1</td>
+			<td><input type="number"/></td>
+			<td>${result.name}1</td>
+			<td></td>
 		</tr>
 	</c:forEach>
 </table>
