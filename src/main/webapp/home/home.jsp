@@ -19,24 +19,6 @@
 	</div>
 	
 	<div>new items</div>
-<table class="board">
-<button type="button" class="white">삭제</button>
-
-	<tr class="board">
-		<td style="width:20%;" class="head">!1234</td>
-		<td style="width:20%;">!</td>
-		<td style="width:20%;" class="head">!1234</td>
-		<td style="width:20%;">!1234</td>
-		<td style="width:20%;" class="head">!1234</td>
-	</tr>
-	<tr class="board">
-		<td style="width:20%;" class="head">!12</td>
-		<td style="width:20%;" >!123</td>
-		<td style="width:20%;" >!123</td>
-		<td style="width:20%;">!123</td>
-		<td style="width:20%;" class="head">!12223</td>
-	</tr>
-</table>
 </div>
 
 

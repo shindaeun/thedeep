@@ -7,13 +7,14 @@ table.board {
 	border-collapse: collapse;
 }
 tr.board {
-	height: 15px;
+	height: 30px;
 	text-align: center;
 	border-bottom: 1px solid #808080;
 	padding: 5px;
 }
+
 td.head,th.head {
-	height: 15px;
+	height: 30px;
 	background-color: #dcdcdc;
 	border-bottom: 1px solid #808080;
 }

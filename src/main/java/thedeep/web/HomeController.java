@@ -13,29 +13,10 @@ public class HomeController {
 		return "home/home";
 	}
 	
-
-	@RequestMapping(value="/productList.do")
-	public String selectProductList() throws Exception{
-	
-		return "product/productList";
-	}
-	@RequestMapping(value="/productDetail.do")
-	public String selectProductDetail() throws Exception{
-	
-		return "product/productDetail";
-	}
-	@RequestMapping(value="/noticeWrite.do")
-	public String selectNoticeWrite() throws Exception{
-		return "board/noticeWrite";
-	}
-	@RequestMapping(value="/noticeModify.do")
-	public String selectNoticeModify() throws Exception{
-		return "board/noticeModify";
-	}
 	@RequestMapping(value="/outerDetail.do")
-	public String selectOuter() throws Exception{
+	public String selectEmpList2() throws Exception{
+		
 		return "product/outerDetail";
-
 	}
 	@RequestMapping(value="/noticeList.do")
 	public String selectNoticeList() throws Exception{
@@ -46,42 +27,62 @@ public class HomeController {
 		return "board/noticeDetail";
 	}
 	
+	@RequestMapping(value="/qnaList.do")
+	public String selectQnaListe() throws Exception{
+		return "board/qnaList";
+	}
+	@RequestMapping(value="/qnaWrite.do")
+	public String insertQnaWrite() throws Exception{
+		return "board/qnaWrite";
+	}
+	@RequestMapping(value="/qnaDetail.do")
+	public String selectQnaDetail() throws Exception{
+		return "board/qnaDetail";
+	}
+	@RequestMapping(value="/qnaModify.do")
+	public String updateQnaModify() throws Exception{
+		return "board/qnaModify";
+	}
 	
-	@RequestMapping(value="/reviewWrite.do")
-	public String selectReviewWrite() throws Exception{
-		return "board/reviewWrite";
+	@RequestMapping(value="/memberInfo.do")
+	public String insertMemberInfo() throws Exception{
+		return "member/memberInfo";
 	}
-	@RequestMapping(value="/reviewList.do")
-	public String selectReviewList() throws Exception{
-		return "board/reviewList";
+	@RequestMapping(value="/post1.do")
+	public String selectPost1() throws Exception{
+		return "popup/post1";
 	}
-	@RequestMapping(value="/reviewDetail.do")
-	public String selectReviewDetail() throws Exception{
-		return "board/reviewDetail";
+	@RequestMapping(value="/myPage.do")
+	public String selectMyPage() throws Exception{
+		return "member/myPage";
 	}
-	@RequestMapping(value="/reviewModify.do")
-	public String selectReviewModify() throws Exception{
-		return "board/reviewModify";
+	@RequestMapping(value="/memberModify.do")
+	public String updateMemberInfo() throws Exception{
+		return "member/memberModify";
 	}
-	@RequestMapping(value="/pwdCheck.do")
-	public String selectPwdCheck() throws Exception{
-		return "popup/pwdCheck";
+	@RequestMapping(value="/pwdChk.do")
+	public String selectPwdChk() throws Exception{
+		return "popup/pwdChk";
 	}
-	@RequestMapping(value="/productAdd.do")
-	public String selectProductAdd() throws Exception{
-		return "product/productAdd";
+	@RequestMapping(value="/login.do")
+	public String memberLogin() throws Exception{
+		return "member/login";
 	}
-	@RequestMapping(value="/productModify.do")
-	public String selectProductModify() throws Exception{
-		return "product/productModify";
+	@RequestMapping(value="/findId1.do")
+	public String memberFindId1() throws Exception{
+		return "member/findId1";
 	}
-	@RequestMapping(value="/productListView.do")
-	public String selectProductListView() throws Exception{
-		return "product/productListView";
+	@RequestMapping(value="/findId2.do")
+	public String memberFindId2() throws Exception{
+		return "member/findId2";
 	}
-	@RequestMapping(value="/group.do")
-	public String selectgroup() throws Exception{
-		return "product/group";
+	@RequestMapping(value="/findPwd1.do")
+	public String memberFindPwd1() throws Exception{
+		return "member/findPwd1";
+	}
+	@RequestMapping(value="/findPwd2.do")
+	public String memberFindPwd2() throws Exception{
+		return "member/findPwd2";
 	}
 	
 	@RequestMapping(value="/userBoard.do")
@@ -92,10 +93,24 @@ public class HomeController {
 	public String cart() throws Exception{
 		return "member/cart";
 	}
-	@RequestMapping(value="/test.do")
-	public String test() throws Exception{
-		return "product/test";
+	
+	@RequestMapping(value="/adminInfo.do")
+	public String insertAdminInfo() throws Exception{
+		return "admin/adminInfo";
 	}
+	@RequestMapping(value="/adminLogin.do")
+	public String adminLogin() throws Exception{
+		return "admin/adminLogin";
+	}
+	@RequestMapping(value="/adminList.do")
+	public String selectAdminList() throws Exception{
+		return "admin/adminList";
+	}
+	@RequestMapping(value="/adminListModify.do")
+	public String updateAdminList() throws Exception{
+		return "admin/adminListModify";
+	}
+
 
 }
 
