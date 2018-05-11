@@ -38,13 +38,12 @@ $(function(){
 		
 		</td>
 	</tr>
-	<tr class="board">
-		<th colspan="2">
+	
+</table>
+<table width="100%">
+<tr>
+		<th>
 		<button type="button" id="btnList" class="white">목록</button>
-		&nbsp;
-		<button type="button" id="btnModify" class="white">수정</button>
-		&nbsp;
-		<button type="button" id="btnDelete" class="white">삭제</button>
 		</th>
 	</tr>
 </table>

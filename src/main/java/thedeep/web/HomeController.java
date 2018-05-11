@@ -34,6 +34,47 @@ public class HomeController {
 	public String cart() throws Exception{
 		return "member/cart";
 	}
+	@RequestMapping(value="/coupon.do")
+	public String coupon() throws Exception{
+		return "member/coupon";
+	}
+	@RequestMapping(value="/point.do")
+	public String point() throws Exception{
+		return "member/point";
+	}
+	@RequestMapping(value="/order.do")
+	public String order() throws Exception{
+		return "member/order";
+	}
+	@RequestMapping(value="/couponPopup.do")
+	public String couponPopup() throws Exception{
+		return "popup/couponPopup";
+	}
+
+	@RequestMapping(value="/orderComplete.do")
+	public String orderComplete() throws Exception{
+		return "member/orderComplete";
+	}
+	@RequestMapping(value="/orderList.do")
+	public String orderList() throws Exception{
+		return "admin/orderList";
+	}
+	@RequestMapping(value="/orderDetail.do")
+	public String orderDetail() throws Exception{
+		return "admin/orderDetail";
+	}
+	@RequestMapping(value="/adminBoard.do")
+	public String adminBoard() throws Exception{
+		return "admin/adminBoard";
+	}
+	@RequestMapping(value="/reviewReply.do")
+	public String reviewReply() throws Exception{
+		return "admin/reviewReply";
+	}
+	@RequestMapping(value="/qnaReply.do")
+	public String qnaReply() throws Exception{
+		return "admin/qnaReply";
+	}
 
 }
 
