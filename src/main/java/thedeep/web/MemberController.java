@@ -1,9 +1,21 @@
 package thedeep.web;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import thedeep.service.MemberService;
+
 @Controller
 public class MemberController {
+	
+	@Resource(name="memberService")
+	MemberService memberService;
+	
 	@RequestMapping(value="/memberInfo.do")
 	public String insertMemberInfo() throws Exception{
 		return "member/memberInfo";
@@ -42,8 +54,15 @@ public class MemberController {
 		return "member/userBoard";
 	}
 	@RequestMapping(value="/cart.do")
-	public String cart() throws Exception{
+	public String cart(ModelMap model) throws Exception{
+		String userid="userid1";
+		List<?> list = memberService.selectCartList(userid);
+		model.addAttribute("List",list);
 		return "member/cart";
+	}
+	@RequestMapping(value="/NewFile.do")
+	public String NewFile() throws Exception{
+		return "/NewFile";
 	}
 	@RequestMapping(value="/coupon.do")
 	public String coupon() throws Exception{
