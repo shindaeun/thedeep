@@ -17,6 +17,7 @@
 <link href="/css/home.css" rel="stylesheet" type="text/css">
 <link href="/css/product.css" rel="stylesheet" type="text/css">
 <link href="/css/board.css" rel="stylesheet" type="text/css">
+<link href="/css/jquery-ui.css" rel="stylesheet" type="text/css">
 <script src="/js/jquery-1.12.4.js"></script>
   <script src="js/jquery-ui.js"></script>
 <script type="text/javascript">
