@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="EmpSpace">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="thedeep.service.DefaultVO"/>
+	<typeAlias alias="groupVO" type="thedeep.service.GroupVO"/>
+	
+	<select id="productDAO.selectGroupList" resultClass="egovMap">
+		SELECT gcode,gname FROM productgroup 
+			ORDER BY gcode ASC
+	</select> 
+	
+	<select id="productDAO.selectGroup" resultClass="groupVO">
+		SELECT gcode,gname FROM productgroup 
+		WHERE gcode=#gcode#
+	</select>
+	
+	<insert id="productDAO.insertgroup">
+		INSERT INTO productgroup(gcode,gname) 
+		VALUES (#gcode#,#gname#)
+	</insert>
+	
+	<update id="productDAO.updateGroup">
+		UPDATE productgroup SET 
+			gname = #gname#
+		WHERE
+			gcode = #gcode#
+	</update>
+	
+	<delete id="productDAO.deleteGroup">
+		DELETE FROM productgroup WHERE gcode = #gcode#
+	</delete>
+</sqlMap>

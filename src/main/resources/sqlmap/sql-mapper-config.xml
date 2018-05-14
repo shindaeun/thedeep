@@ -5,6 +5,7 @@
     <typeAliases>
 		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 		<typeAlias alias="searchVO" type="thedeep.service.DefaultVO"/>
+		<typeAlias alias="groupVO" type="thedeep.service.GroupVO"/>
 
     </typeAliases>
 </configuration>

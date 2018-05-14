@@ -3,5 +3,6 @@
 
 <sqlMapConfig>
 	<sqlMap resource="/sqlmap/Test_SQL.xml"/>
+	<sqlMap resource="/sqlmap/Product_SQL.xml"/>
 
 </sqlMapConfig>

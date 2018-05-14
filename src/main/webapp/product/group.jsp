@@ -87,14 +87,14 @@ $(function() {
 				success: function(data) {
 					if(data.result == "1") {
 						alert("삭제하였습니다.");
-						location.href="/group.do";
+						location.href = "<c:url value="/group.do"/>";
 					} else {
 						alert("삭제 실패하였습니다. 다시 시도해 주세요.");
 					}
 						
 				},
-				error: function () {
-					alert("오류발생 ");
+				error: function(request,status,error) {
+					 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 				}
 			}); 
 		}
@@ -155,7 +155,7 @@ $(function() {
 		<th width="25%">${total}</th>
 		<th width="25%"><a href="/group.do?gcode=${result.gcode}">${result.gcode}</a></th>
 		<th width="25%">${result.gname}</th>
-		<th width="25%"><a href="javascript:fnDelete('${result.gcode}')" class="white">[del]</a></th>
+		<th width="25%"><a href="javascript:fnDelete('${result.gcode}')" class="white">&nbsp;del&nbsp;</a></th>
 	</tr>
 	<c:set var="total" value="${total+1}"/>
 </c:forEach>
