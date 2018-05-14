@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BoardSpace">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="thedeep.service.DefaultVO"/>
+	<typeAlias  alias="boardVO" type="thedeep.service.BoardVO"/>
+
+	<select id="boardDAO.selectQnaList" resultClass="egovMap">
+	SELECT b.* FROM (
+   			SELECT rownum rn, a.* FROM (
+   				SELECT 
+   					unq, title, name, to_char(rdate, 'yyyy-mm-dd') rdate, nvl(filename,0) filename
+   				FROM 
+   					qna
+   				WHERE 
+   					1=1
+   					<isNotNull property="searchKeyword">
+   						<isNotEmpty property="searchKeyword">
+   							AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+   						</isNotEmpty>
+   					</isNotNull>
+   				ORDER BY unq DESC
+			) a
+		) b
+   			
+   		WHERE
+   		
+   			rn >= $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$
+	</select>
+	
+	<select id="boardDAO.selectQnaListTotCnt" resultClass="java.lang.Integer">
+   		SELECT COUNT(*)
+   		FROM qna
+   		WHERE 
+   			1=1
+   			<isNotNull property="searchKeyword">
+				<isNotEmpty property="searchKeyword">
+					AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+				</isNotEmpty>
+   			</isNotNull>
+   </select>
+   
+   <select id="boardDAO.selectQnaImage" resultClass="boardVO">
+   	<![CDATA[
+   		SELECT	unq unq,
+				nvl(filename,'') filename,
+				nvl(filesize,0) filesize
+		FROM qna
+		WHERE unq = #unq#
+	]]>
+   </select>
+   
+   <insert id="boardDAO.insertUpload">
+         INSERT INTO qna
+            (  unq 
+			, name
+			, pwd
+			, title
+			, content
+			, rdate
+			, hit
+			, forder
+			<isNotNull property="filename">
+				<isNotEmpty property="filename">
+			, filename
+			, filesize
+				</isNotEmpty>
+   			</isNotNull>
+			)
+         VALUES ( qna_seq.nextval
+             	 , #name#
+             	 , #pwd#
+             	 , #title#
+             	 , #content#
+             	 , sysdate
+             	 , '0'
+             	 , 'a'
+             	 <isNotNull property="filename">
+             	 	<isNotEmpty property="filename">
+             	 , #filename#
+             	 , #filesize#
+             	 	</isNotEmpty>
+             	 </isNotNull>
+             	 ) 
+   </insert>
+	
+</sqlMap>

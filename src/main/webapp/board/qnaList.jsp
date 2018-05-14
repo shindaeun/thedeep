@@ -49,37 +49,6 @@ $(function() {
 </table>
 </form>
 
-<%-- <c:set var="filepath"><spring:message code="file.upload.path" /></c:set>
-<c:set var="filename">${vo.filename}</c:set>
-<%
-String filepath = (String)pageContext.getAttribute("filepath");
-String filename = (String)pageContext.getAttribute("filename");
-
-File file = new File(filepath+"/"+filename);
-BufferedImage img = ImageIO.read(file);
-int imgWidth = img.getWidth(null);
-int imgHeight = img.getHeight(null);
-int x,y;
-if(imgWidth > imgHeight) {
-	x = 100;
-	y = (imgHeight * x) / imgWidth;
-} else if(imgWidth < imgHeight) {
-	y = 100;
-	x = (imgWidth * y) / imgHeight;
-} else {
-	x=100;
-	y=100;
-}
-/*
- // 1024(넓이)/768(높이)
- // 1024:768 = 100:y
- // int y = 768 * 100 / 1024
- // int y = (imgHeight * 100) / imgWidth
-*/
-
-
-%>
- --%>
 
 <c:set var="total" value="1"/>
 <table class="board">
@@ -93,7 +62,11 @@ if(imgWidth > imgHeight) {
 	<c:forEach var="result" items="${list}" varStatus="status">
 	<tr class="board" style="height:30px;">
 		<td><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
-		<td><%-- <img src="/uploadData/${vo.filename}" width="<%=x%>" height="<%=y%>"> --%></td>
+		<td>
+		<c:if test="${result.filename!=0}">
+ 		<img src="/images/${result.filename}" width="50" height="50" >
+		</c:if>
+		</td>
 		<td><a href="/pnaDetail.do?unq=${result.unq}">${result.title}</a></td>
 		<td>${result.name}</td>
 		<td>${result.date}</td>
@@ -101,16 +74,16 @@ if(imgWidth > imgHeight) {
 	</c:forEach>
 </table>
 <br>
-<%-- <table border="0" width="600px;">
+<table border="0" width="100%">
 	<tr>
 		<td align="center" style="board:0px;">
 			<div id="paging">
 			<c:set var="parm1" value="searchCondition=${searchVO.getSearchCondition()}"/>
 			<c:set var="parm2" value="searchKeyword=${searchVO.getSearchKeyword()}"/>
 			<c:forEach var="i" begin="1" end="${paginationInfo.getTotalPageCount()}">
-				<a href="/boardList.do?pageIndex=${i}&${parm1}&${parm2}">${i}</a>
+				<a href="/qnaList.do?pageIndex=${i}&${parm1}&${parm2}">${i}</a>
 			</c:forEach>
 			</div>
 		</td>
 	</tr>
-</table> --%>
+</table>

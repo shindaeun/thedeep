@@ -4,18 +4,20 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<link rel="stylesheet" type="text/css" href="/css/main.css"/>
+<link rel="stylesheet" href="/css/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="/js/jquery-1.12.4.js"></script>
+<script src="/js/jquery-ui.js"></script>
 
-<!-- 달력 활성화가 안 됨 -->
-  <script>
+<script>
   $( function() {
     $( "#birthday" ).datepicker({
-      showOn: "button",
-      buttonImage: "images/calendar.gif",
-      buttonImageOnly: true,
-      buttonText: "Select date"
+      changeMonth: true,
+      changeYear: true
     });
   } );
-  </script>
+</script>
 
 <script>
 $(function(){
@@ -58,6 +60,11 @@ $(function(){
 			|| $("#pwd").val().length > 12 )
 		{
 			alert("암호는 4~12자리 사이로 입력해주세요");
+			$("#pwd").focus();
+			return;
+		}
+		if($("#pwd").val() != $("#pwd2").val()) {
+			alert("암호가 일치하지 않습니다");
 			$("#pwd").focus();
 			return;
 		}
@@ -134,7 +141,7 @@ $(function(){
 	<tr class="board">
 		<th class="head">비밀번호</th>
 		<td align="left" style="padding:5px;">
-		<input type="password" name="pwd1" id="pwd1" style="width:25%;" placeholder="비밀번호 입력 (4~12자리)"/>
+		<input type="password" name="pwd" id="pwd" style="width:25%;" placeholder="비밀번호 입력 (4~12자리)"/>
 		(4~12자리)
 		</td>
 	</tr>
