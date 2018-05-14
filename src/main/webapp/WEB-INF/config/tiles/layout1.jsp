@@ -18,7 +18,7 @@
 <link href="/css/product.css" rel="stylesheet" type="text/css">
 <link href="/css/board.css" rel="stylesheet" type="text/css">
 <script src="/js/jquery-1.12.4.js"></script>
-  <script src="js/jquery-ui.js"></script>
+<script src="js/jquery-ui.js"></script>
 <script type="text/javascript">
 	!function(o, c) {
 		var n = c.documentElement, t = " w-mod-";

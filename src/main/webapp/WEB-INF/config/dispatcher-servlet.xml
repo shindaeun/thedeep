@@ -20,6 +20,19 @@
 		</property>
 	</bean>
 	<!-- tiles e -->
+	
+	<!-- 인터셉터 s -->
+    <mvc:interceptors>
+	    <mvc:interceptor>
+	      <mvc:mapping path="/*Modify.do" />
+	      <mvc:mapping path="/*Write.do" /> <!-- 인터셉터 가동 -->
+	       <!-- 인터셉터 가동하지 않음 -->
+	      <mvc:exclude-mapping path="/loginWrite.do" />
+	      <bean id="sessionInterceptor"
+                         class="thedeep.web.SessionInterceptor"></bean>
+	    </mvc:interceptor>
+  	</mvc:interceptors>
+    <!-- 인터셉터 e -->
 
 	<!-- controller,service,Repository 기능 사용하겠다 -->
 	<context:component-scan base-package="thedeep">
