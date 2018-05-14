@@ -122,7 +122,7 @@ $(function() {
 	<tr class="board">
 		<th width="33%"><input type="text" name="gcode" id="gcode" style="width:50%;"></th>
 		<th width="33%"><input type="text" name="gname" id="gname" style="width:50%;"></th>
-		<th width="33%"><button type="button" id="btnSubmit">등록</button></th>
+		<th width="33%"><button type="button" id="btnSubmit" class="white">등록</button></th>
 	</tr>
 	</c:if>
 	
@@ -136,7 +136,7 @@ $(function() {
 	<input type="hidden" name="gcode" id="gcode" value="${group.gcode}">
 		<th width="33%">${group.gcode}</th>
 		<th width="33%"><input type="text" name="gname" id="gname" style="width:50%;" value="${group.gname}"></th>
-		<th width="33%"><button type="button" id="btnModify">수정</button></th>
+		<th width="33%"><button type="button" id="btnModify" class="white">수정</button></th>
 	</tr>
 	</c:if>
 </table>

@@ -96,7 +96,7 @@ $(function(){
 
 <table class="board">
 	<tr class="board">
-		<th class="head">이름</th>
+		<th class="head" width="20%">이름</th>
 		<td align="left" style="padding:5px;">
 		${vo.name}
 		</td>
@@ -156,7 +156,7 @@ $(function(){
 <table style="width:100%;">
 	<tr>
 		<th style="align:center;">
-		<button type="button" id="btnSubmit" class="white">수정</button>
+		<button type="button" id="btnSubmit" class="white">수정</button>&nbsp;
 		<button type="button" class="white" onclick="location.href= '/home.do'">취소</button>
 		</th>
 	</tr>

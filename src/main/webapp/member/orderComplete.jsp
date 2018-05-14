@@ -4,7 +4,7 @@
 <br>
 <br>
 <br>
-<div>
+<div style="text-align:center">
 	<h4>주문이 정상적으로 완료되었습니다.</h4>
 	<table>
 		<tr>

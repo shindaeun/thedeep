@@ -50,7 +50,8 @@
 	</table>
 </form>
 <div style="text-align:center; width:500px;">
-<button type="button" id="btnPostAction" class="white">적용</button>
+<button type="button" id="btnPostAction" class="white">적용</button>&nbsp;
+<button type="button" class="white" onclick="location.href= '/home.do'">취소</button>
 </div>
 </body>
 </html>

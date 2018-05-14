@@ -103,8 +103,8 @@ $(function(){
 <table style="width:100%">
 	<tr>
 		<th style="width:90%">
-		<button type="button" id="btnList" class="white">목록</button>
-		<button type="button" id="btnModify" class="white">수정</button>
+		<button type="button" id="btnList" class="white">목록</button>&nbsp;
+		<button type="button" id="btnModify" class="white">수정</button>&nbsp;
 		<button type="button" id="btnDelete" class="white">삭제</button>
 		</th>
 		<td style="text-align:right; width:10%">

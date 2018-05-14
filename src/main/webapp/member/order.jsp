@@ -4,7 +4,7 @@
 	$(function() {
 		$("#btnCoupon").click(function() {
 			var url = "/couponPopup.do";
-	    	window.open(url,"쿠폰리스트","width=600,height=400,scrollbars=yes");
+	    	window.open(url,"쿠폰리스트","width=700,height=400,scrollbars=yes");
 		});
 		$("#btnPostSearch").click(function() {
 			var url = "/postPopup.do";
@@ -17,10 +17,10 @@
 <div>
 	<table class="board">
 		<tr class="board">
-			<th width="50%" class="head">구입상품명</th>
-			<th width="20%" class="head">수량</th>
-			<th width="15%" class="head">가격</th>
-			<th width="15%" class="head">적립</th>
+			<th width="50%" >구입상품명</th>
+			<th width="20%" >수량</th>
+			<th width="15%">가격</th>
+			<th width="15%" >적립</th>
 		</tr>
 		<c:forEach var="result" items="${resultList }" varStatus="status">
 			<tr class="board">

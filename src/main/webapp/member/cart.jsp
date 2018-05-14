@@ -9,20 +9,25 @@
 
 	});
 </script>
+<table class="top">
+		<tr class="top">
+			<td class="top">cart</td>
+		</tr>
+    </table>
 <form>
 	<input type="checkbox" name="allselect" value="allselect" />전체선택
 	<table class="board">
 		<tr class="board">
-			<th width="10%" class="head">상품코드</th>
-			<th width="20%" class="head">품목코드</th>
-			<th width="15%" class="head">상품명</th>
-			<th width="15%" class="head">상품상세</th>
-			<th width="5%" class="head">사이즈</th>
-			<th width="5%" class="head">컬러</th>
-			<th width="10%" class="head">가격</th>
-			<th width="5%" class="head">적립금</th>
-			<th width="10%" class="head">개수</th>
-			<th width="5%" class="head">삭제</th>
+			<th width="10%" >상품코드</th>
+			<th width="20%" >품목코드</th>
+			<th width="15%" >상품명</th>
+			<th width="15%" >상품상세</th>
+			<th width="5%" >사이즈</th>
+			<th width="5%" >컬러</th>
+			<th width="10%" >가격</th>
+			<th width="5%" >적립금</th>
+			<th width="10%" >개수</th>
+			<th width="5%" >삭제</th>
 		</tr>
 		<c:forEach var="result" items="${resultList }" varStatus="status">
 			<tr class="board">

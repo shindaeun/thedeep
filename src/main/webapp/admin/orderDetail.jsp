@@ -19,7 +19,11 @@ $(window).load(function () {
 </script>
 
 
-<br><br>
+<table class="top">
+   <tr class="top">
+      <td class="top">주문상세조회</td>
+   </tr>
+</table>
 <form name="frm">
 	<table>
 		<button type="button" class="white" id="btnWrite">목록</button>
@@ -27,15 +31,15 @@ $(window).load(function () {
 </form>
 <table class="board" id="order">
 	<tr class="board">
-		<th width="10%" class="head">주문번호</th>
-		<th width="10%" class="head">구매자</th>
-		<th width="10%" class="head">상품코드</th>
-		<th width="15%" class="head">품목코드</th>
-		<th width="15%" class="head">상품명</th>
-		<th width="10%" class="head">구매개수</th>
-		<th width="10%" class="head">주문일자</th>
-		<th width="10%" class="head">배송 상태</th>
-		<th width="10%" class="head">운송장번호</th>
+		<th width="10%" >주문번호</th>
+		<th width="10%" >구매자</th>
+		<th width="10%" >상품코드</th>
+		<th width="15%" >품목코드</th>
+		<th width="15%" >상품명</th>
+		<th width="10%" >구매개수</th>
+		<th width="10%" >주문일자</th>
+		<th width="10%" >배송 상태</th>
+		<th width="10%" >운송장번호</th>
 	</tr>
 	<%-- <c:forEach var="result" items="${resultList }" varStatus="status"> --%>
 	<c:forEach var="result" begin="1" end="3">

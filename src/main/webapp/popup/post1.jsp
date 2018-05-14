@@ -90,7 +90,8 @@ $(function(){
 				<td style="width:20%;">${i.postnum}</td>
 				<td style="width:60%;">${i.sido} ${i.gungu} ${i.dong} ${i.ri} ${i.bunji} ${i.other}</td>
 				<td style="width:20%;">
-				<button type="button" id="btnPostAction" class="white">적용</button>
+				<button type="button" id="btnPostAction" class="white">적용</button>&nbsp;
+				<button type="button" class="white" onclick="location.href= '/home.do'">취소</button>
 				</td>
 			</tr>
 		</c:forEach>

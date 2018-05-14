@@ -108,3 +108,4 @@ td.last{
 		<td class="last">COUPON</td>
 	</tr>
 </table>
+<br><br>

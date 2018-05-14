@@ -10,6 +10,11 @@
 		});
 	});
 </script>
+<table class="top">
+		<tr class="top">
+			<td class="top">review 답글등록</td>
+		</tr>
+    </table>
 <table class="board">
 	<tr class="board">
 		<th class="head" width="20%">이름</th>
@@ -45,7 +50,7 @@
 <table>
 	<tr>
 		<td>
-			<button type="button" id="btnSave" class="white">목록</button>
+			<button type="button" id="btnSave" class="white">목록</button><br><br>
 		</td>
 	</tr>
 	<tr valign="center">

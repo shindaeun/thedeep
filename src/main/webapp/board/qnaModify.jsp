@@ -108,7 +108,7 @@ $(function() {
 	<tr class="board">
 		<th class="head">Content</th>
 		<td style="height:200px;text-align:left; padding:5px;">
-		 <textarea name="content" id="content" style="width:98%;height:95%;"></textarea>
+		 <textarea id="content" name="content" rows="8" cols="102" style="resize: none;"></textarea>
 		</td>
 	</tr>
 	<tr class="board">

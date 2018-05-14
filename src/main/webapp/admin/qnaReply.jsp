@@ -10,6 +10,11 @@
 		});
 	});
 </script>
+<table class="top">
+		<tr class="top">
+			<td class="top">qna답글등록</td>
+		</tr>
+    </table>
 <table class="board">
 	<tr class="board">
 		<th class="head" width="20%">이름</th>

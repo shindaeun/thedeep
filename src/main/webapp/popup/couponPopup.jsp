@@ -1,19 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <link href="/css/board.css" rel="stylesheet" type="text/css">
+    <link href="/css/product.css" rel="stylesheet" type="text/css">
 <div>
-<table class="board">
-		<tr class="board">
-			<td>보유 쿠폰 내역</td> 
+
+<table class="top">
+		<tr class="top">
+			<td class="top">보유 쿠폰 내역</td>
 		</tr>
-	</table>
+    </table>
+
 <table class="board">
 		<tr class="board">
-			<th width="10%" class="head">쿠폰이름</th>
-			<th width="20%" class="head">사용가능금액</th>
-			<th width="30%" class="head">최대할인액</th>
-			<th width="20%" class="head">할인율</th>
-			<th width="20%" class="head">사용기간</th>
+			<th width="10%" >쿠폰이름</th>
+			<th width="20%" >사용가능금액</th>
+			<th width="30%" >최대할인액</th>
+			<th width="20%" >할인율</th>
+			<th width="20%" >사용기간</th>
 		</tr>
 		<c:forEach var="result" items="${resultList }" varStatus="status">
 			<tr class="board">
@@ -27,8 +30,8 @@
 	</table>
 	<table class="board">
 		<tr class="board">
-			<th width="50%" class="head">상품명</th>
-			<th width="50%" class="head">가격</th>
+			<th width="50%" >상품명</th>
+			<th width="50%" >가격</th>
 		</tr>
 		<c:forEach var="result" items="${resultList }" varStatus="status">
 			<tr class="board">
@@ -39,10 +42,10 @@
 	</table>
 	<table class="board">
 		<tr class="board">
-			<th width="30%" class="head">쿠폰</th>
-			<th width="20%" class="head">총 금액</th>
-			<th width="20%" class="head">할인액</th>
-			<th width="30%" class="head">결제금액</th>
+			<th width="30%" >쿠폰</th>
+			<th width="20%" >총 금액</th>
+			<th width="20%" >할인액</th>
+			<th width="30%">결제금액</th>
 		</tr>
 		<tr class="board">
 			<td>
@@ -58,7 +61,7 @@
 		</tr>
 	</table>
 	<div align="center">
-	<button type="button" id="btnCoupon" class="white">적용</button>
+	<button type="button" id="btnCoupon" class="white">적용</button>&nbsp;
 	<button type="button" id="btnCoupon" class="white">취소</button>
 	</div>
 </div>

@@ -11,29 +11,39 @@
 		});
 	});
 </script>
-<form name="frm">
-	<table>
-		<tr>
-			<td align="left"><select name="searchCondition">
-					<option value="title">제목</option>
-					<option value="content">내용</option>
-			</select> <input type="text" name="searchKeyword" id="searchKeyword">
-				<button type="button" id="btnSearch" class="white">검색</button></td>
-			<td align="write">
-				<button type="button" class="white" id="btnWrite">WRITE</button>
-			</td>
+
+<table class="top">
+		<tr class="top">
+			<td class="top">notice</td>
 		</tr>
-	</table>
+    </table>
+    
+<form name="frm" id="frm">
+<table style="width:100%;">
+   <tr>
+      <td>
+         <select name="searchCondition">
+            <option value="title">제목</option>
+            <option value="content">내용</option>
+         </select>
+         <input type="text" name="searchKeyword" id="searchKeyword">
+         <button type="button" id="btnSearch" class="white">검색</button>
+      </td>
+      <td style="border:0px; text-align:right;">
+         <button type="button" class="white" onClick="location.href='/qnaWrite.do'">Write</button>
+      </td>
+   </tr>
+</table>
 </form>
-<br>
+
 <div>
 	<table class="board">
 		<tr class="board">
-			<th width="10%" class="head">NO</th>
-			<th width="40%" class="head">SUBJECT</th>
-			<th width="20%" class="head">WRITER</th>
-			<th width="20%" class="head">DATE</th>
-			<th width="10%" class="head">HIT</th>
+			<th width="10%">NO</th>
+			<th width="40%" >SUBJECT</th>
+			<th width="20%" >WRITER</th>
+			<th width="20%" >DATE</th>
+			<th width="10%" >HIT</th>
 		</tr>
 		<c:forEach var="result" items="${resultList }" varStatus="status">
 			<tr class="board">

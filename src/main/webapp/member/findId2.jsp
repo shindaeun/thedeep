@@ -52,7 +52,7 @@
 <table width="100%" style="margin-top:30px;">
 	<tr style="text-align:center;">
 		<td>
-			<button id="btnLogin" class="white">login</button>
+			<button id="btnLogin" class="white">login</button>&nbsp;
 			<button id="btnFindPwd" class="white">Find Password</button>
 		</td>
 	</tr>

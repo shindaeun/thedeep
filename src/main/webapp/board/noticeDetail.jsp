@@ -12,7 +12,14 @@ $(function(){
 		location.href="";
 	});
 });
-</script>    
+</script>  
+
+<table class="top">
+		<tr class="top">
+			<td class="top">notice</td>
+		</tr>
+    </table>
+      
 <table class="board">
 	<tr class="board">
 		<th class="head" width="20%">제목</th>

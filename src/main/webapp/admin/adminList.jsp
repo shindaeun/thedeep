@@ -19,7 +19,6 @@ div.one {
 	</tr>
 </table>
 
-<div class="one">회원 목록</div>
 <form id="frm" name="frm">
 <table style="width:100%; text-align:center;">
 	<tr>
@@ -35,12 +34,12 @@ div.one {
 </table>
 <table class="board">
 	<tr class="board">
-		<th class="head">아이디</th>
-		<th class="head">이름</th>
-		<th class="head">연락처</th>
-		<th class="head">생일</th>
-		<th class="head">이메일</th>
-		<th class="head">주소</th>
+		<th> 아이디</th>
+		<th >이름</th>
+		<th >연락처</th>
+		<th >생일</th>
+		<th >이메일</th>
+		<th >주소</th>
 	</tr>
 	<c:forEach var="result" items="${resultList}" varStatus="status">
 	   <tr class="board">

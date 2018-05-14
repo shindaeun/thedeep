@@ -50,23 +50,26 @@
     	</tr>
     </table>
     
-<c:set var="total" value="1"/>
-<table class="board">
-   <tr class="board" style="height:30px;">
-       <th>SUBJECT</th>
-       <th>WRITER</th>
-       <th>DATE</th>
-       <th>HIT</th>
-   </tr>
-   <c:forEach var="result" items="${list}" varStatus="status">
-   <tr class="board" style="height:30px;">
-      <td><a href="/reviewDetail.do?unq=${result.unq}">${result.title}</a></td>
-      <td>${result.name}</td>
-      <td>${result.date}</td>
-      <td>${result.hit}</td>
-    </tr>
-   </c:forEach>
-</table>
+<div class="">
+	<table class="board">
+		<tr class="board">
+			<th width="10%" >NO</th>
+			<th width="40%" >SUBJECT</th>
+			<th width="20%" >WRITER</th>
+			<th width="20%" >DATE</th>
+			<th width="10%" >HIT</th>
+		</tr>
+		<c:forEach var="result" items="${resultList }" varStatus="status">
+			<tr class="board">
+				<td>${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}</td>
+				<td><a href="/boardModify.do?unq=${result.unq}">${result.title}</a></td>
+				<td>${result.name}</td>
+				<td>${result.rdate}</td>
+				<td>${result.hit}</td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
 <br>
 
 <table>
@@ -81,21 +84,24 @@
     	</tr>
     </table>
     
-<c:set var="total" value="1"/>
-<table class="board">
-   <tr class="board" style="height:30px;">
-       <th>SUBJECT</th>
-       <th>WRITER</th>
-       <th>DATE</th>
-       <th>HIT</th>
-   </tr>
-   <c:forEach var="result" items="${list}" varStatus="status">
-   <tr class="board" style="height:30px;">
-      <td><a href="/pnaDetail.do?unq=${result.unq}">${result.title}</a></td>
-      <td>${result.name}</td>
-      <td>${result.date}</td>
-      <td>${result.hit}</td>
-    </tr>
-   </c:forEach>
-</table>
+<div>
+	<table class="board">
+		<tr class="board">
+			<th style="width:10%;" >NO</th>
+			<th width="40%" >SUBJECT</th>
+			<th width="20%" >WRITER</th>
+			<th width="20%" >DATE</th>
+			<th width="10%" >HIT</th>
+		</tr>
+		<c:forEach var="result" items="${resultList }" varStatus="status">
+			<tr class="board">
+				<td>${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}</td>
+				<td><a href="/boardModify.do?unq=${result.unq}">${result.title}</a></td>
+				<td>${result.name}</td>
+				<td>${result.rdate}</td>
+				<td>${result.hit}</td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
 <br>

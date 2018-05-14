@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<table class="top">
+		<tr class="top">
+			<td class="top">board</td>
+		</tr>
+    </table>
 <form>
 	<table>
 		<tr>
@@ -13,15 +19,25 @@
 	</table>
 </form>
 <br>
-<h4>Q&A</h4>
+<table>
+		<tr>
+			<th>qna</th>
+		</tr>
+    </table>
+<table class="line">
+    	<tr class="line">
+    		<td class="line">
+    		</td>
+    	</tr>
+    </table>
 <div>
 	<table class="board">
 		<tr class="board">
-			<th style="width:10%;" class="head">NO</th>
-			<th width="40%" class="head">SUBJECT</th>
-			<th width="20%" class="head">WRITER</th>
-			<th width="20%" class="head">DATE</th>
-			<th width="10%" class="head">HIT</th>
+			<th style="width:10%;" >NO</th>
+			<th width="40%" >SUBJECT</th>
+			<th width="20%" >WRITER</th>
+			<th width="20%" >DATE</th>
+			<th width="10%" >HIT</th>
 		</tr>
 		<c:forEach var="result" items="${resultList }" varStatus="status">
 			<tr class="board">
@@ -49,15 +65,25 @@
 	</table>
 </form>
 <br>
-<h4>REVIEW</h4>
+<table>
+		<tr>
+			<th>review</th>
+		</tr>
+    </table>
+<table class="line">
+    	<tr class="line">
+    		<td class="line">
+    		</td>
+    	</tr>
+    </table>
 <div class="">
 	<table class="board">
 		<tr class="board">
-			<th width="10%" class="head">NO</th>
-			<th width="40%" class="head">SUBJECT</th>
-			<th width="20%" class="head">WRITER</th>
-			<th width="20%" class="head">DATE</th>
-			<th width="10%" class="head">HIT</th>
+			<th width="10%" >NO</th>
+			<th width="40%" >SUBJECT</th>
+			<th width="20%" >WRITER</th>
+			<th width="20%" >DATE</th>
+			<th width="10%" >HIT</th>
 		</tr>
 		<c:forEach var="result" items="${resultList }" varStatus="status">
 			<tr class="board">

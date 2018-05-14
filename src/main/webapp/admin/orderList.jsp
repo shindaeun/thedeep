@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<br><br>
+<table class="top">
+   <tr class="top">
+      <td class="top">주문목록조회</td>
+   </tr>
+</table>
+
 <form name="frm">
 	<table width="100%">
 		<tr>
@@ -11,7 +16,7 @@
 			</select> <input type="text" name="searchKeyword" id="searchKeyword">
 				<button type="button" id="btnSearch" class="white">검색</button></th>
 		</tr>
-		<tr><td></td></tr>
+		<tr><td><br></td></tr>
 		<tr>
 			<th><input type="checkbox" name="dstate" />입금 전&nbsp;&nbsp; <input
 				type="checkbox" name="dstate" />상품 준비 중&nbsp;&nbsp; <input type="checkbox"
@@ -22,14 +27,14 @@
 </form>
 <table class="board">
 	<tr class="board">
-		<th width="5%" class="head">NO</th>
-		<th width="15%" class="head">주문번호</th>
-		<th width="10%" class="head">구매자</th>
-		<th width="15%" class="head">상품코드</th>
-		<th width="20%" class="head">상품명</th>
-		<th width="10%" class="head">구매개수</th>
-		<th width="15%" class="head">주문일자</th>
-		<th width="10%" class="head">배송 상태</th>
+		<th width="5%" >NO</th>
+		<th width="15%" >주문번호</th>
+		<th width="10%" >구매자</th>
+		<th width="15%" >상품코드</th>
+		<th width="20%" >상품명</th>
+		<th width="10%">구매개수</th>
+		<th width="15%" >주문일자</th>
+		<th width="10%" >배송 상태</th>
 	</tr>
 	<c:forEach var="result" items="${resultList }" varStatus="status">
 		<tr class="board">

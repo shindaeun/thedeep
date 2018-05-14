@@ -34,14 +34,14 @@ $(function(){
 
 	<tr class="board">
 		<th class="head" width="20%">name</th>
-		<td style="text-align:left">
+		<td>
 		${vo.name}
 		</td>
 	</tr>
 	
 	<tr class="board">
 		<th class="head">subject</th>
-		<td style="text-align:left">
+		<td>
 		<input type="text" name="title" id="title" value="${vo.title}" style="width:98%;"/>
 		</td>
 	</tr>
@@ -132,15 +132,15 @@ if(filename != null && !filename.equals("")) {
 	
 	<tr class="board">
 		<th class="head">content</th>
-		<td style="text-align:left;height:150px">
+		<td style="height:150px">
 		
-		<textarea name="content" id="content" style="width:98%;height:95%;">${vo.content}</textarea>
+		<textarea id="content" name="content" rows="8" cols="102" style="resize: none;">${vo.content}</textarea>
 		</td>
 	</tr>
 	
 	<tr class="board">
         <th class="head">파일</th>
-        <td style="text-align:left">
+        <td style="text-align:left; padding:5px" >
         	<input type="file" name="file1" size="70" /><br/>
         	<%-- <%
 			if(filename != null && !filename.equals("")) {

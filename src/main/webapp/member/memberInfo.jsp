@@ -193,7 +193,7 @@ $(function(){
 <table style="width:100%;">
 	<tr>
 		<th style="align:center;">
-		<button type="button" id="btnSubmit" class="white">회원가입</button>
+		<button type="button" id="btnSubmit" class="white">회원가입</button>&nbsp;
 		<button type="button" class="white" onclick="location.href= '/home.do'">취소</button>
 		</th>
 	</tr>

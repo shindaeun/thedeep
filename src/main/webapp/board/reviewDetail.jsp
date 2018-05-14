@@ -141,10 +141,8 @@ if(filename != null && !filename.equals("")) {
 
 <table border="0" style="width:100%;">
 	<tr style="text-align:center">
-		<th style="text-align:left">
-		<button type="button" id="btnList" class="white">목록</button>
-		</th>
 		<th style="text-align:center">
+		<button type="button" id="btnList" class="white">목록</button>&nbsp;
 		<button type="button" id="btnModify" class="white">수정</button>
 		</th>
 	</tr>
