@@ -22,3 +22,4 @@ function addBox() {
 <div id="textBoxArea" style="text-align:left;"></div>
 </body>
 </form>
+

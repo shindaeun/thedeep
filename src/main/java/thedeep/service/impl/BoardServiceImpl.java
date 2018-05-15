@@ -10,6 +10,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import thedeep.service.BoardService;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.ReviewVO;
 
 @Service("boardService")
 public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardService {
@@ -35,6 +36,11 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	@Override
 	public BoardVO selectQnaImage(int unq) throws Exception {
 		return boardDAO.selectQnaImage(unq);
+	}
+
+	@Override
+	public String insertReview(ReviewVO vo) throws Exception {
+		return boardDAO.insertReview(vo);
 	}
 	
 }

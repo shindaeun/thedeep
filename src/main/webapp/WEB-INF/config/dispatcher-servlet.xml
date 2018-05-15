@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
                 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
-<mvc:annotation-driven/>   <!-- map전송을 위해 중요  -->  
- <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" id="jsonView"/>
 
-<!-- tiles s -->
+	<!-- controller,service,Repository 기능 사용하겠다 -->
+	<context:component-scan base-package="thedeep">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
+
+	<!-- tiles s -->
  	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1" 
 	p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView" /> 
 	<!--Don't add suffix or prefix like you do with .jsp files-->
@@ -21,28 +26,18 @@
 	</bean>
 	<!-- tiles e -->
 	
-	<!-- 인터셉터 s -->
-    <mvc:interceptors>
-	    <mvc:interceptor>
-	      <mvc:mapping path="/*Modify.do" />
-	      <mvc:mapping path="/*Write.do" /> <!-- 인터셉터 가동 -->
-	       <!-- 인터셉터 가동하지 않음 -->
-	      <mvc:exclude-mapping path="/loginWrite.do" />
-	      <bean id="sessionInterceptor"
-                         class="thedeep.web.SessionInterceptor"></bean>
-	    </mvc:interceptor>
-  	</mvc:interceptors>
-    <!-- 인터셉터 e -->
+	<mvc:annotation-driven/>   <!-- map전송을 위해 중요  -->  
+		<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" id="jsonView"/>
+	
+	<!-- multipart -->
+		<bean id="spring.RegularCommonsMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	     <property name="maxUploadSize" value="100000000" />
+	     <property name="maxInMemorySize" value="100000000" />
+	</bean>
+	<alias name="spring.RegularCommonsMultipartResolver" alias="multipartResolver"/>
+	
 
-	<!-- controller,service,Repository 기능 사용하겠다 -->
-	<context:component-scan base-package="thedeep">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.stereotype.Service" />
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.stereotype.Repository" />
-	</context:component-scan>
+
 	<!-- jsp파일 위치 설정 맨 처음 /는 webapp를 의미함 -->
 	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
 		p:order="1" p:viewClass="org.springframework.web.servlet.view.JstlView"
