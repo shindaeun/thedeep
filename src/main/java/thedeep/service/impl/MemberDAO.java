@@ -22,5 +22,9 @@ public class MemberDAO extends EgovAbstractDAO{
 		return delete("memberDAO.cartDelete",vo);
 	}
 
+	public List<?> selectCouponList(String userid) {
+		return list("memberDAO.selectCouponList",userid);
+	}
+
 	
 }

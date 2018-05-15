@@ -29,4 +29,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.cartDelete(vo);
 	}
 
+	@Override
+	public List<?> selectCouponList(String userid) throws Exception {
+		return memberDAO.selectCouponList(userid);
+	}
+
 }

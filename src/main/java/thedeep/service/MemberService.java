@@ -10,4 +10,6 @@ public interface MemberService {
 
 	int cartDelete(CartVO vo) throws Exception;
 
+	List<?> selectCouponList(String userid) throws Exception;
+
 }

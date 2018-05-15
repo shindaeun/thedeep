@@ -99,7 +99,10 @@ public class MemberController {
 		return "/NewFile";
 	}
 	@RequestMapping(value="/coupon.do")
-	public String coupon() throws Exception{
+	public String coupon(ModelMap model) throws Exception{
+		String userid="userid1";
+		List<?> list = memberService.selectCouponList(userid);
+		model.addAttribute("List",list);
 		return "member/coupon";
 	}
 	@RequestMapping(value="/point.do")

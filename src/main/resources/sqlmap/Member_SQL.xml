@@ -3,16 +3,24 @@
 
 <sqlMap namespace="MemberSpace">
 
-	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-	<update id="memberDAO.updateCart" >
+	<typeAlias alias="egovMap"
+		type="egovframework.rte.psl.dataaccess.util.EgovMap" />
+	<update id="memberDAO.updateCart">
 	<![CDATA[
 	update cart set amount=#amount# where userid=#userid# and cscode=#cscode#
 	]]>
 	</update>
 	<delete id="memberDAO.cartDelete">
-	delete from cart where userid=#userid# and cscode=#cscode# 
+		delete from cart where userid=#userid# and cscode=#cscode#
 	</delete>
-	
+
+	<select id="memberDAO.selectCouponList" resultClass="egovMap">
+	 <![CDATA[
+	select cname||' '||discountrate||'% 할인' coupon, applymoney||'원 이상 주문 시 사용가능' subject1, '최대 '||maxDiscmoney||'원 할인 가능' subject2,sdate||'~'||edate usedate
+	from couponList l, coupon c 
+	where c.CCODE = l.CCODE and userid=#userid# and sysdate<edate
+	 ]]>
+	</select>
 	<select id="memberDAO.selectCartList" resultClass="egovMap">
 	 <![CDATA[
 	select userid,c.cscode,c.pcode,pname,price,amount,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.001) savepoint
