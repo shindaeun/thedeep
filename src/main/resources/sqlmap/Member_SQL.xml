@@ -4,6 +4,14 @@
 <sqlMap namespace="MemberSpace">
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<update id="memberDAO.updateCart" >
+	<![CDATA[
+	update cart set amount=#amount# where userid=#userid# and cscode=#cscode#
+	]]>
+	</update>
+	<delete id="memberDAO.cartDelete">
+	delete from cart where userid=#userid# and cscode=#cscode# 
+	</delete>
 	
 	<select id="memberDAO.selectCartList" resultClass="egovMap">
 	 <![CDATA[
