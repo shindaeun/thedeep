@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.ReviewVO;
 
 @Repository("boardDAO")
 public class BoardDAO extends EgovAbstractDAO {
@@ -25,6 +26,10 @@ public class BoardDAO extends EgovAbstractDAO {
 
 	public BoardVO selectQnaImage(int unq) {
 		return (BoardVO) select("boardDAO.selectQnaImage", unq);
+	}
+
+	public String insertReview(ReviewVO vo) {
+		return (String) insert("boardDAO.insertReview",vo);
 	}
 	
 }

@@ -3,5 +3,7 @@
 
 <sqlMapConfig>
 	<sqlMap resource="/sqlmap/Member_SQL.xml"/>
+	<sqlMap resource="/sqlmap/Product_SQL.xml"/>
+	<sqlMap resource="/sqlmap/Board_SQL.xml"/>
 
 </sqlMapConfig>

@@ -12,4 +12,6 @@ public interface BoardService {
 
 	BoardVO selectQnaImage(int unq) throws Exception;
 
+	String insertReview(ReviewVO vo) throws Exception;
+
 }

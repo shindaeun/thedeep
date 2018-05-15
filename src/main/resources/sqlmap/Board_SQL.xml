@@ -85,5 +85,43 @@
              	 </isNotNull>
              	 ) 
    </insert>
+   
+    <insert id="boardDAO.insertReview">
+         INSERT INTO review
+            (  unq 
+			, name
+			, pwd
+			, title
+			, height
+			, weight
+			, psize
+			, fit
+			, content
+			, rdate
+			, hit
+			<isNotNull property="filename">
+				<isNotEmpty property="filename">
+			, filename
+				</isNotEmpty>
+   			</isNotNull>
+			)
+         VALUES ( review_seq.nextval
+             	 , #name#
+             	 , #pwd#
+             	 , #title#
+             	 , #height#
+             	 , #weight#
+             	 , #size#
+             	 , #fit#
+             	 , #content#
+             	 , sysdate
+             	 , '0'
+             	 <isNotNull property="filename">
+             	 	<isNotEmpty property="filename">
+             	 , #filename#
+             	 	</isNotEmpty>
+             	 </isNotNull>
+             	 ) 
+   </insert>
 	
 </sqlMap>

@@ -1,6 +1,5 @@
 package thedeep.web;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,7 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.Resource;
-import javax.imageio.ImageIO;
+import javax.enterprise.inject.Model;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -26,16 +25,16 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import thedeep.service.BoardService;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.ReviewVO;
 
 @Controller
 public class BoardController {
 	
+	@Resource(name = "multipartResolver")
+	CommonsMultipartResolver  multipartResolver;
+	
 	@Resource(name = "boardService")
 	private BoardService boardService;
-	
-/*	@Resource(name = "multipartResolver")
-	CommonsMultipartResolver multipartResolver;*/
-	
 	
 	@RequestMapping(value="/noticeList.do")
 	public String selectNoticeList() throws Exception{
@@ -77,7 +76,7 @@ public class BoardController {
 		return "board/qnaWrite";
 	}
 	
-	@RequestMapping(value = "/qnaWriteSave.do")
+	/*@RequestMapping(value = "/qnaWriteSave.do")
 	@ResponseBody public Map<String, String> multipartProcess(
 						final MultipartHttpServletRequest multiRequest,
 						HttpServletResponse response, 
@@ -115,11 +114,11 @@ public class BoardController {
 				
 				// jpg, jepg, gif, bmp
 				// --> abdefjpg
-				/*
+				
 				 *	1. 확장자 get
 				 *	2. 확장자를 이용한 유효성 체크
 				 *	3. size 체크 (5m) 
-				 */
+				 
 				
 				String realFile = file.getOriginalFilename();
 				
@@ -146,7 +145,7 @@ public class BoardController {
 					filename = unixTime + "." + exeName;
 					filePath = uploadPath + "\\" + filename;
 					filesize = (int) file.getSize();
-					/*try {
+					try {
 						file.transferTo(new File(filePath));
 						
 						imageResize(uploadPath,unixTime+"",exeName,100);
@@ -155,7 +154,7 @@ public class BoardController {
 						cnt++;
 					} catch(Exception e) {
 						errCode="2";
-					}*/
+					}
 				}
 
 				System.out.println(file.getName());
@@ -176,7 +175,7 @@ public class BoardController {
 		// json => result=ok&cnt=1
 		
 		return map;
-	}
+	}*/
 	
 	@RequestMapping(value="/qnaDetail.do")
 	public String selectQnaDetail() throws Exception{
@@ -198,9 +197,125 @@ public class BoardController {
 	
 	
 	@RequestMapping(value="/reviewWrite.do")
-	public String selectReviewWrite() throws Exception{
+	public String reviewWrite() throws Exception{
 		return "board/reviewWrite";
 	}
+	
+	@RequestMapping(value = "/reviewWriteSave.do")
+	@ResponseBody 
+	public Map<String, String> reviewWriteSave (
+					final MultipartHttpServletRequest multiRequest,
+					HttpServletResponse response, 
+					ReviewVO vo,
+					ModelMap model) throws Exception {
+
+		Map<String, String> map = new HashMap<String, String>();
+		Map<String, MultipartFile> files = multiRequest.getFileMap();
+		
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\reviewImages";
+		
+		//String uploadPath = "c:\\upload";
+		File saveFolder = new File(uploadPath);
+		if (!saveFolder.exists()) {
+			saveFolder.mkdirs();
+		}
+
+		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
+
+		vo.setFilename((String) imap.get("fileName"));
+		vo.setFilesize( Integer.parseInt((String) imap.get("fileSize")));
+		
+		String result = boardService.insertReview(vo);
+		if(result == null) result = "ok";
+		map.put("result", result);  //  ( Json 이름, 데이터 )
+		map.put("cnt", (String) imap.get("cnt")); // 0,1
+		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
+		// Json =>  result=ok&cnt=1
+		
+		return map;
+	}
+	
+	
+	/*
+	 *   자료실 이미지 저장
+	 */
+	public static Map multipartProcess (Map files,String uploadPath) {
+		MultipartFile file;
+		String filePath = "";
+		int cnt = 0;
+		Map<String,String> map = new HashMap();
+		
+		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
+
+		String filename = "";
+		String filenames = "";
+		int filesize = 0;
+		String errCode = "";
+		String exeName = "";
+		
+		while (itr.hasNext()) {
+			Entry<String, MultipartFile> entry = itr.next();
+			file = entry.getValue();
+			if (!"".equals(file.getOriginalFilename())) {
+
+				String realFile = file.getOriginalFilename();
+
+				if(realFile.lastIndexOf(".") == -1) {
+					errCode = "-1";
+				}  else {
+					String[] array = realFile.split("\\.");
+					exeName = array[array.length-1];
+					exeName = exeName.toLowerCase();
+					if(    !exeName.equals("jpg") 
+					    && !exeName.equals("jpeg") 
+					    && !exeName.equals("gif") 
+					    && !exeName.equals("bmp") )
+					{
+						errCode = "0";
+					} else {
+						if(file.getSize() > 1024*1024*5) {
+							errCode = "1";
+						}
+					}
+				}
+				long unixTime = System.currentTimeMillis();
+				
+				if(errCode.equals("")) {
+					filename = unixTime+"."+exeName;
+					filenames += filename + ",";
+					filePath = uploadPath + "\\" + filename;
+					filesize = (int)file.getSize();
+					String targetPath = uploadPath + "\\" + unixTime+"_1."+exeName;
+					// 물리적인 파일 저장 -> transferTo
+					try {
+						file.transferTo(new File(filePath));
+						
+						//imeCreate(uploadPath,unixTime+"",exeName,100);
+						//imeCreate(uploadPath,unixTime+"",exeName,80);
+						
+						//imageResize(uploadPath,unixTime+"",exeName,100);
+						//imageResize(uploadPath,unixTime+"",exeName,80);
+						
+						cnt++;
+						
+						// Thumbnail (썸네일) 이미지 생성
+						// (현재파일경로,New파일경로,타입,크기)
+						//imageResize(filePath,targetPath,"jpg",70);
+						
+					} catch(Exception e) {
+						errCode = "2";
+					}
+				}	
+			}
+		}
+		map.put("fileName", filenames);
+		map.put("fileSize", filesize+"");
+		map.put("cnt", cnt+"");
+		map.put("errCode", errCode);
+		return map;
+	}
+	
+	
 	@RequestMapping(value="/reviewList.do")
 	public String selectReviewList() throws Exception{
 		return "board/reviewList";
@@ -213,4 +328,9 @@ public class BoardController {
 	public String selectReviewModify() throws Exception{
 		return "board/reviewModify";
 	}
+	
+	
+	
+	
+	
 }

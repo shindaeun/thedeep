@@ -1,10 +1,64 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form"      uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
+<%@ taglib prefix="spring"    uri="http://www.springframework.org/tags"%>
+
+<link rel="stylesheet" type="text/css" href="/css/main.css"/>
+<script src="/js/jquery-1.12.4.js"></script>
+<script src="/js/jquery-ui.js"></script>
+
 <script>
-$(function(){
-	$("#btnSubmit").click(function(){
-		location.href="/reviewList.do";
-	});
+	$(function(){
+		$("#btnSubmit").click(function(){
+			if($("#title").val() == "") {
+				alert("제목을 입력해주세요.");
+				$("#title").focus();
+				return;
+			}
+			if(    $("#pwd").val().length < 4 
+				|| $("#pwd").val().length > 12 )
+			{
+				alert("암호는 4~12자리 사이로 입력해주세요.");
+				$("#pwd").focus();
+				return;
+			}
+			if(confirm("저장하시겠습니까?")) {		
+		 		//var formData = $("#frm").serialize();
+		 		var form = new FormData(document.getElementById('frm'));
+		 		// 비 동기 전송
+				$.ajax({
+					type: "POST",
+					data: form,
+					url: "/reviewWriteSave.do",
+					dataType: "json",
+					processData: false,
+					contentType: false, 
+					
+					success: function(data) {
+						if(data.result == "ok") {
+							alert("저장하였습니다.\n\n("+data.cnt+")개의 파일 저장");
+							if(data.errCode == "-1") {
+								alert("첨부파일을 확인해주세요. 확장명 오류");
+							} else if(data.errCode == "0") {
+								alert("첨부파일 확인, 이미지 파일만 가능합니다.");
+							} else if(data.errCode == "1") {
+								alert("첨부파일은 5M 미만이어야 합니다.");
+							}
+							location.href = "<c:url value='/reviewList.do'/>";
+						} else {
+							alert("저장 실패했습니다. 다시 시도해 주세요.");
+						}
+					},
+					error: function () {
+						alert("오류발생 ");
+					}
+				}); 
+			}
+		});
 	$("#btnList").click(function(){
 		location.href="/reviewList.do";
 	});
@@ -17,19 +71,19 @@ $(function(){
 		</tr>
     </table>
     
-<form id="frm" name="frm">
+<form name="frm" id="frm" method="post" enctype="multipart/form-data">
 <table class="board">
 
 	<tr class="board">
 		<th class="head" width="20%">name</th>
 		<td>
-		<input type="text" name="userid" id="userid" style="width:98%;"/>
+		<input type="text" name="name" id="name" style="width:98%;"/>
 		</td>
 	</tr>
 	<tr class="board">
 		<th class="head">password</th>
 		<td>
-		<input type="text" name="pwd" id="pwd" style="width:98%;"/>
+		<input type="password" name="pwd" id="pwd" style="width:98%;" placeholder="암호 입력 (4~12자리)"/>
 		</td>
 	</tr>
 	<tr class="board">
@@ -42,24 +96,24 @@ $(function(){
 		<th class="head">size</th>
 		<td style="text-align:center">키 : 
 		<select name="height" id="height">
-			<option value="1">140-145cm</option>
-			<option value="2">145-150cm</option>
-			<option value="3">150-155cm</option>
-			<option value="4">155-160cm</option>
-			<option value="5">160-165cm</option>
-			<option value="6">165-170cm</option>
-			<option value="7">170-175cm</option>
+			<option value="140-145">140-145cm</option>
+			<option value="145-150">145-150cm</option>
+			<option value="150-155">150-155cm</option>
+			<option value="155-160">155-160cm</option>
+			<option value="160-165">160-165cm</option>
+			<option value="165-170">165-170cm</option>
+			<option value="170-175">170-175cm</option>
 		</select>
 		&nbsp;&nbsp;몸무게 :
-		<select name="weigth" id="weigth">
-			<option value="1">40-45kg</option>
-			<option value="2">45-50kg</option>
-			<option value="3">50-55kg</option>
-			<option value="4">55-60kg</option>
-			<option value="5">60-65kg</option>
-			<option value="6">65-70kg</option>
-			<option value="7">70-75kg</option>
-			<option value="8">75-80kg</option>
+		<select name="weight" id="weight">
+			<option value="40-45">40-45kg</option>
+			<option value="45-50">45-50kg</option>
+			<option value="50-55">50-55kg</option>
+			<option value="55-60">55-60kg</option>
+			<option value="60-65">60-65kg</option>
+			<option value="65-70">65-70kg</option>
+			<option value="70-75">70-75kg</option>
+			<option value="75-80">75-80kg</option>
 		</select>
 		&nbsp;&nbsp;사이즈 :
 		<select name="size" id="size">
@@ -74,15 +128,15 @@ $(function(){
 	<tr class="board">
 		<th class="head">fit</th>
 		<td style="text-align:center">
-		<input type="radio" name="fit" id="fit" value="1">
+		<input type="radio" name="fit" id="fit" value="VB"/>
 		매우큼 &nbsp;&nbsp; 
-		<input type="radio" name="fit" id="fit" value="2">
+		<input type="radio" name="fit" id="fit" value="B"/>
 		큼 &nbsp;&nbsp;
-		<input type="radio" name="fit" id="fit" value="3" checked>
+		<input type="radio" name="fit" id="fit" value="F" checked/>
 		딱맞음 &nbsp;&nbsp; 
-		<input type="radio" name="fit" id="fit" value="4">
+		<input type="radio" name="fit" id="fit" value="S"/>
 		작음 &nbsp;&nbsp; 
-		<input type="radio" name="fit" id="fit" value="5">
+		<input type="radio" name="fit" id="fit" value="VS"/>
 		매우작음 
 		</td>
 	</tr>
@@ -97,6 +151,8 @@ $(function(){
         <th class="head">file</th>
         <td style="text-align:left; padding:5px" >
         	<input type="file" name="file1" size="70" /><br/>
+        	<input type="file" name="file2" size="70" /><br/>
+        	<input type="file" name="file3" size="70" />
         </td>
 	</tr>
 </table>
