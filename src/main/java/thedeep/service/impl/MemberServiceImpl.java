@@ -34,4 +34,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectCouponList(userid);
 	}
 
+	@Override
+	public List<?> selectPointList(String userid) throws Exception {
+		return memberDAO.selectPointList(userid);
+	}
+
 }

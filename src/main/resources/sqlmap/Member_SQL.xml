@@ -11,9 +11,18 @@
 	]]>
 	</update>
 	<delete id="memberDAO.cartDelete">
-		delete from cart where userid=#userid# and cscode=#cscode#
+		delete from cart where userid=#userid# and
+		cscode=#cscode#
 	</delete>
 
+	<select id="memberDAO.selectPointList" resultClass="egovMap">
+	 <![CDATA[
+	 select l.ocode,pname,'-'||usepoint point from orderList l, orderMain m,product p where l.ocode=m.ocode and l.cscode=p.cscode and userid=#userid#
+	union
+	select l.ocode,pname,'+'||savepoint point from orderList l, orderMain m,product p where l.ocode=m.ocode and l.cscode=p.cscode and userid=#userid#
+	order by ocode desc
+	 ]]>
+	</select>
 	<select id="memberDAO.selectCouponList" resultClass="egovMap">
 	 <![CDATA[
 	select cname||' '||discountrate||'% 할인' coupon, applymoney||'원 이상 주문 시 사용가능' subject1, '최대 '||maxDiscmoney||'원 할인 가능' subject2,sdate||'~'||edate usedate

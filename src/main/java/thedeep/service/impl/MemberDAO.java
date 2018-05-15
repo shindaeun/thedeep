@@ -26,5 +26,9 @@ public class MemberDAO extends EgovAbstractDAO{
 		return list("memberDAO.selectCouponList",userid);
 	}
 
+	public List<?> selectPointList(String userid) {
+		return list("memberDAO.selectPointList",userid);
+	}
+
 	
 }

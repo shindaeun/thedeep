@@ -12,4 +12,6 @@ public interface MemberService {
 
 	List<?> selectCouponList(String userid) throws Exception;
 
+	List<?> selectPointList(String userid) throws Exception;
+
 }

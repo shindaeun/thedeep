@@ -106,7 +106,11 @@ public class MemberController {
 		return "member/coupon";
 	}
 	@RequestMapping(value="/point.do")
-	public String point() throws Exception{
+	public String point(ModelMap model) throws Exception{
+		String userid="userid1";
+		List<?> list = memberService.selectPointList(userid);
+		model.addAttribute("List",list);
+		System.out.println(list);
 		return "member/point";
 	}
 	@RequestMapping(value="/order.do")
