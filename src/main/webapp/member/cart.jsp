@@ -54,12 +54,13 @@
 			document.getElementById("point").innerHTML=point;
 		});
 		$("#btnBuy").click(function() {
+			$("#frm").attr({method:'post',action:'/order.do'}).submit();
 			/*  var checkbox = $("input[name=ordercheck]:checked");
 			checkbox.each(function(i) {
 				var tr=checkbox.parent().parent().eq(i);
 				var td=tr.children();
 				alert(td.eq(1).text());
-			});  */
+			});  
 			
 			var bool=false;
 			 var f=document.frm;
@@ -91,7 +92,7 @@
 				
 			}else{
 				alert("상품을 선택해주세요!");
-			}
+			} */
 	
 		});
 		$("button[name=btnChange]").click(function() {
@@ -203,7 +204,7 @@
 		</tr>
 		<c:forEach var="i" items="${List }" varStatus="status">
 			<tr class="board">
-				<td><input type="checkbox" name="ordercheck" value="${i.cscode}" checked/>&nbsp;${i.pcode }</td>
+				<td><input type="checkbox" name="ordercheck" id="ordercheck"value="${i.cscode}" checked/>&nbsp;${i.pcode }</td>
 				<td>${i.cscode}</td>
 				<td>${i.pname}</td>
 				<c:set var="pcode" value="${i.pcode }"/>

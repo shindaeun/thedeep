@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -170,14 +171,9 @@ public class MemberController {
 		return "member/point";
 	}
 	@RequestMapping(value="/order.do")
-	@ResponseBody//@RequestBody List<CartVO> list
-	public Map<String,Object> order(CartVO vo) throws Exception{
-		Map<String,Object> map = new HashMap<String, Object>();
-		System.out.println("in");
-		//System.out.println(list);
-		String result="ok";
-		map.put("result", result);
-		return map;
+	public String order(@RequestParam(name="ordercheck", required=false) List<String> list) throws Exception{
+		System.out.println(list);
+		return "member/order";
 	}
 	@RequestMapping(value="/orderComplete.do")
 	public String orderComplete() throws Exception{
