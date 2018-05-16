@@ -18,4 +18,13 @@ public interface MemberService {
 
 	String selectAblePoint(String userid) throws Exception;
 
+	List<?> selectUserReview(DefaultVO searchVO) throws Exception;
+
+	int selectUserReviewTotCnt(DefaultVO searchVO) throws Exception;
+
+	List<?> selectUserQna(DefaultVO searchVO) throws Exception;
+
+	int selectUserQnaTotCnt(DefaultVO searchVO) throws Exception;
+
+
 }

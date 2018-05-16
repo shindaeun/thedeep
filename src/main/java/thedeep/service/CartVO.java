@@ -1,8 +1,8 @@
 package thedeep.service;
 
 public class CartVO {
-	String userid,pcode,cscode;
-	int amount;
+	private String userid,pcode,cscode;
+	private int amount;
 	public String getUserid() {
 		return userid;
 	}

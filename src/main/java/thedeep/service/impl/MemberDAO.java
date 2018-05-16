@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import thedeep.service.CartVO;
+import thedeep.service.DefaultVO;
 
 @Repository("memberDAO")
 public class MemberDAO extends EgovAbstractDAO{
@@ -36,6 +37,22 @@ public class MemberDAO extends EgovAbstractDAO{
 
 	public String selectAblePoint(String userid) {
 		return (String) select("memberDAO.selectAblePoint",userid);
+	}
+
+	public List<?> selectUserReview(DefaultVO searchVO) {
+		return list("memberDAO.selectUserReview",searchVO);
+	}
+
+	public int selectUserReviewTotCnt(DefaultVO searchVO) {
+		return (int) select("memberDAO.selectUserReviewTotCnt",searchVO);
+	}
+
+	public List<?> selectUserQna(DefaultVO searchVO) {
+		return list("memberDAO.selectUserQna",searchVO);
+	}
+
+	public int selectUserQnaTotCnt(DefaultVO searchVO) {
+		return (int) select("memberDAO.selectUserQnaTotCnt",searchVO);
 	}
 
 	

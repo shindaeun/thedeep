@@ -41,7 +41,15 @@ public class DefaultVO implements Serializable {
 	 *  serialVersion UID
 	 */
 	private static final long serialVersionUID = -858838578081269359L;
+	private String userid;
+	public String getUserid() {
+		return userid;
+	}
 
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	
 	/** 검색조건 */
 	private String searchCondition = "";
 
@@ -53,6 +61,23 @@ public class DefaultVO implements Serializable {
 
 	/** 현재페이지 */
 	private int pageIndex = 1;
+	private int pageIndex2 = 1;
+	private int searchkind;
+	public int getSearchkind() {
+		return searchkind;
+	}
+
+	public void setSearchkind(int searchkind) {
+		this.searchkind = searchkind;
+	}
+
+	public int getPageIndex2() {
+		return pageIndex2;
+	}
+
+	public void setPageIndex2(int pageIndex2) {
+		this.pageIndex2 = pageIndex2;
+	}
 
 	/** 페이지갯수 */
 	private int pageUnit = 10;

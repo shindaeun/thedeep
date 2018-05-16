@@ -17,9 +17,9 @@
 
 	<select id="memberDAO.selectPointList" resultClass="egovMap">
 	 <![CDATA[
-	 select l.ocode,substr(odate,1,10) odate,pname,'-'||usepoint point from orderList l, orderMain m,product p where l.ocode=m.ocode and l.cscode=p.cscode and userid=#userid#
+	 select l.ocode,to_char(odate,'yyyy-mm-dd') odate,pname,'-'||usepoint point from orderList l, orderMain m,product p where l.ocode=m.ocode and l.cscode=p.cscode and userid=#userid#
 	union
-	select l.ocode,substr(odate,1,10) odate,pname,'+'||savepoint point from orderList l, orderMain m,product p where l.ocode=m.ocode and l.cscode=p.cscode and userid=#userid#
+	select l.ocode,to_char(odate,'yyyy-mm-dd') odate,pname,'+'||savepoint point from orderList l, orderMain m,product p where l.ocode=m.ocode and l.cscode=p.cscode and userid=#userid#
 	order by ocode desc
 	 ]]>
 	</select>
@@ -33,8 +33,99 @@
 		select ablepoint from memberinfo where userid=#userid#
 	 ]]>
 	</select>
+
+	<select id="memberDAO.selectUserReview" resultClass="egovMap">
+		select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+		SELECT
+		unq unq,
+		title title,
+		hit
+		hit,
+		to_char(rdate,'yyyy-mm-dd') rdate
+		FROM
+		review
+		WHERE
+		userid=#userid#
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' ||
+				#searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+		) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	</select>
 	
+	<select id="memberDAO.selectUserReviewTotCnt" resultClass="java.lang.Integer">
+	SELECT
+		count(unq)
+		FROM
+		review
+		WHERE
+		userid=#userid#
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+	</select>
+	<select id="memberDAO.selectUserQna" resultClass="egovMap">
+		select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+		SELECT
+		unq unq,
+		title title,
+		hit
+		hit,
+		to_char(rdate,'yyyy-mm-dd') rdate
+		FROM
+		qna
+		WHERE
+		userid=#userid#
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' ||
+				#searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+		) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	</select>
 	
+	<select id="memberDAO.selectUserQnaTotCnt" resultClass="java.lang.Integer">
+	SELECT
+		count(unq)
+		FROM
+		qna
+		WHERE
+		userid=#userid#
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+	</select>
 	<select id="memberDAO.selectCouponList" resultClass="egovMap">
 	 <![CDATA[
 	select cname||' '||discountrate||'% 할인' coupon, applymoney||'원 이상 주문 시 사용가능' subject1, '최대 '||maxDiscmoney||'원 할인 가능' subject2,sdate||'~'||edate usedate
