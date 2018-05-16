@@ -108,7 +108,11 @@ public class MemberController {
 	@RequestMapping(value="/point.do")
 	public String point(ModelMap model) throws Exception{
 		String userid="userid1";
+		String allpoint = memberService.selectAllPoint(userid);
+		String ablepoint = memberService.selectAblePoint(userid);
 		List<?> list = memberService.selectPointList(userid);
+		model.addAttribute("allpoint",allpoint);
+		model.addAttribute("ablepoint",ablepoint);
 		model.addAttribute("List",list);
 		System.out.println(list);
 		return "member/point";

@@ -14,4 +14,8 @@ public interface MemberService {
 
 	List<?> selectPointList(String userid) throws Exception;
 
+	String selectAllPoint(String userid) throws Exception;
+
+	String selectAblePoint(String userid) throws Exception;
+
 }

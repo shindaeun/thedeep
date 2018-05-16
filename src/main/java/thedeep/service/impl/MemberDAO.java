@@ -30,5 +30,13 @@ public class MemberDAO extends EgovAbstractDAO{
 		return list("memberDAO.selectPointList",userid);
 	}
 
+	public String selectAllPoint(String userid) {
+		return (String) select("memberDAO.selectAllPoint",userid);
+	}
+
+	public String selectAblePoint(String userid) {
+		return (String) select("memberDAO.selectAblePoint",userid);
+	}
+
 	
 }

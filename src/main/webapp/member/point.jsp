@@ -9,10 +9,10 @@
 <div style="border: 1px dashed; padding: 10px;">
 	<table width="100%">
 		<tr align="center">
-			<td >총 적립금 100원</td>
+			<td >총 적립금 ${allpoint }원</td>
 		</tr>
 		<tr align="center">
-			<td>사용 가능 적립금 0원</td>
+			<td>사용 가능 적립금 ${ablepoint }원</td>
 		</tr>
 	</table>
 </div>
@@ -30,10 +30,10 @@
 			<th width="30%" class="head">적립금</th>
 		</tr>
 		<c:forEach var="i" items="${List }" varStatus="status">
-			<tr class="board">
-				<td>${status.count}</td>
+			<tr class="board" align="center">
+				<td>${i.odate}</td>
 				<td>${i.pname}</td>
-				<td>${i.point}</td>
+				<td>${i.point}원</td>
 			</tr>
 		</c:forEach>
 	</table>

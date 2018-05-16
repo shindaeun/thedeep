@@ -39,4 +39,14 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectPointList(userid);
 	}
 
+	@Override
+	public String selectAllPoint(String userid) throws Exception {
+		return memberDAO.selectAllPoint(userid);
+	}
+
+	@Override
+	public String selectAblePoint(String userid) throws Exception {
+		return memberDAO.selectAblePoint(userid);
+	}
+
 }
