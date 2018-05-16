@@ -20,16 +20,64 @@ $(function(){
 		location.href="/reviewDelete.do";
 	});
 	$("#btnModify").click(function(){
-		location.href="/reviewModify.do";
+		if($("#title").val() == "") {
+			alert("제목을 입력해주세요.");
+			$("#title").focus();
+			return;
+		}
+		if($("#content").val() == "") {
+			alert("내용을 입력해주세요.");
+			$("#content").focus();
+			return;
+		}
+		if(confirm("저장하시겠습니까?")) {		
+	 		//var formData = $("#frm").serialize();
+	 		var form = new FormData(document.getElementById('frm'));
+	 		// 비 동기 전송
+			$.ajax({
+				type: "POST",
+				data: form,
+				url: "/reviewModifySave.do",
+				dataType: "json",
+				processData: false,
+				contentType: false, 
+				
+				success: function(data) {
+					if(data.result == "ok") {
+						alert("저장하였습니다.\n\n("+data.cnt+")개의 파일 저장");
+						if(data.errCode == "-1") {
+							alert("첨부파일을 확인해주세요. 확장명 오류");
+						} else if(data.errCode == "0") {
+							alert("첨부파일 확인, 이미지 파일만 가능합니다.");
+						} else if(data.errCode == "1") {
+							alert("첨부파일은 5M 미만이어야 합니다.");
+						}
+						location.href = "<c:url value='/reviewList.do'/>";
+					} else {
+						alert("저장 실패했습니다. 다시 시도해 주세요.");
+					}
+				},
+				error: function () {
+					alert("오류발생 ");
+				}
+			});
+		}
 	});
-	
 });
+function fnaction(a) {
+		var head = document.getElementsByName('btnDel');
+		head[a].innerHTML ="<input type='file' name='file"+a+"' size='70' />";
+}
 </script>
+
 <table class="top">
 		<tr class="top">
 			<td class="top">review</td>
 		</tr>
     </table>
+    
+<form name="frm" id="frm" method="post" enctype="multipart/form-data">
+<input type="hidden" id="unq" name="unq" value="${vo.unq}">
 <table class="board">
 
 	<tr class="board">
@@ -49,34 +97,34 @@ $(function(){
 		<th class="head">size</th>
 		<td>키:
 		<select name="height" id="height">
-			<option value="1" <c:if test="${vo.height=='1'}">selected</c:if>>140-145cm</option>
-			<option value="2" <c:if test="${vo.height=='2'}">selected</c:if>>145-150cm</option>
-			<option value="3" <c:if test="${vo.height=='3'}">selected</c:if>>150-155cm</option>
-			<option value="4" <c:if test="${vo.height=='4'}">selected</c:if>>155-160cm</option>
-			<option value="5" <c:if test="${vo.height=='5'}">selected</c:if>>160-165cm</option>
-			<option value="6" <c:if test="${vo.height=='6'}">selected</c:if>>165-170cm</option>
-			<option value="7" <c:if test="${vo.weidth=='7'}">selected</c:if>>170-175cm</option>
+			<option value="140-145" <c:if test="${vo.height=='140-145'}">selected</c:if>>140-145cm</option>
+			<option value="145-150" <c:if test="${vo.height=='145-150'}">selected</c:if>>145-150cm</option>
+			<option value="150-155" <c:if test="${vo.height=='150-155'}">selected</c:if>>150-155cm</option>
+			<option value="155-160" <c:if test="${vo.height=='155-160'}">selected</c:if>>155-160cm</option>
+			<option value="160-165" <c:if test="${vo.height=='160-165'}">selected</c:if>>160-165cm</option>
+			<option value="165-170" <c:if test="${vo.height=='165-170'}">selected</c:if>>165-170cm</option>
+			<option value="170-175" <c:if test="${vo.height=='170-175'}">selected</c:if>>170-175cm</option>
 		</select>
 		&nbsp;&nbsp;
 		몸무게:
-		<select name="weigth" id="weigth">
+		<select name="weight" id="weight">
 			
-			<option value="1" <c:if test="${vo.weidth=='1'}">selected</c:if>>40-45kg</option>
-			<option value="2" <c:if test="${vo.weidth=='2'}">selected</c:if>>45-50kg</option>
-			<option value="3" <c:if test="${vo.weidth=='3'}">selected</c:if>>50-55kg</option>
-			<option value="4" <c:if test="${vo.weidth=='4'}">selected</c:if>>55-60kg</option>
-			<option value="5" <c:if test="${vo.weidth=='5'}">selected</c:if>>60-65kg</option>
-			<option value="6" <c:if test="${vo.weidth=='6'}">selected</c:if>>65-70kg</option>
-			<option value="7" <c:if test="${vo.weidth=='7'}">selected</c:if>>70-75kg</option>
-			<option value="8" <c:if test="${vo.weidth=='8'}">selected</c:if>>75-80kg</option>
+			<option value="40-45" <c:if test="${vo.weight=='40-45'}">selected</c:if>>40-45kg</option>
+			<option value="45-50" <c:if test="${vo.weight=='45-50'}">selected</c:if>>45-50kg</option>
+			<option value="50-55" <c:if test="${vo.weight=='50-55'}">selected</c:if>>50-55kg</option>
+			<option value="55-60" <c:if test="${vo.weight=='55-60'}">selected</c:if>>55-60kg</option>
+			<option value="60-65" <c:if test="${vo.weight=='60-65'}">selected</c:if>>60-65kg</option>
+			<option value="65-70" <c:if test="${vo.weight=='65-70'}">selected</c:if>>65-70kg</option>
+			<option value="70-75" <c:if test="${vo.weight=='70-75'}">selected</c:if>>70-75kg</option>
+			<option value="75-80" <c:if test="${vo.weight=='75-80'}">selected</c:if>>75-80kg</option>
 		</select>
 		&nbsp;&nbsp; 
 		사이즈:
-		<select name="size" id="size">
-			<option value="1" <c:if test="${vo.size=='1'}">selected</c:if>>S</option>
-			<option value="2" <c:if test="${vo.size=='2'}">selected</c:if>>M</option>
-			<option value="3" <c:if test="${vo.size=='3'}">selected</c:if>>L</option>
-			<option value="4" <c:if test="${vo.size=='4'}">selected</c:if>>free</option>
+		<select name="psize" id="psize">
+			<option value="S" <c:if test="${vo.psize=='S'}">selected</c:if>>S</option>
+			<option value="M" <c:if test="${vo.psize=='M'}">selected</c:if>>M</option>
+			<option value="L" <c:if test="${vo.psize=='L'}">selected</c:if>>L</option>
+			<option value="F" <c:if test="${vo.psize=='F'}">selected</c:if>>free</option>
 		</select>
 		</td>
 	</tr>
@@ -84,42 +132,45 @@ $(function(){
 	<tr class="board">
 		<th class="head">fit</th>
 		<td>
-		<input type="radio" name="size" id="size" value="1" <c:if test="${vo.fit=='1'}">checked</c:if>/>
+		<input type="radio" name="fit" id="fit" value="VB" <c:if test="${vo.fit=='VB'}">checked</c:if>/>
 		매우큼 &nbsp;&nbsp; 
-		<input type="radio" name="size" id="size" value="2" <c:if test="${vo.fit=='2'}">checked</c:if>/>
+		<input type="radio" name="fit" id="fit" value="B" <c:if test="${vo.fit=='B'}">checked</c:if>/>
 		큼 &nbsp;&nbsp;
-		<input type="radio" name="size" id="size" value="3" <c:if test="${vo.fit=='3'}">checked</c:if>/>
+		<input type="radio" name="fit" id="fit" value="F" <c:if test="${vo.fit=='F'}">checked</c:if>/>
 		딱맞음 &nbsp;&nbsp; 
-		<input type="radio" name="size" id="size" value="4" <c:if test="${vo.fit=='4'}">checked</c:if>/>
+		<input type="radio" name="fit" id="fit" value="S" <c:if test="${vo.fit=='S'}">checked</c:if>/>
 		작음 &nbsp;&nbsp; 
-		<input type="radio" name="size" id="size" value="5" <c:if test="${vo.fit=='5'}">checked</c:if>/>
+		<input type="radio" name="fit" id="fit" value="VS" <c:if test="${vo.fit=='VS'}">checked</c:if>/>
 		매우작음 
 		</td>
 	</tr>
 
-<%-- <c:set var="filepath"><spring:message code="file.upload.path" /></c:set>
-<c:set var="filename">${vo.filename}</c:set>
+<c:set var="filenames">${vo.filename}</c:set>
+
 <%
 
-String filepath = (String)pageContext.getAttribute("filepath");
-String filename = (String)pageContext.getAttribute("filename");
-int x=0,y=0;
-if(filename != null && !filename.equals("")) {
-	File file = new File(filepath+"/"+filename);
-	BufferedImage img = ImageIO.read(file);
-	int imgWidth = img.getWidth(null);
-	int imgHeight = img.getHeight(null);
-	
-	if(imgWidth > imgHeight) {
-		x = 100;
-		y = (imgHeight * x) / imgWidth;
-	} else if(imgWidth < imgHeight) {
-		y = 100;
-		x = (imgWidth * y) / imgHeight;
-	} else {
-		x=100;
-		y=100;
+String filenames = (String)pageContext.getAttribute("filenames");
+String[] filename = filenames.split(",");
+int x=0,y=0,i=0,j=1;
+
+if(filenames != null && !filenames.equals("")) {
+	for(i=0; i<filename.length; i++) {
+		File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/reviewImages/"+filename[i]);
+		BufferedImage img = ImageIO.read(file);
+		int imgWidth = img.getWidth(null);
+		int imgHeight = img.getHeight(null);
+		if(imgWidth > imgHeight) {
+			x = 100;
+			y = (imgHeight * x) / imgWidth;
+		} else if(imgWidth < imgHeight) {
+			y = 100;
+			x = (imgWidth * y) / imgHeight;
+		} else {
+			x=100;
+			y=100;
+		}
 	}
+
 }
 /*
  // 1024(넓이)/768(높이)
@@ -127,7 +178,7 @@ if(filename != null && !filename.equals("")) {
  // int y = 768 * 100 / 1024
  // int y = (imgHeight * 100) / imgWidth
 */
-%> --%>
+%>
 	
 	
 	<tr class="board">
@@ -141,21 +192,27 @@ if(filename != null && !filename.equals("")) {
 	<tr class="board">
         <th class="head">파일</th>
         <td style="text-align:left; padding:5px" >
-        	<input type="file" name="file1" size="70" /><br/>
-        	<%-- <%
+        	<%
 			if(filename != null && !filename.equals("")) {
+				for(i=0; i<filename.length; i++) {
+				%>
+					<span name="btnDel"><img src="/reviewImages/<%=filename[i]%>" width="<%=x%>" height="<%=y%>"><%=filename[i]%>&nbsp;<button type="button" onclick="fnaction('<%=i%>')" class="white">x</button></span><br/>
+				<%
+				}
+				for(j=i; j<3; j++) {
+				%>
+					<input type="file" name="file<%=j%>" size="70" /><br/>
+				<%
+				}
+        	}
 			%>
-			${vo.filename}
-			<%
-			}
-			%> --%>
         </td>
 	</tr>
 	
 	
 	
 </table>
-
+</form>
 <table border="0" style="width:100%;">
 	<tr style="text-align:center">
 		<th style="text-align:center">

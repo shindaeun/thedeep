@@ -42,5 +42,32 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	public String insertReview(ReviewVO vo) throws Exception {
 		return boardDAO.insertReview(vo);
 	}
+
+	@Override
+	public List<?> selectReviewList(DefaultVO searchVO) throws Exception {
+		return boardDAO.selectReviewList(searchVO);
+	}
+
+	@Override
+	public int selectReviewListTotCnt(DefaultVO searchVO) throws Exception {
+		return boardDAO.selectReviewListTotCnt(searchVO);
+	}
+
+	@Override
+	public ReviewVO selectReviewDetail(int unq) throws Exception {
+		return boardDAO.selectReviewDetail(unq);
+	}
+
+	@Override
+	public int updateHit(int unq) throws Exception {
+		return boardDAO.updateHit(unq);
+	}
+
+	@Override
+	public int selectReviewPwd(ReviewVO vo) throws Exception {
+		return boardDAO.selectReviewPwd(vo);
+	}
+
+	
 	
 }

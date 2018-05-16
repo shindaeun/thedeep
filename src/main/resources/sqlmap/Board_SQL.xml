@@ -6,6 +6,7 @@
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias  alias="searchVO" type="thedeep.service.DefaultVO"/>
 	<typeAlias  alias="boardVO" type="thedeep.service.BoardVO"/>
+	<typeAlias  alias="reviewVO" type="thedeep.service.ReviewVO"/>
 
 	<select id="boardDAO.selectQnaList" resultClass="egovMap">
 	SELECT b.* FROM (
@@ -88,7 +89,13 @@
    
     <insert id="boardDAO.insertReview">
          INSERT INTO review
-            (  unq 
+            (  unq
+            , userid
+            <isNotNull property="pcode">
+				<isNotEmpty property="pcode">
+			, pcode
+				</isNotEmpty>
+   			</isNotNull>
 			, name
 			, pwd
 			, title
@@ -106,12 +113,18 @@
    			</isNotNull>
 			)
          VALUES ( review_seq.nextval
+         		, #userid#
+         		<isNotNull property="pcode">
+					<isNotEmpty property="pcode">
+				, #pcode#
+					</isNotEmpty>
+   				</isNotNull>
              	 , #name#
              	 , #pwd#
              	 , #title#
              	 , #height#
              	 , #weight#
-             	 , #size#
+             	 , #psize#
              	 , #fit#
              	 , #content#
              	 , sysdate
@@ -123,5 +136,80 @@
              	 </isNotNull>
              	 ) 
    </insert>
+   
+   <select id="boardDAO.selectReviewList" resultClass="egovMap">
 	
+	SELECT b.* FROM (
+	
+	SELECT rownum rn,a.* FROM (
+	
+		SELECT 
+			unq unq,
+			pcode pcode,
+			title title,
+			name name,
+			to_char(rdate,'yyyy-mm-dd') rdate,
+			nvl(hit,0) hit
+		FROM
+			review 
+		WHERE
+			1 = 1
+			<isNotNull property="searchKeyword">
+				<isNotEmpty property="searchKeyword">
+			AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+				</isNotEmpty>
+			</isNotNull>
+		ORDER BY unq DESC 
+		) a
+	) b
+	
+	WHERE 
+		  rn > $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$ 
+
+	</select>
+	
+	<select id="boardDAO.selectReviewListTotCnt" 
+							resultClass = "java.lang.Integer">
+		SELECT COUNT(*) FROM review
+			WHERE
+				1 = 1
+				<isNotNull property="searchKeyword">
+					<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+					</isNotEmpty>
+				</isNotNull>
+	</select>
+
+	<select id="boardDAO.selectReviewDetail" resultClass="reviewVO">
+		SELECT 
+			unq unq,
+			title title,
+			name name,
+			height height,
+			weight weight,
+			psize psize,
+			fit fit,
+			content content,
+			filename filename,
+			(SELECT nvl(min(unq),0) FROM review WHERE unq > #unq#) nexInt,
+			(SELECT nvl(max(unq),0) FROM review WHERE unq <![CDATA[<]]> #unq#) befInt
+		FROM
+			review
+		WHERE 
+			unq = #unq#
+	</select>
+	
+	<update id="boardDAO.updateHit">
+		UPDATE review SET 
+			hit = hit+1
+		WHERE
+			unq = #unq#
+	</update>
+	
+	<select id="boardDAO.selectReviewPwd" resultClass = "java.lang.Integer">
+		SELECT count(unq)
+		FROM review
+		where unq=#unq#
+		AND pwd=#pwd#
+	</select>
 </sqlMap>

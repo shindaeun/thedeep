@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.Resource;
-import javax.enterprise.inject.Model;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -225,6 +224,9 @@ public class BoardController {
 		vo.setFilename((String) imap.get("fileName"));
 		vo.setFilesize( Integer.parseInt((String) imap.get("fileSize")));
 		
+		vo.setPcode("P00005");
+		String userid="userid1";
+		vo.setUserid(userid);
 		String result = boardService.insertReview(vo);
 		if(result == null) result = "ok";
 		map.put("result", result);  //  ( Json 이름, 데이터 )
@@ -317,18 +319,106 @@ public class BoardController {
 	
 	
 	@RequestMapping(value="/reviewList.do")
-	public String selectReviewList() throws Exception{
+	public String selectReviewList(
+			@ModelAttribute("searchVO") DefaultVO searchVO,ModelMap model) 
+				throws Exception {
+
+		/** EgovPropertyService.sample */
+		/* context-properties.xml */
+		searchVO.setPageUnit(10); // 한화면의 출력 개수
+		searchVO.setPageSize(10); // 페이지 너버 개수
+
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<?> sampleList = boardService.selectReviewList(searchVO);
+		model.addAttribute("resultList", sampleList);
+
+		int totCnt = boardService.selectReviewListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+
 		return "board/reviewList";
 	}
+	
 	@RequestMapping(value="/reviewDetail.do")
-	public String selectReviewDetail() throws Exception{
+	public String selectReviewDetail(ReviewVO vo,ModelMap model) throws Exception {
+		
+		int unq = vo.getUnq();
+		boardService.updateHit(unq);
+		vo = boardService.selectReviewDetail(unq);
+		model.addAttribute("vo", vo);
+		
 		return "board/reviewDetail";
 	}
+	
 	@RequestMapping(value="/reviewModify.do")
-	public String selectReviewModify() throws Exception{
+	public String reviewModify(ReviewVO vo,ModelMap model) 
+				throws Exception {
+		
+		int unq = vo.getUnq();
+		
+		vo = boardService.selectReviewDetail(unq);
+		model.addAttribute("vo", vo);
+		
 		return "board/reviewModify";
 	}
 	
+	@RequestMapping(value = "/reviewModifySave.do")
+	@ResponseBody 
+	public Map<String, String> updateReviewModify (
+						final MultipartHttpServletRequest multiRequest,
+						HttpServletResponse response, 
+						ReviewVO vo,
+						ModelMap model) throws Exception {
+
+		Map<String, String> map = new HashMap<String, String>();
+		Map<String, MultipartFile> files = multiRequest.getFileMap();
+
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\reviewImages";
+		//String uploadPath = "c:\\upload";
+		File saveFolder = new File(uploadPath);
+		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();		
+		HashMap imap = new HashMap();
+		imap.put("cnt", "0");
+		String fullPath = "";
+
+		MultipartFile orgfile;
+		if(itr.hasNext() == true) {
+			Entry<String, MultipartFile> entry = itr.next();
+			orgfile = entry.getValue();
+			if (!"".equals(orgfile.getOriginalFilename())) {
+			
+				// new image create
+				imap = (HashMap) multipartProcess(files,uploadPath);
+				vo.setFilename((String) imap.get("fileName"));
+				vo.setFilesize( Integer.parseInt((String) imap.get("fileSize")));
+				
+				// old image delete
+				String oldfilename = vo.getOldfilename();
+				fullPath = uploadPath+"\\"+oldfilename;
+				File file = new File(fullPath);		
+				file.delete();
+			}
+		}
+
+		String result = "";
+		int resultCnt = boardService.updateUpload(vo);
+		if(resultCnt > 0) result = "ok";
+		map.put("result", result);  //  ( Json 이름, 데이터 )
+		map.put("cnt", (String) imap.get("cnt")); // 0,1
+		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
+		// Json =>  result=ok&cnt=1
+		
+		return map;
+	}
 	
 	
 	

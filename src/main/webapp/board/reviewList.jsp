@@ -49,62 +49,50 @@ $(function() {
 </table>
 </form>
 
-<%-- <c:set var="filepath"><spring:message code="file.upload.path" /></c:set>
-<c:set var="filename">${vo.filename}</c:set>
-<%
-String filepath = (String)pageContext.getAttribute("filepath");
-String filename = (String)pageContext.getAttribute("filename");
-
-File file = new File(filepath+"/"+filename);
-BufferedImage img = ImageIO.read(file);
-int imgWidth = img.getWidth(null);
-int imgHeight = img.getHeight(null);
-int x,y;
-if(imgWidth > imgHeight) {
-   x = 100;
-   y = (imgHeight * x) / imgWidth;
-} else if(imgWidth < imgHeight) {
-   y = 100;
-   x = (imgWidth * y) / imgHeight;
-} else {
-   x=100;
-   y=100;
-}
-/*
- // 1024(넓이)/768(높이)
- // 1024:768 = 100:y
- // int y = 768 * 100 / 1024
- // int y = (imgHeight * 100) / imgWidth
-*/
-
-
-%>
- --%>
-
 <c:set var="total" value="1"/>
 <table class="board">
    <tr class="board" style="height:30px;">
-       <th>NO</th>
-       <th>ITEM</th>
-       <th>SUBJECT</th>
-       <th>WRITER</th>
-       <th>DATE</th>
-       <th>HIT</th>
+       <th width="10%">NO</th>
+       <th width="20%">ITEM</th>
+       <th width="20%">SUBJECT</th>
+       <th width="20%">WRITER</th>
+       <th width="20%">DATE</th>
+       <th width="10%">HIT</th>
    </tr>
-   <c:forEach var="result" items="${list}" varStatus="status">
+   <c:forEach var="result" items="${resultList}" varStatus="status">
    <tr class="board" style="height:30px;">
-      <td><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
-      <td><%-- <img src="/uploadData/${vo.filename}" width="<%=x%>" height="<%=y%>"> --%></td>
-      <td><a href="/reviewDetail.do?unq=${result.unq}">${result.title}</a></td>
-      <td>${result.name}</td>
-      <td>${result.date}</td>
-      <td>${result.hit}</td>
+      <td style="text-align:center"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
+       <c:set var="pcode" value="${result.pcode }"/>
+       <%
+		int x=0,y=0;
+		String filename = (String) pageContext.getAttribute("pcode");
+		filename=filename + ".jpg";
+		File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/" + filename);
+		if(!filename.equals(null) &&!filename.equals("")&& file.exists()){
+			BufferedImage img = ImageIO.read(file);
+			int imgWidth = img.getWidth(null);
+			int imgHeight = img.getHeight(null);
+			
+			if (imgWidth > imgHeight) {
+				x =100;
+				y =(imgHeight*100)/imgWidth;
+			} else {
+				y =100;
+				x =(imgWidth*100)/imgHeight;
+			} 
+		}
+		%>
+	  <td style="text-align:center"><img src="/productImages/${result.pcode }.jpg" width="<%=x %>" height="<%=y %>"/></td>
+      <td style="text-align:center"><a href="/reviewDetail.do?unq=${result.unq}">${result.title}</a></td>
+      <td style="text-align:center">${result.name}</td>
+      <td style="text-align:center">${result.rdate}</td>
+      <td style="text-align:center">${result.hit}</td>
     </tr>
    </c:forEach>
 </table>
 <br>
 
-<table border="0" width="600px;">
+<table border="0" width="100%;">
    <tr>
       <td align="center" style="board:0px;">
          <div id="paging">
