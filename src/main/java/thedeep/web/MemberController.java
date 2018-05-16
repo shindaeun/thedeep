@@ -8,11 +8,14 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import thedeep.service.CartVO;
+import thedeep.service.DefaultVO;
 import thedeep.service.MemberService;
 
 @Controller
@@ -55,7 +58,57 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/userBoard.do")
-	public String userBoard() throws Exception{
+	public String userBoard(ModelMap model,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
+		String userid="userid1";
+		System.out.println("inin");
+		searchVO.setUserid(userid);
+		searchVO.setPageUnit(1);// 한 화면에 출력 개수
+		searchVO.setPageSize(1);// 페이지 개수
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		String keyword="";
+		if(searchVO.getSearchkind()==2){
+			System.out.println("in");
+			keyword=searchVO.getSearchKeyword();
+			System.out.println(keyword);
+			searchVO.setSearchKeyword("");
+		}
+		List<?> qlist = memberService.selectUserQna(searchVO);
+		model.addAttribute("qlist", qlist);
+		int totCnt = memberService.selectUserQnaTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		
+		model.addAttribute("paginationInfo", paginationInfo);
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo2 = new PaginationInfo();
+		paginationInfo2.setCurrentPageNo(searchVO.getPageIndex2());
+		paginationInfo2.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo2.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo2.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo2.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo2.getRecordCountPerPage());
+		if(searchVO.getSearchkind()==2){
+			searchVO.setSearchKeyword(keyword);
+		}else if(searchVO.getSearchkind()==1){
+			searchVO.setSearchKeyword("");
+		}
+		List<?> rlist = memberService.selectUserReview(searchVO);
+		model.addAttribute("rlist", rlist);
+		int totCnt2 = memberService.selectUserReviewTotCnt(searchVO);
+		paginationInfo2.setTotalRecordCount(totCnt2);
+		searchVO.setSearchKeyword("");
+		model.addAttribute("paginationInfo2", paginationInfo2);
+		
 		return "member/userBoard";
 	}
 	@RequestMapping(value="/cart.do")
@@ -99,22 +152,28 @@ public class MemberController {
 		return "/NewFile";
 	}
 	@RequestMapping(value="/coupon.do")
-	public String coupon() throws Exception{
+	public String coupon(ModelMap model) throws Exception{
+		String userid="userid1";
+		List<?> list = memberService.selectCouponList(userid);
+		model.addAttribute("List",list);
 		return "member/coupon";
 	}
 	@RequestMapping(value="/point.do")
-	public String point() throws Exception{
+	public String point(ModelMap model) throws Exception{
+		String userid="userid1";
+		String allpoint = memberService.selectAllPoint(userid);
+		String ablepoint = memberService.selectAblePoint(userid);
+		List<?> list = memberService.selectPointList(userid);
+		model.addAttribute("allpoint",allpoint);
+		model.addAttribute("ablepoint",ablepoint);
+		model.addAttribute("List",list);
+		System.out.println(list);
 		return "member/point";
 	}
 	@RequestMapping(value="/order.do")
-	@ResponseBody//@RequestBody List<CartVO> list
-	public Map<String,Object> order(CartVO vo) throws Exception{
-		Map<String,Object> map = new HashMap<String, Object>();
-		System.out.println("in");
-		//System.out.println(list);
-		String result="ok";
-		map.put("result", result);
-		return map;
+	public String order(@RequestParam(name="ordercheck", required=false) List<String> list) throws Exception{
+		System.out.println(list);
+		return "member/order";
 	}
 	@RequestMapping(value="/orderComplete.do")
 	public String orderComplete() throws Exception{
