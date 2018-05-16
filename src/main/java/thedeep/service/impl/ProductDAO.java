@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+import thedeep.service.DefaultVO;
 import thedeep.service.GroupVO;
 
 @Repository("productDAO")
@@ -28,6 +29,18 @@ public class ProductDAO extends EgovAbstractDAO {
 
 	public int deleteGroup(String gcode) {
 		return delete("productDAO.deleteGroup",gcode);
+	}
+
+	public List<?> selectProductList(DefaultVO searchVO) {
+		return list("productDAO.selectProductList",searchVO);
+	}
+
+	public int selectProductTotCnt(String gcode) {
+		return (int) select("productDAO.selectProductTotCnt",gcode);
+	}
+
+	public List<?> selectBest3Product(String gcode) {
+		return list("productDAO.selectBest3Product",gcode);
 	}
 
 	

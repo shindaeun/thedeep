@@ -14,6 +14,12 @@ public interface ProductService {
 
 	int deleteGroup(String gcode) throws Exception;
 
+	List<?> selectProductList(DefaultVO searchVO) throws Exception;
+
+	int selectProductTotCnt(String gcode) throws Exception;
+
+	List<?> selectBest3Product(String gcode) throws Exception;
+
 
 
 }

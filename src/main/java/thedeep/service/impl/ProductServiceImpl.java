@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import thedeep.service.DefaultVO;
 import thedeep.service.GroupVO;
 import thedeep.service.ProductService;
 
@@ -39,6 +40,21 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 	@Override
 	public int deleteGroup(String gcode) throws Exception {
 		return productDAO.deleteGroup(gcode);
+	}
+
+	@Override
+	public List<?> selectProductList(DefaultVO searchVO) throws Exception {
+		return productDAO.selectProductList(searchVO);
+	}
+
+	@Override
+	public int selectProductTotCnt(String gcode) throws Exception {
+		return productDAO.selectProductTotCnt(gcode);
+	}
+
+	@Override
+	public List<?> selectBest3Product(String gcode) throws Exception {
+		return productDAO.selectBest3Product(gcode);
 	}
 
 	

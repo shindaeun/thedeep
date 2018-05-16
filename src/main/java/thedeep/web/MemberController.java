@@ -60,7 +60,6 @@ public class MemberController {
 	@RequestMapping(value="/userBoard.do")
 	public String userBoard(ModelMap model,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
 		String userid="userid1";
-		System.out.println("inin");
 		searchVO.setUserid(userid);
 		searchVO.setPageUnit(1);// 한 화면에 출력 개수
 		searchVO.setPageSize(1);// 페이지 개수

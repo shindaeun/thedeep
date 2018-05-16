@@ -5,12 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import thedeep.service.DefaultVO;
 import thedeep.service.GroupVO;
 import thedeep.service.ProductService;
 @Controller
@@ -24,8 +28,37 @@ public class ProductController {
 		return "product/outerDetail";
 	}
 	@RequestMapping(value="/productList.do")
-	public String selectProductList() throws Exception{
+	public String selectProductList(ModelMap model ,HttpServletRequest request,GroupVO gvo,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
+		String gcode = request.getParameter("gcode");
+		gcode="g002";
+		gvo=productService.selectGroup(gcode);
+		searchVO.setSearchCondition("gcode");
+		searchVO.setSearchKeyword(gcode);
+		List<?> blist = productService.selectBest3Product(gcode);
+		
+		searchVO.setPageUnit(15);// 한 화면에 출력 개수
+		searchVO.setPageSize(15);// 페이지 개수
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 	
+		List<?> plist = productService.selectProductList(searchVO);
+		model.addAttribute("plist", plist);
+		int totCnt = productService.selectProductTotCnt(gcode);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		
+		model.addAttribute("gvo",gvo);
+		model.addAttribute("blist",blist);
+		model.addAttribute("plist",plist);
+
 		return "product/productList";
 	}
 	@RequestMapping(value="/productDetail.do")

@@ -207,11 +207,10 @@
 				<td><input type="checkbox" name="ordercheck" id="ordercheck"value="${i.cscode}" checked/>&nbsp;${i.pcode }</td>
 				<td>${i.cscode}</td>
 				<td>${i.pname}</td>
-				<c:set var="pcode" value="${i.pcode }"/>
+				<c:set var="filename" value="${i.filename }"/>
 				<%
 				int x=0,y=0;
-				String filename = (String) pageContext.getAttribute("pcode");
-				filename=filename + ".jpg";
+				String filename = (String) pageContext.getAttribute("filename");
 				File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/" + filename);
 				if(!filename.equals(null) &&!filename.equals("")&& file.exists()){
 					BufferedImage img = ImageIO.read(file);
@@ -227,7 +226,7 @@
 					} 
 				}
 				%>
-				<td><img src="/productImages/${i.pcode }.jpg" width="<%=x %>" height="<%=y %>"/></td>
+				<td><img src="/productImages/${i.filename }" width="<%=x %>" height="<%=y %>"/></td>
 				<td>${i.cssize}</td>
 				<td>${i.cscolor}</td>
 				<td><span>${i.price}</span>원</td>
