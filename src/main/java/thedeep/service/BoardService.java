@@ -24,5 +24,14 @@ public interface BoardService {
 
 	int selectReviewPwd(ReviewVO vo) throws Exception;
 
+	int deleteReview(ReviewVO vo) throws Exception;
+
+	int updateReviewFile(ReviewVO vo) throws Exception;
+
+	int updateReview(ReviewVO vo) throws Exception;
+
+	String selectNowFilename(int unq) throws Exception;
+
+
 
 }

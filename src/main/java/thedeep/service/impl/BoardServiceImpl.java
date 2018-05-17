@@ -68,6 +68,27 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 		return boardDAO.selectReviewPwd(vo);
 	}
 
+	@Override
+	public int deleteReview(ReviewVO vo) throws Exception {
+		return boardDAO.deleteReview(vo);
+	}
+
+	@Override
+	public int updateReviewFile(ReviewVO vo) throws Exception {
+		return boardDAO.updateReviewFile(vo);
+	}
+
+	@Override
+	public int updateReview(ReviewVO vo) throws Exception {
+		return boardDAO.updateReview(vo);
+	}
+
+	@Override
+	public String selectNowFilename(int unq) throws Exception {
+		return boardDAO.selectNowFilename(unq);
+	}
+
+	
 	
 	
 }

@@ -212,4 +212,33 @@
 		where unq=#unq#
 		AND pwd=#pwd#
 	</select>
+	
+	<delete id="boardDAO.deleteReview">
+		DELETE FROM review
+		WHERE unq = #unq#
+	</delete>
+	
+	<update id="boardDAO.updateReviewFile">
+		UPDATE review SET 
+			filename = #filename#
+		WHERE
+			unq = #unq#
+	</update>
+	<select id="boardDAO.selectNowFilename" resultClass="java.lang.String">
+		select nvl(filename,'') filename from review where unq=#unq#
+	</select>
+	
+	<update id="boardDAO.updateReview">
+		UPDATE review SET
+			title = #title#,
+			height = #height#,
+			weight = #weight#,
+			psize = #psize#,
+			fit = #fit#,
+			content = #content#,
+			filename = #filename#
+		WHERE
+			unq = #unq#
+	</update>
+	
 </sqlMap>

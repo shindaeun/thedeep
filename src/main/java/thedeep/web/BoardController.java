@@ -6,8 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -281,9 +283,12 @@ public class BoardController {
 					}
 				}
 				long unixTime = System.currentTimeMillis();
-				
+				Random rn = new Random();
+				int b = rn.nextInt(90);
+
 				if(errCode.equals("")) {
-					filename = unixTime+"."+exeName;
+					System.out.println(errCode);
+					filename = unixTime+b+"."+exeName;
 					filenames += filename + ",";
 					filePath = uploadPath + "\\" + filename;
 					filesize = (int)file.getSize();
@@ -371,6 +376,46 @@ public class BoardController {
 		return "board/reviewModify";
 	}
 	
+	@RequestMapping(value = "/fileDelete.do")
+	@ResponseBody 
+	public Map<String,Object> updateReviewFile (ReviewVO vo) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\reviewImages";
+		String fullPath = "";
+		String result = "";
+		String filename=vo.getFilename();
+		String delfilename=vo.getDelfilename();
+		
+		System.out.println(vo.getFilename());
+		System.out.println(vo.getDelfilename());
+		System.out.println(vo.getUnq());
+		
+		filename=filename.replace(delfilename,"");
+		System.out.println(filename);
+		vo.setFilename(filename);
+		
+		int cnt = boardService.updateReviewFile(vo);
+		if(cnt > 0) result="1";
+		else result="-1";
+		/*if(cnt > 0) {
+			String filenames = vo.getFilename();
+			String[] splitfilename = filenames.split(",");
+			for(int i=0; i<splitfilename.length; i++) {
+				fullPath = uploadPath+"\\"+splitfilename[i];
+				File file = new File(fullPath);
+				file.delete();
+			}
+			result="1";
+		}
+		else {
+			result = "-1";
+		}*/
+
+		map.put("result", result);
+		return map;
+	}
+	
 	@RequestMapping(value = "/reviewModifySave.do")
 	@ResponseBody 
 	public Map<String, String> updateReviewModify (
@@ -381,37 +426,32 @@ public class BoardController {
 
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
-
+		String result="";
 		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\reviewImages";
+		
 		//String uploadPath = "c:\\upload";
 		File saveFolder = new File(uploadPath);
-		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();		
-		HashMap imap = new HashMap();
-		imap.put("cnt", "0");
-		String fullPath = "";
-
-		MultipartFile orgfile;
-		if(itr.hasNext() == true) {
-			Entry<String, MultipartFile> entry = itr.next();
-			orgfile = entry.getValue();
-			if (!"".equals(orgfile.getOriginalFilename())) {
-			
-				// new image create
-				imap = (HashMap) multipartProcess(files,uploadPath);
-				vo.setFilename((String) imap.get("fileName"));
-				vo.setFilesize( Integer.parseInt((String) imap.get("fileSize")));
-				
-				// old image delete
-				String oldfilename = vo.getOldfilename();
-				fullPath = uploadPath+"\\"+oldfilename;
-				File file = new File(fullPath);		
-				file.delete();
-			}
+		if (!saveFolder.exists()) {
+			saveFolder.mkdirs();
 		}
-
-		String result = "";
-		int resultCnt = boardService.updateUpload(vo);
-		if(resultCnt > 0) result = "ok";
+		
+		String nowfilename = boardService.selectNowFilename(vo.getUnq());
+		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
+		
+		if(nowfilename==null) {
+			vo.setFilename((String) imap.get("fileName"));
+		} else {
+			vo.setFilename((String) nowfilename+imap.get("fileName"));
+		}
+		System.out.println(vo.getFilename());
+		
+		vo.setFilesize( Integer.parseInt((String) imap.get("fileSize")));
+		
+		vo.setPcode("P00005");
+		String userid="userid1";
+		vo.setUserid(userid);
+		int cnt = boardService.updateReview(vo);
+		if(cnt > 0) result = "ok";
 		map.put("result", result);  //  ( Json 이름, 데이터 )
 		map.put("cnt", (String) imap.get("cnt")); // 0,1
 		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
@@ -420,6 +460,32 @@ public class BoardController {
 		return map;
 	}
 	
+	@RequestMapping(value = "/reviewDelete.do")
+	@ResponseBody 
+	public Map<String, Object> deleteReview(
+			HttpServletRequest request,
+			HttpServletResponse response, 
+			ReviewVO vo) throws Exception {
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\reviewImages";
+		String fullPath = "", result="";
+		
+		int cnt = boardService.deleteReview(vo);
+		if(cnt > 0) {
+			String filenames = vo.getFilename();
+			String[] filename = filenames.split(",");
+			for(int i=0; i<filename.length; i++) {
+				fullPath = uploadPath+"\\"+filename[i];
+				File file = new File(fullPath);
+				file.delete();
+			}
+			result="ok";
+		}
+		map.put("result", result);
+		map.put("cnt", cnt);
+		return map;
+	}
 	
 	
 	

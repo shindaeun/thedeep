@@ -52,6 +52,24 @@ public class BoardDAO extends EgovAbstractDAO {
 		return (int) select("boardDAO.selectReviewPwd",vo);
 	}
 
+	public int deleteReview(ReviewVO vo) {
+		return (int) delete("boardDAO.deleteReview",vo);
+	}
+
+	public int updateReviewFile(ReviewVO vo) {
+		return (int) update("boardDAO.updateReviewFile",vo);
+	}
+
+	public int updateReview(ReviewVO vo) {
+		return (int) update("boardDAO.updateReview",vo);
+	}
+
+	public String selectNowFilename(int unq) {
+		return (String) select("boardDAO.selectNowFilename",unq);
+	}
+
+	
+
 	
 
 	

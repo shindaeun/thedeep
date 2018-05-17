@@ -17,6 +17,14 @@ public class ReviewVO {
 	private int hit;
 	private String userid;
 	
+	private String delfilename;
+	
+	public String getDelfilename() {
+		return delfilename;
+	}
+	public void setDelfilename(String delfilename) {
+		this.delfilename = delfilename;
+	}
 	private int nexInt;
 	private int befInt;
 	

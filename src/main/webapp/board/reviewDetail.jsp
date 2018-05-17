@@ -86,15 +86,14 @@ $(function(){
 		</td>
 	</tr>
 
-<c:set var="filenames">${vo.filename}</c:set>
+<c:set var="filenames" value="${vo.filename}"></c:set>
 
 <%
-
-String filenames = (String)pageContext.getAttribute("filenames");
-String[] filename = filenames.split(",");
 int x=0,y=0,i=0;
-
+String[] filename={};
+String filenames = (String)pageContext.getAttribute("filenames");
 if(filenames != null && !filenames.equals("")) {
+	filename= filenames.split(",");
 	for(i=0; i<filename.length; i++) {
 		File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/reviewImages/"+filename[i]);
 		BufferedImage img = ImageIO.read(file);
