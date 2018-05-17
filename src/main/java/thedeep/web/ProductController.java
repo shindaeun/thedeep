@@ -17,6 +17,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import thedeep.service.DefaultVO;
 import thedeep.service.GroupVO;
 import thedeep.service.ProductService;
+import thedeep.service.ProductVO;
 @Controller
 public class ProductController {
 	@Resource(name="productService")
@@ -62,8 +63,15 @@ public class ProductController {
 		return "product/productList";
 	}
 	@RequestMapping(value="/productDetail.do")
-	public String selectProductDetail() throws Exception{
-	
+	public String selectProductDetail(ModelMap model ,HttpServletRequest request) throws Exception{
+		String pcode = request.getParameter("pcode");
+		//pcode="P00008";
+		ProductVO pvo = productService.selectProductInfo(pcode);
+		List<?> oplist = productService.selectSelOptions(pcode);
+		model.addAttribute("pvo",pvo);
+		System.out.println(pvo);
+		System.out.println(oplist);
+		model.addAttribute("oplist",oplist);
 		return "product/productDetail";
 	}
 	@RequestMapping(value="/productAdd.do")

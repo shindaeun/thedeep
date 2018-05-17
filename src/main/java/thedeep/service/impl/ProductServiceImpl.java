@@ -10,6 +10,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import thedeep.service.DefaultVO;
 import thedeep.service.GroupVO;
 import thedeep.service.ProductService;
+import thedeep.service.ProductVO;
 
 @Service("productService")
 public class ProductServiceImpl extends EgovAbstractServiceImpl implements ProductService {
@@ -55,6 +56,16 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 	@Override
 	public List<?> selectBest3Product(String gcode) throws Exception {
 		return productDAO.selectBest3Product(gcode);
+	}
+
+	@Override
+	public ProductVO selectProductInfo(String pcode) throws Exception {
+		return productDAO.selectProductInfo(pcode);
+	}
+
+	@Override
+	public List<?> selectSelOptions(String pcode) throws Exception {
+		return productDAO.selectSelOptions(pcode);
 	}
 
 	

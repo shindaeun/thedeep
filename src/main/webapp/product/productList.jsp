@@ -13,6 +13,26 @@ String pageIndex=request.getParameter("pageIndex");
 if(pageIndex==null)pageIndex="1";
 if(Integer.parseInt(pageIndex)<0)pageIndex="1";
 %>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.0.min.js" ></script>
+<script>
+$(function(){
+	
+$(".mouse").mouseenter(function(){
+	$(this).active{background:black;}
+});
+});
+
+</script>
+<style>
+.mouse {
+background: white;
+}
+.mouse:hover {
+  background: #dcdcdc;
+  background: -webkit-gradient(linear, left top, left bottom, from(#dcdcdc), to(#dcdcdc));
+  background: -moz-linear-gradient(top,  #dcdcdc,  #dcdcdc); 
+}
+</style>
     <table class="top">
 		<tr class="top">
 			<td class="top">${gvo.gname }</td>
@@ -58,7 +78,7 @@ if(Integer.parseInt(pageIndex)<0)pageIndex="1";
 					} 
 				}
 				%>
-			<th><img src="/productImages/${i.filename }" width="<%=x %>" height="<%=y %>"/><br>${i.pname}상품명<br>${i.price}가격</th>
+			<th class="mouse"><a href="/productDetail.do?pcode=${i.pcode }"><img src="/productImages/${i.filename }" style="cursur:pointer" width="<%=x %>" height="<%=y %>"/></a><br>${i.pname}<br>${i.price}원</th>
 			</c:forEach>
 		</tr>
 	</table>
@@ -106,7 +126,7 @@ if(Integer.parseInt(pageIndex)<0)pageIndex="1";
 					} 
 				}
 				%>
-			<th><a href="/home.do"><img src="/productImages/${i.filename }" width="<%=x %>" height="<%=y %>"/></a><br>${i.pname }<br>${i.price }</th>
+			<th class="mouse"><a href="/productDetail.do?pcode=${i.pcode }"><img src="/productImages/${i.filename }" style="cursur:pointer"width="<%=x %>" height="<%=y %>"/></a><br>${i.pname }<br>${i.price }</th>
 			<c:if test="${filenum==3}">
 				<c:set var="filenum" value="0"/>
 				</tr>

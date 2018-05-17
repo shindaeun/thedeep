@@ -20,6 +20,10 @@ public interface ProductService {
 
 	List<?> selectBest3Product(String gcode) throws Exception;
 
+	ProductVO selectProductInfo(String pcode) throws Exception;
+
+	List<?> selectSelOptions(String pcode) throws Exception;
+
 
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import thedeep.service.DefaultVO;
 import thedeep.service.GroupVO;
+import thedeep.service.ProductVO;
 
 @Repository("productDAO")
 public class ProductDAO extends EgovAbstractDAO {
@@ -41,6 +42,14 @@ public class ProductDAO extends EgovAbstractDAO {
 
 	public List<?> selectBest3Product(String gcode) {
 		return list("productDAO.selectBest3Product",gcode);
+	}
+
+	public ProductVO selectProductInfo(String pcode) {
+		return (ProductVO) select("productDAO.selectProductInfo",pcode);
+	}
+
+	public List<?> selectSelOptions(String pcode) {
+		return list("productDAO.selectSelOptions",pcode);
 	}
 
 	
