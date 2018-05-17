@@ -14,18 +14,28 @@
 <script>
 	$(function(){
 		$("#btnSubmit").click(function(){
-			if($("#title").val() == "") {
-				alert("제목을 입력해주세요.");
-				$("#title").focus();
+			if($("#name").val() == "") {
+				alert("이름을 입력해주세요.");
+				$("#name").focus();
 				return;
 			}
-			if(    $("#pwd").val().length < 4 
-				|| $("#pwd").val().length > 12 )
+			if($("#pwd").val().length < 4 || $("#pwd").val().length > 12 )
 			{
 				alert("암호는 4~12자리 사이로 입력해주세요.");
 				$("#pwd").focus();
 				return;
 			}
+			if($("#title").val() == "") {
+				alert("제목을 입력해주세요.");
+				$("#title").focus();
+				return;
+			}
+			if($("#content").val() == "") {
+				alert("내용을 입력해주세요.");
+				$("#content").focus();
+				return;
+			}
+			
 			if(confirm("저장하시겠습니까?")) {		
 		 		//var formData = $("#frm").serialize();
 		 		var form = new FormData(document.getElementById('frm'));
@@ -116,7 +126,7 @@
 			<option value="75-80">75-80kg</option>
 		</select>
 		&nbsp;&nbsp;사이즈 :
-		<select name="size" id="size">
+		<select name="psize" id="psize">
 			<option value="S">S</option>
 			<option value="M">M</option>
 			<option value="L">L</option>

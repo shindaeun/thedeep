@@ -8,14 +8,44 @@ public class ReviewVO {
 	private String title;
 	private String height;
 	private String weight;
-	private String size;
+	private String psize;
 	private String fit;
 	private String content;
 	private String filename;
 	private int filesize;
 	private String rdate;
 	private int hit;
+	private String userid;
 	
+	private String delfilename;
+	
+	public String getDelfilename() {
+		return delfilename;
+	}
+	public void setDelfilename(String delfilename) {
+		this.delfilename = delfilename;
+	}
+	private int nexInt;
+	private int befInt;
+	
+	public int getNexInt() {
+		return nexInt;
+	}
+	public void setNexInt(int nexInt) {
+		this.nexInt = nexInt;
+	}
+	public int getBefInt() {
+		return befInt;
+	}
+	public void setBefInt(int befInt) {
+		this.befInt = befInt;
+	}
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
 	public int getUnq() {
 		return unq;
 	}
@@ -58,11 +88,12 @@ public class ReviewVO {
 	public void setWeight(String weight) {
 		this.weight = weight;
 	}
-	public String getSize() {
-		return size;
+	
+	public String getPsize() {
+		return psize;
 	}
-	public void setSize(String size) {
-		this.size = size;
+	public void setPsize(String psize) {
+		this.psize = psize;
 	}
 	public String getFit() {
 		return fit;
