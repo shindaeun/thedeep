@@ -7,6 +7,7 @@
 	<typeAlias  alias="searchVO" type="thedeep.service.DefaultVO"/>
 	<typeAlias  alias="boardVO" type="thedeep.service.BoardVO"/>
 	<typeAlias  alias="reviewVO" type="thedeep.service.ReviewVO"/>
+	<typeAlias  alias="noticeVO" type="thedeep.service.NoticeVO"/>
 
 	<select id="boardDAO.selectQnaList" resultClass="egovMap">
 	SELECT b.* FROM (
@@ -199,7 +200,7 @@
 			unq = #unq#
 	</select>
 	
-	<update id="boardDAO.updateHit">
+	<update id="boardDAO.updateReviewHit">
 		UPDATE review SET 
 			hit = hit+1
 		WHERE
@@ -224,7 +225,8 @@
 		WHERE
 			unq = #unq#
 	</update>
-	<select id="boardDAO.selectNowFilename" resultClass="java.lang.String">
+	
+	<select id="boardDAO.selectReviewNowFilename" resultClass="java.lang.String">
 		select nvl(filename,'') filename from review where unq=#unq#
 	</select>
 	
@@ -241,4 +243,132 @@
 			unq = #unq#
 	</update>
 	
+	<insert id="boardDAO.insertnotice">
+         INSERT INTO notice
+            (  unq
+			, name
+			, pwd
+			, title
+			, content
+			, rdate
+			, hit
+			<isNotNull property="filename">
+				<isNotEmpty property="filename">
+			, filename
+				</isNotEmpty>
+   			</isNotNull>
+			)
+         VALUES ( notice_seq.nextval
+             	 , #name#
+             	 , #pwd#
+             	 , #title#
+             	 , #content#
+             	 , sysdate
+             	 , '0'
+             	 <isNotNull property="filename">
+             	 	<isNotEmpty property="filename">
+             	 , #filename#
+             	 	</isNotEmpty>
+             	 </isNotNull>
+             	 ) 
+   </insert>
+   
+   <select id="boardDAO.selectNoticeList" resultClass="egovMap">
+	
+	SELECT b.* FROM (
+	
+	SELECT rownum rn,a.* FROM (
+	
+		SELECT 
+			unq unq,
+			title title,
+			name name,
+			to_char(rdate,'yyyy-mm-dd') rdate,
+			nvl(hit,0) hit
+		FROM
+			notice 
+		WHERE
+			1 = 1
+			<isNotNull property="searchKeyword">
+				<isNotEmpty property="searchKeyword">
+			AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+				</isNotEmpty>
+			</isNotNull>
+		ORDER BY unq DESC 
+		) a
+	) b
+	
+	WHERE 
+		  rn > $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$ 
+
+	</select>
+	
+	<select id="boardDAO.selectNoticeListTotCnt" 
+							resultClass = "java.lang.Integer">
+		SELECT COUNT(*) FROM notice
+			WHERE
+				1 = 1
+				<isNotNull property="searchKeyword">
+					<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+					</isNotEmpty>
+				</isNotNull>
+	</select>
+	
+	<select id="boardDAO.selectNoticeDetail" resultClass="noticeVO">
+		SELECT 
+			unq unq,
+			title title,
+			name name,
+			rdate rdate,
+			content content,
+			filename filename,
+			(SELECT nvl(min(unq),0) FROM notice WHERE unq > #unq#) nexInt,
+			(SELECT nvl(max(unq),0) FROM notice WHERE unq <![CDATA[<]]> #unq#) befInt
+		FROM
+			notice
+		WHERE 
+			unq = #unq#
+	</select>
+	
+	<select id="boardDAO.selectNoticePwd" resultClass = "java.lang.Integer">
+		SELECT count(unq)
+		FROM notice
+		where unq=#unq#
+		AND pwd=#pwd#
+	</select>
+	
+	<update id="boardDAO.updateNoticeHit">
+		UPDATE notice SET 
+			hit = hit+1
+		WHERE
+			unq = #unq#
+	</update>
+	
+	<update id="boardDAO.updateNoticeFile">
+		UPDATE notice SET 
+			filename = #filename#
+		WHERE
+			unq = #unq#
+	</update>
+	
+	
+	<select id="boardDAO.selectNoticeNowFilename" resultClass="java.lang.String">
+		select nvl(filename,'') filename from notice where unq=#unq#
+	</select>
+	
+	<update id="boardDAO.updateNotice">
+		UPDATE notice SET
+			title = #title#,
+			content = #content#,
+			filename = #filename#,
+			rdate = sysdate
+		WHERE
+			unq = #unq#
+	</update>
+	
+	<delete id="boardDAO.deleteNotice">
+		DELETE FROM notice
+		WHERE unq = #unq#
+	</delete>
 </sqlMap>

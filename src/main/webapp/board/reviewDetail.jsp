@@ -34,7 +34,7 @@ $(function(){
 		location.href="/reviewList.do";
 	});
 	$("#btnModify").click(function(){
-		var url = "/pwdCheck.do?unq=${vo.unq}";
+		var url = "/reviewPwdCheck.do?unq=${vo.unq}";
 		window.open(url,"비밀번호확인","width=500,height=300");
 	});
 });

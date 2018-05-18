@@ -20,17 +20,40 @@ public interface BoardService {
 
 	ReviewVO selectReviewDetail(int unq) throws Exception;
 
-	int updateHit(int unq) throws Exception;
+	int updateReviewHit(int unq) throws Exception;
 
 	int selectReviewPwd(ReviewVO vo) throws Exception;
-
+	
 	int deleteReview(ReviewVO vo) throws Exception;
 
 	int updateReviewFile(ReviewVO vo) throws Exception;
 
 	int updateReview(ReviewVO vo) throws Exception;
 
-	String selectNowFilename(int unq) throws Exception;
+	String selectReviewNowFilename(int unq) throws Exception;
+
+	String insertnotice(NoticeVO vo) throws Exception;
+
+	List<?> selectNoticeList(DefaultVO searchVO) throws Exception;
+
+	int selectNoticeListTotCnt(DefaultVO searchVO) throws Exception;
+
+	NoticeVO selectNoticeDetail(int unq) throws Exception;
+
+	int selectNoticePwd(NoticeVO vo) throws Exception;
+
+	int updateNoticeHit(int unq) throws Exception;
+
+	int updateNoticeFile(ReviewVO vo) throws Exception;
+
+	String selectNoticeNowFilename(int unq) throws Exception;
+
+	int updateNotice(NoticeVO vo) throws Exception;
+
+	int deleteNotice(NoticeVO vo) throws Exception;
+
+
+	
 
 
 
