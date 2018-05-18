@@ -102,7 +102,7 @@ $(function(){
 	$.ajax({
 		type : "POST",
 		data : param,
-		url : "/fileDelete.do",
+		url : "/reviewFileDelete.do",
 		success: function(data) {
 			if(data.result == "1") {
 				alert("삭제하였습니다.");

@@ -31,14 +31,14 @@ String unq = request.getParameter("unq");
 				$.ajax({
 					type: "POST",
 					data: form,
-					url: "/pwdCheck2.do",
+					url: "/noticePwdCheck2.do",
 					dataType: "json",
 					processData: false,
 					contentType: false, 
 					
 					success: function(data) {
 						if(data.result == "1") {
-							opener.location.href="/reviewModify.do?unq=<%=unq%>";
+							opener.location.href="/noticeModify.do?unq=<%=unq%>";
 							window.close();
 						} else {
 							alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
@@ -82,7 +82,7 @@ String unq = request.getParameter("unq");
 	</table>
 </form>
 <div style="text-align:center; width:500px;">
-<button type="button" id="btnSubmit" class="white">확인</button>&nbsp;
+<button type="submit" id="btnSubmit" class="white">확인</button>&nbsp;
 <button type="button" id="btnCancle" class="white">취소</button>
 </div>
 </body>

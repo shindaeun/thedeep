@@ -26,6 +26,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import thedeep.service.BoardService;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.NoticeVO;
 import thedeep.service.ReviewVO;
 
 @Controller
@@ -36,15 +37,6 @@ public class BoardController {
 	
 	@Resource(name = "boardService")
 	private BoardService boardService;
-	
-	@RequestMapping(value="/noticeList.do")
-	public String selectNoticeList() throws Exception{
-		return "board/noticeList";
-	}
-	@RequestMapping(value="/noticeDetail.do")
-	public String noticeDetail() throws Exception{
-		return "board/noticeDetail";
-	}
 	
 	@RequestMapping(value="/qnaList.do")
 	public String selectUploadList(@ModelAttribute("searchVO") DefaultVO searchVO, ModelMap model, BoardVO vo) throws Exception {
@@ -190,9 +182,191 @@ public class BoardController {
 	public String selectNoticeWrite() throws Exception{
 		return "board/noticeWrite";
 	}
+	
+	@RequestMapping(value = "/noticeWriteSave.do")
+	@ResponseBody 
+	public Map<String, String> noticeWriteSave (
+					final MultipartHttpServletRequest multiRequest,
+					HttpServletResponse response, 
+					NoticeVO vo,
+					ModelMap model) throws Exception {
+
+		Map<String, String> map = new HashMap<String, String>();
+		Map<String, MultipartFile> files = multiRequest.getFileMap();
+		
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\noticeImages";
+		
+		//String uploadPath = "c:\\upload";
+		File saveFolder = new File(uploadPath);
+		if (!saveFolder.exists()) {
+			saveFolder.mkdirs();
+		}
+
+		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
+
+		vo.setFilename((String) imap.get("fileName"));
+
+		String result = boardService.insertnotice(vo);
+		if(result == null) result = "ok";
+		map.put("result", result);  //  ( Json 이름, 데이터 )
+		map.put("cnt", (String) imap.get("cnt")); // 0,1
+		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
+		// Json =>  result=ok&cnt=1
+		
+		return map;
+	}
+	
+	@RequestMapping(value = "/noticeDelete.do")
+	@ResponseBody 
+	public Map<String, Object> deleteNotice(
+			HttpServletRequest request,
+			HttpServletResponse response, 
+			NoticeVO vo) throws Exception {
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\noticeImages";
+		String fullPath = "", result="";
+		
+		int cnt = boardService.deleteNotice(vo);
+		if(cnt > 0) {
+			String filenames = vo.getFilename();
+			String[] filename = filenames.split(",");
+			for(int i=0; i<filename.length; i++) {
+				fullPath = uploadPath+"\\"+filename[i];
+				File file = new File(fullPath);
+				file.delete();
+			}
+			result="ok";
+		}
+		map.put("result", result);
+		map.put("cnt", cnt);
+		return map;
+	}
+
+	@RequestMapping(value="/noticeList.do")
+	public String selectNoticeList(
+			@ModelAttribute("searchVO") DefaultVO searchVO,ModelMap model) 
+				throws Exception {
+
+		/** EgovPropertyService.sample */
+		/* context-properties.xml */
+		searchVO.setPageUnit(10); // 한화면의 출력 개수
+		searchVO.setPageSize(10); // 페이지 너버 개수
+
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<?> sampleList = boardService.selectNoticeList(searchVO);
+		model.addAttribute("resultList", sampleList);
+
+		int totCnt = boardService.selectNoticeListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+
+		return "board/noticeList";
+	}
+	
+	@RequestMapping(value="/noticeDetail.do")
+	public String selectNoticeDetail(NoticeVO vo,ModelMap model) throws Exception {
+		
+		int unq = vo.getUnq();
+		boardService.updateNoticeHit(unq);
+		vo = boardService.selectNoticeDetail(unq);
+		model.addAttribute("vo", vo);
+		
+		return "board/noticeDetail";
+	}
+	
 	@RequestMapping(value="/noticeModify.do")
-	public String selectNoticeModify() throws Exception{
+	public String noticewModify(NoticeVO vo,ModelMap model) 
+				throws Exception {
+		
+		int unq = vo.getUnq();
+		
+		vo = boardService.selectNoticeDetail(unq);
+		model.addAttribute("vo", vo);
+		
 		return "board/noticeModify";
+	}
+	
+	@RequestMapping(value = "/noticeFileDelete.do")
+	@ResponseBody 
+	public Map<String,Object> updateNoticeFile (ReviewVO vo) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\noticeImages";
+		String fullPath = "";
+		String result = "";
+		String filename=vo.getFilename();
+		String delfilename=vo.getDelfilename();
+		
+		
+		filename=filename.replace(delfilename,"");
+		vo.setFilename(filename);
+		
+		int cnt = boardService.updateNoticeFile(vo);
+
+		if(cnt > 0) {
+			String[] splitfilename = delfilename.split(",");
+			for(int i=0; i<splitfilename.length; i++) {
+				fullPath = uploadPath+"\\"+splitfilename[i];
+				File file = new File(fullPath);
+				file.delete();
+			}
+			result="1";
+		}
+		else {
+			result = "-1";
+		}
+
+		map.put("result", result);
+		return map;
+	}
+	
+	@RequestMapping(value = "/noticeModifySave.do")
+	@ResponseBody 
+	public Map<String, String> updateNoticeModify (
+						final MultipartHttpServletRequest multiRequest,
+						HttpServletResponse response, 
+						NoticeVO vo,
+						ModelMap model) throws Exception {
+
+		Map<String, String> map = new HashMap<String, String>();
+		Map<String, MultipartFile> files = multiRequest.getFileMap();
+		String result="";
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\noticeImages";
+		
+		//String uploadPath = "c:\\upload";
+		File saveFolder = new File(uploadPath);
+		if (!saveFolder.exists()) {
+			saveFolder.mkdirs();
+		}
+		
+		String nowfilename = boardService.selectNoticeNowFilename(vo.getUnq());
+		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
+		
+		if(nowfilename==null) {
+			vo.setFilename((String) imap.get("fileName"));
+		} else {
+			vo.setFilename((String) nowfilename+imap.get("fileName"));
+		}
+		System.out.println(vo.getFilename());
+		
+		int cnt = boardService.updateNotice(vo);
+		if(cnt > 0) result = "ok";
+		map.put("result", result);  //  ( Json 이름, 데이터 )
+		map.put("cnt", (String) imap.get("cnt")); // 0,1
+		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
+		// Json =>  result=ok&cnt=1
+		
+		return map;
 	}
 	
 	
@@ -224,7 +398,6 @@ public class BoardController {
 		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
 
 		vo.setFilename((String) imap.get("fileName"));
-		vo.setFilesize( Integer.parseInt((String) imap.get("fileSize")));
 		
 		vo.setPcode("P00005");
 		String userid="userid1";
@@ -357,7 +530,7 @@ public class BoardController {
 	public String selectReviewDetail(ReviewVO vo,ModelMap model) throws Exception {
 		
 		int unq = vo.getUnq();
-		boardService.updateHit(unq);
+		boardService.updateReviewHit(unq);
 		vo = boardService.selectReviewDetail(unq);
 		model.addAttribute("vo", vo);
 		
@@ -376,7 +549,7 @@ public class BoardController {
 		return "board/reviewModify";
 	}
 	
-	@RequestMapping(value = "/fileDelete.do")
+	@RequestMapping(value = "/reviewFileDelete.do")
 	@ResponseBody 
 	public Map<String,Object> updateReviewFile (ReviewVO vo) throws Exception {
 		
@@ -387,20 +560,14 @@ public class BoardController {
 		String filename=vo.getFilename();
 		String delfilename=vo.getDelfilename();
 		
-		System.out.println(vo.getFilename());
-		System.out.println(vo.getDelfilename());
-		System.out.println(vo.getUnq());
 		
 		filename=filename.replace(delfilename,"");
-		System.out.println(filename);
 		vo.setFilename(filename);
 		
 		int cnt = boardService.updateReviewFile(vo);
-		if(cnt > 0) result="1";
-		else result="-1";
-		/*if(cnt > 0) {
-			String filenames = vo.getFilename();
-			String[] splitfilename = filenames.split(",");
+
+		if(cnt > 0) {
+			String[] splitfilename = delfilename.split(",");
 			for(int i=0; i<splitfilename.length; i++) {
 				fullPath = uploadPath+"\\"+splitfilename[i];
 				File file = new File(fullPath);
@@ -410,7 +577,7 @@ public class BoardController {
 		}
 		else {
 			result = "-1";
-		}*/
+		}
 
 		map.put("result", result);
 		return map;
@@ -435,7 +602,7 @@ public class BoardController {
 			saveFolder.mkdirs();
 		}
 		
-		String nowfilename = boardService.selectNowFilename(vo.getUnq());
+		String nowfilename = boardService.selectReviewNowFilename(vo.getUnq());
 		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
 		
 		if(nowfilename==null) {
@@ -445,11 +612,6 @@ public class BoardController {
 		}
 		System.out.println(vo.getFilename());
 		
-		vo.setFilesize( Integer.parseInt((String) imap.get("fileSize")));
-		
-		vo.setPcode("P00005");
-		String userid="userid1";
-		vo.setUserid(userid);
 		int cnt = boardService.updateReview(vo);
 		if(cnt > 0) result = "ok";
 		map.put("result", result);  //  ( Json 이름, 데이터 )

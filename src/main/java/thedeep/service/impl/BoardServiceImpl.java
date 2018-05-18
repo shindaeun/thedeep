@@ -10,6 +10,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import thedeep.service.BoardService;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.NoticeVO;
 import thedeep.service.ReviewVO;
 
 @Service("boardService")
@@ -59,8 +60,8 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	}
 
 	@Override
-	public int updateHit(int unq) throws Exception {
-		return boardDAO.updateHit(unq);
+	public int updateReviewHit(int unq) throws Exception {
+		return boardDAO.updateReviewHit(unq);
 	}
 
 	@Override
@@ -84,8 +85,58 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	}
 
 	@Override
-	public String selectNowFilename(int unq) throws Exception {
-		return boardDAO.selectNowFilename(unq);
+	public String selectReviewNowFilename(int unq) throws Exception {
+		return boardDAO.selectReviewNowFilename(unq);
+	}
+
+	@Override
+	public String insertnotice(NoticeVO vo) throws Exception {
+		return boardDAO.insertnotice(vo);
+	}
+
+	@Override
+	public List<?> selectNoticeList(DefaultVO searchVO) throws Exception {
+		return boardDAO.selectNoticeList(searchVO);
+	}
+
+	@Override
+	public int selectNoticeListTotCnt(DefaultVO searchVO) throws Exception {
+		return boardDAO.selectNoticeListTotCnt(searchVO);
+	}
+
+	@Override
+	public NoticeVO selectNoticeDetail(int unq) throws Exception {
+		return boardDAO.selectNoticeDetail(unq);
+	}
+
+	@Override
+	public int selectNoticePwd(NoticeVO vo) throws Exception {
+		return boardDAO.selectNoticePwd(vo);
+	}
+
+	@Override
+	public int updateNoticeHit(int unq) throws Exception {
+		return boardDAO.updateNoticeHit(unq);
+	}
+
+	@Override
+	public int updateNoticeFile(ReviewVO vo) throws Exception {
+		return boardDAO.updateNoticeFile(vo);
+	}
+
+	@Override
+	public String selectNoticeNowFilename(int unq) throws Exception {
+		return boardDAO.selectNoticeNowFilename(unq);
+	}
+
+	@Override
+	public int updateNotice(NoticeVO vo) throws Exception {
+		return boardDAO.updateNotice(vo);
+	}
+
+	@Override
+	public int deleteNotice(NoticeVO vo) throws Exception {
+		return boardDAO.deleteNotice(vo);
 	}
 
 	
