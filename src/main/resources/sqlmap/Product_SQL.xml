@@ -3,32 +3,183 @@
 
 <sqlMap namespace="EmpSpace">
 
-	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-	<typeAlias  alias="searchVO" type="thedeep.service.DefaultVO"/>
-	<typeAlias alias="groupVO" type="thedeep.service.GroupVO"/>
+	<typeAlias alias="egovMap"
+		type="egovframework.rte.psl.dataaccess.util.EgovMap" />
+	<typeAlias alias="searchVO" type="thedeep.service.DefaultVO" />
+	<typeAlias alias="groupVO" type="thedeep.service.GroupVO" />
+	<typeAlias alias="productVO" type="thedeep.service.ProductVO" />
+
 	
-	<select id="productDAO.selectGroupList" resultClass="egovMap">
-		SELECT gcode,gname FROM productgroup 
-			ORDER BY gcode ASC
-	</select> 
-	
-	<select id="productDAO.selectGroup" resultClass="groupVO">
-		SELECT gcode,gname FROM productgroup 
-		WHERE gcode=#gcode#
+	<select id="productDAO.selectReview" resultClass="egovMap">
+		select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+		SELECT
+		unq unq,
+		title title,
+		hit
+		hit,
+		to_char(rdate,'yyyy-mm-dd') rdate
+		FROM
+		review
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND lower($searchCondition$) LIKE '%' ||
+				lower(#searchKeyword#) || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+		) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
 	</select>
 	
+	<select id="productDAO.selectReviewTotCnt" resultClass="java.lang.Integer">
+	SELECT
+		count(unq)
+		FROM
+		review
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND lower($searchCondition$) LIKE '%' || lower(#searchKeyword#) || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+	</select>
+	<select id="productDAO.selectQna" resultClass="egovMap">
+		select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+		SELECT
+		unq unq,
+		title title,
+		hit
+		hit,
+		to_char(rdate,'yyyy-mm-dd') rdate
+		FROM
+		qna
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND lower($searchCondition$) LIKE '%' ||
+				lower(#searchKeyword#) || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+		) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	</select>
+	
+	<select id="productDAO.selectQnaTotCnt" resultClass="java.lang.Integer">
+	SELECT
+		count(unq)
+		FROM
+		qna
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND lower($searchCondition$) LIKE '%' || lower(#searchKeyword#) || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+	</select>
+	<select id="productDAO.selectBest3Product" resultClass="egovMap">
+		select pp.pcode,pname,price,filename from(
+		select p.pcode,sum(amount) amount from orderList l,product p
+		where p.pcode=l.pcode
+		and lower(gcode)=lower('g002')
+		group by p.pcode
+		order by amount desc) i,product pp
+		where i.pcode=pp.pcode and rownum<![CDATA[<=]]>3
+	</select>
+	<select id="productDAO.selectProductList" resultClass="egovMap">
+		select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+		SELECT
+		distinct
+		pcode,pname,price,filename
+		FROM
+		product
+		WHERE
+		lower($searchCondition$) =
+		lower(#searchKeyword#)
+		ORDER BY
+		pcode DESC
+		) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	</select>
+
+	<select id="productDAO.selectProductTotCnt" resultClass="java.lang.Integer">
+		SELECT
+		count(pcode)
+		FROM
+		product
+		WHERE
+		lower(gcode)=lower(#gcode#)
+		ORDER BY
+		pcode DESC
+	</select>
+	<select id="productDAO.selectProductInfo" resultClass="productVO">
+		select distinct pcode,pname,price,price*0.01 point ,filename
+		from product
+		where lower(pcode)=lower(#pcode#)
+	</select>
+	<select id="productDAO.selectSelOptions" resultClass="egovMap">
+		select
+		'color-'||color||' size-'|| psize as seloption,amount
+		from stock
+		where lower(pcode)=lower(#pcode#)
+	</select>
+
+	<select id="productDAO.selectGroupList" resultClass="egovMap">
+		SELECT
+		gcode,gname FROM productgroup
+		ORDER BY gcode ASC
+	</select>
+
+	<select id="productDAO.selectGroup" resultClass="groupVO">
+		SELECT
+		gcode,gname FROM productgroup
+		WHERE gcode=#gcode#
+	</select>
+
 	<insert id="productDAO.insertgroup">
-		INSERT INTO productgroup(gcode,gname) 
+		INSERT INTO productgroup(gcode,gname)
 		VALUES (#gcode#,#gname#)
 	</insert>
-	
+
 	<update id="productDAO.updateGroup">
-		UPDATE productgroup SET 
-			gname = #gname#
+		UPDATE productgroup SET
+		gname = #gname#
 		WHERE
-			gcode = #gcode#
+		gcode = #gcode#
 	</update>
-	
+
 	<delete id="productDAO.deleteGroup">
 		DELETE FROM productgroup WHERE gcode = #gcode#
 	</delete>

@@ -5,11 +5,24 @@
 
 	<typeAlias alias="egovMap"
 		type="egovframework.rte.psl.dataaccess.util.EgovMap" />
+		
+	<insert id="memberDAO.insertCartList">
+		insert into cart(userid,cscode,pcode,amount) values(#userid#,#cscode#,#pcode#,#amount#)
+	</insert>
+	<select id="memberDAO.selectCartCscodeCount" resultClass="java.lang.Integer">
+	SELECT
+		count(cscode) count
+	FROM
+		cart
+		WHERE
+		userid=#userid# and cscode=#cscode#
+	</select>
 	<update id="memberDAO.updateCart">
 	<![CDATA[
 	update cart set amount=#amount# where userid=#userid# and cscode=#cscode#
 	]]>
 	</update>
+	
 	<delete id="memberDAO.cartDelete">
 		delete from cart where userid=#userid# and
 		cscode=#cscode#
@@ -135,7 +148,7 @@
 	</select>
 	<select id="memberDAO.selectCartList" resultClass="egovMap">
 	 <![CDATA[
-	select userid,c.cscode,c.pcode,pname,price,amount,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.001) savepoint
+	select userid,c.cscode,c.pcode,pname,price,amount,filename,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.001) savepoint
 	from cart c, product p
 	where userid=#userid#
 	and c.cscode=p.cscode

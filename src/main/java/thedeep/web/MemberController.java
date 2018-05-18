@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import thedeep.service.CartVO;
@@ -60,7 +61,6 @@ public class MemberController {
 	@RequestMapping(value="/userBoard.do")
 	public String userBoard(ModelMap model,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
 		String userid="userid1";
-		System.out.println("inin");
 		searchVO.setUserid(userid);
 		searchVO.setPageUnit(1);// 한 화면에 출력 개수
 		searchVO.setPageSize(1);// 페이지 개수
@@ -117,6 +117,29 @@ public class MemberController {
 		List<?> list = memberService.selectCartList(userid);
 		model.addAttribute("List",list);
 		return "member/cart";
+	}
+	@RequestMapping(value="/addCart.do")
+	public String addCart(RedirectAttributes redirectAttributes,ModelMap model,CartVO vo,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr) throws Exception{
+		
+		String userid="userid1";
+
+		for(int i=0;i<csarr.length;i++){
+			String tmp[]=csarr[i].split(" ");
+			String[] color=tmp[0].split("-");
+			String[] size=tmp[1].split("-");
+			String cscode=vo.getPcode()+size[1]+color[1];
+			vo.setCscode(cscode);
+			vo.setAmount(Integer.parseInt(amarr[i]));
+			vo.setUserid(userid);
+			int cnt = memberService.selectCartCscodeCount(vo);
+			if(cnt>0){
+				memberService.updateCart(vo);
+			}else{
+				String result = memberService.insertCartList(vo);
+			}
+		}
+		redirectAttributes.addAttribute("pcode", vo.getPcode());
+		return "redirect:/productDetail.do";
 	}
 	
 	@RequestMapping(value="/cartUpdate.do")
@@ -175,6 +198,25 @@ public class MemberController {
 		System.out.println(list);
 		return "member/order";
 	}
+	@RequestMapping(value="/orderNow.do")
+	public String orderNow(ModelMap model,CartVO vo,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr) throws Exception{
+		
+		String userid="userid1";
+
+		vo.setUserid(userid);
+		for(int i=0;i<csarr.length;i++){
+			String tmp[]=csarr[i].split(" ");
+			String[] color=tmp[0].split("-");
+			String[] size=tmp[1].split("-");
+			String cscode=vo.getPcode()+size[1]+color[1];
+			vo.setCscode(cscode);
+			vo.setAmount(Integer.parseInt(amarr[i]));
+			vo.setUserid(userid);
+			System.out.println(vo.getUserid() + vo.getPcode()+vo.getCscode()+vo.getAmount());
+		}
+		return "member/order";
+	}
+	
 	@RequestMapping(value="/orderComplete.do")
 	public String orderComplete() throws Exception{
 		return "member/orderComplete";

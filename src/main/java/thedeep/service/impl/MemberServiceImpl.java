@@ -70,4 +70,14 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectUserQnaTotCnt(searchVO);
 	}
 
+	@Override
+	public String insertCartList(CartVO vo) throws Exception {
+		return memberDAO.insertCartList(vo);
+	}
+
+	@Override
+	public int selectCartCscodeCount(CartVO vo) throws Exception {
+		return memberDAO.selectCartCscodeCount(vo);
+	}
+
 }

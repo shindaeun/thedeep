@@ -55,5 +55,13 @@ public class MemberDAO extends EgovAbstractDAO{
 		return (int) select("memberDAO.selectUserQnaTotCnt",searchVO);
 	}
 
+	public String insertCartList(CartVO vo) {
+		return (String) insert("memberDAO.insertCartList",vo);
+	}
+
+	public int selectCartCscodeCount(CartVO vo) {
+		return (int) select("memberDAO.selectCartCscodeCount",vo);
+	}
+
 	
 }

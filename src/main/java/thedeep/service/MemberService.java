@@ -26,5 +26,10 @@ public interface MemberService {
 
 	int selectUserQnaTotCnt(DefaultVO searchVO) throws Exception;
 
+	String insertCartList(CartVO vo) throws Exception;
+
+	int selectCartCscodeCount(CartVO vo) throws Exception;
+
+
 
 }
