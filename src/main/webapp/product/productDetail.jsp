@@ -75,14 +75,15 @@ function disableCheck(obj) {
     
 }
 function fun1(){
-	alert("bb");
 	$("#frm").attr({method:'post',action:'/orderNow.do'}).submit();
 } 
 function fun2(){
-	alert("aa");
 	$("#frm").attr({method:'post',action:'/addCart.do'}).submit();
 } 
-
+function fnSurvey(){
+	$("#frm2").attr({method:'post',action:'/productDetail.do'}).submit();
+} 
+fnSurvey
 /* $("#btnBuy").click(function() {
 	alert("bb");
 	
@@ -126,18 +127,60 @@ $("#btnCart").click(function() {
 	</tr>
 	<tr class="board">
 		<td>FIT</td>
-		<td>100</td>
+		<td style="text-align:center">
+		<form id="frm2">
+		<input type="hidden" name="pcode" value="${pvo.pcode }"/>
+		<select name="height" id="height">
+			<c:forEach var="i" begin="140" end="170" step="5">
+				<option value="${i }-${i +5}" <c:if test="${rvo.height=='${i }-${i +5}'}">selected</c:if>>${i }-${i +5}cm</option>
+			</c:forEach>
+			
+		</select>
+		<select name="weight" id="weight">
+		<c:forEach var="i" begin="45" end="75" step="5">
+				<option value="${i }-${i +5}" <c:if test="${rvo.weight=='${i }-${i +5}'}">selected</c:if>>${i }-${i +5}kg</option>
+		</c:forEach>
+
+		</select>
+		구매 사이즈 :
+		<select name="psize" id="psize">
+			<option value="S" <c:if test="${rvo.psize=='S'}">selected</c:if>>S</option>
+			<option value="M" <c:if test="${rvo.psize=='M'}">selected</c:if>>M</option>
+			<option value="L" <c:if test="${rvo.psize=='L'}">selected</c:if>>L</option>
+			<option value="F" <c:if test="${rvo.psize=='F'}">selected</c:if>>free</option>
+		</select>
+		<button type="button" id="btnCheck"
+				class="white"  onclick="fnSurvey()">check</button>
+		</form>
+		</td>
 	</tr>
 	<tr class="board">
-		<td colspan="2">표</td>
+		<td>설문조사</td>
+		<td>
+			<c:if test="${surveylist==null }">결과가 없습니다.</c:if>
+			<c:if test="${surveylist!=null }">
+			<c:forEach var="i" items="${surveylist }">
+			
+			<p style="width: 40%;">
+			<c:if test="${i.fit=='VB'}">매우크다</c:if>
+			<c:if test="${i.fit=='B'}">크다</c:if>
+			<c:if test="${i.fit=='F'}">맞다</c:if>
+			<c:if test="${i.fit=='S'}">작다</c:if>
+			<c:if test="${i.fit=='VS'}">매우작다</c:if>
+				<div style="width: ${100.0*i.cnt/i.total}%; height: 5px; background: skyblue; float: left;"></div>
+				<div style="width: 50px;">
+					(${100.0*i.cnt/i.total}%)
+				</div>
+			</c:forEach>
+			</c:if>
+		
+		</td>
 	</tr>
 	<tr class="board">
-		<td colspan="2"><button type="button" id="btnBuy"
-					class="white" onclick="fun1()">buy now</button></td>
-	</tr>
-	<tr class="board">
-		<td colspan="2"><button type="button" id="btnCart"
-				class="white"  onclick="fun2()">cart</button></td>
+		<th colspan="2"><button type="button" style="WIDTH: 100pt" id="btnBuy"
+					class="white" onclick="fun1()">buy now</button>
+		<button type="button" style="WIDTH: 100pt"" id="btnCart"
+				class="white"  onclick="fun2()">cart</button></th>
 	</tr>
 </table>
 <form id="frm">
@@ -166,6 +209,14 @@ $("#btnCart").click(function() {
     	</tr>
     </table>
 <div>
+<br>
+<table style="width:100%">
+   <tr>
+      <td style="border:0px; text-align:right;">
+         <button type="button" class="white" onClick="location.href='/qnaWrite.do'">Write</button>
+      </td>
+   </tr>
+</table>
 	<table class="board">
 		<tr class="board">
 			<th style="width:10%;" >NO</th>
@@ -230,6 +281,14 @@ $("#btnCart").click(function() {
     		</td>
     	</tr>
     </table>
+    <br>
+<table style="width:100%">
+   <tr>
+      <td style="border:0px; text-align:right;">
+         <button type="button" class="white" onClick="location.href='/reviewWrite.do?pcode=${pvo.pcode}'">Write</button>
+      </td>
+   </tr>
+</table>
 <div class="">
 	<table class="board">
 		<tr class="board">
