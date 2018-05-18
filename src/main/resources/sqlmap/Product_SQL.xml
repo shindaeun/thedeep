@@ -8,6 +8,7 @@
 	<typeAlias alias="searchVO" type="thedeep.service.DefaultVO" />
 	<typeAlias alias="groupVO" type="thedeep.service.GroupVO" />
 	<typeAlias alias="productVO" type="thedeep.service.ProductVO" />
+
 	
 	<select id="productDAO.selectReview" resultClass="egovMap">
 		select b.*
@@ -27,8 +28,8 @@
 		1=1
 		<isNotNull property="searchKeyword">
 			<isNotEmpty property="searchKeyword">
-				AND $searchCondition$ LIKE '%' ||
-				#searchKeyword# || '%'
+				AND lower($searchCondition$) LIKE '%' ||
+				lower(#searchKeyword#) || '%'
 			</isNotEmpty>
 		</isNotNull>
 		ORDER BY
@@ -49,7 +50,7 @@
 		1=1
 		<isNotNull property="searchKeyword">
 			<isNotEmpty property="searchKeyword">
-				AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+				AND lower($searchCondition$) LIKE '%' || lower(#searchKeyword#) || '%'
 			</isNotEmpty>
 		</isNotNull>
 		ORDER BY
@@ -73,8 +74,8 @@
 		1=1
 		<isNotNull property="searchKeyword">
 			<isNotEmpty property="searchKeyword">
-				AND $searchCondition$ LIKE '%' ||
-				#searchKeyword# || '%'
+				AND lower($searchCondition$) LIKE '%' ||
+				lower(#searchKeyword#) || '%'
 			</isNotEmpty>
 		</isNotNull>
 		ORDER BY
@@ -95,7 +96,7 @@
 		1=1
 		<isNotNull property="searchKeyword">
 			<isNotEmpty property="searchKeyword">
-				AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+				AND lower($searchCondition$) LIKE '%' || lower(#searchKeyword#) || '%'
 			</isNotEmpty>
 		</isNotNull>
 		ORDER BY
@@ -105,7 +106,7 @@
 		select pp.pcode,pname,price,filename from(
 		select p.pcode,sum(amount) amount from orderList l,product p
 		where p.pcode=l.pcode
-		and gcode='g002'
+		and lower(gcode)=lower('g002')
 		group by p.pcode
 		order by amount desc) i,product pp
 		where i.pcode=pp.pcode and rownum<![CDATA[<=]]>3
@@ -122,8 +123,8 @@
 		FROM
 		product
 		WHERE
-		$searchCondition$ =
-		#searchKeyword#
+		lower($searchCondition$) =
+		lower(#searchKeyword#)
 		ORDER BY
 		pcode DESC
 		) a
@@ -139,7 +140,7 @@
 		FROM
 		product
 		WHERE
-		gcode=#gcode#
+		lower(gcode)=lower(#gcode#)
 		ORDER BY
 		pcode DESC
 	</select>

@@ -66,7 +66,9 @@ public class ProductController {
 	public String selectProductDetail(ModelMap model ,HttpServletRequest request,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
 		String pcode = searchVO.getPcode();
 		System.out.println(pcode);
-		//pcode = request.getParameter("pcode");
+		if(request.getParameter("pcode")!=null){
+			pcode = request.getParameter("pcode");
+		}
 		ProductVO pvo = productService.selectProductInfo(pcode);
 		List<?> oplist = productService.selectSelOptions(pcode);
 		model.addAttribute("pvo",pvo);

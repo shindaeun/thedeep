@@ -76,7 +76,7 @@ function disableCheck(obj) {
 }
 function fun1(){
 	alert("bb");
-	$("#frm").attr({method:'post',action:'/order.do'}).submit();
+	$("#frm").attr({method:'post',action:'/orderNow.do'}).submit();
 } 
 function fun2(){
 	alert("aa");
@@ -133,7 +133,7 @@ $("#btnCart").click(function() {
 	</tr>
 	<tr class="board">
 		<td colspan="2"><button type="button" id="btnBuy"
-					class="white" onclick="fun1()">구매</button></td>
+					class="white" onclick="fun1()">buy now</button></td>
 	</tr>
 	<tr class="board">
 		<td colspan="2"><button type="button" id="btnCart"
