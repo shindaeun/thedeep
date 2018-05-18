@@ -35,31 +35,7 @@ if(Integer.parseInt(pageIndex)<0)pageIndex="1";
 		}
 	}
 %>
-<script>
-var num_rows=0;
-var new_row_num=0;
- function add_new_row(obj,cscode) {
-    $("#num_rows").val(++num_rows);
-    var tag = ""
-    tag +="<tr bgcolor=\"#ffffff\" id=\"tr_id"+(new_row_num)+"\">\n";
-    tag +="<td align=\"center\">"+(cscode)+"</td>\n";
-    tag +="<td>\n";
-    tag +="<input type=\"hidden\" name=\"cscode\" id=\"cma_num"+(new_row_num )+"\" value=\""+(cscode)+"\" />\n";
-    tag +="<input type=\"text\" name=\"amount\"  size='1' id=\"cma_text"+(new_row_num)+"\" value=\"1\" />개\n";
-    tag +="</td>\n";
-    tag +="</td>\n";
-    tag +="<td>\n";
-    tag +="<input type=\"button\" value=\"삭제\" class='white' onclick=\"deleterow('cma_text[]','cma_num[]','cma_text_value','tr_id',"+(new_row_num)+");\" />\n";
-    tag +="</td>\n";
-    tag +="</tr>\n";
-  
-    $("#"+obj).append(tag);
-    new_row_num++;
-}
-function deleterow(ctext,cnum,tval,obj,n) {
-    $("#"+obj+n).remove();
-    $("#num_rows").val(--num_rows);
-}
+<script language=javascript>
 function disableCheck(obj) {
     if (obj[obj.selectedIndex].className=='disabled') {
         alert("다른 상품을 선택해주세요.");
@@ -67,35 +43,61 @@ function disableCheck(obj) {
     }/* else if(){//상품목록에 추가되어 있으면../
     	alert($("#alloption"))
     	alert("이미 선택하셨습니다.");
-    }  */
+    } */
    	else{
-    	//addOption($("#selectoption").val());
-    	add_new_row('table_list',$("#selectoption").val());	
+    	addOption($("#selectoption").val());
+    	var demodiv = document.getElementById("alloption");
+    	
+    	if (demodiv.hasChildNodes()){
+    		alert("a");
+    		var children = demodiv.childNodes;
+    	    for(var i=0; i<children.length; i++){
+    	        alert("자식노드: " + children[i].getAttribute('id'));////////////?
+    	    }
+    	}
+    	
     }
     
 }
-function fun1(){
-	alert("bb");
-	$("#frm").attr({method:'post',action:'/order.do'}).submit();
-} 
-function fun2(){
-	alert("aa");
-	$("#frm").attr({method:'post',action:'/addCart.do'}).submit();
-} 
-
-/* $("#btnBuy").click(function() {
-	alert("bb");
+function fncnt(a,index){
+	if(a=="+" && document.frm.amount[index].value<10){
+		document.frm.amount[index].value++;
+	}
+	else if(a=="-" && document.frm.amount[index].value>1){
+		document.frm.amount[index].value--;
+	}
 	
-	//$("#frm").attr({method:'post',action:'/order.do'}).submit();
+}
+function addOption(opt){
+	var p = document.createElement('p');
+	
+	
+	var text = document.createTextNode(opt);
+	//alert(text.value);
+	//p.id=text;
+	$(p).attr("id",text);
+	p.appendChild(text);
+	var btn = document.createElement('span');
+	p.innerHTML+='&nbsp;<input type="text" size="1" name="amount" id="amount" value="1">개&nbsp;';
+/* 	p.innerHTML+='<button type="button" name="plus" onclick="fncnt('+',${status.count-1})"class="white">+</button>';
+	p.innerHTML+='<button type="button" name="minus" onclick="fncnt('-',${status.count-1})"class="white">-</button>'; */
+	p.innerHTML+='<button type="button" class="white" onClick="removeOption(this)">X</button>';
+	
+	document.getElementById("alloption").appendChild(p);
+	
+}
+function removeOption(obj){
+	document.getElementById("alloption").removeChild(obj.parentNode);
+}
+$("#btnBuy").click(function() {
+	$("#frm").attr({method:'post',action:'/order.do'}).submit();
+
 });
 $("#btnCart").click(function() {
-	alert("aaa");
-	//$("#frm").attr({method:'post',action:'/addCart.do'}).submit();
+	$("#frm").attr({method:'post',action:'/addCart.do'}).submit();
 
-}); */
-
+});
 </script>
-
 <style type="text/css">
 	option.disabled {color:lightgrey;}
 </style>
@@ -133,18 +135,22 @@ $("#btnCart").click(function() {
 	</tr>
 	<tr class="board">
 		<td colspan="2"><button type="button" id="btnBuy"
-					class="white" onclick="fun1()">구매</button></td>
+				class="white">buy now</button></td>
 	</tr>
 	<tr class="board">
 		<td colspan="2"><button type="button" id="btnCart"
-				class="white"  onclick="fun2()">cart</button></td>
+				class="white">cart</button></td>
 	</tr>
 </table>
 <form id="frm">
-<input type="hidden" name="pcode" value="${pvo.pcode }"/>
-<table width="100%" id="table_list">
-	 <tbody>
-    </tbody>
+<table width="100%">
+	<tr>
+		<td>선택상품</td>
+	</tr>
+	<tr align="right">
+		<td><div id="alloption"></div></td>
+	</tr>
+	
 </table>
 </form>
 

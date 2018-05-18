@@ -52,6 +52,26 @@ public class ProductDAO extends EgovAbstractDAO {
 		return list("productDAO.selectSelOptions",pcode);
 	}
 
+	public List<?> selectQna(DefaultVO searchVO) {
+		// TODO Auto-generated method stub
+		return list("productDAO.selectQna",searchVO);
+	}
+
+	public int selectQnaTotCnt(DefaultVO searchVO) {
+		// TODO Auto-generated method stub
+		return (int) select("productDAO.selectQnaTotCnt",searchVO);
+	}
+
+	public List<?> selectReview(DefaultVO searchVO) {
+		// TODO Auto-generated method stub
+		return list("productDAO.selectReview",searchVO);
+	}
+
+	public int selectReviewTotCnt(DefaultVO searchVO) {
+		// TODO Auto-generated method stub
+		return (int) select("productDAO.selectReviewTotCnt",searchVO);
+	}
+
 	
 
 }

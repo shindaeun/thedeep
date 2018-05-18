@@ -63,15 +63,56 @@ public class ProductController {
 		return "product/productList";
 	}
 	@RequestMapping(value="/productDetail.do")
-	public String selectProductDetail(ModelMap model ,HttpServletRequest request) throws Exception{
-		String pcode = request.getParameter("pcode");
-		//pcode="P00008";
+	public String selectProductDetail(ModelMap model ,HttpServletRequest request,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
+		String pcode = searchVO.getPcode();
+		System.out.println(pcode);
+		//pcode = request.getParameter("pcode");
 		ProductVO pvo = productService.selectProductInfo(pcode);
 		List<?> oplist = productService.selectSelOptions(pcode);
 		model.addAttribute("pvo",pvo);
-		System.out.println(pvo);
-		System.out.println(oplist);
+		System.out.println(pvo+"pvo");
+		System.out.println(oplist+"oplist");
 		model.addAttribute("oplist",oplist);
+
+		searchVO.setSearchCondition("pcode");
+		searchVO.setSearchKeyword(pcode);
+		
+		searchVO.setPageUnit(1);// 한 화면에 출력 개수
+		searchVO.setPageSize(1);// 페이지 개수
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<?> qlist = productService.selectQna(searchVO);
+		model.addAttribute("qlist", qlist);
+		System.out.println(qlist);
+		int totCnt = productService.selectQnaTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		
+		model.addAttribute("paginationInfo", paginationInfo);
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo2 = new PaginationInfo();
+		paginationInfo2.setCurrentPageNo(searchVO.getPageIndex2());
+		paginationInfo2.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo2.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo2.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo2.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo2.getRecordCountPerPage());
+		List<?> rlist = productService.selectReview(searchVO);
+		model.addAttribute("rlist", rlist);
+		System.out.println(rlist);
+		int totCnt2 = productService.selectReviewTotCnt(searchVO);
+		paginationInfo2.setTotalRecordCount(totCnt2);
+		model.addAttribute("paginationInfo2", paginationInfo2);
 		return "product/productDetail";
 	}
 	@RequestMapping(value="/productAdd.do")

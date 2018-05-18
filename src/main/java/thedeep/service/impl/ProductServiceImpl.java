@@ -68,6 +68,30 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 		return productDAO.selectSelOptions(pcode);
 	}
 
+	@Override
+	public List<?> selectQna(DefaultVO searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return productDAO.selectQna(searchVO);
+	}
+
+	@Override
+	public int selectQnaTotCnt(DefaultVO searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return productDAO.selectQnaTotCnt(searchVO);
+	}
+
+	@Override
+	public List<?> selectReview(DefaultVO searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return productDAO.selectReview(searchVO);
+	}
+
+	@Override
+	public int selectReviewTotCnt(DefaultVO searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return productDAO.selectReviewTotCnt(searchVO);
+	}
+
 	
 
 }

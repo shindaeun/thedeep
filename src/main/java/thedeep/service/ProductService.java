@@ -24,6 +24,14 @@ public interface ProductService {
 
 	List<?> selectSelOptions(String pcode) throws Exception;
 
+	List<?> selectQna(DefaultVO searchVO) throws Exception;
+
+	int selectQnaTotCnt(DefaultVO searchVO) throws Exception;
+
+	List<?> selectReview(DefaultVO searchVO) throws Exception;
+
+	int selectReviewTotCnt(DefaultVO searchVO) throws Exception;
+
 
 
 }

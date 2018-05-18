@@ -8,7 +8,99 @@
 	<typeAlias alias="searchVO" type="thedeep.service.DefaultVO" />
 	<typeAlias alias="groupVO" type="thedeep.service.GroupVO" />
 	<typeAlias alias="productVO" type="thedeep.service.ProductVO" />
-
+	
+	<select id="productDAO.selectReview" resultClass="egovMap">
+		select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+		SELECT
+		unq unq,
+		title title,
+		hit
+		hit,
+		to_char(rdate,'yyyy-mm-dd') rdate
+		FROM
+		review
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' ||
+				#searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+		) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	</select>
+	
+	<select id="productDAO.selectReviewTotCnt" resultClass="java.lang.Integer">
+	SELECT
+		count(unq)
+		FROM
+		review
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+	</select>
+	<select id="productDAO.selectQna" resultClass="egovMap">
+		select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+		SELECT
+		unq unq,
+		title title,
+		hit
+		hit,
+		to_char(rdate,'yyyy-mm-dd') rdate
+		FROM
+		qna
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' ||
+				#searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+		) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	</select>
+	
+	<select id="productDAO.selectQnaTotCnt" resultClass="java.lang.Integer">
+	SELECT
+		count(unq)
+		FROM
+		qna
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+	</select>
 	<select id="productDAO.selectBest3Product" resultClass="egovMap">
 		select pp.pcode,pname,price,filename from(
 		select p.pcode,sum(amount) amount from orderList l,product p

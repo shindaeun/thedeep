@@ -42,6 +42,15 @@ public class DefaultVO implements Serializable {
 	 */
 	private static final long serialVersionUID = -858838578081269359L;
 	private String userid;
+	private String pcode;
+	public String getPcode() {
+		return pcode;
+	}
+
+	public void setPcode(String pcode) {
+		this.pcode = pcode;
+	}
+
 	public String getUserid() {
 		return userid;
 	}

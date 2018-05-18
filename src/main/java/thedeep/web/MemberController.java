@@ -117,6 +117,19 @@ public class MemberController {
 		model.addAttribute("List",list);
 		return "member/cart";
 	}
+	@RequestMapping(value="/addCart.do")
+	public String addCart(ModelMap model,@RequestParam(name="pcode", required=false) String pcode,@RequestParam(name="cscode", required=false) String[] cslist,@RequestParam(name="amount", required=false) String[] amlist) throws Exception{
+		String userid="userid1";
+		
+		System.out.println("in");
+		System.out.println(cslist);
+		System.out.println(pcode);
+		System.out.println(amlist);
+		//for(int i=0;i<)
+		//int cnt = memberService.insertCartList(userid);
+		
+		return "product/productList";
+	}
 	
 	@RequestMapping(value="/cartUpdate.do")
 	@ResponseBody
