@@ -13,7 +13,7 @@
 	from(
 		select height,weight,psize,fit,count(fit) cnt  
 		from review 
-		where pcode=#pcode#
+		where lower(pcode)=lower(#pcode#)
 		and height=#height# 
 		and weight=#weight# 
 		and psize=#psize# 
@@ -28,6 +28,7 @@
 		SELECT
 		unq unq,
 		title title,
+		content content,
 		hit
 		hit,
 		to_char(rdate,'yyyy-mm-dd') rdate
@@ -74,6 +75,7 @@
 		SELECT
 		unq unq,
 		title title,
+		content content,
 		hit
 		hit,
 		to_char(rdate,'yyyy-mm-dd') rdate

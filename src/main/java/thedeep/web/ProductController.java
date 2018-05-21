@@ -94,6 +94,7 @@ public class ProductController {
 		List<?> surveylist = productService.selectReviewResult(rvo);
 		System.out.println(surveylist);
 		model.addAttribute("rvo",rvo);
+		System.out.println("h"+rvo.getHeight()+"w"+rvo.getWeight()+rvo.getPsize());
 		model.addAttribute("surveylist",surveylist);
 		//리뷰 and qna 리스트
 		searchVO.setSearchCondition("pcode");
