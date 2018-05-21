@@ -32,6 +32,8 @@ public interface ProductService {
 
 	int selectReviewTotCnt(DefaultVO searchVO) throws Exception;
 
+	List<?> selectReviewResult(ReviewVO rvo) throws Exception;
+
 
 
 }

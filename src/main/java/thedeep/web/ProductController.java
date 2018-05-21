@@ -18,6 +18,7 @@ import thedeep.service.DefaultVO;
 import thedeep.service.GroupVO;
 import thedeep.service.ProductService;
 import thedeep.service.ProductVO;
+import thedeep.service.ReviewVO;
 @Controller
 public class ProductController {
 	@Resource(name="productService")
@@ -63,19 +64,39 @@ public class ProductController {
 		return "product/productList";
 	}
 	@RequestMapping(value="/productDetail.do")
-	public String selectProductDetail(ModelMap model ,HttpServletRequest request,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
+	public String selectProductDetail(ReviewVO rvo,ModelMap model ,HttpServletRequest request,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
 		String pcode = searchVO.getPcode();
 		System.out.println(pcode);
 		if(request.getParameter("pcode")!=null){
 			pcode = request.getParameter("pcode");
 		}
+		//상품 디테일 and 품목 옵션
 		ProductVO pvo = productService.selectProductInfo(pcode);
 		List<?> oplist = productService.selectSelOptions(pcode);
+		
 		model.addAttribute("pvo",pvo);
 		System.out.println(pvo+"pvo");
 		System.out.println(oplist+"oplist");
 		model.addAttribute("oplist",oplist);
-
+		
+		//설문조사 결과
+		rvo.setPcode(pcode);
+		/*rvo.setHeight("140-145");
+		rvo.setWeight("40-45");
+		rvo.setPsize("S");*/
+		if(rvo.getWeight()==null){
+			rvo.setHeight("140-145");
+			rvo.setWeight("40-45");
+			rvo.setPsize("S");
+		}
+		System.out.println("h"+rvo.getHeight()+"w"+rvo.getWeight()+rvo.getPsize());
+		
+		List<?> surveylist = productService.selectReviewResult(rvo);
+		System.out.println(surveylist);
+		model.addAttribute("rvo",rvo);
+		System.out.println("h"+rvo.getHeight()+"w"+rvo.getWeight()+rvo.getPsize());
+		model.addAttribute("surveylist",surveylist);
+		//리뷰 and qna 리스트
 		searchVO.setSearchCondition("pcode");
 		searchVO.setSearchKeyword(pcode);
 		

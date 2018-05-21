@@ -162,11 +162,20 @@
 	
  	
  	function fncnt(a,index){
- 		if(a=="+" && document.frm.amount[index].value<10){
- 			document.frm.amount[index].value++;
+ 		var now_num = document.frm.amount[index].value;
+ 		if(a=="+" && now_num<=10){
+ 			if (now_num == 10) {
+				alert("1회 10개 구매 가능합니다.");
+			} else {
+ 				document.frm.amount[index].value++;
+			}
  		}
- 		else if(a=="-" && document.frm.amount[index].value>1){
- 			document.frm.amount[index].value--;
+ 		else if(a=="-" && now_num>=1){
+ 			if (now_num == 1) {
+				alert("1개 이하 구매 불가능합니다.");
+			} else {
+ 				document.frm.amount[index].value--;
+			}
  		}
  		
  	}
@@ -231,7 +240,7 @@
 				<td>${i.cscolor}</td>
 				<td><span>${i.price}</span>원</td>
 				<td><span>${i.savepoint}원</span></td>
-				<td><input type="text" size="1" name="amount" id="amount" value="${i.amount}"></td>
+				<td><input type="text" size="1" name="amount" id="amount" value="${i.amount}"readonly></td>
 				<td><button type="button" name="plus" onclick="fncnt('+',${status.count-1})"class="white">+</button>
 				<button type="button" name="minus" onclick="fncnt('-',${status.count-1})"class="white">-</button>
 				<button type="button" name="btnChange" class="white">변경</button></td>

@@ -8,8 +8,17 @@
 	<typeAlias alias="searchVO" type="thedeep.service.DefaultVO" />
 	<typeAlias alias="groupVO" type="thedeep.service.GroupVO" />
 	<typeAlias alias="productVO" type="thedeep.service.ProductVO" />
-
-	
+	<select id="productDAO.selectReviewResult" resultClass="egovMap">
+	select i.*, sum(cnt)over() total 
+	from(
+		select height,weight,psize,fit,count(fit) cnt  
+		from review 
+		where lower(pcode)=lower(#pcode#)
+		and height=#height# 
+		and weight=#weight# 
+		and psize=#psize# 
+		group by fit,height,weight,psize) i
+	</select>
 	<select id="productDAO.selectReview" resultClass="egovMap">
 		select b.*
 		from(
@@ -19,6 +28,7 @@
 		SELECT
 		unq unq,
 		title title,
+		content content,
 		hit
 		hit,
 		to_char(rdate,'yyyy-mm-dd') rdate
@@ -65,6 +75,7 @@
 		SELECT
 		unq unq,
 		title title,
+		content content,
 		hit
 		hit,
 		to_char(rdate,'yyyy-mm-dd') rdate

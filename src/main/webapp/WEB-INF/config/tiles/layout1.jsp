@@ -17,9 +17,10 @@
 <link href="/css/home.css" rel="stylesheet" type="text/css">
 <link href="/css/product.css" rel="stylesheet" type="text/css">
 <link href="/css/board.css" rel="stylesheet" type="text/css">
-<link href="/css/jquery-ui.css" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="/js/jquery-1.12.4.js"></script>
-<script src="js/jquery-ui.js"></script>
+<script src="/js/jquery-ui.js"></script>
 <script type="text/javascript">
 	!function(o, c) {
 		var n = c.documentElement, t = " w-mod-";
@@ -67,7 +68,6 @@
 		crossorigin="anonymous"></script>
 	<script src="js/webflow.js" type="text/javascript"></script>
 	<!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
-
 </body>
 
 

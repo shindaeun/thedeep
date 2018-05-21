@@ -11,6 +11,7 @@ import thedeep.service.DefaultVO;
 import thedeep.service.GroupVO;
 import thedeep.service.ProductService;
 import thedeep.service.ProductVO;
+import thedeep.service.ReviewVO;
 
 @Service("productService")
 public class ProductServiceImpl extends EgovAbstractServiceImpl implements ProductService {
@@ -76,20 +77,22 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 
 	@Override
 	public int selectQnaTotCnt(DefaultVO searchVO) throws Exception {
-		// TODO Auto-generated method stub
 		return productDAO.selectQnaTotCnt(searchVO);
 	}
 
 	@Override
 	public List<?> selectReview(DefaultVO searchVO) throws Exception {
-		// TODO Auto-generated method stub
 		return productDAO.selectReview(searchVO);
 	}
 
 	@Override
 	public int selectReviewTotCnt(DefaultVO searchVO) throws Exception {
-		// TODO Auto-generated method stub
 		return productDAO.selectReviewTotCnt(searchVO);
+	}
+
+	@Override
+	public List<?> selectReviewResult(ReviewVO rvo) throws Exception {
+		return productDAO.selectReviewResult(rvo);
 	}
 
 	
