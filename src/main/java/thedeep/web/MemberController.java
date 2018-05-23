@@ -119,10 +119,11 @@ public class MemberController {
 		return "member/cart";
 	}
 	@RequestMapping(value="/addCart.do")
-	public String addCart(RedirectAttributes redirectAttributes,ModelMap model,CartVO vo,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr) throws Exception{
-		
+	@ResponseBody
+	public Map<String,Object> addCart(RedirectAttributes redirectAttributes,ModelMap model,CartVO vo,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr) throws Exception{
+		Map<String,Object> map = new HashMap<String, Object>();
 		String userid="userid1";
-
+		String result="fail";
 		for(int i=0;i<csarr.length;i++){
 			String tmp[]=csarr[i].split(" ");
 			String[] color=tmp[0].split("-");
@@ -133,13 +134,16 @@ public class MemberController {
 			vo.setUserid(userid);
 			int cnt = memberService.selectCartCscodeCount(vo);
 			if(cnt>0){
-				memberService.updateCart(vo);
+				cnt = memberService.updateCart(vo);
+				if(cnt>0) result="ok";
 			}else{
-				String result = memberService.insertCartList(vo);
+				result = memberService.insertCartList(vo);
+				if(result==null) result="ok";
 			}
 		}
-		redirectAttributes.addAttribute("pcode", vo.getPcode());
-		return "redirect:/productDetail.do";
+		model.addAttribute("pcode", vo.getPcode());
+		map.put("result", result);
+		return map;
 	}
 	
 	@RequestMapping(value="/cartUpdate.do")

@@ -111,10 +111,23 @@
 			alert("상품을 선택해주세요")
 		} else {
 
-			$("#frm").attr({
-				method : 'post',
-				action : '/addCart.do'
-			}).submit();
+			var formData = $("#frm").serialize();
+			$.ajax({
+				type : "POST",
+				data: formData,
+				url : "/addCart.do",
+				success : function(data) {
+					if (data.result == "ok") {
+						alert("장바구니에 담겼습니다.");
+					}
+					else {
+						alert("장바구니에 담기 실패했습니다. 다시 시도해 주세요.");
+					}
+				},
+				error: function (request,status,error) {
+	            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	              }
+			});
 		}
 	}
 	function fnSurvey() {
