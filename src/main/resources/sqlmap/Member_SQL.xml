@@ -5,6 +5,8 @@
 
 	<typeAlias alias="egovMap"
 		type="egovframework.rte.psl.dataaccess.util.EgovMap" />
+	<typeAlias type="thedeep.service.MemberVO" alias="memberVO"/>
+	<typeAlias type="thedeep.service.FindVO" alias="findVO"/>
 		
 	<insert id="memberDAO.insertCartList">
 		insert into cart(userid,cscode,pcode,amount) values(#userid#,#cscode#,#pcode#,#amount#)
@@ -148,6 +150,7 @@
 	where c.CCODE = l.CCODE and userid=#userid# and sysdate<edate
 	 ]]>
 	</select>
+	
 	<select id="memberDAO.selectCartList" resultClass="egovMap">
 	 <![CDATA[
 	select userid,c.cscode,c.pcode,pname,price,amount,filename,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.001) savepoint
@@ -155,6 +158,133 @@
 	where userid=#userid#
 	and c.cscode=p.cscode
 	 ]]>
+	</select>
+	
+	<select resultClass="java.lang.Integer" id="memberDAO.selectIdChk"> 
+		SELECT COUNT(*) 
+		FROM memberinfo 
+		WHERE userid=#userid# 
+	</select>
+
+	<insert id="memberDAO.insertMember">
+		INSERT INTO memberinfo 
+			( userid 
+			, name 
+			, pwd 
+			, birthday 
+			, gender 
+			, post 
+			, phone 
+			, email 
+			, emailreceive 
+			, phonereceive 
+			, ablepoint 
+			, joindate ) 
+			VALUES ( #userid# 
+					, #name# 
+					, #pwd# 
+					, #birthday# 
+					, #gender# 
+					, #post# 
+					, #phone# 
+					, #email# 
+					, #emailreceive# 
+					, #phonereceive# 
+					, '1000' 
+					, sysdate ) 
+	</insert>
+	
+	<select resultClass="java.lang.Integer" id="memberDAO.selectMemberCertCnt">
+		SELECT count(*) cnt 
+		FROM memberinfo
+		WHERE userid=#userid# 
+		AND pwd=#pwd# 
+	</select>
+	
+	<select resultClass="memberVO" id="memberDAO.selectMemeberDetail"> 
+		SELECT userid 
+			, name 
+			, pwd 
+			, to_char(birthday,'YYYY-MM-DD') birthday 
+			, gender 
+			, post 
+			, phone 
+			, email 
+			, emailreceive 
+			, phonereceive 
+			, ablepoint 
+			, to_char(joindate,'YYYY-MM-DD') joindate 
+		FROM memberinfo 
+		WHERE userid=#userid# 
+	</select>
+	
+	<select resultClass="java.lang.Integer" id="memberDAO.selectPwdChk"> 
+		SELECT COUNT(*) 
+		FROM memberinfo 
+		WHERE pwd=#pwd# 
+		AND userid=#userid# 
+	</select>
+	
+	<update id="memberDAO.updateMember"> 
+		UPDATE memberinfo 
+		SET pwd = #pwd# 
+			, birthday = #birthday# 
+			, gender = #gender# 
+			, post = #post# 
+			, phone = #phone# 
+			, email = #email# 
+			, emailreceive = #emailreceive# 
+			, phonereceive = #phonereceive# 
+		WHERE userid = #userid# 
+	</update>
+	
+	<select resultClass="java.lang.Integer" id="memberDAO.selectMemberCoupon"> 
+		SELECT COUNT(*) cnt 
+		FROM couponlist 
+		WHERE userid=#userid# 
+	</select>
+	
+	<select resultClass="java.lang.Integer" id="memberDAO.selectMemberMoney"> 
+		SELECT NVL(SUM(totalmoney),0) total 
+		FROM ordermain 
+		WHERE userid=#userid# 
+	</select>
+	
+	<select resultClass="egovMap" id="memberDAO.selectUserOrderList"> 
+		SELECT m.userid userid
+			, m.ocode ocode
+			, p.cscode cscode
+			, p.pname pname
+			, to_char(m.odate,'YYYY-MM-DD') odate 
+		FROM (SELECT userid, ocode, odate 
+			  FROM ordermain 
+			  WHERE userid = #userid#) m, orderlist l, product p 
+		WHERE m.ocode = l.ocode 
+		AND l.pcode = p.pcode 
+		ORDER by m.odate DESC 
+	</select>
+	
+	<select resultClass="java.lang.Integer" id="memberDAO.selectFindid">
+	<![CDATA[ 
+		SELECT count(*) cnt 
+		FROM memberinfo 
+		WHERE name=#name# 
+		AND email=#email# 
+	]]>
+	</select>
+	
+	<select resultClass="egovMap" id="memberDAO.selectFindIdList"> 
+		SELECT userid, to_char(joindate,'YYYY-MM-DD')joindate 
+		FROM memberinfo 
+		WHERE name=#name#
+		AND email=#email# 
+	</select>
+	
+	<select resultClass="java.lang.Integer" id="memberDAO.selectFindidCnt"> 
+		SELECT COUNT(*) cnt 
+		FROM memberinfo 
+		WHERE name=#name# 
+		AND email=#email# 
 	</select>
 
 </sqlMap>

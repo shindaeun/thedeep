@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <style>
 div.one {
 	width:100%;
@@ -29,7 +32,7 @@ tr.b {
 	font-size: 9pt;
 	border-bottom: 1px solid #808080;
 }
-td.my {
+th.my,td.my {
 	border-right: 1px solid #808080;
 	height: 30px;
 	font-size: 9pt;
@@ -50,6 +53,10 @@ td.last{
 	font-size:9pt;
 	padding-left: 8px;
 }
+a:link { text-decoration: none; color: #000000} 
+a:visited { text-decoration: none; color: #000000} 
+a:active { text-decoration: none; color: #000000}
+a:hover {text-decoration:underline; color: #000000}
 </style>
 
 <div class="one">My Page</div>
@@ -77,22 +84,22 @@ td.last{
 	</colgroup>
 	<tbody>
 		<tr>
-			<td class="my">NAME</td>
-			<td></td>
-			<td class="my">LEVEL</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td class="my">COUPON</td>
-			<td></td>
-			<td class="my">POINT</td>
+			<th class="my">NAME</th>
+			<td style="font-size:9pt;">${vo.name}</td>
+			<th></th>
 			<td></td>
 		</tr>
 		<tr>
-			<td class="my">TOTAL</td>
-			<td></td>
-			<td class="my">JOINDATE</td>
-			<td></td>
+			<th class="my">COUPON</th>
+			<td style="font-size:9pt;"><a href="/coupon.do">${coupon}</a></td>
+			<th class="my">POINT</th>
+			<td style="font-size:9pt;">${vo.ablepoint}</td>
+		</tr>
+		<tr>
+			<th class="my">TOTAL</th>
+			<td style="font-size:9pt;">${total}</td>
+			<th class="my">JOINDATE</th>
+			<td style="font-size:9pt;">${vo.joindate}</td>
 		</tr>
 	</tbody>
 </table>
@@ -100,12 +107,12 @@ td.last{
 <br/>
 <table class="last">
 	<tr>
-		<td class="last">ORDER</td>
-		<td class="last">PROFILE</td>
-		<td class="last">BOARD</td>
-		<td class="last">CART</td>
-		<td class="last">POINT</td>
-		<td class="last">COUPON</td>
+		<td class="last"><a href="/userOrderList.do">ORDER</a></td>
+		<td class="last"><a href="/memberModify.do">PROFILE</a></td>
+		<td class="last"><a href="/userBoard.do">BOARD</a></td>
+		<td class="last"><a href="/cart.do">CART</a></td>
+		<td class="last"><a href="/point.do">POINT</a></td>
+		<td class="last"><a href="/coupon.do">COUPON</a></td>
 	</tr>
 </table>
 <br><br>
