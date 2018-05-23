@@ -26,6 +26,18 @@
 	</bean>
 	<!-- tiles e -->
 	
+	<!-- 인터셉터 s -->
+		<mvc:interceptors>
+			<mvc:interceptor>		
+				<mvc:mapping path="/myPage.do"/>		
+				<mvc:mapping path="/memberModify.do"/>		
+				<mvc:mapping path="/userOrderList.do"/>		
+				<!-- 인터셉터 가동 -->		
+				<bean id="sessionInterceptor" class="thedeep.web.SessionInterceptor"/>		
+			</mvc:interceptor>		
+		</mvc:interceptors>	
+	<!-- 인터셉터 e -->
+	
 	<mvc:annotation-driven/>   <!-- map전송을 위해 중요  -->  
 		<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" id="jsonView"/>
 	
