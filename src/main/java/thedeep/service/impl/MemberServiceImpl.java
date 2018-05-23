@@ -143,4 +143,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectPwdChk(vo);
 	}
 
+	@Override
+	public CartVO selectCartProductInfo(CartVO vo) throws Exception {
+		return memberDAO.selectCartProductInfo(vo);
+	}
+
 }

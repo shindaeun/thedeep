@@ -54,6 +54,8 @@ public interface MemberService {
 	
 	int selectPwdChk(PwdCkVO vo) throws Exception;
 
+	CartVO selectCartProductInfo(CartVO vo) throws Exception;
+
 
 
 }

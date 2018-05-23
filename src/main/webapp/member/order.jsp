@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
 	$(function() {
 		$("#btnCoupon").click(function() {
@@ -13,7 +14,9 @@
 		
 	});
 </script>
-
+<c:set var="sumprice" value="0"/>
+<c:set var="sumpoint" value="0"/>
+<c:set var="delprice" value="3000"/>
 <div>
 	<table class="board">
 		<tr class="board">
@@ -22,16 +25,21 @@
 			<th width="15%">가격</th>
 			<th width="15%" >적립</th>
 		</tr>
-		<c:forEach var="result" items="${resultList }" varStatus="status">
-			<tr class="board">
-				<td>${result.name}</td>
-				<td>${result.rdate}</td>
-				<td>${result.hit}</td>
-				<td>${result.name}</td>
+		<c:forEach var="i" items="${olist }" varStatus="status">
+		<c:set var="sumprice" value="${sumprice +i.price }"/>
+		<c:set var="sumpoint" value="${sumpoint +i.savepoint }"/>
+			<tr class="board" align="center">
+				<td>${i.pname}</td>
+				<td>${i.amount}</td>
+				<td>${i.price}</td>
+				<td>${i.savepoint}</td>
 			</tr>
 		</c:forEach>
+		<c:if test="${sumprice > 50000 }">
+			<c:set var="delprice" value="0"/>
+		</c:if>
 		<tr class="board" align="right">
-			<td colspan="10">결제금액 123500원 + 배송비 0 월 = 123500원(적립금 64원)</td>
+			<td colspan="10">결제금액 ${sumprice }원 + 배송비 ${delprice } 원 = ${sumprice + delprice }원(적립금 ${sumpoint }원)</td>
 		</tr>
 	</table>
 </div>
@@ -40,7 +48,7 @@
 <table class="board">
 	<tr class="board">
 		<th class="head" width="20%">주문하는 분</th>
-		<td>홍수정</td>
+		<td>${vo.name }</td>
 	</tr>
 	<tr class="board">
 		<th class="head">전화번호</th>
@@ -49,7 +57,7 @@
 				<option value="011">011</option>
 				<option value="016">016</option>
 		</select> -<input type="text" name="phone2" id="phone2" style="width: 50px;">
-			-<input type="" text"" name="phone3" id="phone3" style="width: 50px;"></td>
+			-<input type="text" name="phone3" id="phone3" style="width: 50px;"></td>
 
 	</tr>
 	<tr class="board">
@@ -80,7 +88,7 @@
 				<option value="011">011</option>
 				<option value="016">016</option>
 		</select> -<input type="text" name="phone5" id="phone5" style="width: 50px;">
-			-<input type="" text"" name="phone6" id="phone6" style="width: 50px;"></td>
+			-<input type="text" name="phone6" id="phone6" style="width: 50px;"></td>
 
 	</tr>
 	<tr class="board">

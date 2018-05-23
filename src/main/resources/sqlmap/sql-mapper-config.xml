@@ -5,6 +5,7 @@
     <typeAliases>
 		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 		<typeAlias alias="searchVO" type="thedeep.service.DefaultVO"/>
+		<typeAlias alias="cartVO" type="thedeep.service.CartVO" />
 		<typeAlias alias="productVO" type="thedeep.service.ProductVO" />
 		<typeAlias alias="memberVO" type="thedeep.service.MemberVO" />
 		<typeAlias alias="findVO" type="thedeep.service.FindVO" />
