@@ -1,21 +1,29 @@
 package thedeep.web;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import thedeep.service.DefaultVO;
 import thedeep.service.GroupVO;
+import thedeep.service.NoticeVO;
 import thedeep.service.ProductService;
 import thedeep.service.ProductVO;
 import thedeep.service.ReviewVO;
@@ -139,9 +147,112 @@ public class ProductController {
 		return "product/productDetail";
 	}
 	@RequestMapping(value="/productAdd.do")
-	public String selectProductAdd() throws Exception{
+	public String selectProductAdd(ModelMap model) throws Exception{
+		List<?> groupName = productService.selectGname();
+		model.addAttribute("group", groupName);
+		
 		return "product/productAdd";
 	}
+	
+	@RequestMapping(value = "/productAddSave.do")
+	@ResponseBody 
+	public Map<String, String> productAddSave (
+					final MultipartHttpServletRequest multiRequest,
+					HttpServletResponse response, 
+					ProductVO vo,
+					ModelMap model) throws Exception {
+
+		Map<String, String> map = new HashMap<String, String>();
+		Map<String, MultipartFile> files = multiRequest.getFileMap();
+		
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\productImages";
+		
+		//String uploadPath = "c:\\upload";
+		File saveFolder = new File(uploadPath);
+		if (!saveFolder.exists()) {
+			saveFolder.mkdirs();
+		}
+
+		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
+
+		vo.setFilename((String) imap.get("fileName"));
+
+		String result = productService.insertproduct(vo);
+		if(result == null) result = "ok";
+		map.put("result", result);  //  ( Json 이름, 데이터 )
+		map.put("cnt", (String) imap.get("cnt")); // 0,1
+		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
+		// Json =>  result=ok&cnt=1
+		
+		return map;
+	}
+	
+	public static Map multipartProcess (Map files,String uploadPath) {
+		MultipartFile file;
+		String filePath = "";
+		int cnt = 0;
+		Map<String,String> map = new HashMap();
+		
+		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
+
+		String filename = "";
+		int filesize = 0;
+		String errCode = "";
+		String exeName = "";
+		
+		while (itr.hasNext()) {
+			Entry<String, MultipartFile> entry = itr.next();
+			file = entry.getValue();
+			if (!"".equals(file.getOriginalFilename())) {
+
+				String realFile = file.getOriginalFilename();
+
+				if(realFile.lastIndexOf(".") == -1) {
+					errCode = "-1";
+				}  else {
+					String[] array = realFile.split("\\.");
+					exeName = array[array.length-1];
+					exeName = exeName.toLowerCase();
+					if(    !exeName.equals("jpg") 
+					    && !exeName.equals("jpeg") 
+					    && !exeName.equals("gif") 
+					    && !exeName.equals("bmp") )
+					{
+						errCode = "0";
+					} else {
+						if(file.getSize() > 1024*1024*5) {
+							errCode = "1";
+						}
+					}
+				}
+				long unixTime = System.currentTimeMillis();
+				Random rn = new Random();
+				int num = rn.nextInt(90);
+
+				if(errCode.equals("")) {
+					System.out.println(errCode);
+					filename = unixTime + num + "." + exeName;
+					filePath = uploadPath + "\\" + filename;
+					filesize = (int)file.getSize();
+					String targetPath = uploadPath + "\\" + unixTime+"_1."+exeName;
+					// 물리적인 파일 저장 -> transferTo
+					try {
+						file.transferTo(new File(filePath));
+						cnt++;
+					} catch(Exception e) {
+						errCode = "2";
+					}
+				}	
+			}
+		}
+		map.put("fileName", filename);
+		map.put("fileSize", filesize+"");
+		map.put("cnt", cnt+"");
+		map.put("errCode", errCode);
+		return map;
+	}
+	
+	
 	@RequestMapping(value="/productModify.do")
 	public String selectProductModify() throws Exception{
 		return "product/productModify";

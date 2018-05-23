@@ -194,4 +194,9 @@
 	<delete id="productDAO.deleteGroup">
 		DELETE FROM productgroup WHERE gcode = #gcode#
 	</delete>
+	
+	<select id="productDAO.selectGname" resultClass="egovMap">
+		select gname,gcode from productgroup
+	</select>
+	
 </sqlMap>

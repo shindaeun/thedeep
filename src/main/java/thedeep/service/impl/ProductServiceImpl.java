@@ -94,6 +94,16 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 	public List<?> selectReviewResult(ReviewVO rvo) throws Exception {
 		return productDAO.selectReviewResult(rvo);
 	}
+	
+	@Override
+	public List<?> selectGname() throws Exception {
+		return productDAO.selectGname();
+	}
+
+	@Override
+	public String insertproduct(ProductVO vo) throws Exception {
+		return productDAO.insertproduct(vo);
+	}
 
 	
 
