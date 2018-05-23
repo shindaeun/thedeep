@@ -4,6 +4,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<script>
+$(function(){
+	$("#btnLogin").click(function(){
+		location.href = "/login.do";
+		var form = document.frm;
+		form.method = "post";
+		form.action = "/login.do";
+		form.submit();
+	});
+});
+</script>
+
+
 <table class="top">
 	<tr class="top">
 		<td class="top">아이디 찾기</td>
@@ -45,7 +58,7 @@
 	<c:forEach var="list" items="${list}" varStatus="status">
 	<tr>
 		<td style="text-align:center; width:">
-		<input type="radio" id="userid" value="${list.userid}" style="border-style:none;"/> <b>${list.userid}</b>
+		<input type="radio" id="userid" name="userid" value="${list.userid}" style="border-style:none;"/> <b>${list.userid}</b>
 		</td>
 		<td>
 		(${list.joindate}에 가입)
@@ -61,7 +74,7 @@
 <table width="100%" style="margin-top:30px;">
 	<tr style="text-align:center;">
 		<td>
-			<button id="btnLogin" class="white">login</button>&nbsp;
+			<button id="btnLogin" name="btnLogin" class="white">login</button>&nbsp;
 			<button id="btnFindPwd" class="white">Find Password</button>
 		</td>
 	</tr>
