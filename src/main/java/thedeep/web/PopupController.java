@@ -10,6 +10,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import thedeep.service.AdminService;
+import thedeep.service.AdminVO;
 import thedeep.service.BoardService;
 import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
@@ -25,10 +27,19 @@ public class PopupController {
 	@Resource(name="memberService")
 	MemberService memberService;
 	
+	@Resource(name="adminService")
+	AdminService adminService;
+	
 	@RequestMapping(value="/pwdChk.do")
 	public String PwdChk(ModelMap model, MemberVO mvo) throws Exception{
 		model.put("vo", mvo);
 		return "popup/pwdChk";
+	}
+	
+	@RequestMapping(value="/adminPwdChk.do")
+	public String adminPwdChk(ModelMap model, AdminVO avo) throws Exception{
+		model.put("vo", avo);
+		return "popup/adminPwdChk";
 	}
 	
 	@RequestMapping(value="/pwdChkSave.do")
@@ -41,6 +52,24 @@ public class PopupController {
 		System.out.println("pwd  :  " + vo.getPwd());
 		System.out.println("userid  :  " + vo.getUserid());
 		int count = memberService.selectPwdChk(vo);
+
+		if(count > 0) result = "ok";
+		else result = "1";
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	@RequestMapping(value="/adminPwdChkSave.do")
+	@ResponseBody
+	public Map<String,Object> selectAdminPwdChk(PwdCkVO vo) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		String result = "";
+		System.out.println("pwd  :  " + vo.getPwd());
+		System.out.println("adminid  :  " + vo.getAdminid());
+		int count = adminService.selectAdminPwdChk(vo);
 
 		if(count > 0) result = "ok";
 		else result = "1";

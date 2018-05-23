@@ -55,7 +55,7 @@ a:hover {text-decoration:underline; color: #000000}
 
 </style>
 
-<div class="a">login</div>
+<div class="a">admin login</div>
 <form id="frm" name="frm">
 <table style="width:30%; margin-left:340px; margin-top:30px;">
 	<colgroup>
