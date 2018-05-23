@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import thedeep.service.CartVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.FindVO;
+import thedeep.service.MemberVO;
 
 @Repository("memberDAO")
 public class MemberDAO extends EgovAbstractDAO{
@@ -61,6 +63,50 @@ public class MemberDAO extends EgovAbstractDAO{
 
 	public int selectCartCscodeCount(CartVO vo) {
 		return (int) select("memberDAO.selectCartCscodeCount",vo);
+	}
+	
+	public int selectIdChk(String userid) {
+		return (int) select("memberDAO.selectIdChk",userid);
+	}
+
+	public String insertMember(MemberVO vo) {
+		return (String) insert("memberDAO.insertMember", vo);
+	}
+
+	public int selectMemberCertCnt(MemberVO vo) {
+		return (int) select("memberDAO.selectMemberCertCnt", vo);
+	}
+
+	public MemberVO selectMemeberDetail(String userid) {
+		return (MemberVO) select("memberDAO.selectMemeberDetail", userid);
+	}
+
+	public int updateMember(MemberVO vo) {
+		return (int) update("memberDAO.updateMember",vo);
+	}
+
+	public int selectMemberCoupon(String userid) {
+		return (int) select("memberDAO.selectMemberCoupon", userid);
+	}
+
+	public int selectMemberMoney(String userid) {
+		return (int) select("memberDAO.selectMemberMoney", userid);
+	}
+
+	public List<?> selectUserOrderList(String userid) {
+		return list("memberDAO.selectUserOrderList", userid);
+	}
+
+	public int selectFindid(FindVO vo) {
+		return (int) select("memberDAO.selectFindid",vo);
+	}
+
+	public List<?> selectFindIdList(FindVO fvo) {
+		return list("memberDAO.selectFindIdList", fvo);
+	}
+
+	public int selectFindidCnt(FindVO fvo) {
+		return (int) select("memberDAO.selectFindidCnt", fvo);
 	}
 
 	

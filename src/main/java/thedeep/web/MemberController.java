@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,7 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import thedeep.service.CartVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.FindVO;
 import thedeep.service.MemberService;
+import thedeep.service.MemberVO;
+import thedeep.service.UolVO;
 
 @Controller
 public class MemberController {
@@ -26,29 +31,166 @@ public class MemberController {
 	MemberService memberService;
 	
 	@RequestMapping(value="/memberInfo.do")
-	public String insertMemberInfo() throws Exception{
+	public String MemberInfo() throws Exception{
 		return "member/memberInfo";
 	}
+	
+	@RequestMapping(value="/memberInfoSave.do")
+	@ResponseBody
+	public Map<String,Object> insertMemeberInfo(MemberVO vo) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		String result = memberService.insertMember(vo);
+		if(result==null) result = "ok";
+		else result = "1";
+			
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	@RequestMapping(value="/memberIdChk.do")
+	@ResponseBody
+	public Map<String,Object> selectIdChk(MemberVO vo) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		String result = "";
+		
+		int count = memberService.selectIdChk(vo.getUserid());
+
+		if(count > 0) result = "1";
+		else result = "ok";
+		map.put("result", result);
+		
+		return map;
+	}
+
 	@RequestMapping(value="/myPage.do")
-	public String selectMyPage() throws Exception{
+	public String selectMyPage(MemberVO vo, ModelMap model, HttpServletRequest request) throws Exception{
+		
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		
+		vo = memberService.selectMemeberDetail(userid);
+		model.addAttribute("vo", vo);
+		
+		int cnt = memberService.selectMemberCoupon(userid);
+		model.addAttribute("coupon", cnt);
+		
+		int total = memberService.selectMemberMoney(userid);
+		model.addAttribute("total", total);
+		
 		return "member/myPage";
 	}
+	
 	@RequestMapping(value="/memberModify.do")
-	public String updateMemberInfo() throws Exception{
+	public String updateMemberInfo(MemberVO vo, ModelMap model, HttpServletRequest request) throws Exception{
+		
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		
+		vo = memberService.selectMemeberDetail(userid);
+		model.addAttribute("vo", vo);
+		
 		return "member/memberModify";
 	}
+	
+	@RequestMapping(value="/memberModifySave.do")
+	@ResponseBody
+	public Map<String,Object> updateMemeberInfo(MemberVO vo) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		String result ="";
+		int cnt = memberService.updateMember(vo);
+		if(cnt>0) result = "ok";
+		else result = "1";
+			
+		map.put("result", result);
+		
+		return map;
+	}
+	
 	@RequestMapping(value="/login.do")
 	public String memberLogin() throws Exception{
 		return "member/login";
 	}
+	
+	@RequestMapping(value="/loginCert.do")
+	 @ResponseBody
+	public Map<String, Object> loginCert(MemberVO vo, HttpServletRequest request) throws Exception {
+		
+		String result = "";
+		int cnt = 0;
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		cnt = memberService.selectMemberCertCnt(vo);
+		if(cnt>0) {
+			map.put("ThedeepUserId", vo.getUserid());
+			map.put("ThedeepPwd", vo.getPwd());
+			request.getSession().setAttribute("ThedeepLoginCert", map);
+			result = "ok";
+		} else {
+			result = "-1";
+		}
+	
+		map.put("result", result);
+		return map;
+	}
+	
+	@RequestMapping(value="/logout.do")
+	 @ResponseBody
+	public Map<String,Object> logout(MemberVO vo, HttpServletRequest request, HttpSession session) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		session.setAttribute("ThedeepLoginCert", null);
+		map.put("result", "ok");
+		
+		return map;
+	}
+	
 	@RequestMapping(value="/findId1.do")
 	public String memberFindId1() throws Exception{
+		
 		return "member/findId1";
 	}
+	
+	@RequestMapping(value="/findIdChk.do")
+	@ResponseBody
+	public Map<String,Object> selectFindId(FindVO vo) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		String result = "";
+		System.out.println("name  :  " + vo.getName());
+		System.out.println("email  :  " + vo.getEmail());
+		int cnt = memberService.selectFindid(vo);
+		if(cnt>0) result = "ok";
+		else result = "1";
+			
+		map.put("result", result);
+		
+		return map;
+	}
+	
 	@RequestMapping(value="/findId2.do")
-	public String memberFindId2() throws Exception{
+	public String memberFindId2(FindVO fvo, MemberVO vo, ModelMap model) throws Exception{
+		
+		model.addAttribute("name", fvo.getName());
+		model.addAttribute("email", fvo.getEmail());
+		
+		List<?> list = memberService.selectFindIdList(fvo);
+		model.addAttribute("list", list);
+		
+		int cnt = memberService.selectFindidCnt(fvo);
+		model.addAttribute("cnt", cnt);
+		
 		return "member/findId2";
 	}
+	
 	@RequestMapping(value="/findPwd1.do")
 	public String memberFindPwd1() throws Exception{
 		return "member/findPwd1";
@@ -224,6 +366,18 @@ public class MemberController {
 	@RequestMapping(value="/orderComplete.do")
 	public String orderComplete() throws Exception{
 		return "member/orderComplete";
+	}
+	
+	@RequestMapping(value="/userOrderList.do")
+	public String selectUserOrderList(UolVO vo, ModelMap model, HttpServletRequest request) throws Exception{
+		
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		
+		List<?> list = memberService.selectUserOrderList(userid);
+		model.addAttribute("list", list);
+		
+		return "member/userOrderList";
 	}
 
 }

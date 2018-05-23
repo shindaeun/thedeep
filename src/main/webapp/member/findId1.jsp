@@ -1,6 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<script>
+$(function(){
+	$("#btnFind").click(function(){
+		if($("#name").val() == "") {
+			alert("이름을 입력해주세요");
+			$("#name").focus();
+			return;
+		}
+		if($("#email").val() == "") {
+			alert("이메일을 입력해주세요");
+			$("#email").focus();
+			return;
+		}
+		var formData = $("#frm").serialize();
+	 		// 비 동기 전송
+			$.ajax({
+				type: "POST",
+				data: formData,
+				url: "/findIdChk.do",
+
+				success: function(data) {
+					if(data.result == "ok") {
+						location.href = "/findId2.do";
+						var form = document.frm;
+						form.action = "/findId2.do";
+						form.submit();
+					} else {
+						alert("일치하는 회원이 없습니다");
+					}
+				},
+				error: function () {
+					alert("오류발생 ");
+				}
+			}); 
+		});
+});
+</script>
 
 <table class="top">
 	<tr class="top">
@@ -19,17 +56,17 @@
 	<tr>
 		<td>NAME</td>
 		<td  align="center">
-		<input type="text" id="name"/>
+		<input type="text" name="name" id="name" style="border-style:none;" autofocus/>
 		</td>
 	</tr>
 	<tr>
 		<td>E-Mail</td>
 		<td align="center">
-		<input type="text" id="email"/>
+		<input type="text" name="email" id="email" style="border-style:none;"/>
 		</td>
 	</tr>
 </table>
 </form>
 <div width="100%" style="margin-left:340px; margin-top:10px;">
-<button type="button" class="white" style="width:260px;">Find</button>
+<button type="button" id="btnFind" class="white" style="width:260px;">Find</button>
 </div>
