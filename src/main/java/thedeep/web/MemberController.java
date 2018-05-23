@@ -355,7 +355,9 @@ public class MemberController {
 			}
 			model.addAttribute("olist",olist);
 		}
-		
+		MemberVO vo = new MemberVO();
+		vo.setUserid(userid);
+		model.addAttribute("vo",vo);
 		return "member/order";
 	}
 	@RequestMapping(value="/orderNow.do")

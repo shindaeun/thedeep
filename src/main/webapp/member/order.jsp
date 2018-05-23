@@ -48,7 +48,7 @@
 <table class="board">
 	<tr class="board">
 		<th class="head" width="20%">주문하는 분</th>
-		<td>홍수정</td>
+		<td>${vo.name }</td>
 	</tr>
 	<tr class="board">
 		<th class="head">전화번호</th>
