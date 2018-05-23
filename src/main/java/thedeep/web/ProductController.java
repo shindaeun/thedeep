@@ -139,7 +139,10 @@ public class ProductController {
 		return "product/productDetail";
 	}
 	@RequestMapping(value="/productAdd.do")
-	public String selectProductAdd() throws Exception{
+	public String selectProductAdd(ModelMap model) throws Exception{
+		List<?> groupName = productService.selectGname();
+		model.addAttribute("group", groupName);
+		
 		return "product/productAdd";
 	}
 	@RequestMapping(value="/productModify.do")

@@ -73,6 +73,8 @@ public class ProductDAO extends EgovAbstractDAO {
 		return list("productDAO.selectReviewResult",rvo);
 	}
 
-	
+	public List<?> selectGname() {
+		return list("productDAO.selectGname");
+	}
 
 }

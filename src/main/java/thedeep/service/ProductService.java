@@ -34,6 +34,8 @@ public interface ProductService {
 
 	List<?> selectReviewResult(ReviewVO rvo) throws Exception;
 
+	List<?> selectGname() throws Exception;
+
 
 
 }
