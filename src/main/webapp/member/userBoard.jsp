@@ -124,7 +124,7 @@ p {
       				pageContext.setAttribute("br", "<br/>"); //br 태그
 					%> 
 					${fn:replace(i.content,newLine,br)}
-					<br><button type="button" class="white" onClick="location.href='/qnaWrite.do?unq=${i.unq}'">수정</button></div>
+					<br><button type="button" class="white" onClick="location.href='/qnaModify.do?unq=${i.unq}'">수정</button></div>
 				</td>
 				<td>${i.rdate}</td>
 				<td>${i.hit}</td>
@@ -215,7 +215,7 @@ p {
       				pageContext.setAttribute("br", "<br/>"); //br 태그
 					%> 
 					${fn:replace(i.content,newLine,br)}<br>
-					<button type="button" class="white" onClick="location.href='/qnaWrite.do?unq=${i.unq}'">수정</button></div>
+					<button type="button" class="white" onClick="location.href='/reviewModify.do?unq=${i.unq}'">수정</button></div>
 				</td>
 				<td>${i.rdate}</td>
 				<td>${i.hit}</td>
