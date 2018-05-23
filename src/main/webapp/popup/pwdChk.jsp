@@ -22,7 +22,38 @@
 <script src="/js/jquery-1.12.4.js"></script>
 <script src="js/jquery-ui.js"></script>
 <script>
+$(function(){
+	$("#btnPwdAction").click(function(){ 
+		var formData = $("#frm").serialize();
+ 		// 비 동기 전송
+		$.ajax({
+			type: "POST",
+			data: formData,
+			url: "/pwdChkSave.do",
 
+			success: function(data) {
+				if(data.result == "ok") {
+					alert("기존 비밀번호와 일치합니다.");
+					var npwd = $("#npwd").val();
+					npwd = $.trim(npwd);
+					opener.document.frm.opwd.value = npwd;
+					self.close();
+				} else {
+					alert("기존 비밀번호와 일치하지 않습니다. 다시 시도해 주세요.");
+					return;
+				}
+			},
+			error: function () {
+				alert("오류발생 ");
+			}
+		}); 
+ 		
+	});
+	
+	$("#btnClose").click(function() {
+		self.close();
+	});
+}); 
 </script>
 </head>
 <body>
@@ -32,7 +63,9 @@
 		<td class="top">비밀번호 확인</td>
 	</tr>
 </table>
-<form name="frm" method="post" action="/post1.do">
+<form name="frm" id="frm">
+<input type="hidden" name="userid" id="userid" value="${vo.userid}">
+<input type="hidden" name="npwd" id="npwd" value="${vo.pwd}">
 	<table style="width: 500px; height:20%; margin-top:50px;">
 		<colgroup>
 			<col width="*" />
@@ -43,15 +76,15 @@
 			</tr>
 			<tr>
 				<td height="100" align="center">
-					<input type="password" name="pwd" style="width: 70%;">
+					<input type="password" name="pwd" id="pwd" style="width: 70%;">
 				</td>
 			</tr>
 		</tbody>
 	</table>
 </form>
 <div style="text-align:center; width:500px;">
-<button type="button" id="btnPostAction" class="white">적용</button>&nbsp;
-<button type="button" class="white" onclick="location.href= '/home.do'">취소</button>
+<button type="button" class="white" id="btnPwdAction">적용</button>&nbsp;
+<button type="button" class="white" id="btnClose" >취소</button>
 </div>
 </body>
 </html>

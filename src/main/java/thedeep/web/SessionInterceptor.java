@@ -19,9 +19,12 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
         
     	     System.out.println("11111");
     	     HttpSession session = request.getSession();
-    	     if(session == null || session.getAttribute("LoginCert")==null) {
-    	    	 response.sendRedirect("/loginWrite.do");
+    	     if(session == null || session.getAttribute("ThedeepLoginCert")==null) {
+    	    	 response.sendRedirect("/login.do");
     	    	 return false;
+    	     /*} else if(session.getAttribute("ThedeepALoginCert")==null) {
+    	    	 response.sendRedirect("/adminLogin.do");
+    	    	 return false;*/
     	     } else {
     	    	 
     	     }

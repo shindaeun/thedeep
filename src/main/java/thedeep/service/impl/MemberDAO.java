@@ -9,6 +9,7 @@ import thedeep.service.CartVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.FindVO;
 import thedeep.service.MemberVO;
+import thedeep.service.PwdCkVO;
 
 @Repository("memberDAO")
 public class MemberDAO extends EgovAbstractDAO{
@@ -108,6 +109,11 @@ public class MemberDAO extends EgovAbstractDAO{
 	public int selectFindidCnt(FindVO fvo) {
 		return (int) select("memberDAO.selectFindidCnt", fvo);
 	}
+	
+	public int selectPwdChk(PwdCkVO vo) {
+		return (int) select("memberDAO.selectPwdChk", vo);
+	}
+	
 
 	
 }

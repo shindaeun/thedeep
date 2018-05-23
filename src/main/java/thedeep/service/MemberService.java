@@ -51,6 +51,8 @@ public interface MemberService {
 	List<?> selectFindIdList(FindVO fvo) throws Exception;
 
 	int selectFindidCnt(FindVO fvo) throws Exception;
+	
+	int selectPwdChk(PwdCkVO vo) throws Exception;
 
 
 

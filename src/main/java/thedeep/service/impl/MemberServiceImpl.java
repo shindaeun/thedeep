@@ -11,6 +11,7 @@ import thedeep.service.DefaultVO;
 import thedeep.service.FindVO;
 import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
+import thedeep.service.PwdCkVO;
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
 
@@ -135,6 +136,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int selectFindidCnt(FindVO fvo) throws Exception {
 		return memberDAO.selectFindidCnt(fvo);
+	}
+	
+	@Override
+	public int selectPwdChk(PwdCkVO vo) throws Exception {
+		return memberDAO.selectPwdChk(vo);
 	}
 
 }
