@@ -19,23 +19,23 @@
 	<tr>
 		<td>NAME</td>
 		<td  align="center">
-		<input type="text" id="name"/>
+		<input type="text" id="name" name="name" style="border-style:none;" autofocus/>
 		</td>
 	</tr>
 	<tr>
 		<td>ID</td>
 		<td align="center">
-		<input type="text" id="id"/>
+		<input type="text" id="id" name="id" style="border-style:none;"/>
 		</td>
 	</tr>
 	<tr>
 		<td>E-Mail</td>
 		<td align="center">
-		<input type="text" id="email"/>
+		<input type="text" id="email" name="email" style="border-style:none;"/>
 		</td>
 	</tr>
 </table>
 </form>
 <div width="100%" style="margin-left:340px; margin-top:10px;">
-<button type="button" class="white" style="width:260px;">Find</button>
+<button type="button" id="btnFind" class="white" style="width:260px;">Find</button>
 </div>

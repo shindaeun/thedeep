@@ -25,6 +25,7 @@ $(function(){
 					if(data.result == "ok") {
 						location.href = "/findId2.do";
 						var form = document.frm;
+						form.method = "post";
 						form.action = "/findId2.do";
 						form.submit();
 					} else {
