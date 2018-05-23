@@ -362,7 +362,7 @@ public class MemberController {
 			model.addAttribute("olist",olist);
 		}
 		MemberVO vo = new MemberVO();
-		vo.setUserid(userid);
+		vo = memberService.selectMemeberDetail(userid);
 		model.addAttribute("vo",vo);
 		return "member/order";
 	}

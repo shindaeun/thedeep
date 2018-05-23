@@ -56,6 +56,8 @@ public interface MemberService {
 
 	CartVO selectCartProductInfo(CartVO vo) throws Exception;
 
+	List<?> selectUserCouponList(String userid) throws Exception;
+
 
 
 }

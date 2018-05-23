@@ -80,10 +80,7 @@
 				;
 			obj.selectedIndex = i;
 			return;
-		} /* else if(){//상품목록에 추가되어 있으면../
-	    	//alert($("#alloption"))
-	    	alert("이미 선택하셨습니다.");
-		 }   */
+		}
 		else {
 			var cscodes = document.getElementsByName("cscode");
 			for(var i=0;i<cscodes.length;i++){

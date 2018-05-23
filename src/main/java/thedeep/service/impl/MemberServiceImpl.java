@@ -148,4 +148,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectCartProductInfo(vo);
 	}
 
+	@Override
+	public List<?> selectUserCouponList(String userid) throws Exception {
+		return memberDAO.selectUserCouponList(userid);
+	}
+
 }

@@ -119,5 +119,9 @@ public class MemberDAO extends EgovAbstractDAO{
 		return (CartVO) select("memberDAO.selectCartProductInfo",vo);
 	}
 
+	public List<?> selectUserCouponList(String userid) {
+		return list("memberDAO.selectUserCouponList",userid);
+	}
+
 	
 }

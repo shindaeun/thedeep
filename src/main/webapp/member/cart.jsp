@@ -55,44 +55,7 @@
 		});
 		$("#btnBuy").click(function() {
 			$("#frm").attr({method:'post',action:'/order.do'}).submit();
-			/*  var checkbox = $("input[name=ordercheck]:checked");
-			checkbox.each(function(i) {
-				var tr=checkbox.parent().parent().eq(i);
-				var td=tr.children();
-				alert(td.eq(1).text());
-			});  
 			
-			var bool=false;
-			 var f=document.frm;
-			var len=f.ordercheck.length;
-			for(var i=0;i<len;i++){
-				if(f.ordercheck[i].checked==true){
-					bool=true;
-				}
-			}
-			if(bool==true){
-				var formData = $("#frm").serialize();//비 동기 전송
-				$.ajax({
-					type : "POST",
-					data: formData,
-					url : "/order.do",
-					success : function(data) {
-						if (data.result == "ok") {
-							alert("성공");
-							location.href = "/order.do";
-						}
-						else {
-							alert("실패했습니다. 다시 시도해 주세요.");
-						}
-					},
-					error: function (request,status,error) {
-		            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		              }
-				});
-				
-			}else{
-				alert("상품을 선택해주세요!");
-			} */
 	
 		});
 		$("button[name=btnChange]").click(function() {
