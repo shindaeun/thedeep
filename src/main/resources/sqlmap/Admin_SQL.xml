@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AdminSpace">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="adminVO" type="thedeep.service.AdminVO"/>
+	
+	<select id="adminDAO.selectIdChk" resultClass="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM admininfo
+		WHERE adminid=#adminid#
+	</select>
+	
+	<insert id="adminDAO.insertAdmin">
+		INSERT INTO admininfo
+		( adminid
+		, name
+		, pwd
+		, birthday
+		, gender
+		, post
+		, phone
+		, email
+		) VALUES 
+				( #adminid#
+				, #name#
+				, #pwd#
+				, #birthday#
+				, #gender#
+				, #post#
+				, #phone#
+				, #email# 
+				)
+	</insert>
+	
+	<select id="adminDAO.selectAdminCertCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(*) cnt
+		FROM admininfo
+		WHERE adminid=#adminid# AND pwd=#pwd#
+	</select>
+	
+	<select id="adminDAO.selectAdminDetail" resultClass="adminVO">
+		SELECT adminid
+		, name
+		, pwd
+		, to_char(birthday,'YYYY-MM-DD') birthday
+		, gender
+		, post
+		, phone
+		, email
+		FROM admininfo
+		WHERE adminid=#adminid#
+	</select>
+	
+	<select id="adminDAO.selectAdminPwdChk" resultClass="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM admininfo
+		WHERE pwd=#pwd#
+		AND adminid=#adminid#
+	</select>
+	
+	<update id="adminDAO.updateAdmin">
+		UPDATE admininfo
+		SET pwd = #pwd#
+			, birthday = #birthday#
+			, gender = #gender#
+			, post = #post#
+			, phone = #phone#
+			, email = #email#
+		WHERE adminid = #adminid#
+	</update>
+	
+	<select id="adminDAO.selectAdminList" resultClass="egovMap">
+		SELECT b.* FROM (
+   			SELECT rownum rn, a.* FROM (
+   				SELECT 
+   					userid userid,
+   					name name,
+   					phone phone,
+   					to_char(birthday, 'yyyy-mm-dd') birthday,
+   					email email,
+   					to_char(joindate, 'yyyy-mm-dd') joindate
+   				FROM 
+   					memberinfo
+   				WHERE 
+   					1=1
+   					<isNotNull property="searchKeyword">
+   						<isNotEmpty property="searchKeyword">
+   							AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+   						</isNotEmpty>
+   					</isNotNull>
+   				ORDER BY joindate DESC
+			) a
+		) b
+   			
+   		WHERE
+   			rn >= $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$
+   </select>
+   
+   <select id="adminDAO.selectAdminListTotCnt" resultClass="java.lang.Integer">
+   		SELECT COUNT(*)
+   		FROM memberinfo
+   		WHERE 
+   			1=1
+   			<isNotNull property="searchKeyword">
+				<isNotEmpty property="searchKeyword">
+					AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+				</isNotEmpty>
+   			</isNotNull>
+   </select>
+
+</sqlMap>

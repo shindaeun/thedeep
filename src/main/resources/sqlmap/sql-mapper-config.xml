@@ -10,5 +10,6 @@
 		<typeAlias alias="findVO" type="thedeep.service.FindVO" />
 		<typeAlias alias="uolVO" type="thedeep.service.UolVO" />
 		<typeAlias alias="pwdckVO" type="thedeep.service.PwdCkVO" />
+		<typeAlias alias="adminVO" type="thedeep.service.AdminVO" />
     </typeAliases>
 </configuration>
