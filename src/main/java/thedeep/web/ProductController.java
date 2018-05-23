@@ -164,7 +164,8 @@ public class ProductController {
 
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
-		
+		String result="",result1="",result2="";
+		int pcode;
 		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\productImages";
 		
 		//String uploadPath = "c:\\upload";
@@ -173,12 +174,29 @@ public class ProductController {
 			saveFolder.mkdirs();
 		}
 
-		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
-
-		vo.setFilename((String) imap.get("fileName"));
-
-		String result = productService.insertproduct(vo);
-		if(result == null) result = "ok";
+		String psize = vo.getPsize();
+		String[] splitpsize = psize.split(",");
+		
+		String color = vo.getColor();
+		String[] splitcolor = color.split(",");
+		
+		pcode = productService.selectPcode();
+		vo.setMaxpcode(pcode);
+		
+		HashMap imap = (HashMap) multipartProcess(files,uploadPath,pcode);
+		vo.setMainfile((String) imap.get("fileName"));
+		
+		for(int i=0; i<splitpsize.length; i++) {
+			for(int j=0; j<splitcolor.length; j++) {
+				vo.setPsize(splitpsize[i]);
+				vo.setColor(splitcolor[j]);
+				
+				result1 = productService.insertProduct(vo);
+				result2 = productService.insertProductStock(vo);
+			}
+		}
+		
+		if(result1 == null && result2 == null) result = "ok";
 		map.put("result", result);  //  ( Json 이름, 데이터 )
 		map.put("cnt", (String) imap.get("cnt")); // 0,1
 		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
@@ -187,7 +205,9 @@ public class ProductController {
 		return map;
 	}
 	
-	public static Map multipartProcess (Map files,String uploadPath) {
+
+	
+	public static Map multipartProcess (Map files,String uploadPath,int pcode) {
 		MultipartFile file;
 		String filePath = "";
 		int cnt = 0;
@@ -225,16 +245,13 @@ public class ProductController {
 						}
 					}
 				}
-				long unixTime = System.currentTimeMillis();
-				Random rn = new Random();
-				int num = rn.nextInt(90);
 
+				
 				if(errCode.equals("")) {
 					System.out.println(errCode);
-					filename = unixTime + num + "." + exeName;
+					filename = "P"+ String.format("%05d", pcode) + "." + exeName;
 					filePath = uploadPath + "\\" + filename;
 					filesize = (int)file.getSize();
-					String targetPath = uploadPath + "\\" + unixTime+"_1."+exeName;
 					// 물리적인 파일 저장 -> transferTo
 					try {
 						file.transferTo(new File(filePath));
@@ -257,10 +274,38 @@ public class ProductController {
 	public String selectProductModify() throws Exception{
 		return "product/productModify";
 	}
+	
+	
 	@RequestMapping(value="/productListView.do")
-	public String selectProductListView() throws Exception{
+	public String selectProductListView(
+			@ModelAttribute("searchVO") DefaultVO searchVO,ModelMap model) 
+				throws Exception {
+
+		/** EgovPropertyService.sample */
+		/* context-properties.xml */
+		searchVO.setPageUnit(10); // 한화면의 출력 개수
+		searchVO.setPageSize(10); // 페이지 너버 개수
+
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<?> sampleList = productService.selectProductListView(searchVO);
+		model.addAttribute("resultList", sampleList);
+
+		int totCnt = productService.selectProductListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+
 		return "product/productListView";
 	}
+	
 	@RequestMapping(value="/group.do")
 	public String selectgroup(ModelMap model, GroupVO vo) throws Exception{
 		vo = productService.selectGroup(vo.getGcode());

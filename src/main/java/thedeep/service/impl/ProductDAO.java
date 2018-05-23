@@ -77,8 +77,26 @@ public class ProductDAO extends EgovAbstractDAO {
 		return list("productDAO.selectGname");
 	}
 
-	public String insertproduct(ProductVO vo) {
-		return (String) insert("productDAO.insertproduct",vo);
+	public String insertProduct(ProductVO vo) {
+		return (String) insert("productDAO.insertProduct",vo);
 	}
+
+	public int selectPcode() {
+		return (int) select("productDAO.selectPcode");
+	}
+
+	public String insertProductStock(ProductVO vo) {
+		return (String) insert("productDAO.insertProductStock",vo);
+	}
+
+	public List<?> selectProductListView(DefaultVO searchVO) {
+		return list("productDAO.selectProductListView",searchVO);
+	}
+
+	public int selectProductListTotCnt(DefaultVO searchVO) {
+		return (int) select("productDAO.selectProductListTotCnt",searchVO);
+	}
+
+
 
 }

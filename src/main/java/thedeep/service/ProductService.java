@@ -36,7 +36,16 @@ public interface ProductService {
 
 	List<?> selectGname() throws Exception;
 
-	String insertproduct(ProductVO vo) throws Exception;
+	String insertProduct(ProductVO vo) throws Exception;
+
+	int selectPcode() throws Exception;
+
+	String insertProductStock(ProductVO vo) throws Exception;
+
+	List<?> selectProductListView(DefaultVO searchVO) throws Exception;
+
+	int selectProductListTotCnt(DefaultVO searchVO) throws Exception;
+
 
 
 

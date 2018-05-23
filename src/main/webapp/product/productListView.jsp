@@ -84,7 +84,7 @@ function fnAdd(cscode) {
        <th>SHOW</th>
        <th>입고</th>
    </tr>
-   <c:forEach var="result" items="${list}" varStatus="status">
+   <c:forEach var="result" items="${resultList}" varStatus="status">
    <tr class="board" style="height:30px;">
       <td><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
       <td>${result.gname}</td>

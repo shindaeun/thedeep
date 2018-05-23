@@ -101,9 +101,30 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 	}
 
 	@Override
-	public String insertproduct(ProductVO vo) throws Exception {
-		return productDAO.insertproduct(vo);
+	public String insertProduct(ProductVO vo) throws Exception {
+		return productDAO.insertProduct(vo);
 	}
+
+	@Override
+	public int selectPcode() throws Exception {
+		return productDAO.selectPcode();
+	}
+
+	@Override
+	public String insertProductStock(ProductVO vo) throws Exception {
+		return productDAO.insertProductStock(vo);
+	}
+
+	@Override
+	public List<?> selectProductListView(DefaultVO searchVO) throws Exception {
+		return productDAO.selectProductListView(searchVO);
+	}
+
+	@Override
+	public int selectProductListTotCnt(DefaultVO searchVO) throws Exception {
+		return productDAO.selectProductListTotCnt(searchVO);
+	}
+
 
 	
 

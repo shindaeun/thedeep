@@ -24,6 +24,11 @@ $(function(){
 			$("#content").focus();
 			return;
 		}
+		if($("#price").val() == "") {
+			alert("가격을 입력해주세요.");
+			$("#price").focus();
+			return;
+		}
 		
 		if(confirm("저장하시겠습니까?")) {		
 	 		//var formData = $("#frm").serialize();
@@ -63,14 +68,17 @@ $(function(){
 	});
 	
 });
+
 function addBox() {
-	var color = eval("$('#color').val()");
-	alert(color);
+	var color = eval("$('#putcolor').val()");
 	var txt = "&nbsp;&nbsp;<input type='checkbox' name='color' id='color' value='"+color+"'>"+color;
+		txt += "<input type='button' value='X' onClick='removeBox(this)'>";
 	var area = document.createElement('span');
 	area.innerHTML = txt;
 	document.getElementById('textBoxArea').appendChild(area);
-	//eval("$('#color').val('')");
+}
+function removeBox(obj) {
+	document.getElementById('textBoxArea').removeChild(obj.parentNode);
 }
 </script>
 
@@ -109,21 +117,21 @@ function addBox() {
 	<tr class="board">
 		<th class="head">사이즈</th>
 		<td>
-		<input type="checkbox" name="size" id="size" value="S">
+		<input type="checkbox" name="psize" id="psize" value="S">
 		S &nbsp;&nbsp; 
-		<input type="checkbox" name="size" id="size" value="M">
+		<input type="checkbox" name="psize" id="psize" value="M">
 		M &nbsp;&nbsp;
-		<input type="checkbox" name="size" id="size" value="L">
+		<input type="checkbox" name="psize" id="psize" value="L">
 		L &nbsp;&nbsp; 
-		<input type="checkbox" name="size" id="size" value="free">
-		free 
+		<input type="checkbox" name="psize" id="psize" value="F">
+		Free 
 		</td>
 	</tr>
 	
 	<tr class="board">
 		<th class="head">컬러</th>
 		<td>
-		<input type="text" id="color" name="color">
+		<input type="text" id="putcolor" name="putcolor">
 		<button type="button" onclick="addBox()">+</button>
 		<span id="textBoxArea" style="text-align:left;"></span>
 		</td>

@@ -199,4 +199,90 @@
 		select gname,gcode from productgroup
 	</select>
 	
+	<insert id="productDAO.insertProduct">
+		insert into product(
+			  cscode
+			, pcode
+			, pname
+			, price
+			, gcode
+			, soldout
+			, wait
+			, mainfile )
+		values (
+			  'P'||lpad(#maxpcode#,'5','0')||#psize#||#color#
+			, 'P'||lpad(#maxpcode#,'5','0')
+			, #pname#
+			, #price#
+			, #gcode#
+			, #soldout#
+			, #wait#
+			, #mainfile#)
+	</insert>
+	
+	<select id="productDAO.selectPcode" resultClass="java.lang.Integer">
+		select product_seq.nextval
+		from dual
+	</select>
+	
+	<insert id="productDAO.insertProductStock">
+		insert into stock(
+			  cscode
+			, pcode
+			, psize
+			, color
+			, amount )
+		values (
+			 'P'||lpad(#maxpcode#,'5','0')||#psize#||#color#
+		   , 'P'||lpad(#maxpcode#,'5','0')
+		   , #psize#
+		   , #color#
+		   , 0)
+	</insert>
+	
+	
+	<select id="productDAO.selectProductListView" resultClass="egovMap">
+	
+	SELECT b.* FROM (
+	
+	SELECT rownum rn,a.* FROM (
+	
+		SELECT 
+			cscode cscode,
+			pcode pcode,
+			pname pname,
+			price price,
+			gcode gcode,
+			soldout soldout,
+			wait wait
+		FROM
+			product
+		WHERE
+			1 = 1
+			<isNotNull property="searchKeyword">
+				<isNotEmpty property="searchKeyword">
+			AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+				</isNotEmpty>
+			</isNotNull>
+		ORDER BY cscode DESC 
+		) a
+	) b
+	
+	WHERE 
+		  rn > $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$ 
+
+	</select>
+	
+	<select id="productDAO.selectProductListTotCnt" 
+							resultClass = "java.lang.Integer">
+		SELECT COUNT(*) FROM product
+			WHERE
+				1 = 1
+				<isNotNull property="searchKeyword">
+					<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+					</isNotEmpty>
+				</isNotNull>
+	</select>
+	
 </sqlMap>
