@@ -1,5 +1,6 @@
 package thedeep.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -340,15 +341,28 @@ public class MemberController {
 		return "member/point";
 	}
 	@RequestMapping(value="/order.do")
-	public String order(@RequestParam(name="ordercheck", required=false) List<String> list) throws Exception{
-		System.out.println(list);
+	public String order(ModelMap model,@RequestParam(name="ordercheck", required=false) String[] orderarr) throws Exception{
+		System.out.println(orderarr);
+		String userid="userid1";
+		List<CartVO> olist = new ArrayList<CartVO>();
+		if(orderarr!=null){
+			for(int i=0;i<orderarr.length;i++){
+				CartVO vo = new CartVO();
+				vo.setUserid(userid);
+				vo.setCscode(orderarr[i]);
+				vo = memberService.selectCartProductInfo(vo);
+				olist.add(vo);
+			}
+			model.addAttribute("olist",olist);
+		}
+		
 		return "member/order";
 	}
 	@RequestMapping(value="/orderNow.do")
-	public String orderNow(ModelMap model,CartVO vo,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr) throws Exception{
+	public String orderNow(ModelMap model,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr) throws Exception{
 		
 		String userid="userid1";
-
+		CartVO vo = new CartVO();
 		vo.setUserid(userid);
 		for(int i=0;i<csarr.length;i++){
 			String tmp[]=csarr[i].split(" ");
