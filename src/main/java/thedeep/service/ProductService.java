@@ -36,6 +36,9 @@ public interface ProductService {
 
 	List<?> selectGname() throws Exception;
 
+	String insertproduct(ProductVO vo) throws Exception;
+
+
 
 
 }

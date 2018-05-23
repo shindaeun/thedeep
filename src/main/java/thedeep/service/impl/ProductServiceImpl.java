@@ -100,6 +100,11 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 		return productDAO.selectGname();
 	}
 
+	@Override
+	public String insertproduct(ProductVO vo) throws Exception {
+		return productDAO.insertproduct(vo);
+	}
+
 	
 
 }
