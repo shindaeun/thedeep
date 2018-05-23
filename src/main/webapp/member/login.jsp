@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <script>
 $(function(){
 	$("#btnLogin").click(function(){
@@ -64,16 +67,20 @@ a:hover {text-decoration:underline; color: #000000}
 		<col width="15%" />
 		<col width="35%" />
 	</colgroup>
+	
 	<tr class="login">
 		<td>ID</td>
 		<td  align="center">
-		<input type="text" name="userid" id="userid" style="border-style:none;" autofocus/>
+		<input type="text" name="userid" id="userid" style="border-style:none;" 
+			<c:if test="${useridIn!=null}">value="${useridIn}"</c:if>
+			<c:if test="${useridIn==null}">autofocus</c:if> />
 		</td>
 	</tr>
 	<tr class="login">
 		<td>PASSWORD</td>
 		<td align="center">
-		<input type="password" name="pwd" id="pwd" style="border-style:none;"/>
+		<input type="password" name="pwd" id="pwd" style="border-style:none;" 
+			<c:if test="${useridIn!=null}">autofocus</c:if>/>
 		</td>
 	</tr>
 </table>

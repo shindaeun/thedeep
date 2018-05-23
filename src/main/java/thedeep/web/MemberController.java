@@ -115,7 +115,15 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/login.do")
-	public String memberLogin() throws Exception{
+	public String memberLogin(MemberVO vo, ModelMap model) throws Exception{
+		
+		
+		String useridIn = vo.getUserid();
+		
+		if (useridIn!=null) {
+			model.addAttribute("useridIn", useridIn);
+		}
+		
 		return "member/login";
 	}
 	
@@ -166,8 +174,6 @@ public class MemberController {
 		Map<String,Object> map = new HashMap<String, Object>();
 		
 		String result = "";
-		System.out.println("name  :  " + vo.getName());
-		System.out.println("email  :  " + vo.getEmail());
 		int cnt = memberService.selectFindid(vo);
 		if(cnt>0) result = "ok";
 		else result = "1";
