@@ -56,6 +56,10 @@ public interface MemberService {
 
 	CartVO selectCartProductInfo(CartVO vo) throws Exception;
 
+	int selectFindPwd(FindVO vo) throws Exception;
+
+	int updatePwd(FindVO vo) throws Exception;
+
 
 
 }

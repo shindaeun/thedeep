@@ -13,6 +13,9 @@ $(function(){
 		form.action = "/login.do";
 		form.submit();
 	});
+	$("#btnFindPwd").click(function(){
+		location.href = "/findPwd1.do";
+	});
 });
 </script>
 
