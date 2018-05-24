@@ -80,11 +80,23 @@ public class MemberController {
 		vo = memberService.selectMemeberDetail(userid);
 		model.addAttribute("vo", vo);
 		
-		int cnt = memberService.selectMemberCoupon(userid);
-		model.addAttribute("coupon", cnt);
+		int coupon = memberService.selectMemberCoupon(userid);
+		model.addAttribute("coupon", coupon);
 		
 		int total = memberService.selectMemberMoney(userid);
 		model.addAttribute("total", total);
+		
+		int inMoney = memberService.selectInMoneyCnt(userid);
+		model.addAttribute("inMoney", inMoney);
+		
+		int preparing = memberService.selectPreparingCnt(userid);
+		model.addAttribute("preparing", preparing);
+		
+		int deliver = memberService.selectDeliverCnt(userid);
+		model.addAttribute("deliver", deliver);
+		
+		int complete = memberService.selectCompleteCnt(userid);
+		model.addAttribute("complete", complete);
 		
 		return "member/myPage";
 	}

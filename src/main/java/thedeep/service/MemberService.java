@@ -60,6 +60,14 @@ public interface MemberService {
 
 	int updatePwd(FindVO vo) throws Exception;
 
+	int selectInMoneyCnt(String userid) throws Exception;
+
+	int selectPreparingCnt(String userid) throws Exception;
+
+	int selectDeliverCnt(String userid) throws Exception;
+
+	int selectCompleteCnt(String userid) throws Exception;
+
 
 
 }

@@ -320,5 +320,37 @@
 		AND email = #email#
 	]]>
 	</update>
+	
+	<select id="memberDAO.selectInMoneyCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(d.ocode) cnt
+		FROM delivery d, memberinfo m
+		WHERE d.dstate = '입금전'
+		AND m.userid = #userid#
+		AND d.oname = m.name
+	</select>
+	
+	<select id="memberDAO.selectPreparingCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(d.ocode) cnt
+		FROM delivery d, memberinfo m
+		WHERE d.dstate = '배송준비중'
+		AND m.userid = #userid#
+		AND d.oname = m.name
+	</select>
+	
+	<select id="memberDAO.selectDeliverCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(d.ocode) cnt
+		FROM delivery d, memberinfo m
+		WHERE d.dstate = '배송중'
+		AND m.userid = #userid#
+		AND d.oname = m.name
+	</select>
+	
+	<select id="memberDAO.selectCompleteCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(d.ocode) cnt
+		FROM delivery d, memberinfo m
+		WHERE d.dstate = '배송완료'
+		AND m.userid = #userid#
+		AND d.oname = m.name
+	</select>
 
 </sqlMap>

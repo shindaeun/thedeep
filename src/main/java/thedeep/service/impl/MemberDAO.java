@@ -127,5 +127,21 @@ public class MemberDAO extends EgovAbstractDAO{
 		return update("memberDAO.updatePwd", vo);
 	}
 
+	public int selectInMoneyCnt(String userid) {
+		return (int) select("memberDAO.selectInMoneyCnt", userid);
+	}
+
+	public int selectPreparingCnt(String userid) {
+		return (int) select("memberDAO.selectPreparingCnt", userid);
+	}
+
+	public int selectDeliverCnt(String userid) {
+		return (int) select("memberDAO.selectDeliverCnt", userid);
+	}
+
+	public int selectCompleteCnt(String userid) {
+		return (int) select("memberDAO.selectCompleteCnt", userid);
+	}
+
 	
 }

@@ -67,10 +67,10 @@ a:hover {text-decoration:underline; color: #000000}
 		</tr>
 		<tr class="b">
 			<td width="10%"></td>
-			<td>입금전 0</td>
-			<td>배송준비중 0</td>
-			<td>배송중 0</td>
-			<td>배송완료 0</td>
+			<td>입금전 ${inMoney}</td>
+			<td>배송준비중 ${preparing}</td>
+			<td>배송중 ${deliver}</td>
+			<td>배송완료 ${complete}</td>
 		</tr>
 </table>
 <br/>
