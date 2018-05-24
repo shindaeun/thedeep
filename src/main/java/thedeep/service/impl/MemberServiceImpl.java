@@ -148,4 +148,14 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectCartProductInfo(vo);
 	}
 
+	@Override
+	public int selectFindPwd(FindVO vo) throws Exception {
+		return memberDAO.selectFindPwd(vo);
+	}
+
+	@Override
+	public int updatePwd(FindVO vo) throws Exception {
+		return memberDAO.updatePwd(vo);
+	}
+
 }

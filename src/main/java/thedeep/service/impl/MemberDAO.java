@@ -119,5 +119,13 @@ public class MemberDAO extends EgovAbstractDAO{
 		return (CartVO) select("memberDAO.selectCartProductInfo",vo);
 	}
 
+	public int selectFindPwd(FindVO vo) {
+		return (int) select("memberDAO.selectFindPwd", vo);
+	}
+
+	public int updatePwd(FindVO vo) {
+		return update("memberDAO.updatePwd", vo);
+	}
+
 	
 }

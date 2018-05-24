@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.mail.HtmlEmail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -199,13 +200,102 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/findPwd1.do")
-	public String memberFindPwd1() throws Exception{
+	public String memberFindPwd1(FindVO vo, ModelMap model) throws Exception{
+
 		return "member/findPwd1";
 	}
+	
+	@RequestMapping(value="/findPwdChk.do")
+	@ResponseBody
+	public Map<String,Object> selectFindPwd(FindVO vo) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		String result = "";
+		System.out.println("pwd  :  " + vo.getPwd());
+		int cnt = memberService.selectFindPwd(vo);
+		if(cnt>0) result = "ok";
+		else result = "1";
+			
+		map.put("result", result);
+		
+		return map;
+	}
+	
 	@RequestMapping(value="/findPwd2.do")
-	public String memberFindPwd2() throws Exception{
+	public String memberFindPwd2(FindVO vo, ModelMap model) throws Exception{
+		
+		model.addAttribute("name", vo.getName());
+		model.addAttribute("email", vo.getEmail());
+		model.addAttribute("userid", vo.getUserid());
+		
+		String pwd = "";
+		String result = "";
+		
+		for (int i = 0; i < 13; i++) {
+			pwd += (char) ((Math.random() * 26) + 97);
+		}
+		System.out.println("new pwd  :  " + pwd);
+		vo.setPwd(pwd);
+		
+		int cnt = memberService.updatePwd(vo);
+		if (cnt>0) result = "ok";
+		else result = "1";
+		
+		model.addAttribute("result", result);
+		
+		sendMail(vo);
+		
 		return "member/findPwd2";
 	}
+	
+	public static void sendMail(FindVO vo) throws Exception {
+		
+		// Mail Server 설정
+		String charSet = "utf-8";
+		String hostSMTP = "smtp.naver.com";
+		String hostSMTPid = "mlpokn_23";
+		String hostSMTPpwd = "alsgmlWkd34";
+
+		// 보내는 사람 EMail, 제목, 내용
+		String fromEmail = "mlpokn_23@naver.com";
+		String fromName = "The Deep";
+		String subject = "";
+		String msg = "";
+
+		// 회원가입 메일 내용
+		subject = "The Deep 임시 비밀번호 입니다.";
+		msg += "<div align='center' style='font-size:9pt; border: 1px dashed #828282; padding-top: 45px; padding-bottom:60px; width:600px; margin-left:300px;'>";
+		msg += "<h3 style='color: #bf82bf;'>";
+		msg += vo.getName() + " 님의 임시 비밀번호 입니다. 비밀번호를 변경하여 사용하세요.</h3>";
+		msg += "<p>임시 비밀번호 : ";
+		msg += vo.getPwd() + "</p></div>";
+
+
+
+		// 받는 사람 E-Mail 주소
+		String mail = vo.getEmail();
+		try {
+			HtmlEmail email = new HtmlEmail();
+			email.setDebug(true);
+			email.setCharset(charSet);
+			email.setSSL(true);
+			email.setHostName(hostSMTP);
+			email.setSmtpPort(587);
+
+			email.setAuthentication(hostSMTPid, hostSMTPpwd);
+			email.setTLS(true);
+			email.addTo(mail, charSet);
+			email.setFrom(fromEmail, fromName, charSet);
+			email.setSubject(subject);
+			email.setHtmlMsg(msg);
+			email.send();
+		} catch (Exception e) {
+			System.out.println("메일발송 실패  :  " + e);
+		}
+		
+	}
+
 	
 	@RequestMapping(value="/userBoard.do")
 	public String userBoard(ModelMap model,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
