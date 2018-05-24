@@ -158,4 +158,24 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.updatePwd(vo);
 	}
 
+	@Override
+	public int selectInMoneyCnt(String userid) throws Exception {
+		return memberDAO.selectInMoneyCnt(userid);
+	}
+
+	@Override
+	public int selectPreparingCnt(String userid) throws Exception {
+		return memberDAO.selectPreparingCnt(userid);
+	}
+
+	@Override
+	public int selectDeliverCnt(String userid) throws Exception {
+		return memberDAO.selectDeliverCnt(userid);
+	}
+
+	@Override
+	public int selectCompleteCnt(String userid) throws Exception {
+		return memberDAO.selectCompleteCnt(userid);
+	}
+
 }
