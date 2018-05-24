@@ -43,6 +43,7 @@ public class MemberController {
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		
+		System.out.println("userid  :  " + vo.getUserid());
 		String result = memberService.insertMember(vo);
 		if(result==null) result = "ok";
 		else result = "1";
@@ -59,11 +60,12 @@ public class MemberController {
 		Map<String,Object> map = new HashMap<String, Object>();
 		
 		String result = "";
-		
-		int count = memberService.selectIdChk(vo.getUserid());
 
-		if(count > 0) result = "1";
-		else result = "ok";
+		System.out.println("userid  :  " + vo.getUserid());
+		int cnt = memberService.selectIdChk(vo.getUserid());
+		System.out.println("cnt  :  " + cnt);
+		if(cnt == 0) result = "ok";
+		else result = "1";
 		map.put("result", result);
 		
 		return map;

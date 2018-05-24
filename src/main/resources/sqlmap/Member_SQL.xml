@@ -165,7 +165,7 @@
 	</select>
 	
 	<select resultClass="java.lang.Integer" id="memberDAO.selectIdChk"> 
-		SELECT COUNT(*) 
+		SELECT COUNT(*) cnt
 		FROM memberinfo 
 		WHERE userid=#userid# 
 	</select>

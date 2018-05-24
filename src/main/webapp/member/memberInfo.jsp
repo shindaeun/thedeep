@@ -62,14 +62,11 @@ $(function(){
 			return;
 		}
 		//var form = new FormData(document.getElementById('frm'));
-		var data = "userid="+$("#userid").val();
+		var data = "userid=" + $("#userid").val();
 		$.ajax({
 			type: "POST",
 			data: data,
 			url: "/memberIdChk.do",
-			dataType: "json",
-			processData: false,
-			contentType: false, 
 			
 			success: function(data) {
 				if(data.result == "ok") {
