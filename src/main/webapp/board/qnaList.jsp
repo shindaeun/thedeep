@@ -60,13 +60,29 @@ $(function() {
 	 	<th>DATE</th>
 	</tr>
 	<c:forEach var="result" items="${list}" varStatus="status">
-	<tr class="board" style="height:30px;">
+	<tr class="board" style="height:30px; text-align:center;">
 		<td><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
-		<td>
-		<c:if test="${result.filename!=0}">
- 		<img src="/images/${result.filename}" width="50" height="50" >
-		</c:if>
-		</td>
+		<c:set var="pcode" value="${result.filename}"/>
+       <%
+		int x=0,y=0;
+		String filename = (String) pageContext.getAttribute("filename");
+		filename=filename + ".jpg";
+		File file = new File("C:/Users/acorn/workspace/thedeep/src/main/webapp/qnaImages/" + filename);
+		if(!filename.equals(null) &&!filename.equals("")&& file.exists()){
+			BufferedImage img = ImageIO.read(file);
+			int imgWidth = img.getWidth(null);
+			int imgHeight = img.getHeight(null);
+			
+			if (imgWidth > imgHeight) {
+				x =100;
+				y =(imgHeight*100)/imgWidth;
+			} else {
+				y =100;
+				x =(imgWidth*100)/imgHeight;
+			} 
+		}
+		%>
+	  <td style="text-align:center"><img src="/qnaImages/${result.filename}.jpg" width="<%=x %>" height="<%=y %>"/></td>
 		<td><a href="/pnaDetail.do?unq=${result.unq}">${result.title}</a></td>
 		<td>${result.name}</td>
 		<td>${result.date}</td>

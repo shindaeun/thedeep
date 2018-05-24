@@ -8,8 +8,6 @@ public interface BoardService {
 
 	int selectQnaListTotCnt(DefaultVO searchVO) throws Exception;
 
-	String insertUpload(BoardVO vo) throws Exception;
-
 	BoardVO selectQnaImage(int unq) throws Exception;
 
 	String insertReview(ReviewVO vo) throws Exception;
@@ -51,6 +49,8 @@ public interface BoardService {
 	int updateNotice(NoticeVO vo) throws Exception;
 
 	int deleteNotice(NoticeVO vo) throws Exception;
+
+	String insertQnaWrite(BoardVO vo) throws Exception;
 
 
 	

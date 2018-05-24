@@ -54,40 +54,6 @@
 	]]>
    </select>
    
-   <insert id="boardDAO.insertUpload">
-         INSERT INTO qna
-            (  unq 
-			, name
-			, pwd
-			, title
-			, content
-			, rdate
-			, hit
-			, forder
-			<isNotNull property="filename">
-				<isNotEmpty property="filename">
-			, filename
-			, filesize
-				</isNotEmpty>
-   			</isNotNull>
-			)
-         VALUES ( qna_seq.nextval
-             	 , #name#
-             	 , #pwd#
-             	 , #title#
-             	 , #content#
-             	 , sysdate
-             	 , '0'
-             	 , 'a'
-             	 <isNotNull property="filename">
-             	 	<isNotEmpty property="filename">
-             	 , #filename#
-             	 , #filesize#
-             	 	</isNotEmpty>
-             	 </isNotNull>
-             	 ) 
-   </insert>
-   
     <insert id="boardDAO.insertReview">
          INSERT INTO review
             (  unq
@@ -371,4 +337,40 @@
 		DELETE FROM notice
 		WHERE unq = #unq#
 	</delete>
+	
+	<insert id="boardDAO.insertQnaWrite">
+         INSERT INTO qna
+            (  unq 
+			, name
+			, pwd
+			, title
+			, content
+			, rdate
+			, hit
+			, forder
+			<isNotNull property="filename">
+				<isNotEmpty property="filename">
+			, filename
+			, filesize
+				</isNotEmpty>
+   			</isNotNull>
+   			, userid
+			)
+         VALUES ( qna_seq.nextval
+             	 , #name#
+             	 , #pwd#
+             	 , #title#
+             	 , #content#
+             	 , sysdate
+             	 , '0'
+             	 , 'a'
+             	 <isNotNull property="filename">
+             	 	<isNotEmpty property="filename">
+             	 , #filename#
+             	 , #filesize#
+             	 	</isNotEmpty>
+             	 </isNotNull>
+             	 , '1111'
+             	 ) 
+   </insert>
 </sqlMap>

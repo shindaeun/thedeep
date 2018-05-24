@@ -21,10 +21,6 @@ public class BoardDAO extends EgovAbstractDAO {
 		return (int) select("boardDAO.selectQnaListTotCnt", searchVO);
 	}
 
-	public String insertUpload(BoardVO vo) {
-		return (String) insert("boardDAO.insertUpload",vo);
-	}
-
 	public BoardVO selectQnaImage(int unq) {
 		return (BoardVO) select("boardDAO.selectQnaImage", unq);
 	}
@@ -107,6 +103,10 @@ public class BoardDAO extends EgovAbstractDAO {
 
 	public int deleteNotice(NoticeVO vo) {
 		return (int) delete("boardDAO.deleteNotice",vo);
+	}
+
+	public String insertQnaWrite(BoardVO vo) {
+		return (String) insert("boardDAO.insertQnaWrite",vo);
 	}
 
 	

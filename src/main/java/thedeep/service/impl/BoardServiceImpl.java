@@ -30,11 +30,6 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	}
 
 	@Override
-	public String insertUpload(BoardVO vo) throws Exception {
-		return boardDAO.insertUpload(vo);
-	}
-
-	@Override
 	public BoardVO selectQnaImage(int unq) throws Exception {
 		return boardDAO.selectQnaImage(unq);
 	}
@@ -137,6 +132,11 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	@Override
 	public int deleteNotice(NoticeVO vo) throws Exception {
 		return boardDAO.deleteNotice(vo);
+	}
+
+	@Override
+	public String insertQnaWrite(BoardVO vo) throws Exception {
+		return boardDAO.insertQnaWrite(vo);
 	}
 
 	

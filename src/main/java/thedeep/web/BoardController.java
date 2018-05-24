@@ -55,7 +55,7 @@ public class BoardController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		List<?> list = boardService.selectQnaList(searchVO);
-		model.addAttribute("resultList", list);
+		model.addAttribute("list", list);
 		
 		int totCnt = boardService.selectQnaListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
@@ -69,106 +69,38 @@ public class BoardController {
 		return "board/qnaWrite";
 	}
 	
-	/*@RequestMapping(value = "/qnaWriteSave.do")
-	@ResponseBody public Map<String, String> multipartProcess(
-						final MultipartHttpServletRequest multiRequest,
-						HttpServletResponse response, 
-						BoardVO vo,
-						ModelMap model) throws Exception {
-		MultipartFile file;;
-		String filePath = "";
-		int cnt = 0;
+	@RequestMapping(value = "/qnaWriteSave.do")
+	@ResponseBody 
+	public Map<String, String> pnaWriteSave (
+					final MultipartHttpServletRequest multiRequest,
+					HttpServletResponse response, 
+					BoardVO vo,
+					ModelMap model) throws Exception {
 
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
 		
-		String uploadPath ="C:/Users/acorn/workspace/thedeep/src/main/webapp/images";
-
-		System.out.println("title : " + vo.getTitle());
-		System.out.println("path : " + uploadPath);
-
+		String uploadPath = "C:\\Users\\acorn\\workspace\\thedeep\\src\\main\\webapp\\qnaImages";
+		
+		//String uploadPath = "c:\\upload";
 		File saveFolder = new File(uploadPath);
-		if (!saveFolder.exists() || saveFolder.isFile()) {
+		if (!saveFolder.exists()) {
 			saveFolder.mkdirs();
 		}
 
-		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
-
-		String	filename = "";
-		int		filesize = 0;
-		String errCode = "";
-		String exeName = "";
-
-		while (itr.hasNext()) {
-			Entry<String, MultipartFile> entry = itr.next();
-			file = entry.getValue();
-			if (!"".equals(file.getOriginalFilename())) {
-				
-				
-				// jpg, jepg, gif, bmp
-				// --> abdefjpg
-				
-				 *	1. 확장자 get
-				 *	2. 확장자를 이용한 유효성 체크
-				 *	3. size 체크 (5m) 
-				 
-				
-				String realFile = file.getOriginalFilename();
-				
-				if(realFile.lastIndexOf(".")==-1) {
-					errCode = "-1";
-				} else {
-					String[] array = realFile.split("\\.");
-					exeName = array[array.length-1];
-					exeName = exeName.toLowerCase();
-					if(		!exeName.equals("jpg")
-						&&	!exeName.equals("jepg")
-						&&	!exeName.equals("png")) 
-					{
-						errCode = "0";
-					} else {
-						if(file.getSize() > 1024*1024*5) {
-							errCode="1";
-						}
-					}
-				}
-				long unixTime = System.currentTimeMillis();
-				
-				if(errCode.equals("")) {
-					filename = unixTime + "." + exeName;
-					filePath = uploadPath + "\\" + filename;
-					filesize = (int) file.getSize();
-					try {
-						file.transferTo(new File(filePath));
-						
-						imageResize(uploadPath,unixTime+"",exeName,100);
-						imageResize(uploadPath,unixTime+"",exeName,80);
-						
-						cnt++;
-					} catch(Exception e) {
-						errCode="2";
-					}
-				}
-
-				System.out.println(file.getName());
-				System.out.println(file.getOriginalFilename());
-				System.out.println(file.getSize());
-
-			}
-		}
+		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
 		
-		vo.setFilename(filename);
-		vo.setFilesize(filesize);
-		
-		String result = boardService.insertUpload(vo);
+		vo.setFilename((String) imap.get("fileName"));
+		System.out.println(vo.getFilename() + "  /  "  + vo.getFilesize());
+		String result = boardService.insertQnaWrite(vo);
 		if(result == null) result = "ok";
-		map.put("result", result);		// (json 인식이름, 데이터)
-		map.put("cnt", Integer.toString(cnt));
-		map.put("errCode", errCode);
-		// json => result=ok&cnt=1
+		map.put("result", result);  //  ( Json 이름, 데이터 )
+		map.put("cnt", (String) imap.get("cnt")); // 0,1
+		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
+		// Json =>  result=ok&cnt=1
 		
 		return map;
-	}*/
+	}
 	
 	@RequestMapping(value="/qnaDetail.do")
 	public String selectQnaDetail() throws Exception{
