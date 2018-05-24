@@ -351,7 +351,6 @@ public class MemberController {
 		System.out.println(orderarr);
 		String userid="userid1";
 		List<CartVO> olist = new ArrayList<CartVO>();
-		String[] cscode = {};
 		if(orderarr!=null){
 			for(int i=0;i<orderarr.length;i++){
 				CartVO vo = new CartVO();
@@ -359,7 +358,6 @@ public class MemberController {
 				vo.setCscode(orderarr[i]);
 				vo = memberService.selectCartProductInfo(vo);
 				olist.add(vo);
-				
 			}
 			model.addAttribute("olist",olist);
 		}
@@ -369,19 +367,22 @@ public class MemberController {
 		return "member/order";
 	}
 	@RequestMapping(value="/orderNow.do")
-	public String orderNow(CartVO vo,ModelMap model,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr,RedirectAttributes redirectAttributes) throws Exception{
+	public String orderNow(ModelMap model,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr) throws Exception{
 		
 		String userid="userid1";
+		CartVO vo = new CartVO();
 		vo.setUserid(userid);
 		for(int i=0;i<csarr.length;i++){
 			String tmp[]=csarr[i].split(" ");
 			String[] color=tmp[0].split("-");
 			String[] size=tmp[1].split("-");
 			String cscode=vo.getPcode()+size[1]+color[1];
-			csarr[i]=cscode;
+			vo.setCscode(cscode);
+			vo.setAmount(Integer.parseInt(amarr[i]));
+			vo.setUserid(userid);
+			System.out.println(vo.getUserid() + vo.getPcode()+vo.getCscode()+vo.getAmount());
 		}
-		redirectAttributes.addAttribute("ordercheck", csarr);
-		return "redirect:/order.do";  
+		return "member/order";
 	}
 	
 	@RequestMapping(value="/orderComplete.do")
