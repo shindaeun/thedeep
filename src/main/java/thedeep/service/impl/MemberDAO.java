@@ -7,8 +7,11 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import thedeep.service.CartVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.DeliveryVO;
 import thedeep.service.FindVO;
 import thedeep.service.MemberVO;
+import thedeep.service.OrderListVO;
+import thedeep.service.OrderVO;
 import thedeep.service.PwdCkVO;
 
 @Repository("memberDAO")
@@ -141,6 +144,45 @@ public class MemberDAO extends EgovAbstractDAO{
 
 	public int selectCompleteCnt(String userid) {
 		return (int) select("memberDAO.selectCompleteCnt", userid);
+	}
+	public List<?> selectUserCouponList(String userid) {
+		return list("memberDAO.selectUserCouponList",userid);
+	}
+
+	public CartVO selectProductInfo(CartVO vo) {
+		return (CartVO) select("memberDAO.selectProductInfo",vo);
+	}
+
+	public String selectOcodeNext() {
+		return (String) select("memberDAO.selectOcodeNext");
+	}
+
+	public String insertOrder(OrderVO ovo) {
+		return (String) insert("memberDAO.insertOrder",ovo);
+	}
+
+	public String insertDelivery(DeliveryVO dvo) {
+		return (String) insert("memberDAO.insertDelivery",dvo);
+	}
+
+	public String insertOrderList(OrderListVO vo) {
+		return (String) insert("memberDAO.insertOrderList",vo);
+	}
+
+	public int updateAblePoint(MemberVO mvo) {
+		return update("memberDAO.updateAblePoint",mvo);
+	}
+
+	public int deleteUseCoupon(OrderVO ovo) {
+		return delete("memberDAO.deleteUseCoupon",ovo);
+	}
+
+	public OrderVO selectOrderInfo(String ocode) {
+		return (OrderVO) select("memberDAO.selectOrderInfo",ocode);
+	}
+
+	public String selectOrderList(String ocode) {
+		return  (String) select("memberDAO.selectOrderList",ocode);
 	}
 
 	

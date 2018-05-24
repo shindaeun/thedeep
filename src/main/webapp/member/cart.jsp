@@ -55,44 +55,7 @@
 		});
 		$("#btnBuy").click(function() {
 			$("#frm").attr({method:'post',action:'/order.do'}).submit();
-			/*  var checkbox = $("input[name=ordercheck]:checked");
-			checkbox.each(function(i) {
-				var tr=checkbox.parent().parent().eq(i);
-				var td=tr.children();
-				alert(td.eq(1).text());
-			});  
 			
-			var bool=false;
-			 var f=document.frm;
-			var len=f.ordercheck.length;
-			for(var i=0;i<len;i++){
-				if(f.ordercheck[i].checked==true){
-					bool=true;
-				}
-			}
-			if(bool==true){
-				var formData = $("#frm").serialize();//비 동기 전송
-				$.ajax({
-					type : "POST",
-					data: formData,
-					url : "/order.do",
-					success : function(data) {
-						if (data.result == "ok") {
-							alert("성공");
-							location.href = "/order.do";
-						}
-						else {
-							alert("실패했습니다. 다시 시도해 주세요.");
-						}
-					},
-					error: function (request,status,error) {
-		            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		              }
-				});
-				
-			}else{
-				alert("상품을 선택해주세요!");
-			} */
 	
 		});
 		$("button[name=btnChange]").click(function() {
@@ -216,12 +179,12 @@
 				<td><input type="checkbox" name="ordercheck" id="ordercheck"value="${i.cscode}" checked/>&nbsp;${i.pcode }</td>
 				<td>${i.cscode}</td>
 				<td>${i.pname}</td>
-				<c:set var="filename" value="${i.filename }"/>
+				<c:set var="mainfile" value="${i.mainfile }"/>
 				<%
 				int x=0,y=0;
-				String filename = (String) pageContext.getAttribute("filename");
-				File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/" + filename);
-				if(!filename.equals(null) &&!filename.equals("")&& file.exists()){
+				String mainfile = (String) pageContext.getAttribute("mainfile");
+				File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/" + mainfile);
+				if(!mainfile.equals(null) &&!mainfile.equals("")&& file.exists()){
 					BufferedImage img = ImageIO.read(file);
 					int imgWidth = img.getWidth(null);
 					int imgHeight = img.getHeight(null);
@@ -235,7 +198,7 @@
 					} 
 				}
 				%>
-				<td><img src="/productImages/${i.filename }" width="<%=x %>" height="<%=y %>"/></td>
+				<td><img src="/productImages/${i.mainfile }" width="<%=x %>" height="<%=y %>"/></td>
 				<td>${i.cssize}</td>
 				<td>${i.cscolor}</td>
 				<td><span>${i.price}</span>원</td>

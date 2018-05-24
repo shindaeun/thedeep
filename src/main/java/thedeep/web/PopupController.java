@@ -1,6 +1,7 @@
 package thedeep.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -8,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import thedeep.service.AdminService;
@@ -16,6 +18,7 @@ import thedeep.service.BoardService;
 import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
 import thedeep.service.NoticeVO;
+import thedeep.service.OrderVO;
 import thedeep.service.PwdCkVO;
 import thedeep.service.ReviewVO;
 
@@ -122,7 +125,10 @@ public class PopupController {
 
 	
 	@RequestMapping(value="/couponPopup.do")
-	public String couponPopup() throws Exception{
+	public String couponPopup(ModelMap model) throws Exception{
+		String userid = "userid1";
+		List<?> clist = memberService.selectUserCouponList(userid);
+		model.addAttribute("clist",clist);
 		return "popup/couponPopup";
 	}
 

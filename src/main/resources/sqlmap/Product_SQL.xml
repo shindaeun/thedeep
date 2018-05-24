@@ -130,7 +130,7 @@
 		from(
 		SELECT
 		distinct
-		pcode,pname,price,filename
+		pcode,pname,price,mainfile,filename
 		FROM
 		product
 		WHERE
@@ -156,7 +156,7 @@
 		pcode DESC
 	</select>
 	<select id="productDAO.selectProductInfo" resultClass="productVO">
-		select distinct pcode,pname,price,price*0.01 point ,filename
+		select distinct pcode,pname,price,price*0.01 point ,filename,mainfile
 		from product
 		where lower(pcode)=lower(#pcode#)
 	</select>

@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 
 import thedeep.service.CartVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.DeliveryVO;
 import thedeep.service.FindVO;
 import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
+import thedeep.service.OrderListVO;
+import thedeep.service.OrderVO;
 import thedeep.service.PwdCkVO;
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
@@ -149,6 +152,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+
 	public int selectFindPwd(FindVO vo) throws Exception {
 		return memberDAO.selectFindPwd(vo);
 	}
@@ -176,6 +180,55 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int selectCompleteCnt(String userid) throws Exception {
 		return memberDAO.selectCompleteCnt(userid);
+	}
+	public List<?> selectUserCouponList(String userid) throws Exception {
+		return memberDAO.selectUserCouponList(userid);
+	}
+
+	@Override
+	public CartVO selectProductInfo(CartVO vo) throws Exception {
+		return memberDAO.selectProductInfo(vo);
+	}
+
+	@Override
+	public String selectOcodeNext() throws Exception {
+		return memberDAO.selectOcodeNext();
+	}
+
+	@Override
+	public String insertOrder(OrderVO ovo) throws Exception {
+		return memberDAO.insertOrder(ovo);
+	}
+
+	@Override
+	public String insertDelivery(DeliveryVO dvo) throws Exception {
+		return memberDAO.insertDelivery(dvo);
+	}
+
+	@Override
+	public String insertOrderList(OrderListVO vo) throws Exception {
+		return memberDAO.insertOrderList(vo);
+	}
+
+	@Override
+	public int updateAblePoint(MemberVO mvo) throws Exception {
+		return memberDAO.updateAblePoint(mvo);
+	}
+
+	@Override
+	public int deleteUseCoupon(OrderVO ovo) throws Exception {
+		return memberDAO.deleteUseCoupon(ovo);
+	}
+
+	@Override
+	public OrderVO selectOrderInfo(String ocode) throws Exception {
+		return memberDAO.selectOrderInfo(ocode);
+	}
+
+	@Override
+	public String selectOrderList(String ocode) throws Exception {
+		return memberDAO.selectOrderList(ocode);
+
 	}
 
 }

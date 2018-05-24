@@ -21,9 +21,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import thedeep.service.CartVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.DeliveryVO;
 import thedeep.service.FindVO;
 import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
+import thedeep.service.OrderListVO;
+import thedeep.service.OrderVO;
 import thedeep.service.UolVO;
 
 @Controller
@@ -466,31 +469,87 @@ public class MemberController {
 			model.addAttribute("olist",olist);
 		}
 		MemberVO vo = new MemberVO();
-		vo.setUserid(userid);
+		vo = memberService.selectMemeberDetail(userid);
 		model.addAttribute("vo",vo);
 		return "member/order";
 	}
 	@RequestMapping(value="/orderNow.do")
-	public String orderNow(ModelMap model,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr) throws Exception{
+	public String orderNow(CartVO vo,ModelMap model,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr) throws Exception{
 		
 		String userid="userid1";
-		CartVO vo = new CartVO();
-		vo.setUserid(userid);
+		String pcode=vo.getPcode();
+		List<CartVO> olist = new ArrayList<CartVO>();
+
 		for(int i=0;i<csarr.length;i++){
+			vo = new CartVO();
 			String tmp[]=csarr[i].split(" ");
 			String[] color=tmp[0].split("-");
 			String[] size=tmp[1].split("-");
-			String cscode=vo.getPcode()+size[1]+color[1];
+			String cscode=pcode+size[1]+color[1];
 			vo.setCscode(cscode);
+			vo = memberService.selectProductInfo(vo);
 			vo.setAmount(Integer.parseInt(amarr[i]));
+			vo.setPrice(vo.getPrice()*Integer.parseInt(amarr[i]));
+			vo.setSavepoint(vo.getSavepoint()*Integer.parseInt(amarr[i]));
 			vo.setUserid(userid);
-			System.out.println(vo.getUserid() + vo.getPcode()+vo.getCscode()+vo.getAmount());
+			olist.add(vo);
 		}
+		model.addAttribute("olist",olist);
+		MemberVO mvo = new MemberVO();
+		mvo = memberService.selectMemeberDetail(userid);
+		model.addAttribute("vo",mvo);
 		return "member/order";
 	}
-	
+	@RequestMapping(value="/orderSave.do")
+	@ResponseBody
+	public Map<String,Object> orderSave(OrderVO ovo,OrderListVO lvo,DeliveryVO dvo) throws Exception{
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		String result = "fail";
+		String userid="userid1";
+		List<OrderListVO> olist = lvo.getOlist();
+		System.out.println(olist.get(0).getCscode());
+		System.out.println(olist.get(1).getCscode());
+		String ocode = memberService.selectOcodeNext(); 
+		MemberVO mvo =memberService.selectMemeberDetail(userid);
+		
+		ovo.setOcode(ocode);
+		dvo.setOcode(ocode);
+		
+		ovo.setUserid(userid);
+		result = memberService.insertOrder(ovo);
+		
+		dvo.setOemail(mvo.getEmail());
+		dvo.setOname(mvo.getName());
+		dvo.setOphone(mvo.getPhone());
+		if(result==null){
+			result = memberService.insertDelivery(dvo);
+			if(result==null){
+				for(int i =0;i<olist.size();i++){
+					OrderListVO vo = olist.get(i);
+					vo.setOcode(ocode);
+					result = memberService.insertOrderList(vo);
+				}
+				if(result==null){
+					result="ok";
+				}
+			}
+		}
+		//사용포인트 차감
+		mvo.setAblepoint(ovo.getUsepoint());
+		int cnt = memberService.updateAblePoint(mvo);
+		//쿠폰 삭제
+		cnt = memberService.deleteUseCoupon(ovo);
+		map.put("result", result);
+		map.put("ocode", ocode);
+		return map;
+	}
 	@RequestMapping(value="/orderComplete.do")
-	public String orderComplete() throws Exception{
+	public String orderComplete(ModelMap model,@RequestParam("ocode") String ocode) throws Exception{
+		OrderVO ovo  = memberService.selectOrderInfo(ocode);
+		String olist = memberService.selectOrderList(ocode);
+		model.addAttribute("ovo",ovo);
+		model.addAttribute("olist",olist);
 		return "member/orderComplete";
 	}
 	

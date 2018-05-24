@@ -59,12 +59,12 @@ background: white;
 	</colgroup>
 		<tr class="board">
 			<c:forEach var="i" items="${blist}" varStatus="status">
-			<c:set var="filename" value="${i.filename }"/>
+			<c:set var="mainfile" value="${i.mainfile }"/>
 				<%
 				int x=0,y=0;
-				String filename = (String) pageContext.getAttribute("filename");
-				File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/" + filename);
-				if(!filename.equals(null) &&!filename.equals("")&& file.exists()){
+				String mainfile = (String) pageContext.getAttribute("mainfile");
+				File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/" + mainfile);
+				if(!mainfile.equals(null) &&!mainfile.equals("")&& file.exists()){
 					BufferedImage img = ImageIO.read(file);
 					int imgWidth = img.getWidth(null);
 					int imgHeight = img.getHeight(null);
@@ -78,7 +78,7 @@ background: white;
 					} 
 				}
 				%>
-			<th class="mouse"><a href="/productDetail.do?pcode=${i.pcode }"><img src="/productImages/${i.filename }" style="cursur:pointer" width="<%=x %>" height="<%=y %>"/></a><br>${i.pname}<br>${i.price}원</th>
+			<th class="mouse"><a href="/productDetail.do?pcode=${i.pcode }"><img src="/productImages/${i.mainfile }" style="cursur:pointer" width="<%=x %>" height="<%=y %>"/></a><br>${i.pname}<br>${i.price}원</th>
 			</c:forEach>
 		</tr>
 	</table>
@@ -107,12 +107,12 @@ background: white;
 			<c:set var="filenum" value="0"/>
 			<c:forEach var="i" items="${plist}" varStatus="status">
 			<c:set var="filenum" value="${filenum+1}"/>
-			<c:set var="filename" value="${i.filename }"/>
+			<c:set var="mainfile" value="${i.mainfile }"/>
 				<%
 				int x=0,y=0;
-				String filename = (String) pageContext.getAttribute("filename");
-				File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/" + filename);
-				if(!filename.equals(null) &&!filename.equals("")&& file.exists()){
+				String mainfile = (String) pageContext.getAttribute("mainfile");
+				File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/" + mainfile);
+				if(!mainfile.equals(null) &&!mainfile.equals("")&& file.exists()){
 					BufferedImage img = ImageIO.read(file);
 					int imgWidth = img.getWidth(null);
 					int imgHeight = img.getHeight(null);
@@ -126,7 +126,7 @@ background: white;
 					} 
 				}
 				%>
-			<th class="mouse"><a href="/productDetail.do?pcode=${i.pcode }"><img src="/productImages/${i.filename }" style="cursur:pointer"width="<%=x %>" height="<%=y %>"/></a><br>${i.pname }<br>${i.price }</th>
+			<th class="mouse"><a href="/productDetail.do?pcode=${i.pcode }"><img src="/productImages/${i.mainfile }" style="cursur:pointer"width="<%=x %>" height="<%=y %>"/></a><br>${i.pname }<br>${i.price }</th>
 			<c:if test="${filenum==3}">
 				<c:set var="filenum" value="0"/>
 				</tr>

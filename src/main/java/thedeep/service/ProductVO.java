@@ -1,7 +1,13 @@
 package thedeep.service;
 
 public class ProductVO {
-	private String pcode,pname,filename;
+	private String pcode,pname,filename,mainfile;
+	public String getMainfile() {
+		return mainfile;
+	}
+	public void setMainfile(String mainfile) {
+		this.mainfile = mainfile;
+	}
 	private int price,point;
 	public String getPcode() {
 		return pcode;
