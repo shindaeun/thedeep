@@ -40,7 +40,7 @@ public class ProductController {
 	@RequestMapping(value="/productList.do")
 	public String selectProductList(ModelMap model ,HttpServletRequest request,GroupVO gvo,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
 		String gcode = request.getParameter("gcode");
-		gcode="g002";
+		gcode="g003";
 		gvo=productService.selectGroup(gcode);
 		searchVO.setSearchCondition("gcode");
 		searchVO.setSearchKeyword(gcode);
@@ -271,8 +271,46 @@ public class ProductController {
 	
 	
 	@RequestMapping(value="/productModify.do")
-	public String selectProductModify() throws Exception{
+	public String selectProductModify(ProductVO vo, ProductVO gvo, ModelMap model) throws Exception{
+		String pcode = vo.getPcode();
+		
+		vo = productService.selectProductDetail(pcode);
+		model.addAttribute("vo", vo);
+		
+		List<?> groupList = productService.selectGroupList();
+		model.addAttribute("group", groupList);		
+		
 		return "product/productModify";
+	}
+	
+	@RequestMapping(value="/productFileDelete.do")
+	@ResponseBody 
+	public Map<String,Object> updateProductFile (ProductVO vo) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\productImages";
+		String fullPath = "";
+		String result = "";
+		String mainfile=vo.getMainfile();
+		
+		
+		mainfile=mainfile.replace(mainfile,"");
+		vo.setMainfile(mainfile);
+
+		int cnt = productService.updateProductFile(vo);
+
+		if(cnt > 0) {
+			fullPath = uploadPath+"\\"+mainfile;
+			File file = new File(fullPath);
+			file.delete();
+			result="1";
+		}
+		else {
+			result = "-1";
+		}
+
+		map.put("result", result);
+		return map;
 	}
 	
 	
@@ -306,6 +344,21 @@ public class ProductController {
 		return "product/productListView";
 	}
 	
+	@RequestMapping(value="/productAmountAdd.do")
+	@ResponseBody
+	public Map<String,Object> updateAmount (ProductVO vo) throws Exception  {
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result="";
+
+		int cnt = productService.updateAmount(vo);
+		if(cnt > 0) result="1";
+		else result = "-1";
+
+		map.put("result",result);
+		
+		return map;
+	}
+	
 	@RequestMapping(value="/group.do")
 	public String selectgroup(ModelMap model, GroupVO vo) throws Exception{
 		vo = productService.selectGroup(vo.getGcode());
@@ -315,6 +368,7 @@ public class ProductController {
 		model.addAttribute("group", vo);
 		return "product/group";
 	}
+	
 	@RequestMapping(value="/groupSave.do")
 	@ResponseBody
 	public Map<String,Object> insertgroup(GroupVO vo) throws Exception{

@@ -46,6 +46,12 @@ public interface ProductService {
 
 	int selectProductListTotCnt(DefaultVO searchVO) throws Exception;
 
+	int updateAmount(ProductVO vo) throws Exception;
+
+	ProductVO selectProductDetail(String pcode) throws Exception;
+
+	int updateProductFile(ProductVO vo) throws Exception;
+
 
 
 

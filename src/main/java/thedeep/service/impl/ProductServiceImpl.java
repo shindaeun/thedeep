@@ -125,6 +125,21 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 		return productDAO.selectProductListTotCnt(searchVO);
 	}
 
+	@Override
+	public int updateAmount(ProductVO vo) throws Exception {
+		return productDAO.updateAmount(vo);
+	}
+
+	@Override
+	public ProductVO selectProductDetail(String pcode) throws Exception {
+		return productDAO.selectProductDetail(pcode);
+	}
+
+	@Override
+	public int updateProductFile(ProductVO vo) throws Exception {
+		return productDAO.updateProductFile(vo);
+	}
+
 
 	
 

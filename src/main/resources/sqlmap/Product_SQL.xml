@@ -247,21 +247,13 @@
 	
 	SELECT rownum rn,a.* FROM (
 	
-		SELECT 
-			cscode cscode,
-			pcode pcode,
-			pname pname,
-			price price,
-			gcode gcode,
-			soldout soldout,
-			wait wait
-		FROM
-			product
-		WHERE
-			1 = 1
+		SELECT p.cscode ,p.pcode ,p.pname ,p.price ,p.soldout,p.wait, s.amount, g.GNAME
+  		  FROM product p, stock s, productgroup g
+         WHERE p.cscode = s.cscode
+  		   AND p.GCODE = g.GCODE
 			<isNotNull property="searchKeyword">
 				<isNotEmpty property="searchKeyword">
-			AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+					AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
 				</isNotEmpty>
 			</isNotNull>
 		ORDER BY cscode DESC 
@@ -273,9 +265,8 @@
 
 	</select>
 	
-	<select id="productDAO.selectProductListTotCnt" 
-							resultClass = "java.lang.Integer">
-		SELECT COUNT(*) FROM product
+	<select id="productDAO.selectProductListTotCnt" resultClass = "java.lang.Integer">
+		SELECT COUNT(*) FROM product p
 			WHERE
 				1 = 1
 				<isNotNull property="searchKeyword">
@@ -284,5 +275,24 @@
 					</isNotEmpty>
 				</isNotNull>
 	</select>
+	
+	<update id="productDAO.updateAmount">
+		UPDATE stock SET
+			amount = amount+(#amount#)
+		WHERE
+			cscode = #cscode#
+	</update>
+	
+	<select id="productDAO.selectProductDetail" resultClass = "productVO">
+		select distinct(pcode) pcode ,pname ,price ,gcode ,soldout ,wait ,mainfile
+		from product
+		where pcode=#pcode#
+	</select>
+	
+	<update id="productDAO.updateProductFile">
+		update product set mainfile=#mainfile#
+		where pcode=#pcode#
+	</update>
+	
 	
 </sqlMap>

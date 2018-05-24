@@ -12,40 +12,42 @@ $(function() {
          $("#searchKeyword").focus();
          return;
       }
-      $("form").attr({
+      $("#frm1").attr({
          action:'/productListView.do',method:'post'
       }).submit();
    });
+   
 });
-</script>
-<script>
-function fnAdd(cscode) {
-	if(confirm("입고하시겠습니까?")) {			
-	 	var param = "cscode="+cscode;	
+function fnAdd(cscode,num) {
+	if(confirm("저장하시겠습니까?")) {
+		var amount = document.frm2.amount[num].value;
+		//var amount = document.getElementsByName("amount");
+		//alert(amount[num].value);
+ 		var param = "cscode="+cscode+"&amount="+amount;
+
 		$.ajax({
 			type: "get",
 			data: param,
-			url: "/productAdd.do",
+			url: "/productAmountAdd.do",
 			dataType: "json",
 			processData: false,
 			contentType: false, 
 			
 			success: function(data) {
 				if(data.result == "1") {
-					alert("입고하였습니다.");
+					alert("저장하였습니다.");
 					location.href="/productListView.do";
 				} else {
-					alert("입고 실패하였습니다. 다시 시도해 주세요.");
+					alert("저장 실패하였습니다. 다시 시도해 주세요.");
 				}
 					
 			},
-			error: function () {
-				alert("오류발생 ");
+			error: function(request,status,error) {
+				 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			}
-		}); 
+		});
 	}
 }
-
 </script>
 
 <table class="top">
@@ -54,13 +56,13 @@ function fnAdd(cscode) {
    </tr>
 </table>
 
-<form name="frm" id="frm">
+<form name="frm1" id="frm1">
 <table style="width:100%">
    <tr>
       <td>
          <select name="searchCondition">
-            <option value="pname">상품명</option>
-            <option value="pcode">상품코드</option>
+            <option value="p.pname">상품명</option>
+            <option value="p.pcode">상품코드</option>
          </select>
          <input type="text" name="searchKeyword" id="searchKeyword">
          <button type="button" id="btnSearch" class="white">검색</button>
@@ -69,39 +71,43 @@ function fnAdd(cscode) {
 </table>
 </form>
 
-
-<form id="frm1" name="frm1">
+<form name="frm2" id="frm2">
 <c:set var="total" value="1"/>
 <table class="board">
    <tr class="board" style="height:30px;">
-       <th>NO</th>
-       <th>상품분류</th>
-       <th>상품코드</th>
-       <th>품목코드</th>
-       <th>상품명</th>
-       <th>판매가</th>
-       <th>재고수량</th>
-       <th>SHOW</th>
-       <th>입고</th>
+       <th width="7%">NO</th>
+       <th width="7%">상품분류</th>
+       <th width="12%">상품코드</th>
+       <th width="12%">품목코드</th>
+       <th width="12%">상품명</th>
+       <th width="10%">판매가</th>
+       <th width="5%">품절</th>
+       <th width="5%">대기</th>
+       <th width="10%">재고수량</th>
+       <th width="12%">입고/출고</th>
+       <th width="5%">삭제</th>
    </tr>
    <c:forEach var="result" items="${resultList}" varStatus="status">
    <tr class="board" style="height:30px;">
-      <td><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
-      <td>${result.gname}</td>
-      <td>${result.pcode}</td>
-      <td>${result.cscode}</td>
-      <td>${result.pname}</td>
-      <td>${result.price}</td>
-      <td>${result.amount}</td>
-      <td>${result.wait}</td>
-      <td><input type="text" name="qty" id="qty"><a href="javascript:fnAdd('${result.cscode}')" class="white">입고</a></td>
+      <td style="text-align:center"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
+      <td style="text-align:center">${result.gname}</td>
+      <td style="text-align:center"><a href="/productModify.do?pcode=${result.pcode}">${result.pcode}</td>
+      <td style="text-align:center">${result.cscode}</td>
+      <td style="text-align:center">${result.pname}</td>
+      <td style="text-align:center">${result.price}</td>
+      <td style="text-align:center">${result.soldout}</td>
+      <td style="text-align:center">${result.wait}</td>
+      <td style="text-align:center">${result.amount}</td>
+      <td style="text-align:center"><input type="text" name="amount" id="amount" size="4"><a href="javascript:fnAdd('${result.cscode}','${status.count-1}')" class="white">&nbsp;저장&nbsp;</a></td>
+      <td style="text-align:center"><a href="javascript:fnDel('${result.cscode}')" class="white">&nbsp;삭제&nbsp;</a></td>
     </tr>
    </c:forEach>
 </table>
 </form>
+
 <br>
 
-<table border="0" width="600px;">
+<table border="0" width="100%;">
    <tr>
       <td align="center" style="board:0px;">
          <div id="paging">

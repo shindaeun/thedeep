@@ -97,6 +97,18 @@ public class ProductDAO extends EgovAbstractDAO {
 		return (int) select("productDAO.selectProductListTotCnt",searchVO);
 	}
 
+	public int updateAmount(ProductVO vo) {
+		return (int) update("productDAO.updateAmount",vo);
+	}
+
+	public ProductVO selectProductDetail(String pcode) {
+		return (ProductVO) select("productDAO.selectProductDetail",pcode);
+	}
+
+	public int updateProductFile(ProductVO vo) {
+		return (int) update("productDAO.updateProductFile",vo);
+	}
+
 
 
 }
