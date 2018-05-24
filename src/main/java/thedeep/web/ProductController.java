@@ -40,7 +40,7 @@ public class ProductController {
 	@RequestMapping(value="/productList.do")
 	public String selectProductList(ModelMap model ,HttpServletRequest request,GroupVO gvo,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
 		String gcode = request.getParameter("gcode");
-		gcode="g002";
+		gcode="g003";
 		gvo=productService.selectGroup(gcode);
 		searchVO.setSearchCondition("gcode");
 		searchVO.setSearchKeyword(gcode);

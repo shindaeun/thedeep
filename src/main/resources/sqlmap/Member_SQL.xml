@@ -10,6 +10,8 @@
 	<typeAlias type="thedeep.service.FindVO" alias="findVO" />
 
 	<typeAlias alias="cartVO" type="thedeep.service.CartVO" />
+	<typeAlias alias="orderVO" type="thedeep.service.OrderVO" />
+	<typeAlias alias="orderListVO" type="thedeep.service.OrderListVO" />
 
 
 	<insert id="memberDAO.insertCartList">
@@ -37,7 +39,7 @@
 
 	<select id="memberDAO.selectUserCouponList" resultClass="egovMap">
 	 <![CDATA[
-		select cname,applymoney,discountrate,maxdiscmoney,to_char(sdate,'yyyy-mm-dd') sdate,to_char(edate,'yyyy-mm-dd') edate 
+		select c.ccode ccode, cname,applymoney,discountrate,maxdiscmoney,to_char(sdate,'yyyy-mm-dd') sdate,to_char(edate,'yyyy-mm-dd') edate 
 		from coupon c, couponlist l 
 		where c.ccode =l.ccode and userid=#userid# and edate>sysdate
 	 ]]>
@@ -60,7 +62,16 @@
 		select ablepoint from memberinfo where userid=#userid#
 	 ]]>
 	</select>
-
+	<update id="memberDAO.updateAblePoint">
+	 <![CDATA[
+		update memberinfo set ablepoint = ablepoint - #ablepoint# where userid=#userid#
+	 ]]>
+	</update>
+	<delete id="memberDAO.deleteUseCoupon">
+		delete from couponList 
+		where userid=#userid# 
+		and ccode=(select c.ccode from coupon c, couponlist l where c.ccode=l.ccode and c.cname = #usecoupon#)
+	</delete>
 	<select id="memberDAO.selectUserReview" resultClass="egovMap">
 		select b.*
 		from(
@@ -159,7 +170,7 @@
 	</select>
 	<select id="memberDAO.selectCouponList" resultClass="egovMap">
 	 <![CDATA[
-	select cname||' '||discountrate||'% 할인' coupon, applymoney||'원 이상 주문 시 사용가능' subject1, '최대 '||maxDiscmoney||'원 할인 가능' subject2,sdate||'~'||edate usedate
+	select c.ccode ccode,cname||' '||discountrate||'% 할인' coupon, applymoney||'원 이상 주문 시 사용가능' subject1, '최대 '||maxDiscmoney||'원 할인 가능' subject2,sdate||'~'||edate usedate
 	from couponList l, coupon c 
 	where c.CCODE = l.CCODE and userid=#userid# and sysdate<edate
 	 ]]>
@@ -167,7 +178,7 @@
 
 	<select id="memberDAO.selectCartList" resultClass="egovMap">
 	 <![CDATA[
-	select userid,c.cscode,c.pcode,pname,price,amount,filename,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.001) savepoint
+	select userid,c.cscode,c.pcode,pname,price*amount price,amount,filename,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.001*amount) savepoint
 	from cart c, product p
 	where userid=#userid#
 	and c.cscode=p.cscode
@@ -303,12 +314,51 @@
 
 	<select id="memberDAO.selectCartProductInfo" resultClass="cartVO">
 	 <![CDATA[
-	select userid,c.cscode,c.pcode,pname,price,amount,filename,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.001) savepoint
+	select userid,c.cscode cscode ,c.pcode pcode,pname,price*amount price,amount,filename,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*amount*0.001) savepoint
 	from cart c, product p
 	where userid=#userid#
 	and c.cscode=#cscode#
 	and c.cscode=p.cscode
 	 ]]>
 	</select>
-
+	<select id="memberDAO.selectProductInfo" resultClass="cartVO">
+	 <![CDATA[
+	select pcode,cscode,pname,price,round(price*0.001) savepoint
+	from product
+	where cscode=#cscode#
+	 ]]>
+	</select>
+	<select id="memberDAO.selectOcodeNext" resultClass="java.lang.String">
+	 <![CDATA[
+	select 'ODR'|| lpad(order_seq.nextval,5,'0') ocode
+	from dual
+	 ]]>
+	</select>
+	<select id="memberDAO.selectOrderInfo" resultClass="orderVO">
+	 <![CDATA[
+	select ocode,totalmoney,paymethod,to_char(odate,'yyyy-mm-dd') odate 
+	from ordermain 
+	where ocode=#ocode#
+	 ]]>
+	</select>
+	<select id="memberDAO.selectOrderList" resultClass="java.lang.String">
+	 <![CDATA[
+	select list 
+	from(select rownum,pname||' 外 '|| (count(ocode)over()-1) ||'개' list 
+		from orderlist l,product p 
+		where l.cscode = p.cscode and ocode='ODR00034')
+	where rownum=1
+	 ]]>
+	</select>
+	
+	<insert id="memberDAO.insertOrder">
+	insert into ordermain values(#ocode#,#userid#,#totalmoney#,#payresult#,#paymethod#,#depositname#,#usepoint#,#savepoint#,'',sysdate,#usecoupon#)
+	</insert>
+	<insert id="memberDAO.insertDelivery">
+	insert into delivery values(#ocode#,'입금전','',#oname#,#ophone#,#oemail#,#dname#,#dphone#,#dpost#,#message#)
+	</insert>
+	<insert id="memberDAO.insertOrderList">
+	insert into orderList values(#ocode#,#pcode#,#cscode#,#amount#,#totalmoney#)
+	</insert>
+	
 </sqlMap>

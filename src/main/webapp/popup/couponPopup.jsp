@@ -29,14 +29,13 @@ $(function() {
 		if(cname=="쿠폰선택"){
 			alert("쿠폰을 선택해주세요");
 		}else{
-			opener.document.getElementById("cname").value=cname;
+			opener.document.getElementById("usecoupon").value=cname;
 			opener.totalcalcul();
 			self.close();
 		}
 		
 	});
 	$("#btnClose").click(function() {
-		alert("a");
 		self.close();
 	});
 });	

@@ -11,7 +11,7 @@ public class MemberVO {
 	private String email;
 	private String emailreceive;
 	private String phonereceive;
-	private String ablepoint;
+	private int ablepoint;
 	private String joindate;
 	
 	public String getUserid() {
@@ -74,10 +74,10 @@ public class MemberVO {
 	public void setPhonereceive(String phonereceive) {
 		this.phonereceive = phonereceive;
 	}
-	public String getAblepoint() {
+	public int getAblepoint() {
 		return ablepoint;
 	}
-	public void setAblepoint(String ablepoint) {
+	public void setAblepoint(int ablepoint) {
 		this.ablepoint = ablepoint;
 	}
 	public String getJoindate() {

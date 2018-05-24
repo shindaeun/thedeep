@@ -20,13 +20,13 @@
 	if (Integer.parseInt(pageIndex) < 0)
 		pageIndex = "1";
 %>
-<c:set var="filename" value="${pvo.filename }" />
+<c:set var="mainfile" value="${pvo.mainfile }" />
 <%
 	int x = 0, y = 0;
-	String filename = (String) pageContext.getAttribute("filename");
+	String mainfile = (String) pageContext.getAttribute("mainfile");
 	File file = new File(
-			"C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/" + filename);
-	if (!filename.equals(null) && !filename.equals("") && file.exists()) {
+			"C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/" + mainfile);
+	if (!mainfile.equals(null) && !mainfile.equals("") && file.exists()) {
 		BufferedImage img = ImageIO.read(file);
 		int imgWidth = img.getWidth(null);
 		int imgHeight = img.getHeight(null);
@@ -205,7 +205,7 @@ p {
 <table class="board">
 	<tr class="board">
 		<td align="center" rowspan="8" width="50%"><img
-			src="/productImages/${pvo.filename }" width="<%=x %>"
+			src="/productImages/${pvo.mainfile }" width="<%=x %>"
 			height="<%=y %>" /></td>
 		<td>상품명</td>
 		<td>${pvo.pname }</td>

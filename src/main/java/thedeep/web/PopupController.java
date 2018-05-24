@@ -18,7 +18,7 @@ import thedeep.service.BoardService;
 import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
 import thedeep.service.NoticeVO;
-import thedeep.service.OrderMainVO;
+import thedeep.service.OrderVO;
 import thedeep.service.PwdCkVO;
 import thedeep.service.ReviewVO;
 

@@ -58,6 +58,24 @@ public interface MemberService {
 
 	List<?> selectUserCouponList(String userid) throws Exception;
 
+	CartVO selectProductInfo(CartVO vo) throws Exception;
+
+	String selectOcodeNext() throws Exception;
+
+	String insertOrder(OrderVO ovo)  throws Exception;
+
+	String insertDelivery(DeliveryVO dvo)  throws Exception;
+
+	String insertOrderList(OrderListVO vo)  throws Exception;
+
+	int updateAblePoint(MemberVO mvo) throws Exception;
+
+	int deleteUseCoupon(OrderVO ovo) throws Exception;
+
+	OrderVO selectOrderInfo(String ocode)  throws Exception;
+
+	String selectOrderList(String ocode)  throws Exception;
+
 
 
 }

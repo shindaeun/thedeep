@@ -179,12 +179,12 @@
 				<td><input type="checkbox" name="ordercheck" id="ordercheck"value="${i.cscode}" checked/>&nbsp;${i.pcode }</td>
 				<td>${i.cscode}</td>
 				<td>${i.pname}</td>
-				<c:set var="filename" value="${i.filename }"/>
+				<c:set var="mainfile" value="${i.mainfile }"/>
 				<%
 				int x=0,y=0;
-				String filename = (String) pageContext.getAttribute("filename");
-				File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/" + filename);
-				if(!filename.equals(null) &&!filename.equals("")&& file.exists()){
+				String mainfile = (String) pageContext.getAttribute("mainfile");
+				File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/" + mainfile);
+				if(!mainfile.equals(null) &&!mainfile.equals("")&& file.exists()){
 					BufferedImage img = ImageIO.read(file);
 					int imgWidth = img.getWidth(null);
 					int imgHeight = img.getHeight(null);
@@ -198,7 +198,7 @@
 					} 
 				}
 				%>
-				<td><img src="/productImages/${i.filename }" width="<%=x %>" height="<%=y %>"/></td>
+				<td><img src="/productImages/${i.mainfile }" width="<%=x %>" height="<%=y %>"/></td>
 				<td>${i.cssize}</td>
 				<td>${i.cscolor}</td>
 				<td><span>${i.price}</span>원</td>

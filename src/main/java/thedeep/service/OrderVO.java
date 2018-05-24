@@ -1,7 +1,13 @@
 package thedeep.service;
 
-public class OrderMainVO {
-	private String ocode,userid,patresult,paymethod,depositname,adminmemo,odate,beforemoney;
+public class OrderVO {
+	private String ocode,userid,payresult,paymethod,depositname,adminmemo,odate,usecoupon;
+	public String getUsecoupon() {
+		return usecoupon;
+	}
+	public void setUsecoupon(String usecoupon) {
+		this.usecoupon = usecoupon;
+	}
 	private int totalmoney,usepoint,savepoint;
 	public String getOcode() {
 		return ocode;
@@ -15,17 +21,11 @@ public class OrderMainVO {
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
-	public String getBeforemoney() {
-		return beforemoney;
+	public String getPayresult() {
+		return payresult;
 	}
-	public void setBeforemoney(String beforemoney) {
-		this.beforemoney = beforemoney;
-	}
-	public String getPatresult() {
-		return patresult;
-	}
-	public void setPatresult(String patresult) {
-		this.patresult = patresult;
+	public void setPayresult(String payresult) {
+		this.payresult = payresult;
 	}
 	public String getPaymethod() {
 		return paymethod;
@@ -69,4 +69,5 @@ public class OrderMainVO {
 	public void setSavepoint(int savepoint) {
 		this.savepoint = savepoint;
 	}
+
 }
