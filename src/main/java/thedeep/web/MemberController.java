@@ -470,6 +470,7 @@ public class MemberController {
 		}
 		MemberVO vo = new MemberVO();
 		vo = memberService.selectMemeberDetail(userid);
+		vo.setPost(memberService.selectLatestPost(userid));
 		model.addAttribute("vo",vo);
 		return "member/order";
 	}
@@ -497,6 +498,7 @@ public class MemberController {
 		model.addAttribute("olist",olist);
 		MemberVO mvo = new MemberVO();
 		mvo = memberService.selectMemeberDetail(userid);
+		mvo.setPost(memberService.selectLatestPost(userid));
 		model.addAttribute("vo",mvo);
 		return "member/order";
 	}
@@ -508,8 +510,6 @@ public class MemberController {
 		String result = "fail";
 		String userid="userid1";
 		List<OrderListVO> olist = lvo.getOlist();
-		System.out.println(olist.get(0).getCscode());
-		System.out.println(olist.get(1).getCscode());
 		String ocode = memberService.selectOcodeNext(); 
 		MemberVO mvo =memberService.selectMemeberDetail(userid);
 		

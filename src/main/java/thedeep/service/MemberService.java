@@ -88,6 +88,8 @@ public interface MemberService {
 
 	String selectOrderList(String ocode)  throws Exception;
 
+	String selectLatestPost(String userid) throws Exception;
+
 
 
 

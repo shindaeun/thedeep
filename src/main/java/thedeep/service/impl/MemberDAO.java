@@ -185,5 +185,9 @@ public class MemberDAO extends EgovAbstractDAO{
 		return  (String) select("memberDAO.selectOrderList",ocode);
 	}
 
+	public String selectLatestPost(String userid) {
+		return (String) select("memberDAO.selectLatestPost",userid);
+	}
+
 	
 }
