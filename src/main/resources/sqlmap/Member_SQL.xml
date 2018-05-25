@@ -184,19 +184,11 @@
 	and c.cscode=p.cscode
 	 ]]>
 	</select>
-<<<<<<< HEAD
 	
 	<select resultClass="java.lang.Integer" id="memberDAO.selectIdChk"> 
 		SELECT COUNT(*) cnt
 		FROM memberinfo 
 		WHERE userid=#userid# 
-=======
-
-	<select resultClass="java.lang.Integer" id="memberDAO.selectIdChk">
-		SELECT COUNT(*)
-		FROM memberinfo
-		WHERE userid=#userid#
->>>>>>> f23
 	</select>
 
 	<insert id="memberDAO.insertMember">
@@ -329,7 +321,6 @@
 	and c.cscode=p.cscode
 	 ]]>
 	</select>
-<<<<<<< HEAD
 	
 	<select id="memberDAO.selectFindPwd" resultClass="java.lang.Integer">
 	<![CDATA[
@@ -383,7 +374,6 @@
 		AND d.oname = m.name
 	</select>
 
-=======
 	<select id="memberDAO.selectProductInfo" resultClass="cartVO">
 	 <![CDATA[
 	select pcode,cscode,pname,price,round(price*0.001) savepoint
@@ -415,14 +405,13 @@
 	</select>
 	
 	<insert id="memberDAO.insertOrder">
-	insert into ordermain values(#ocode#,#userid#,#totalmoney#,#payresult#,#paymethod#,#depositname#,#usepoint#,#savepoint#,'',sysdate,#usecoupon#)
+		insert into ordermain values(#ocode#,#userid#,#totalmoney#,#payresult#,#paymethod#,#depositname#,#usepoint#,#savepoint#,'',sysdate,#usecoupon#)
 	</insert>
 	<insert id="memberDAO.insertDelivery">
-	insert into delivery values(#ocode#,'입금전','',#oname#,#ophone#,#oemail#,#dname#,#dphone#,#dpost#,#message#)
+		insert into delivery values(#ocode#,'입금전','',#oname#,#ophone#,#oemail#,#dname#,#dphone#,#dpost#,#message#)
 	</insert>
 	<insert id="memberDAO.insertOrderList">
-	insert into orderList values(#ocode#,#pcode#,#cscode#,#amount#,#totalmoney#)
+		insert into orderList values(#ocode#,#pcode#,#cscode#,#amount#,#totalmoney#)
 	</insert>
 	
->>>>>>> f23
 </sqlMap>
