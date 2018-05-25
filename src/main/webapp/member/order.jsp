@@ -2,7 +2,37 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
+<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<c:set var="phone" value="${vo.phone}" />
+<c:set var="email" value="${vo.email}" />
+<c:set var="post" value="${vo.post}" />
+<%
+	String ph = (String) pageContext.getAttribute("phone");
+	String[] phone = ph.split("-");
+	pageContext.setAttribute("phone1", phone[0]);
+	pageContext.setAttribute("phone2", phone[1]);
+	pageContext.setAttribute("phone3", phone[2]);
+	
+	String po = (String)pageContext.getAttribute("post");
+	String[] post = po.split("/");
+	pageContext.setAttribute("postnum", post[0]);
+	pageContext.setAttribute("arr1", post[1]);
+	pageContext.setAttribute("arr2", post[2]);
+	
+	String em = (String) pageContext.getAttribute("email");
+	String[] email = em.split("@");
+	pageContext.setAttribute("email1", email[0]);
+	pageContext.setAttribute("email2", email[1]);
+%>
 <script>
+
+
+$( document ).ready(function() {
+    console.log( "ready!" );
+    var IMP = window.IMP; // 생략가능
+    IMP.init('imp73069548'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+});
+
 	function sample6_execDaumPostcode() {
 		new daum.Postcode(
 				{
@@ -79,7 +109,19 @@
 			document.getElementById("usecouponresult").innerHTML = "0";
 			totalcalcul();
 		});
+		$("input[name=adminmemo]").click(function() {
+			
+			if($("input[name=adminmemo]:checked").val()=="최근배송지"){
+				$("#sample6_postcode").val("${vo.name}");
+				$("#sample6_address").val("${arr1}");
+				$("#sample6_address2").val("${arr2}");
+			}else{
+				$("#sample6_postcode").val("");
+				$("#sample6_address").val("");
+				$("#sample6_address2").val("");
+			}
 
+		});
 		$("#same").click(function() {
 			if ($("#same").is(":checked")) {
 				$("#dname").val("${vo.name}");
@@ -113,6 +155,7 @@
 			}
 			
 			if (confirm("결제하시겠습니까?")) {
+				
 				var dpost = $("#sample6_postcode").val();
 				dpost += "/" + $("#sample6_address").val();
 				dpost += "/" + $("#sample6_address2").val();
@@ -124,28 +167,82 @@
 			
 				$("#totalmoney").val($("#money2").text());
 				$("#savepoint").val($("#point").text());
+				
+				if($("input[name=paymethod]:checked").val()=="무통장입금"){
+					$("#payresult").val("입금전");
+					var formData = $("#frm").serialize();
+					// 비 동기 전송
+					$.ajax({
+						type : "POST",
+						data : formData,
+						url : "/orderSave.do",
 
-				var formData = $("#frm").serialize();
-				// 비 동기 전송
-				$.ajax({
-					type : "POST",
-					data : formData,
-					url : "/orderSave.do",
+						success : function(data) {
+							if (data.result == "ok") {
+								alert("주문 성공하였습니다.");
+								location.href = "/orderComplete.do?ocode="+data.ocode;
+							} else {
+								alert("주문 실패했습니다. 다시 시도해 주세요.");
+							}
+						},
+						 error: function (request,status,error) {
+			            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 
-					success : function(data) {
-						if (data.result == "ok") {
-							alert("주문 성공하였습니다.");
-							location.href = "/orderComplete.do?ocode="+data.ocode;
-						} else {
-							alert("주문 실패했습니다. 다시 시도해 주세요.");
-						}
-					},
-					 error: function (request,status,error) {
-		            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			                    //alert("오류발생 ");
+			             }
+					});
+				}else{
+					$("#payresult").val("결제완료");
+					var formData = $("#frm").serialize();
+					
+					//var deferred = $p.defer();
+					// 비 동기 전송
+					$.ajax({
+						type : "POST",
+						data : formData,
+						url : "/orderSave.do",
 
-		                    //alert("오류발생 ");
-		             }
-				});
+						success : function(data) {
+							if (data.result == "ok") {
+								document.getElementById("ocode").innerHTML = data.ocode;
+							} else {
+								alert("주문 실패했습니다. 다시 시도해 주세요.");return;
+							}
+						},
+						 error: function (request,status,error) {
+			            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			             }
+					});
+					IMP.request_pay({
+					    pg : 'html5_inicis', // version 1.1.0부터 지원.
+					    pay_method : 'card',
+					    merchant_uid : $("#ocode").text(),
+					    name : '주문명:결제테스트',
+					    amount : $("#totalmoney").val(),
+					    buyer_email : $("#email1").val()+"@"+$("#email2").val(),
+					    buyer_name : $("#name").val(),
+					    buyer_tel : $("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val(),
+					    buyer_addr : $("#sample6_address").val()+$("#sample6_address2").val(),
+					    buyer_postcode : $("#sample6_postcode").val(),
+					}, function(rsp) {
+					    if ( rsp.success ) {
+					        var msg = '결제가 완료되었습니다.';
+					        msg += '고유ID : ' + rsp.imp_uid;
+					        msg += '상점 거래ID : ' + rsp.merchant_uid;
+					        msg += '결제 금액 : ' + rsp.paid_amount;
+					        msg += '카드 승인번호 : ' + rsp.apply_num;
+					        alert(msg);
+					        location.href = "/orderComplete.do?ocode="+$("#ocode").text();
+					    } else {
+					        var msg = '결제에 실패하였습니다.';
+					        msg += '에러내용 : ' + rsp.error_msg;
+					        alert(msg);
+					    }
+					    
+					    
+					});
+				}
+				
 			}
 
 		});
@@ -162,24 +259,11 @@
 		$("#money2").text(money - point - coupon);
 	}
 </script>
-<c:set var="phone" value="${vo.phone}" />
-<c:set var="email" value="${vo.email}" />
-<%
-	String ph = (String) pageContext.getAttribute("phone");
-	String[] phone = ph.split("-");
-	pageContext.setAttribute("phone1", phone[0]);
-	pageContext.setAttribute("phone2", phone[1]);
-	pageContext.setAttribute("phone3", phone[2]);
-
-	String em = (String) pageContext.getAttribute("email");
-	String[] email = em.split("@");
-	pageContext.setAttribute("email1", email[0]);
-	pageContext.setAttribute("email2", email[1]);
-%>
+<span id="ocode" style="visibility:hidden"></span>
 <form name="frm" id="frm">
 	<input type="hidden" name="totalmoney" id="totalmoney" />
 	<input type="hidden" name="savepoint" id="savepoint" /> <input
-		type="hidden" name="payresult" id="payresult" value="결제완료" /> <input
+		type="hidden" name="payresult" id="payresult"/> <input
 		type="hidden" name="dpost" id="dpost" /> <input type="hidden"
 		name="dphone" id="dphone" />
 	<c:set var="sumprice" value="0" />
@@ -225,7 +309,7 @@
 	<table class="board">
 		<tr class="board">
 			<th class="head" width="20%">주문하는 분</th>
-			<td>${vo.name }</td>
+			<td>${vo.name }<input type="hidden" id="name" value="${vo.name }"/></td>
 		</tr>
 		<tr class="board">
 			<th class="head">전화번호</th>
@@ -275,14 +359,17 @@
 		</tr>
 		<tr class="board">
 			<th class="head">주소</th>
-			<td style="text-align: left; padding: 5px;"><input type="text"
+			<td style="text-align: left; padding: 5px;">
+			<input type="radio" name="adminmemo" checked value="최근배송지"/>최근배송지
+			<input type="radio" name="adminmemo" value="새로운 배송지"/>새로운 배송지<br>
+			<input type="text"
 				id="sample6_postcode" placeholder="우편번호"
-				style="width: 30%; margin-top: 1%;" value="${postnum}" />
+				style="width: 30%; margin-top: 1%;" value="${postnum }"/>
 				<button type="button" onclick="sample6_execDaumPostcode()"class="white" />우편번호찾기</button>
 				<br /> <input type="text" id="sample6_address" placeholder="주소"
-				style="width: 70%; margin-top: 1%;" /><br /> <input type="text"
+				style="width: 70%; margin-top: 1%;" value="${arr1 }"/><br /> <input type="text"
 				id="sample6_address2" placeholder="상세주소"
-				style="width: 70%; margin-top: 1%; margin-bottom: 1%;" /><br /></td>
+				style="width: 70%; margin-top: 1%; margin-bottom: 1%;" value="${arr2 }"/><br /></td>
 		</tr>
 		<tr class="board">
 			<th class="head" width="20%">주문 메세지</th>

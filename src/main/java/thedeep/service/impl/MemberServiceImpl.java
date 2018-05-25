@@ -231,4 +231,9 @@ public class MemberServiceImpl implements MemberService {
 
 	}
 
+	@Override
+	public String selectLatestPost(String userid) throws Exception {
+		return memberDAO.selectLatestPost(userid);
+	}
+
 }

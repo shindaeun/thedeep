@@ -178,10 +178,11 @@
 
 	<select id="memberDAO.selectCartList" resultClass="egovMap">
 	 <![CDATA[
-	select userid,c.cscode,c.pcode,pname,price*amount price,amount,filename,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.001*amount) savepoint
-	from cart c, product p
+	select userid,c.cscode,c.pcode,pname,price*c.amount price,c.amount,filename,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.001*c.amount) savepoint, s.amount stock
+	from cart c, product p,stock s
 	where userid=#userid#
 	and c.cscode=p.cscode
+	and p.cscode=s.cscode
 	 ]]>
 	</select>
 	
@@ -391,7 +392,7 @@
 	 <![CDATA[
 	select ocode,totalmoney,paymethod,to_char(odate,'yyyy-mm-dd') odate 
 	from ordermain 
-	where ocode=#ocode#
+	where ocode=upper(#ocode#)
 	 ]]>
 	</select>
 	<select id="memberDAO.selectOrderList" resultClass="java.lang.String">
@@ -399,8 +400,15 @@
 	select list 
 	from(select rownum,pname||' 外 '|| (count(ocode)over()-1) ||'개' list 
 		from orderlist l,product p 
-		where l.cscode = p.cscode and ocode='ODR00034')
+		where l.cscode = p.cscode and ocode=upper(#ocode#))
 	where rownum=1
+	 ]]>
+	</select>
+	<select id="memberDAO.selectLatestPost" resultClass="java.lang.String">
+	 <![CDATA[
+		select dpost 
+		from delivery 
+		where ocode=(select max(ocode) from ordermain where userid=#userid#)
 	 ]]>
 	</select>
 	
