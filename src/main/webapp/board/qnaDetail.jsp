@@ -109,10 +109,10 @@ $(function(){
 	
 	/* 답글은 관리자만 허용 */
 	$("#btnReboard").click(function() { 
-		location.href="/qnaReWrite.do";
+		location.href="/qnaReply.do";
 		var form = document.refrm;
 		form.method = "post";
-		form.action = "/qnaReWrite.do";
+		form.action = "/qnaReply.do";
 		form.submit();
 	}); 
 });

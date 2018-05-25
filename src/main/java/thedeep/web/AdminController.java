@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import thedeep.service.AdminService;
 import thedeep.service.AdminVO;
+import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
 
 @Controller
@@ -170,8 +171,35 @@ public class AdminController {
 	public String reviewReply() throws Exception{
 		return "admin/reviewReply";
 	}
+	
 	@RequestMapping(value="/qnaReply.do")
-	public String qnaReply() throws Exception{
+	public String qnaReply(BoardVO vo, ModelMap model) throws Exception{
+		
+		int unq = vo.getUnq();
+		model.addAttribute("unq", unq);
+		
 		return "admin/qnaReply";
+	}
+	
+	@RequestMapping(value="/qnaReplySave.do")
+	@ResponseBody
+	public Map<String,Object> insertQnareply(BoardVO vo, ModelMap model, HttpServletRequest request) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepALoginCert");
+		String adminid = (String) a.get("ThedeepAUserId");
+		System.out.println("unq  :  " + vo.getUnq());
+		vo.setUserid(adminid);
+		vo.setPcode("P00005");
+		
+		String result = adminService.insertQnareply(vo);
+		if(result==null) result = "ok";
+		else result = "1";
+			
+		map.put("result", result);
+		
+		return map;
 	}
 }

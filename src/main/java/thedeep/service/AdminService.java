@@ -20,4 +20,6 @@ public interface AdminService {
 
 	int selectAdminListTotCnt(DefaultVO searchVO) throws Exception;
 
+	String insertQnareply(BoardVO vo) throws Exception;
+
 }

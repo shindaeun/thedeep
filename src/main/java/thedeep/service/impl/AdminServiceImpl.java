@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import thedeep.service.AdminService;
 import thedeep.service.AdminVO;
+import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.PwdCkVO;
 
@@ -57,5 +58,12 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 	public int selectAdminListTotCnt(DefaultVO searchVO) throws Exception {
 		return adminDAO.selectAdminListTotCnt(searchVO);
 	}
+
+	@Override
+	public String insertQnareply(BoardVO vo) throws Exception {
+		return adminDAO.insertQnareply(vo);
+	}
+
+
 	
 }

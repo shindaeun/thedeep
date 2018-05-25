@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import thedeep.service.AdminVO;
+import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.PwdCkVO;
 
@@ -42,6 +43,10 @@ public class AdminDAO extends EgovAbstractDAO {
 
 	public int selectAdminListTotCnt(DefaultVO searchVO) {
 		return (int) select("adminDAO.selectAdminListTotCnt", searchVO);
+	}
+
+	public String insertQnareply(BoardVO vo) {
+		return (String) insert("adminDAO.insertQnareply", vo);
 	}
 
 }
