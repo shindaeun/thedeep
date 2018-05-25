@@ -156,7 +156,9 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/orderList.do")
-	public String orderList() throws Exception{
+	public String orderList(ModelMap model) throws Exception{
+		List<?> olist = adminService.selectOrderList();
+		model.addAttribute("olist",olist);
 		return "admin/orderList";
 	}
 	@RequestMapping(value="/orderDetail.do")

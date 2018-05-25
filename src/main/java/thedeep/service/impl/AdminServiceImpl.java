@@ -64,6 +64,11 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 		return adminDAO.insertQnareply(vo);
 	}
 
+	@Override
+	public List<?> selectOrderList() throws Exception {
+		return adminDAO.selectOrderList();
+	}
+
 
 	
 }

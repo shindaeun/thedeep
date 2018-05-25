@@ -22,4 +22,6 @@ public interface AdminService {
 
 	String insertQnareply(BoardVO vo) throws Exception;
 
+	List<?> selectOrderList()  throws Exception;
+
 }

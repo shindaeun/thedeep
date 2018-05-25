@@ -36,14 +36,14 @@
 		<th width="15%" >주문일자</th>
 		<th width="10%" >배송 상태</th>
 	</tr>
-	<c:forEach var="result" items="${resultList }" varStatus="status">
-		<tr class="board">
-			<td>1${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}</td>
-			<td>1<a href="/boardModify.do?unq=${result.unq}">${result.title}</a></td>
-			<td>${result.name}1</td>
-			<td>${result.rdate}1</td>
-			<td><input type="number"/></td>
-			<td>${result.name}1</td>
+	<c:forEach var="i" items="${olist }" varStatus="status">
+		<tr class="board" align="center">
+			<td>${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}</td>
+			<td><a href="/boardModify.do?unq=${result.unq}">${i.ocode}</a></td>
+			<td>${i.userid}</td>
+			<td>${i.amount}</td>
+			<td>${i.odate} </td>
+			<td>${i.dstate}</td>
 			<td></td>
 		</tr>
 	</c:forEach>

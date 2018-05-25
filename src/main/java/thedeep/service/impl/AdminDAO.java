@@ -49,4 +49,8 @@ public class AdminDAO extends EgovAbstractDAO {
 		return (String) insert("adminDAO.insertQnareply", vo);
 	}
 
+	public List<?> selectOrderList() {
+		return list("adminDAO.selectOrderList");
+	}
+
 }
