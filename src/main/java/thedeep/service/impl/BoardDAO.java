@@ -109,6 +109,38 @@ public class BoardDAO extends EgovAbstractDAO {
 		return (String) insert("boardDAO.insertQnaWrite",vo);
 	}
 
+	public int updateQnaHit(int unq) {
+		return update("boardDAO.updateQnaHit", unq);
+	}
+
+	public BoardVO selectQnaDetail(int unq) {
+		return (BoardVO) select("boardDAO.selectQnaDetail", unq);
+	}
+
+	public int selectQnaPwdChk(BoardVO vo) {
+		return (int) select("boardDAO.selectQnaPwdChk", vo);
+	}
+
+	public int updateQnaFile(BoardVO vo) {
+		return update("boardDAO.updateQnaFile", vo);
+	}
+
+	public int updateQna(BoardVO vo) {
+		return update("boardDAO.updateQna",vo);
+	}
+
+	public int deleteQna(BoardVO vo) {
+		return delete("boardDAO.deleteQna", vo);
+	}
+
+	public String selectQnaNowFilename(int unq) {
+		return (String) select("boardDAO.selectQnaNowFilename", unq);
+	}
+
+	public String selectUserName(String userid) {
+		return (String) select("boardDAO.selectUserName", userid);
+	}
+
 	
 
 	

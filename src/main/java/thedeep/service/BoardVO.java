@@ -14,7 +14,11 @@ public class BoardVO {
 	private int fid;
 	private String forder;
 	private int filesize;
-	
+	private String userid;
+	private String delfilename;
+
+	private int nexInt;
+	private int befInt;
 	
 	public int getFilesize() {
 		return filesize;
@@ -88,4 +92,29 @@ public class BoardVO {
 	public void setForder(String forder) {
 		this.forder = forder;
 	}
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	public String getDelfilename() {
+		return delfilename;
+	}
+	public void setDelfilename(String delfilename) {
+		this.delfilename = delfilename;
+	}
+	public int getNexInt() {
+		return nexInt;
+	}
+	public void setNexInt(int nexInt) {
+		this.nexInt = nexInt;
+	}
+	public int getBefInt() {
+		return befInt;
+	}
+	public void setBefInt(int befInt) {
+		this.befInt = befInt;
+	}
+	
 }

@@ -52,6 +52,22 @@ public interface BoardService {
 
 	String insertQnaWrite(BoardVO vo) throws Exception;
 
+	int updateQnaHit(int unq) throws Exception;
+
+	BoardVO selectQnaDetail(int unq) throws Exception;
+
+	int selectQnaPwdChk(BoardVO vo) throws Exception;
+
+	int updateQnaFile(BoardVO vo) throws Exception;
+
+	int updateQna(BoardVO vo) throws Exception;
+
+	int deleteQna(BoardVO vo) throws Exception;
+
+	String selectQnaNowFilename(int unq) throws Exception;
+
+	String selectUserName(String userid) throws Exception;
+
 
 	
 

@@ -78,7 +78,7 @@ $(function() {
 	<tr class="board">
 		<th class="head" width="20%">Name</th>
 		<td style="text-align:left; padding:5px;" >
-		 <input type="text" id="name" name="name"/>
+		 <input type="text" id="name" name="name" value="${name}"/>
 		</td>
 	</tr>
 	<tr class="board">
@@ -92,7 +92,7 @@ $(function() {
 		<td style="text-align:left; padding:5px;">
 		 <select name="title" id="title">
 			<option value="">제목을 선택해 주세요</option>
-		 	<option value="베송문의">배송문의</option>
+		 	<option value="배송문의">배송문의</option>
 		 	<option value="교환반품문의">교환/반품문의</option>
 		 	<option value="상품문의">상품문의</option>
 		 	<option value="기타문의">기타문의</option>

@@ -139,6 +139,46 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 		return boardDAO.insertQnaWrite(vo);
 	}
 
+	@Override
+	public int updateQnaHit(int unq) throws Exception {
+		return boardDAO.updateQnaHit(unq);
+	}
+
+	@Override
+	public BoardVO selectQnaDetail(int unq) throws Exception {
+		return boardDAO.selectQnaDetail(unq);
+	}
+
+	@Override
+	public int selectQnaPwdChk(BoardVO vo) throws Exception {
+		return boardDAO.selectQnaPwdChk(vo);
+	}
+
+	@Override
+	public int updateQnaFile(BoardVO vo) throws Exception {
+		return boardDAO.updateQnaFile(vo);
+	}
+
+	@Override
+	public int updateQna(BoardVO vo) throws Exception {
+		return boardDAO.updateQna(vo);
+	}
+
+	@Override
+	public int deleteQna(BoardVO vo) throws Exception {
+		return boardDAO.deleteQna(vo);
+	}
+
+	@Override
+	public String selectQnaNowFilename(int unq) throws Exception {
+		return boardDAO.selectQnaNowFilename(unq);
+	}
+
+	@Override
+	public String selectUserName(String userid) throws Exception {
+		return boardDAO.selectUserName(userid);
+	}
+
 	
 	
 	

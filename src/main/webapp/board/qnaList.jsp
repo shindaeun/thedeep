@@ -25,6 +25,13 @@ $(function() {
 });
 </script>
 
+<style>
+a:link { text-decoration: none; color: #000000} 
+a:visited { text-decoration: none; color: #000000} 
+a:active { text-decoration: none; color: #000000}
+a:hover {text-decoration:underline; color: #000000}
+</style>
+
 <table class="top">
 	<tr class="top">
 		<td class="top">Q&A</td>
@@ -58,16 +65,17 @@ $(function() {
 	 	<th>SUBJECT</th>
 	 	<th>WRITER</th>
 	 	<th>DATE</th>
+	 	<th>HIT</th>
 	</tr>
 	<c:forEach var="result" items="${list}" varStatus="status">
 	<tr class="board" style="height:30px; text-align:center;">
 		<td><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
-		<c:set var="pcode" value="${result.filename}"/>
+		<c:set var="pcode" value="${result.pcode }"/>
        <%
 		int x=0,y=0;
-		String filename = (String) pageContext.getAttribute("filename");
-		filename=filename + ".jpg";
-		File file = new File("C:/Users/acorn/workspace/thedeep/src/main/webapp/qnaImages/" + filename);
+		String filename = (String) pageContext.getAttribute("pcode");
+		filename=filename + ".jpg"; 
+		File file = new File("C:/Users/acorn/workspace/thedeep/src/main/webapp/productImages/" + filename);
 		if(!filename.equals(null) &&!filename.equals("")&& file.exists()){
 			BufferedImage img = ImageIO.read(file);
 			int imgWidth = img.getWidth(null);
@@ -79,13 +87,14 @@ $(function() {
 			} else {
 				y =100;
 				x =(imgWidth*100)/imgHeight;
-			} 
+			}
 		}
 		%>
-	  <td style="text-align:center"><img src="/qnaImages/${result.filename}.jpg" width="<%=x %>" height="<%=y %>"/></td>
-		<td><a href="/pnaDetail.do?unq=${result.unq}">${result.title}</a></td>
+	    <td style="text-align:center"><img src="/productImages/${result.pcode}.jpg" width="50" height="50"/></td>
+		<td><a href="/qnaDetail.do?unq=${result.unq}">${result.title}</a></td>
 		<td>${result.name}</td>
-		<td>${result.date}</td>
+		<td>${result.rdate}</td>
+		<td>${result.hit}</td>
 	 </tr>
 	</c:forEach>
 </table>

@@ -26,6 +26,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import thedeep.service.BoardService;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.MemberVO;
 import thedeep.service.NoticeVO;
 import thedeep.service.ReviewVO;
 
@@ -65,17 +66,26 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/qnaWrite.do")
-	public String insertQnaWrite() throws Exception{
+	public String insertQnaWrite(ModelMap model,HttpServletRequest request) throws Exception{
+		
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		
+		String name = boardService.selectUserName(userid);
+		
+		model.addAttribute("name", name);
+		
 		return "board/qnaWrite";
 	}
 	
 	@RequestMapping(value = "/qnaWriteSave.do")
 	@ResponseBody 
-	public Map<String, String> pnaWriteSave (
+	public Map<String, String> qnaWriteSave (
 					final MultipartHttpServletRequest multiRequest,
 					HttpServletResponse response, 
 					BoardVO vo,
-					ModelMap model) throws Exception {
+					ModelMap model,
+					HttpServletRequest request) throws Exception {
 
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
@@ -89,9 +99,15 @@ public class BoardController {
 		}
 
 		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
-		
+
 		vo.setFilename((String) imap.get("fileName"));
-		System.out.println(vo.getFilename() + "  /  "  + vo.getFilesize());
+		
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		
+		vo.setUserid(userid);
+		vo.setPcode("P00005");
+		
 		String result = boardService.insertQnaWrite(vo);
 		if(result == null) result = "ok";
 		map.put("result", result);  //  ( Json 이름, 데이터 )
@@ -103,13 +119,167 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/qnaDetail.do")
-	public String selectQnaDetail() throws Exception{
+	public String selectQnaDetail(BoardVO vo,ModelMap model,HttpServletRequest request) throws Exception{
+		
+		int unq = vo.getUnq();
+		boardService.updateQnaHit(unq);
+		vo = boardService.selectQnaDetail(unq);
+		model.addAttribute("vo", vo);
+		
+		String a12 = null;
+		try {
+			HashMap a = (HashMap) request.getSession().getAttribute("ThedeepALoginCert");
+			System.out.println("adminid  :  " + a.get("ThedeepAUserId"));
+			a12=(String) a.get("ThedeepAUserId");
+		} catch(Exception e) { }
+		
+		int login = 1;
+		if(a12==null) {
+			login = 2;
+		}
+		
+		model.addAttribute("login", login );
+		
 		return "board/qnaDetail";
 	}
+	
+	@RequestMapping(value="/qnaPwdChk.do")
+	@ResponseBody
+	public Map<String,Object> selectQnaPwdChk(BoardVO vo) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		String result = "";
+
+		int cnt = boardService.selectQnaPwdChk(vo);
+		System.out.println("cnt  :  " + cnt);
+		if(cnt>0) result = "ok";
+		else result = "1";
+		map.put("result", result);
+		
+		return map;
+	}
+	
 	@RequestMapping(value="/qnaModify.do")
-	public String updateQnaModify() throws Exception{
+	public String updateQnaModify(BoardVO vo, ModelMap model) throws Exception{
+		
+		int unq = vo.getUnq();
+		
+		vo = boardService.selectQnaDetail(unq);
+		model.addAttribute("vo", vo);
+		
 		return "board/qnaModify";
 	}
+	
+	@RequestMapping(value = "/qnaFileDelete.do")
+	@ResponseBody 
+	public Map<String,Object> updateQnaFile (BoardVO vo) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		String uploadPath = "C:\\Users\\acorn\\workspace\\thedeep\\src\\main\\webapp\\qnaImages";
+		String fullPath = "";
+		String result = "";
+		String filename=vo.getFilename();
+		String delfilename=vo.getDelfilename();
+		
+		
+		filename=filename.replace(delfilename,"");
+		vo.setFilename(filename);
+		
+		int cnt = boardService.updateQnaFile(vo);
+
+		if(cnt > 0) {
+			String[] splitfilename = delfilename.split(",");
+			for(int i=0; i<splitfilename.length; i++) {
+				fullPath = uploadPath+"\\"+splitfilename[i];
+				File file = new File(fullPath);
+				file.delete();
+			}
+			result="1";
+		}
+		else {
+			result = "-1";
+		}
+
+		map.put("result", result);
+		return map;
+	}
+	
+	@RequestMapping(value = "/qnaModifySave.do")
+	@ResponseBody 
+	public Map<String, String> updateQnaModify (
+						final MultipartHttpServletRequest multiRequest,
+						HttpServletResponse response, 
+						BoardVO vo,
+						ModelMap model) throws Exception {
+
+		Map<String, String> map = new HashMap<String, String>();
+		Map<String, MultipartFile> files = multiRequest.getFileMap();
+		String result="";
+		String uploadPath = "C:\\Users\\acorn\\workspace\\thedeep\\src\\main\\webapp\\qnaImages";
+		
+		//String uploadPath = "c:\\upload";
+		File saveFolder = new File(uploadPath);
+		if (!saveFolder.exists()) {
+			saveFolder.mkdirs();
+		}
+		
+		String nowfilename = boardService.selectQnaNowFilename(vo.getUnq());
+		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
+		
+		if(nowfilename==null) {
+			vo.setFilename((String) imap.get("fileName"));
+		} else {
+			vo.setFilename((String) nowfilename+imap.get("fileName"));
+		}
+		System.out.println(vo.getFilename());
+		
+		int cnt = boardService.updateQna(vo);
+		if(cnt > 0) result = "ok";
+		map.put("result", result);  //  ( Json 이름, 데이터 )
+		map.put("cnt", (String) imap.get("cnt")); // 0,1
+		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
+		// Json =>  result=ok&cnt=1
+		
+		return map;
+	}
+	
+	@RequestMapping(value = "/qnaDelete.do")
+	@ResponseBody 
+	public Map<String, Object> deleteQna(
+			HttpServletRequest request,
+			HttpServletResponse response, 
+			BoardVO vo) throws Exception {
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String uploadPath = "C:\\Users\\acorn\\workspace\\thedeep\\src\\main\\webapp\\qnaImages";
+		String fullPath = "", result="";
+		
+		int chk = boardService.selectQnaPwdChk(vo);
+		int cnt = 0;
+		System.out.println("filename  :  " + vo.getFilename());
+		
+		if(chk>0) {
+			cnt = boardService.deleteQna(vo);
+			if(cnt > 0) {
+				String filenames = vo.getFilename();
+				String[] filename = filenames.split(",");
+				for(int i=0; i<filename.length; i++) {
+					fullPath = uploadPath+"\\"+filename[i];
+					File file = new File(fullPath);
+					file.delete();
+				}
+				result="ok";
+			} else result = "0";
+		}
+		else result = "1";
+		
+		map.put("result", result);
+		map.put("cnt", cnt);
+		
+		return map;
+	}
+	
 	@RequestMapping(value="/noticeWrite.do")
 	public String selectNoticeWrite() throws Exception{
 		return "board/noticeWrite";
@@ -334,6 +504,7 @@ public class BoardController {
 		vo.setPcode("P00005");
 		String userid="userid1";
 		vo.setUserid(userid);
+		
 		String result = boardService.insertReview(vo);
 		if(result == null) result = "ok";
 		map.put("result", result);  //  ( Json 이름, 데이터 )
