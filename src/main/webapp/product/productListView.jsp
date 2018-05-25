@@ -18,9 +18,15 @@ $(function() {
    });
    
 });
-function fnAdd(cscode,num) {
+function fnAdd(cscode,num,nowAmount) {
+	var amount = document.frm2.amount[num].value;
+	var test = eval(nowAmount+amount);
+	if(test < 0) {
+		alert("수량은 0보다 작을 수 없습니다.")
+		return false;
+	}
 	if(confirm("저장하시겠습니까?")) {
-		var amount = document.frm2.amount[num].value;
+		
 		//var amount = document.getElementsByName("amount");
 		//alert(amount[num].value);
  		var param = "cscode="+cscode+"&amount="+amount;
@@ -48,6 +54,33 @@ function fnAdd(cscode,num) {
 		});
 	}
 }
+function fnDel(cscode) {
+	if(confirm("삭제하시겠습니까?")) {
+
+ 		var param = "cscode="+cscode;
+		$.ajax({
+			type: "get",
+			data: param,
+			url: "/productCsDelete.do",
+			dataType: "json",
+			processData: false,
+			contentType: false, 
+			
+			success: function(data) {
+				if(data.result == "ok") {
+					alert("삭제하였습니다.");
+					location.href="/productListView.do";
+				} else {
+					alert("삭제 실패하였습니다. 다시 시도해 주세요.");
+				}
+					
+			},
+			error: function(request,status,error) {
+				 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	}
+}
 </script>
 
 <table class="top">
@@ -66,6 +99,9 @@ function fnAdd(cscode,num) {
          </select>
          <input type="text" name="searchKeyword" id="searchKeyword">
          <button type="button" id="btnSearch" class="white">검색</button>
+      </td>
+      <td style="border:0px; text-align:right;">
+         <button type="button" class="white" onClick="location.href='/productAdd.do'">Write</button>
       </td>
    </tr>
 </table>
@@ -98,7 +134,7 @@ function fnAdd(cscode,num) {
       <td style="text-align:center">${result.soldout}</td>
       <td style="text-align:center">${result.wait}</td>
       <td style="text-align:center">${result.amount}</td>
-      <td style="text-align:center"><input type="text" name="amount" id="amount" size="4"><a href="javascript:fnAdd('${result.cscode}','${status.count-1}')" class="white">&nbsp;저장&nbsp;</a></td>
+      <td style="text-align:center"><input type="text" name="amount" id="amount" size="4"><a href="javascript:fnAdd('${result.cscode}','${status.count-1}',${result.amount})" class="white">&nbsp;저장&nbsp;</a></td>
       <td style="text-align:center"><a href="javascript:fnDel('${result.cscode}')" class="white">&nbsp;삭제&nbsp;</a></td>
     </tr>
    </c:forEach>

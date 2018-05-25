@@ -271,16 +271,81 @@ public class ProductController {
 	
 	
 	@RequestMapping(value="/productModify.do")
-	public String selectProductModify(ProductVO vo, ProductVO gvo, ModelMap model) throws Exception{
+	public String selectProductModify(ProductVO vo, ModelMap model) throws Exception{
 		String pcode = vo.getPcode();
 		
 		vo = productService.selectProductDetail(pcode);
 		model.addAttribute("vo", vo);
 		
 		List<?> groupList = productService.selectGroupList();
-		model.addAttribute("group", groupList);		
+		model.addAttribute("group", groupList);
+
+		List<?> CsList = productService.selectCsList(pcode);
+		model.addAttribute("cs", CsList);	
 		
 		return "product/productModify";
+	}
+	
+	@RequestMapping(value = "/productModifySave.do")
+	@ResponseBody 
+	public Map<String, String> updateProductModify (
+						final MultipartHttpServletRequest multiRequest,
+						HttpServletResponse response, 
+						ProductVO vo,
+						ModelMap model) throws Exception {
+
+		Map<String, String> map = new HashMap<String, String>();
+		Map<String, MultipartFile> files = multiRequest.getFileMap();
+		String result="",result1="",result2="";
+		int pcode,cnt;
+
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\productImages";
+		
+		File saveFolder = new File(uploadPath);
+		if (!saveFolder.exists()) {
+			saveFolder.mkdirs();
+		}
+		pcode = Integer.parseInt(vo.getPcode().substring(1));
+		//System.out.println("123"+vo.getMainfile()+"456");
+		HashMap imap = (HashMap) multipartProcess(files,uploadPath,pcode);
+		String test = (String) imap.get("fileName");
+		
+		if(test==null || test.equals("")) {
+			vo.getFilename();
+		} else {
+			vo.setMainfile(test);
+		}
+		//System.out.println("123"+vo.getMainfile()+"456");
+		
+		if(vo.getPsize()==null || vo.getColor()==null) {
+			cnt = productService.updateProduct(vo);
+			if(cnt>0) result = "ok";
+			map.put("result", result);
+		} else {
+			cnt = productService.updateProduct(vo);
+			String psize = vo.getPsize();
+			String color = vo.getColor();
+			String[] splitpsize = psize.split(",");
+			String[] splitcolor = color.split(",");
+			
+			for(int i=0; i<splitpsize.length; i++) {
+				for(int j=0; j<splitcolor.length; j++) {
+					vo.setPsize(splitpsize[i]);
+					vo.setColor(splitcolor[j]);
+		
+					result1 = productService.insertProductModify(vo);
+					result2 = productService.insertProductStockModify(vo);
+				}
+			}
+			if(result1 == null && result2 == null) result = "ok";
+			map.put("result", result);
+		}
+
+		map.put("cnt", (String) imap.get("cnt")); // 0,1
+		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
+		
+		return map;
+
 	}
 	
 	@RequestMapping(value="/productFileDelete.do")
@@ -291,16 +356,17 @@ public class ProductController {
 		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\productImages";
 		String fullPath = "";
 		String result = "";
-		String mainfile=vo.getMainfile();
+		String mainfile="";
+		String delmainfile=vo.getMainfile();
 		
 		
-		mainfile=mainfile.replace(mainfile,"");
+		mainfile=delmainfile.replace(delmainfile,"");
 		vo.setMainfile(mainfile);
 
 		int cnt = productService.updateProductFile(vo);
 
 		if(cnt > 0) {
-			fullPath = uploadPath+"\\"+mainfile;
+			fullPath = uploadPath+"\\"+delmainfile;
 			File file = new File(fullPath);
 			file.delete();
 			result="1";
@@ -313,7 +379,50 @@ public class ProductController {
 		return map;
 	}
 	
+	@RequestMapping(value="/productDelete.do")
+	@ResponseBody
+	public Map<String, Object> deleteProduct(
+			HttpServletRequest request,
+			HttpServletResponse response, 
+			ProductVO vo) throws Exception {
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\productImages";
+		String fullPath = "", result="";
+		int cnt = productService.deleteProduct(vo);	
+		
+		if(cnt > 0) {
+			String mainfile = vo.getMainfile();
+			fullPath = uploadPath+"\\"+mainfile;
+			File file = new File(fullPath);
+			file.delete();
+			result="ok";
+			
+		}
+		map.put("result", result);
+		map.put("cnt", cnt);
+		return map;
+	}
 	
+	@RequestMapping(value="/productCsDelete.do")
+	@ResponseBody
+	public Map<String,Object> deleteCsProduct(
+			HttpServletRequest request,
+			HttpServletResponse response, 
+			ProductVO vo) throws Exception {
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		String result="";
+		int cnt = productService.deleteCsProduct(vo);	
+		
+		if(cnt > 0) result="ok";
+
+		map.put("result", result);
+		map.put("cnt", cnt);
+		
+		return map;
+	}
 	@RequestMapping(value="/productListView.do")
 	public String selectProductListView(
 			@ModelAttribute("searchVO") DefaultVO searchVO,ModelMap model) 
@@ -348,11 +457,23 @@ public class ProductController {
 	@ResponseBody
 	public Map<String,Object> updateAmount (ProductVO vo) throws Exception  {
 		Map<String,Object> map = new HashMap<String,Object>();
-		String result="";
+		String result="0";
+		int cnt1,cnt2,nowAmount;
+		
+		cnt1 = productService.updateAmount(vo);
+		nowAmount = productService.selectAmount(vo);
+		System.out.println(nowAmount);
+		if(cnt1 > 0) {
+			if(nowAmount > 0) {
+				cnt2 = productService.updateNotSoldout(vo);
+			} else {
+				cnt2 = productService.updateSoldout(vo);
+			}
+			
+			if(cnt2 > 0) result="1";
+			else result = "-1";
+		}
 
-		int cnt = productService.updateAmount(vo);
-		if(cnt > 0) result="1";
-		else result = "-1";
 
 		map.put("result",result);
 		

@@ -208,16 +208,24 @@
 			, gcode
 			, soldout
 			, wait
-			, mainfile )
+			<isNotNull property="mainfile">
+			<isNotEmpty property="mainfile">
+			, mainfile
+			</isNotEmpty>
+			</isNotNull> )
 		values (
 			  'P'||lpad(#maxpcode#,'5','0')||#psize#||#color#
 			, 'P'||lpad(#maxpcode#,'5','0')
 			, #pname#
 			, #price#
 			, #gcode#
-			, #soldout#
+			, 'Y'
 			, #wait#
-			, #mainfile#)
+			<isNotNull property="mainfile">
+			<isNotEmpty property="mainfile">
+			, #mainfile#
+			</isNotEmpty>
+			</isNotNull>)
 	</insert>
 	
 	<select id="productDAO.selectPcode" resultClass="java.lang.Integer">
@@ -284,7 +292,7 @@
 	</update>
 	
 	<select id="productDAO.selectProductDetail" resultClass = "productVO">
-		select distinct(pcode) pcode ,pname ,price ,gcode ,soldout ,wait ,mainfile
+		select distinct(pcode) pcode ,pname ,price ,gcode ,wait ,mainfile
 		from product
 		where pcode=#pcode#
 	</select>
@@ -294,5 +302,87 @@
 		where pcode=#pcode#
 	</update>
 	
+	<delete id="productDAO.deleteProduct">
+		DELETE from product where pcode=#pcode#
+	</delete>
 	
+	<delete id="productDAO.deleteCsProduct">
+		DELETE from product where cscode=#cscode#
+	</delete>
+	
+	<insert id="productDAO.insertProductModify">
+		insert into product(
+			  cscode
+			, pcode
+			, pname
+			, price
+			, gcode
+			, soldout
+			, wait
+			<isNotNull property="mainfile">
+			<isNotEmpty property="mainfile">
+			, mainfile
+			</isNotEmpty>
+			</isNotNull> )
+		values (
+			  #pcode#||#psize#||#color#
+			, #pcode#
+			, #pname#
+			, #price#
+			, #gcode#
+			, 'Y'
+			, #wait#
+			<isNotNull property="mainfile">
+			<isNotEmpty property="mainfile">
+			, #mainfile#
+			</isNotEmpty>
+			</isNotNull>)
+	</insert>
+	
+	<insert id="productDAO.insertProductStockModify">
+		insert into stock(
+			  cscode
+			, pcode
+			, psize
+			, color
+			, amount )
+		values (
+			 #pcode#||#psize#||#color#
+		   , #pcode#
+		   , #psize#
+		   , #color#
+		   , 0)
+	</insert>
+	
+	<update id="productDAO.updateSoldout">
+		update product set soldout='Y'
+		where cscode=#cscode#
+	</update>
+	
+	<update id="productDAO.updateProduct">
+		update product set
+			pname=#pname#
+			,price=#price#
+			,gcode=#gcode#
+			,wait=#wait#
+			<isNotNull property="mainfile">
+			<isNotEmpty property="mainfile">
+			,mainfile=#mainfile#
+			</isNotEmpty>
+			</isNotNull>
+		where pcode=#pcode#
+	</update>
+	
+	<select id="productDAO.selectAmount" resultClass="java.lang.Integer">
+		select amount from stock where cscode=#cscode#
+	</select>
+	
+	<update id="productDAO.updateNotSoldout">
+		update product set soldout='N'
+		where cscode=#cscode#
+	</update>
+	
+	<select id="productDAO.selectCsList" resultClass="egovMap">
+		select color,psize from stock where pcode=#pcode#
+	</select> 
 </sqlMap>

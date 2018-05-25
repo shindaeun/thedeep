@@ -52,6 +52,25 @@ public interface ProductService {
 
 	int updateProductFile(ProductVO vo) throws Exception;
 
+	int deleteProduct(ProductVO vo) throws Exception;
+
+	int deleteCsProduct(ProductVO vo) throws Exception;
+
+	String insertProductModify(ProductVO vo) throws Exception;
+
+	String insertProductStockModify(ProductVO vo) throws Exception;
+
+	int updateSoldout(ProductVO vo) throws Exception;
+
+	int updateProduct(ProductVO vo) throws Exception;
+
+	int selectAmount(ProductVO vo) throws Exception;
+
+	int updateNotSoldout(ProductVO vo) throws Exception;
+
+	List<?> selectCsList(String pcode) throws Exception;
+
+
 
 
 

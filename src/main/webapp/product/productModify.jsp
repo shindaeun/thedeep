@@ -9,14 +9,120 @@
 <%@ page import="java.awt.image.BufferedImage" %>
 <%@ page import="java.awt.Image" %>
 <%@ page import="javax.swing.ImageIcon" %>
+<c:set var="mainfile" value="${vo.mainfile}"></c:set>
 
+<%
+int x=0,y=0;
+String mainfile = (String)pageContext.getAttribute("mainfile");
+if(mainfile != null && !mainfile.equals("")) {
+	File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/"+mainfile);
+	BufferedImage img = ImageIO.read(file);
+	int imgWidth = img.getWidth(null);
+	int imgHeight = img.getHeight(null);
+	if(imgWidth > imgHeight) {
+		x = 100;
+		y = (imgHeight * x) / imgWidth;
+	} else if(imgWidth < imgHeight) {
+		y = 100;
+		x = (imgWidth * y) / imgHeight;
+	} else {
+		x=100;
+		y=100;
+	}
+
+}
+/*
+ // 1024(넓이)/768(높이)
+ // 1024:768 = 100:y
+ // int y = 768 * 100 / 1024
+ // int y = (imgHeight * 100) / imgWidth
+*/
+%>
 <script>
 $(function(){
 	$("#btnModify").click(function(){
-		location.href="/productModifySave.do";
+		if($("#pname").val() == "") {
+			alert("상품명을 입력해주세요.");
+			$("#pname").focus();
+			return;
+		}
+		<%if(mainfile == null) { %>
+		if(document.getElementById('file1').value=="") {
+			alert("메인사진을 입력해주세요.");
+			return;
+		}
+		<%}%> 
+		if($("#content").val() == "") {
+			alert("내용을 입력해주세요.");
+			$("#content").focus();
+			return;
+		}
+		if($("#price").val() == "") {
+			alert("가격을 입력해주세요.");
+			$("#price").focus();
+			return;
+		}
+		
+		if(confirm("수정하시겠습니까?")) {		
+	 		//var formData = $("#frm").serialize();
+	 		var form = new FormData(document.getElementById('frm'));
+	 		// 비 동기 전송
+			$.ajax({
+				type: "POST",
+				data: form,
+				url: "/productModifySave.do",
+				dataType: "json",
+				processData: false,
+				contentType: false, 
+				
+				success: function(data) {
+					if(data.result == "ok") {
+						alert("수정하였습니다.\n\n("+data.cnt+")개의 파일 저장");
+						if(data.errCode == "-1") {
+							alert("첨부파일을 확인해주세요. 확장명 오류");
+						} else if(data.errCode == "0") {
+							alert("첨부파일 확인, 이미지 파일만 가능합니다.");
+						} else if(data.errCode == "1") {
+							alert("첨부파일은 5M 미만이어야 합니다.");
+						}
+						location.href = "<c:url value='/productListView.do'/>";
+					} else {
+						alert("저장 실패했습니다. 다시 시도해 주세요.");
+					}
+				},
+				error: function () {
+					alert("오류발생 ");
+				}
+			}); 
+		}
 	});
 	$("#btnDelete").click(function(){
-		location.href="/productDelete.do";
+		if(confirm("삭제하시겠습니까?")) {		
+	 		//var formData = $("#frm").serialize();
+	 		var form = new FormData(document.getElementById('frm'));
+	 		// 비 동기 전송
+			$.ajax({
+				type: "POST",
+				data: form,
+				url: "/productDelete.do",
+				dataType: "json",
+				processData: false,
+				contentType: false, 
+				
+				success: function(data) {
+					if(data.result == "ok") {
+						alert("삭제하였습니다.\n\n("+data.cnt+")개의 파일 삭제");
+						location.href = "<c:url value='/productListView.do'/>";
+					} else {
+						alert("삭제 실패했습니다. 다시 시도해 주세요.");
+					}
+				},
+				error: function () {
+					alert("오류발생 ");
+				}
+			});
+		}
+		
 	});
 	$("#btnList").click(function(){
 		location.href="/productListView.do";
@@ -77,42 +183,18 @@ function removeBox(obj) {
 		</td>
 	</tr>
 
-<c:set var="mainfile" value="${vo.mainfile}"></c:set>
 
-<%
-int x=0,y=0;
-String mainfile = (String)pageContext.getAttribute("mainfile");
-if(mainfile != null && !mainfile.equals("")) {
-	File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/"+mainfile);
-	BufferedImage img = ImageIO.read(file);
-	int imgWidth = img.getWidth(null);
-	int imgHeight = img.getHeight(null);
-	if(imgWidth > imgHeight) {
-		x = 100;
-		y = (imgHeight * x) / imgWidth;
-	} else if(imgWidth < imgHeight) {
-		y = 100;
-		x = (imgWidth * y) / imgHeight;
-	} else {
-		x=100;
-		y=100;
-	}
-
-}
-/*
- // 1024(넓이)/768(높이)
- // 1024:768 = 100:y
- // int y = 768 * 100 / 1024
- // int y = (imgHeight * 100) / imgWidth
-*/
-%>
 	<tr class="board">
 		<th class="head" width="20%">메인사진</th>
 		<td>
-		<span id="btnDel">
-				<img src="/productImages/<%=mainfile%>" width="<%=x%>" height="<%=y%>"><%=mainfile%>&nbsp;
-				<button type="button" value="mainfile" onclick="fnaction()" class="white">x</button>
-		</span><br/>
+		<%if(mainfile != null) { %>
+			<span id="btnDel">
+					<img src="/productImages/<%=mainfile%>" width="<%=x%>" height="<%=y%>"><%=mainfile%>&nbsp;
+					<button type="button" value="mainfile" onclick="fnaction()" class="white">x</button>
+			</span><br/>
+		<% } else {%>
+			<input type="file" id="file1" name="file1" size="70" /><br/>
+		<% } %>
 		</td>
 	</tr>
 	<tr class="board">
@@ -129,7 +211,16 @@ if(mainfile != null && !mainfile.equals("")) {
 	</tr>
 	
 	<tr class="board">
-		<th class="head">사이즈</th>
+		<th class="head" width="20%">현재 사이즈 및 색상</th>
+		<td>
+		<c:forEach var="i" items="${cs}" varStatus="status">
+		색상:${i.color}&nbsp;사이즈:${i.psize } <br/>
+		</c:forEach>
+		</td>
+	</tr>
+	
+	<tr class="board">
+		<th class="head">사이즈 추가</th>
 		<td>
 		<input type="checkbox" name="psize" id="psize" value="S">
 		S &nbsp;&nbsp; 
@@ -143,7 +234,7 @@ if(mainfile != null && !mainfile.equals("")) {
 	</tr>
 	
 	<tr class="board">
-		<th class="head">컬러</th>
+		<th class="head">색상 추가</th>
 		<td>
 		<input type="text" id="putcolor" name="putcolor">
 		<button type="button" onclick="addBox()">+</button>
@@ -165,13 +256,6 @@ if(mainfile != null && !mainfile.equals("")) {
 		<td>
 			<input type="radio" name="wait" id="wait" value="Y" <c:if test="${vo.wait=='Y'}">checked</c:if>/>wait&nbsp;&nbsp;
 			<input type="radio" name="wait" id="wait" value="N" <c:if test="${vo.wait=='N'}">checked</c:if>/>show&nbsp;&nbsp;
-		</td>
-	</tr>
-	<tr class="board">
-		<th class="head">품절 여부</th>
-		<td>
-			<input type="radio" name="soldout" id="soldout" value="Y" <c:if test="${vo.soldout=='Y'}">checked</c:if>/>품절&nbsp;&nbsp;
-			<input type="radio" name="soldout" id="soldout" value="N" <c:if test="${vo.soldout=='N'}">checked</c:if>/>판매&nbsp;&nbsp;
 		</td>
 	</tr>
 </table>

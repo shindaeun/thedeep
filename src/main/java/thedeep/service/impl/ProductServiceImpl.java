@@ -140,6 +140,51 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 		return productDAO.updateProductFile(vo);
 	}
 
+	@Override
+	public int deleteProduct(ProductVO vo) throws Exception {
+		return productDAO.deleteProduct(vo);
+	}
+
+	@Override
+	public int deleteCsProduct(ProductVO vo) throws Exception {
+		return productDAO.deleteCsProduct(vo);
+	}
+
+	@Override
+	public String insertProductModify(ProductVO vo) throws Exception {
+		return productDAO.insertProductModify(vo);
+	}
+
+	@Override
+	public String insertProductStockModify(ProductVO vo) throws Exception {
+		return productDAO.insertProductStockModify(vo);
+	}
+
+	@Override
+	public int updateSoldout(ProductVO vo) throws Exception {
+		return productDAO.updateSoldout(vo);
+	}
+
+	@Override
+	public int updateProduct(ProductVO vo) throws Exception {
+		return productDAO.updateProduct(vo);
+	}
+
+	@Override
+	public int selectAmount(ProductVO vo) throws Exception {
+		return productDAO.selectAmount(vo);
+	}
+
+	@Override
+	public int updateNotSoldout(ProductVO vo) throws Exception {
+		return productDAO.updateNotSoldout(vo);
+	}
+
+	@Override
+	public List<?> selectCsList(String pcode) throws Exception {
+		return productDAO.selectCsList(pcode);
+	}
+
 
 	
 

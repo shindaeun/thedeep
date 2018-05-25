@@ -19,6 +19,10 @@ $(function(){
 			$("#pname").focus();
 			return;
 		}
+		if(document.getElementById('file1').value=="") {
+			alert("메인사진을 입력해주세요.");
+			return;
+		}
 		if($("#content").val() == "") {
 			alert("내용을 입력해주세요.");
 			$("#content").focus();
@@ -28,6 +32,14 @@ $(function(){
 			alert("가격을 입력해주세요.");
 			$("#price").focus();
 			return;
+		}
+		if ($("input#psize:checked").length < 1) {
+		   alert("사이즈를 한개 이상 체크주십시오");
+		   return false;
+		}
+		if ($("input#color:checked").length < 1) {
+		   alert("색상을 한개 이상 체크주십시오");
+		   return false;
 		}
 		
 		if(confirm("저장하시겠습니까?")) {		
@@ -99,7 +111,7 @@ function removeBox(obj) {
 	<tr class="board">
 		<th class="head" width="20%">메인사진</th>
 		<td>
-		<input type="file" name="file1" size="70" /><br/>
+		<input type="file" id="file1" name="file1" size="70" /><br/>
 		</td>
 	</tr>
 	<tr class="board">
@@ -129,7 +141,7 @@ function removeBox(obj) {
 	</tr>
 	
 	<tr class="board">
-		<th class="head">컬러</th>
+		<th class="head">색상</th>
 		<td>
 		<input type="text" id="putcolor" name="putcolor">
 		<button type="button" onclick="addBox()">+</button>
@@ -154,13 +166,6 @@ function removeBox(obj) {
 		</td>
 	</tr>
 	
-	<tr class="board">
-		<th class="head">sold out</th>
-		<td>
-			<input type="radio" name="soldout" id="soldout" value="Y">품절&nbsp;&nbsp;
-			<input type="radio" name="soldout" id="soldout" value="N" checked>판매&nbsp;&nbsp;
-		</td>
-	</tr>
 </table>
 </form>
 

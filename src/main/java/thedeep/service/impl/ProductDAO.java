@@ -98,7 +98,7 @@ public class ProductDAO extends EgovAbstractDAO {
 	}
 
 	public int updateAmount(ProductVO vo) {
-		return (int) update("productDAO.updateAmount",vo);
+		return update("productDAO.updateAmount",vo);
 	}
 
 	public ProductVO selectProductDetail(String pcode) {
@@ -106,8 +106,45 @@ public class ProductDAO extends EgovAbstractDAO {
 	}
 
 	public int updateProductFile(ProductVO vo) {
-		return (int) update("productDAO.updateProductFile",vo);
+		return update("productDAO.updateProductFile",vo);
 	}
+
+	public int deleteProduct(ProductVO vo) {
+		return delete("productDAO.deleteProduct",vo);
+	}
+
+	public int deleteCsProduct(ProductVO vo) {
+		return delete("productDAO.deleteCsProduct",vo);
+	}
+
+	public String insertProductModify(ProductVO vo) {
+		return (String) insert("productDAO.insertProductModify",vo);
+	}
+
+	public String insertProductStockModify(ProductVO vo) {
+		return (String) insert("productDAO.insertProductStockModify",vo);
+	}
+
+	public int updateSoldout(ProductVO vo) {
+		return update("productDAO.updateSoldout",vo);
+	}
+
+	public int updateProduct(ProductVO vo) {
+		return update("productDAO.updateProduct",vo);
+	}
+
+	public int selectAmount(ProductVO vo) {
+		return (int) select("productDAO.selectAmount",vo);
+	}
+
+	public int updateNotSoldout(ProductVO vo) {
+		return update("productDAO.updateNotSoldout",vo);
+	}
+
+	public List<?> selectCsList(String pcode) {
+		return list("productDAO.selectCsList",pcode);
+	}
+
 
 
 
