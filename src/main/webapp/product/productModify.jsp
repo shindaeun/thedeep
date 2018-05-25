@@ -143,6 +143,7 @@ function fnaction() {
 				alert("삭제하였습니다.");
 			    var head = document.getElementById('btnDel');
 				head.innerHTML ="<input type='file' name='file1' size='70' />";
+				location.href="/productModify.do?pcode="+pcode;
 			} else {
 				alert("삭제 실패했습니다. 다시 시도해 주세요.");
 			}
