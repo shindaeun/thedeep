@@ -13,7 +13,7 @@
 	SELECT b.* FROM (
    			SELECT rownum rn, a.* FROM (
    				SELECT 
-   					unq, title, name, to_char(rdate, 'yyyy-mm-dd') rdate, nvl(filename,0) filename
+   					unq, title, name, to_char(rdate, 'yyyy-mm-dd') rdate, pcode, hit
    				FROM 
    					qna
    				WHERE 
@@ -53,40 +53,6 @@
 		WHERE unq = #unq#
 	]]>
    </select>
-   
-   <insert id="boardDAO.insertUpload">
-         INSERT INTO qna
-            (  unq 
-			, name
-			, pwd
-			, title
-			, content
-			, rdate
-			, hit
-			, forder
-			<isNotNull property="filename">
-				<isNotEmpty property="filename">
-			, filename
-			, filesize
-				</isNotEmpty>
-   			</isNotNull>
-			)
-         VALUES ( qna_seq.nextval
-             	 , #name#
-             	 , #pwd#
-             	 , #title#
-             	 , #content#
-             	 , sysdate
-             	 , '0'
-             	 , 'a'
-             	 <isNotNull property="filename">
-             	 	<isNotEmpty property="filename">
-             	 , #filename#
-             	 , #filesize#
-             	 	</isNotEmpty>
-             	 </isNotNull>
-             	 ) 
-   </insert>
    
     <insert id="boardDAO.insertReview">
          INSERT INTO review
@@ -371,4 +337,100 @@
 		DELETE FROM notice
 		WHERE unq = #unq#
 	</delete>
+	
+	<insert id="boardDAO.insertQnaWrite">
+	        INSERT INTO qna
+	           (  unq 
+			, name
+			, pwd
+			, title
+			, content
+			, rdate
+			, hit
+			, forder
+			<isNotNull property="filename">
+				<isNotEmpty property="filename">
+			, filename
+				</isNotEmpty>
+	  			</isNotNull>
+	  			, userid
+	  			, pcode
+			)
+	        VALUES ( qna_seq.nextval
+	            	 , #name#
+	            	 , #pwd#
+	            	 , #title#
+	            	 , #content#
+	            	 , sysdate
+	            	 , '0'
+	            	 , 'a'
+	            	 <isNotNull property="filename">
+	            	 	<isNotEmpty property="filename">
+	            	 , #filename#
+	            	 	</isNotEmpty>
+	            	 </isNotNull>
+	            	 , #userid#
+	            	 , 'P00005'
+	            	 ) 
+	  </insert>
+	  
+	  <update id="boardDAO.updateQnaHit">
+	   UPDATE qna
+	   SET hit = hit+1
+	   WHERE unq = #unq#
+	  </update>
+	  
+	  <select id="boardDAO.selectQnaDetail" resultClass="boardVO">
+		SELECT 
+			unq unq,
+			title title,
+			name name,
+			content content,
+			filename filename,
+			(SELECT nvl(min(unq),0) FROM qna WHERE unq > #unq#) nexInt,
+			(SELECT nvl(max(unq),0) FROM qna WHERE unq <![CDATA[<]]> #unq#) befInt
+		FROM
+			qna
+		WHERE 
+			unq = #unq#
+	  </select>
+	  
+	  <select id="boardDAO.selectQnaPwdChk" resultClass="java.lang.Integer">
+	   SELECT COUNT(*) cnt
+	   FROM qna
+	   WHERE pwd=#pwd#
+	   AND unq = #unq#
+	  </select>
+	  
+	  <update id="boardDAO.updateQnaFile">
+		UPDATE qna SET 
+			filename = #filename#
+		WHERE
+			unq = #unq#
+	</update>
+	  
+	<select id="boardDAO.selectQnaNowFilename" resultClass="java.lang.String">
+		select nvl(filename,'') filename from qna where unq=#unq#
+	</select>
+	
+	<update id="boardDAO.updateQna">
+		UPDATE qna SET
+			title = #title#,
+			content = #content#,
+			filename = #filename#
+		WHERE
+			unq = #unq#
+	</update>
+	
+	<delete id="boardDAO.deleteQna">
+		DELETE FROM qna
+		WHERE unq = #unq#
+	</delete>
+	
+	<select id="boardDAO.selectUserName" resultClass="java.lang.String">
+		SELECT name
+		FROM memberinfo
+		WHERE userid = #userid#
+	</select>
+	
 </sqlMap>
