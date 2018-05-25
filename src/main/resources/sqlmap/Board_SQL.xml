@@ -13,7 +13,7 @@
 	SELECT b.* FROM (
    			SELECT rownum rn, a.* FROM (
    				SELECT 
-   					unq, title, name, to_char(rdate, 'yyyy-mm-dd') rdate, pcode, hit
+   					unq, title, name, to_char(rdate, 'yyyy-mm-dd') rdate, pcode, hit, forder, fid
    				FROM 
    					qna
    				WHERE 
@@ -23,7 +23,7 @@
    							AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
    						</isNotEmpty>
    					</isNotNull>
-   				ORDER BY unq DESC
+   				ORDER BY fid DESC, forder
 			) a
 		) b
    			
@@ -352,9 +352,10 @@
 				<isNotEmpty property="filename">
 			, filename
 				</isNotEmpty>
-	  			</isNotNull>
-	  			, userid
-	  			, pcode
+  			</isNotNull>
+  			, userid
+  			, pcode
+  			, fid
 			)
 	        VALUES ( qna_seq.nextval
 	            	 , #name#
@@ -371,6 +372,7 @@
 	            	 </isNotNull>
 	            	 , #userid#
 	            	 , 'P00005'
+	            	 , qna_seq.nextval
 	            	 ) 
 	  </insert>
 	  
@@ -410,7 +412,9 @@
 	</update>
 	  
 	<select id="boardDAO.selectQnaNowFilename" resultClass="java.lang.String">
-		select nvl(filename,'') filename from qna where unq=#unq#
+		SELECT NVL(filename,'') filename 
+		FROM qna 
+		WHERE unq=#unq#
 	</select>
 	
 	<update id="boardDAO.updateQna">

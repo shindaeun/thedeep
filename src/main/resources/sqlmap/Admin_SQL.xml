@@ -109,5 +109,32 @@
 				</isNotEmpty>
    			</isNotNull>
    </select>
+   
+   <insert id="adminDAO.insertQnareply">
+   insert into qna
+   ( unq
+   , name
+   , pwd
+   , title
+   , content
+   , rdate
+   , hit
+   , forder
+   , pcode
+   , fid
+   , userid
+   ) VALUES ( qna_seq.nextval
+   			, '관리자'
+   			, #pwd#
+   			, '답변드립니다'
+   			, #content#
+   			, sysdate
+   			, '0'
+   			, 'aa'
+   			, #pcode#
+   			, #unq#
+   			, #userid#
+   			)
+   </insert>
 
 </sqlMap>
