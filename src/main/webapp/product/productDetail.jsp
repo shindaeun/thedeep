@@ -224,8 +224,8 @@ p {
 				<option class=disabled>옵션을 선택해주세요.</option>
 				<c:forEach var="i" items="${oplist }">
 					<option value="${i.seloption }"
-						<c:if test="${i.amount==0 }"> class=disabled</c:if>>${i.seloption }<c:if
-							test="${i.amount==0 }"> 품절</c:if></option>
+						<c:if test="${i.amount<10 }"> class=disabled</c:if>>${i.seloption }<c:if
+							test="${i.amount<10 }"> 품절</c:if></option>
 				</c:forEach>
 		</select></td>
 	</tr>

@@ -176,9 +176,9 @@
 		</tr>
 		<c:forEach var="i" items="${List }" varStatus="status">
 			<tr class="board">
-				<td><input type="checkbox" name="ordercheck" id="ordercheck"value="${i.cscode}" checked/>&nbsp;${i.pcode }</td>
+				<td><input type="checkbox" name="ordercheck" id="ordercheck"value="${i.cscode}" <c:if test='${i.stock<10 }'>disabled</c:if><c:if test='${i.stock >10}'>checked</c:if>/>&nbsp;${i.pcode }</td>
 				<td>${i.cscode}</td>
-				<td>${i.pname}</td>
+				<td>${i.pname}<c:if test="${i.stock }<10">[품절]</c:if></td>
 				<c:set var="mainfile" value="${i.mainfile }"/>
 				<%
 				int x=0,y=0;

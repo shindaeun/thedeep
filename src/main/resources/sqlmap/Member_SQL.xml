@@ -178,10 +178,11 @@
 
 	<select id="memberDAO.selectCartList" resultClass="egovMap">
 	 <![CDATA[
-	select userid,c.cscode,c.pcode,pname,price*amount price,amount,filename,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.001*amount) savepoint
-	from cart c, product p
+	select userid,c.cscode,c.pcode,pname,price*c.amount price,c.amount,filename,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.001*c.amount) savepoint, s.amount stock
+	from cart c, product p,stock s
 	where userid=#userid#
 	and c.cscode=p.cscode
+	and p.cscode=s.cscode
 	 ]]>
 	</select>
 	
