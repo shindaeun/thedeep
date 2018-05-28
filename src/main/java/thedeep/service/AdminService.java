@@ -26,4 +26,10 @@ public interface AdminService {
 
 	int selectOrderListTotCnt(DefaultVO searchVO) throws Exception;
 
+	List<?> selectOrderDetail(String ocode) throws Exception;
+
+	int updateTransNum(DeliveryVO vo) throws Exception;
+
+	int updateDstate(String ocode) throws Exception;
+
 }

@@ -16,12 +16,12 @@ $(function() {
 	$(document).ready(function(){
 		
 			if('${search.dstate1}' == "입금전") $("input:checkbox[name='dstate1']").prop("checked", true);
-			if('${search.dstate2}' == "상품준비중") $("input:checkbox[name='dstate2']").prop("checked", true);
+			if('${search.dstate2}' == "결제완료") $("input:checkbox[name='dstate2']").prop("checked", true);
 			if('${search.dstate3}' == "배송준비중") $("input:checkbox[name='dstate3']").prop("checked", true);
 			if('${search.dstate4}' == "배송중") $("input:checkbox[name='dstate4']").prop("checked", true);
 			if('${search.dstate5}' == "배송완료") $("input:checkbox[name='dstate5']").prop("checked", true);
-			if('${search.dstate6}' == "결제완료") $("input:checkbox[name='dstate6']").prop("checked", true);
 	});
+	
 	$("#btnSearch").click(function() {
 		if ( $("input:checkbox[class=chk]:checked").length<1 ) {
 		      alert("1개 이상 체크해주세요.");
@@ -41,6 +41,18 @@ function submit(i){
 		action : '/orderList.do?pageIndex='+i
 	}).submit();
 }
+function checkAll(){
+	var chk=document.getElementsByClassName("chk");
+	var len=chk.length;
+	var all=document.getElementById("checkall");
+	var bool=false;
+	if(all.checked==true){
+		bool=true;
+	}
+	for(var i=0;i<len;i++){
+		chk[i].checked=bool;
+	}	
+}
 </script>
 <table class="top">
    <tr class="top">
@@ -49,6 +61,8 @@ function submit(i){
 </table>
 
 <form name="frm" id="frm">
+<input style="VISIBILITY: hidden; WIDTH: 0px">
+
 <input type="hidden" name="pageIndex" value="<%=pageIndex %>"/>
 	<table width="100%">
 		<tr>
@@ -61,11 +75,11 @@ function submit(i){
 		<tr><td><br></td></tr>
 		<tr>
 			<th><input type="checkbox" class="chk"name="dstate1" value="입금전"/>입금전&nbsp;&nbsp; 
-			<input type="checkbox" class="chk"name="dstate6" value="결제완료"/>결제완료&nbsp;&nbsp;
-			<input
-				type="checkbox" class="chk" name="dstate2" value="상품준비중" />상품준비중&nbsp;&nbsp; <input type="checkbox"
-				class="chk" name="dstate3" value="배송준비중"/>배송준비중&nbsp;&nbsp; <input type="checkbox" class="chk" name="dstate4" value="배송중"/>배송중&nbsp;&nbsp;
-				<input type="checkbox" class="chk" name="dstate5" value="배송완료" />배송완료</th>
+			<input type="checkbox" class="chk"name="dstate2" value="결제완료"/>결제완료&nbsp;&nbsp;
+			<input type="checkbox"class="chk" name="dstate3" value="배송준비중"/>배송준비중&nbsp;&nbsp; 
+			<input type="checkbox" class="chk" name="dstate4" value="배송중"/>배송중&nbsp;&nbsp;
+			<input type="checkbox" class="chk" name="dstate5" value="배송완료" />배송완료&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="checkbox" id="checkall" value="checkall" onclick="checkAll()"checked/>전체선택</th>
 		</tr>
 	</table>
 </form>
@@ -78,12 +92,12 @@ function submit(i){
 		<th width="20%" >상품명</th>
 		<th width="10%">구매개수</th>
 		<th width="15%" >주문일자</th>
-		<th width="10%" >배송 상태</th>
+		<th width="10%" >배송상태</th>
 	</tr>
 	<c:forEach var="i" items="${olist }" varStatus="status">
 		<tr class="board" align="center">
 			<td>${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}</td>
-			<td><a href="/boardModify.do?unq=${result.unq}">${i.ocode}</a></td>
+			<td><a href="/orderDetail.do?ocode=${i.ocode}">${i.ocode}</a></td>
 			<td>${i.userid}</td>
 			<td>${i.pcode}</td>
 			<td>${i.pname}</td>

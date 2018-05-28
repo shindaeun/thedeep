@@ -27,7 +27,7 @@
 				        group by o.ocode,o.userid,odate,dstate
 				        ) i,orderList l
 			    where 
-			    	l.ocode=i.ocode and dstate in (#dstate1#,#dstate2#,#dstate3#,#dstate4#,#dstate5#,#dstate6#)
+			    	l.ocode=i.ocode and dstate in (#dstate1#,#dstate2#,#dstate3#,#dstate4#,#dstate5#)
 			    group by i.ocode,i.userid,i.odate,i.dstate
 			    ) j, product p        
 			where 
@@ -60,7 +60,7 @@
 				        group by o.ocode,o.userid,odate,dstate
 				        ) i,orderList l
 			    where 
-			    	l.ocode=i.ocode and dstate in (#dstate1#,#dstate2#,#dstate3#,#dstate4#,#dstate5#,#dstate6#)
+			    	l.ocode=i.ocode and dstate in (#dstate1#,#dstate2#,#dstate3#,#dstate4#,#dstate5#)
 			    group by i.ocode,i.userid,i.odate,i.dstate
 			    ) j, product p        
 			where 
@@ -72,6 +72,18 @@
 			</isNotNull>
 		
 	</select>
+	<select id="adminDAO.selectOrderDetail" resultClass="egovMap">
+			select distinct o.ocode ,m.name,l.pcode,p.pname,l.cscode,l.amount,l.totalmoney,o.totalmoney sum,o.payresult,o.paymethod,o.depositname,o.usepoint,o.savepoint,o.usecoupon, dstate,transportnum
+			from ordermain o,memberinfo m,orderlist l,product p ,delivery d 
+			where o.userid = m.userid and o.ocode = l.ocode and p.pcode = l.pcode and o.ocode=d.ocode and o.ocode=upper(#ocode#)
+	</select>
+	<update id="adminDAO.updateTransNum">
+	 update delivery set transportnum=#transportnum#,dstate='배송중' where ocode=upper(#ocode#)
+	</update>
+	<update id="adminDAO.updateDstate">
+	 update delivery set dstate='결제완료' where ocode=upper(#ocode#)
+	</update>
+	
 	<select id="adminDAO.selectIdChk" resultClass="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM admininfo

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -19,6 +20,7 @@ import thedeep.service.AdminService;
 import thedeep.service.AdminVO;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.DeliveryVO;
 
 @Controller
 public class AdminController {
@@ -161,13 +163,12 @@ public class AdminController {
 		searchVO.setUserid(userid);
 		searchVO.setPageUnit(1);// 한 화면에 출력 개수
 		searchVO.setPageSize(1);// 페이지 개수
-		if(searchVO.getDstate1() == null && searchVO.getDstate2() == null &&searchVO.getDstate3() == null &&searchVO.getDstate4() == null &&searchVO.getDstate5() == null &&searchVO.getDstate6() == null){
+		if(searchVO.getDstate1() == null && searchVO.getDstate2() == null &&searchVO.getDstate3() == null &&searchVO.getDstate4() == null &&searchVO.getDstate5() == null){
 			searchVO.setDstate1("입금전");
-			searchVO.setDstate2("상품준비중");
+			searchVO.setDstate2("결제완료");
 			searchVO.setDstate3("배송준비중");
 			searchVO.setDstate4("배송중");
 			searchVO.setDstate5("배송완료");
-			searchVO.setDstate6("결제완료");
 			
 		}
 		/** pageing setting */
@@ -189,8 +190,31 @@ public class AdminController {
 		return "admin/orderList";
 	}
 	@RequestMapping(value="/orderDetail.do")
-	public String orderDetail() throws Exception{
+	public String orderDetail(ModelMap model,@RequestParam("ocode") String ocode) throws Exception{
+		List<?> olist = adminService.selectOrderDetail(ocode);
+		model.addAttribute("olist",olist);
+		System.out.println(olist);
 		return "admin/orderDetail";
+	}
+	@RequestMapping(value="/transSave.do")
+	@ResponseBody
+	public Map<String,Object> orderDetail(DeliveryVO vo) throws Exception{
+		Map<String,Object> map = new HashMap<String, Object>();
+		String result="fail";
+		int cnt = adminService.updateTransNum(vo);
+		if(cnt>0) result="ok";
+		map.put("result", result);
+		return map;
+	}
+	@RequestMapping(value="/payCheck.do")
+	@ResponseBody
+	public Map<String,Object> payCheck(DeliveryVO vo) throws Exception{
+		Map<String,Object> map = new HashMap<String, Object>();
+		String result="fail";
+		int cnt = adminService.updateDstate(vo.getOcode());
+		if(cnt>0) result="ok";
+		map.put("result", result);
+		return map;
 	}
 	@RequestMapping(value="/adminBoard.do")
 	public String adminBoard() throws Exception{

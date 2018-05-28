@@ -12,7 +12,7 @@ $(function() {
          $("#searchKeyword").focus();
          return;
       }
-      $("form").attr({
+      $("#frm").attr({
          action:'/adminList.do',method:'post'
       }).submit();
    });
