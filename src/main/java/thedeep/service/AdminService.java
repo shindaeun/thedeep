@@ -22,4 +22,10 @@ public interface AdminService {
 
 	String insertQnareply(BoardVO vo) throws Exception;
 
+	int selectQnaRePwdChk(AdminVO vo) throws Exception;
+
+	int updateQnaReModify(BoardVO vo) throws Exception;
+
+	int deleteQnaRe(BoardVO bvo) throws Exception;
+
 }

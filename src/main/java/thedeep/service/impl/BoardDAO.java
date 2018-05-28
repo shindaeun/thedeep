@@ -141,6 +141,10 @@ public class BoardDAO extends EgovAbstractDAO {
 		return (String) select("boardDAO.selectUserName", userid);
 	}
 
+	public String selectQnaTitle(int unq) {
+		return (String) select("boardDAO.selectQnaTitle", unq);
+	}
+
 	
 
 	

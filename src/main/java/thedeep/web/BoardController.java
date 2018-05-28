@@ -40,7 +40,7 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@RequestMapping(value="/qnaList.do")
-	public String selectUploadList(@ModelAttribute("searchVO") DefaultVO searchVO, ModelMap model, BoardVO vo) throws Exception {
+	public String selectUploadList(@ModelAttribute("searchVO") DefaultVO searchVO, ModelMap model, BoardVO vo,HttpServletRequest request) throws Exception {
 		
 
 		searchVO.setPageUnit(10);
@@ -61,6 +61,19 @@ public class BoardController {
 		int totCnt = boardService.selectQnaListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
+		
+		String a12 = null;
+		try {
+			HashMap a = (HashMap) request.getSession().getAttribute("ThedeepALoginCert");
+			a12=(String) a.get("ThedeepAUserId");
+		} catch(Exception e) { }
+		
+		int login = 1;
+		if(a12==null) {
+			login = 2;
+		}
+		
+		model.addAttribute("login", login);
 		
 		return "board/qnaList";
 	}
@@ -118,6 +131,18 @@ public class BoardController {
 		return map;
 	}
 	
+	@RequestMapping(value="/qnaLock.do")
+	public String qnaLock(BoardVO vo, ModelMap model, HttpServletRequest request) throws Exception{
+		
+		int unq = vo.getUnq();
+		model.addAttribute("unq", unq);
+		
+		String t = boardService.selectQnaTitle(unq);
+		model.addAttribute("t", t);
+		
+		return "board/qnaLock";
+	}
+	
 	@RequestMapping(value="/qnaDetail.do")
 	public String selectQnaDetail(BoardVO vo,ModelMap model,HttpServletRequest request) throws Exception{
 		
@@ -138,7 +163,7 @@ public class BoardController {
 			login = 2;
 		}
 		
-		model.addAttribute("login", login );
+		model.addAttribute("login", login);
 		
 		return "board/qnaDetail";
 	}
@@ -152,7 +177,6 @@ public class BoardController {
 		String result = "";
 
 		int cnt = boardService.selectQnaPwdChk(vo);
-		System.out.println("cnt  :  " + cnt);
 		if(cnt>0) result = "ok";
 		else result = "1";
 		map.put("result", result);
@@ -232,7 +256,6 @@ public class BoardController {
 		} else {
 			vo.setFilename((String) nowfilename+imap.get("fileName"));
 		}
-		System.out.println(vo.getFilename());
 		
 		int cnt = boardService.updateQna(vo);
 		if(cnt > 0) result = "ok";
@@ -257,7 +280,6 @@ public class BoardController {
 		
 		int chk = boardService.selectQnaPwdChk(vo);
 		int cnt = 0;
-		System.out.println("filename  :  " + vo.getFilename());
 		
 		if(chk>0) {
 			cnt = boardService.deleteQna(vo);

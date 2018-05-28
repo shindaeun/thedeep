@@ -179,6 +179,11 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 		return boardDAO.selectUserName(userid);
 	}
 
+	@Override
+	public String selectQnaTitle(int unq) throws Exception {
+		return boardDAO.selectQnaTitle(unq);
+	}
+
 	
 	
 	

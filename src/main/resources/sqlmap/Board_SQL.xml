@@ -385,6 +385,8 @@
 	  <select id="boardDAO.selectQnaDetail" resultClass="boardVO">
 		SELECT 
 			unq unq,
+			pwd pwd,
+			fid fid,
 			title title,
 			name name,
 			content content,
@@ -428,13 +430,19 @@
 	
 	<delete id="boardDAO.deleteQna">
 		DELETE FROM qna
-		WHERE unq = #unq#
+		WHERE fid = #fid#
 	</delete>
 	
 	<select id="boardDAO.selectUserName" resultClass="java.lang.String">
 		SELECT name
 		FROM memberinfo
 		WHERE userid = #userid#
+	</select>
+	
+	<select id="boardDAO.selectQnaTitle" resultClass="java.lang.String">
+		SELECT title
+		FROM qna
+		WHERE unq=#unq#
 	</select>
 	
 </sqlMap>
