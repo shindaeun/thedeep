@@ -65,9 +65,15 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 	}
 
 	@Override
-	public List<?> selectOrderList() throws Exception {
-		return adminDAO.selectOrderList();
+	public List<?> selectOrderList(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectOrderList(searchVO);
 	}
+
+	@Override
+	public int selectOrderListTotCnt(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectOrderListTotCnt(searchVO);
+	}
+
 
 
 	

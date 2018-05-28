@@ -53,4 +53,12 @@ public class AdminDAO extends EgovAbstractDAO {
 		return list("adminDAO.selectOrderList");
 	}
 
+	public List<?> selectOrderList(DefaultVO searchVO) {
+		return list("adminDAO.selectOrderList",searchVO);
+	}
+
+	public int selectOrderListTotCnt(DefaultVO searchVO) {
+		return (int) select("adminDAO.selectOrderListTotCnt",searchVO);
+	}
+
 }

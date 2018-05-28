@@ -156,9 +156,36 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/orderList.do")
-	public String orderList(ModelMap model) throws Exception{
-		List<?> olist = adminService.selectOrderList();
+	public String orderList(ModelMap model,@ModelAttribute("searchVO")DefaultVO searchVO) throws Exception{
+		String userid="userid1";
+		searchVO.setUserid(userid);
+		searchVO.setPageUnit(1);// 한 화면에 출력 개수
+		searchVO.setPageSize(1);// 페이지 개수
+		if(searchVO.getDstate1() == null && searchVO.getDstate2() == null &&searchVO.getDstate3() == null &&searchVO.getDstate4() == null &&searchVO.getDstate5() == null &&searchVO.getDstate6() == null){
+			searchVO.setDstate1("입금전");
+			searchVO.setDstate2("상품준비중");
+			searchVO.setDstate3("배송준비중");
+			searchVO.setDstate4("배송중");
+			searchVO.setDstate5("배송완료");
+			searchVO.setDstate6("결제완료");
+			
+		}
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		List<?> olist = adminService.selectOrderList(searchVO);
 		model.addAttribute("olist",olist);
+		int totCnt = adminService.selectOrderListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("search",searchVO);
+		model.addAttribute("paginationInfo", paginationInfo);
 		return "admin/orderList";
 	}
 	@RequestMapping(value="/orderDetail.do")
