@@ -19,10 +19,27 @@ $(function(){
 			$("#pname").focus();
 			return;
 		}
+		if(document.getElementById('file1').value=="") {
+			alert("메인사진을 입력해주세요.");
+			return;
+		}
 		if($("#content").val() == "") {
 			alert("내용을 입력해주세요.");
 			$("#content").focus();
 			return;
+		}
+		if($("#price").val() == "") {
+			alert("가격을 입력해주세요.");
+			$("#price").focus();
+			return;
+		}
+		if ($("input#psize:checked").length < 1) {
+		   alert("사이즈를 한개 이상 체크주십시오");
+		   return false;
+		}
+		if ($("input#color:checked").length < 1) {
+		   alert("색상을 한개 이상 체크주십시오");
+		   return false;
 		}
 		
 		if(confirm("저장하시겠습니까?")) {		
@@ -63,14 +80,17 @@ $(function(){
 	});
 	
 });
+
 function addBox() {
-	var color = eval("$('#color').val()");
-	alert(color);
+	var color = eval("$('#putcolor').val()");
 	var txt = "&nbsp;&nbsp;<input type='checkbox' name='color' id='color' value='"+color+"'>"+color;
+		txt += "<input type='button' value='X' onClick='removeBox(this)'>";
 	var area = document.createElement('span');
 	area.innerHTML = txt;
 	document.getElementById('textBoxArea').appendChild(area);
-	//eval("$('#color').val('')");
+}
+function removeBox(obj) {
+	document.getElementById('textBoxArea').removeChild(obj.parentNode);
 }
 </script>
 
@@ -91,7 +111,7 @@ function addBox() {
 	<tr class="board">
 		<th class="head" width="20%">메인사진</th>
 		<td>
-		<input type="file" name="file1" size="70" /><br/>
+		<input type="file" id="file1" name="file1" size="70" /><br/>
 		</td>
 	</tr>
 	<tr class="board">
@@ -109,21 +129,21 @@ function addBox() {
 	<tr class="board">
 		<th class="head">사이즈</th>
 		<td>
-		<input type="checkbox" name="size" id="size" value="S">
+		<input type="checkbox" name="psize" id="psize" value="S">
 		S &nbsp;&nbsp; 
-		<input type="checkbox" name="size" id="size" value="M">
+		<input type="checkbox" name="psize" id="psize" value="M">
 		M &nbsp;&nbsp;
-		<input type="checkbox" name="size" id="size" value="L">
+		<input type="checkbox" name="psize" id="psize" value="L">
 		L &nbsp;&nbsp; 
-		<input type="checkbox" name="size" id="size" value="free">
-		free 
+		<input type="checkbox" name="psize" id="psize" value="F">
+		Free 
 		</td>
 	</tr>
 	
 	<tr class="board">
-		<th class="head">컬러</th>
+		<th class="head">색상</th>
 		<td>
-		<input type="text" id="color" name="color">
+		<input type="text" id="putcolor" name="putcolor">
 		<button type="button" onclick="addBox()">+</button>
 		<span id="textBoxArea" style="text-align:left;"></span>
 		</td>
@@ -146,13 +166,6 @@ function addBox() {
 		</td>
 	</tr>
 	
-	<tr class="board">
-		<th class="head">sold out</th>
-		<td>
-			<input type="radio" name="soldout" id="soldout" value="Y">품절&nbsp;&nbsp;
-			<input type="radio" name="soldout" id="soldout" value="N" checked>판매&nbsp;&nbsp;
-		</td>
-	</tr>
 </table>
 </form>
 

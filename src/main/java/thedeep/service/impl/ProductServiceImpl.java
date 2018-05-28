@@ -101,9 +101,90 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 	}
 
 	@Override
-	public String insertproduct(ProductVO vo) throws Exception {
-		return productDAO.insertproduct(vo);
+	public String insertProduct(ProductVO vo) throws Exception {
+		return productDAO.insertProduct(vo);
 	}
+
+	@Override
+	public int selectPcode() throws Exception {
+		return productDAO.selectPcode();
+	}
+
+	@Override
+	public String insertProductStock(ProductVO vo) throws Exception {
+		return productDAO.insertProductStock(vo);
+	}
+
+	@Override
+	public List<?> selectProductListView(DefaultVO searchVO) throws Exception {
+		return productDAO.selectProductListView(searchVO);
+	}
+
+	@Override
+	public int selectProductListTotCnt(DefaultVO searchVO) throws Exception {
+		return productDAO.selectProductListTotCnt(searchVO);
+	}
+
+	@Override
+	public int updateAmount(ProductVO vo) throws Exception {
+		return productDAO.updateAmount(vo);
+	}
+
+	@Override
+	public ProductVO selectProductDetail(String pcode) throws Exception {
+		return productDAO.selectProductDetail(pcode);
+	}
+
+	@Override
+	public int updateProductFile(ProductVO vo) throws Exception {
+		return productDAO.updateProductFile(vo);
+	}
+
+	@Override
+	public int deleteProduct(ProductVO vo) throws Exception {
+		return productDAO.deleteProduct(vo);
+	}
+
+	@Override
+	public int deleteCsProduct(ProductVO vo) throws Exception {
+		return productDAO.deleteCsProduct(vo);
+	}
+
+	@Override
+	public String insertProductModify(ProductVO vo) throws Exception {
+		return productDAO.insertProductModify(vo);
+	}
+
+	@Override
+	public String insertProductStockModify(ProductVO vo) throws Exception {
+		return productDAO.insertProductStockModify(vo);
+	}
+
+	@Override
+	public int updateSoldout(ProductVO vo) throws Exception {
+		return productDAO.updateSoldout(vo);
+	}
+
+	@Override
+	public int updateProduct(ProductVO vo) throws Exception {
+		return productDAO.updateProduct(vo);
+	}
+
+	@Override
+	public int selectAmount(ProductVO vo) throws Exception {
+		return productDAO.selectAmount(vo);
+	}
+
+	@Override
+	public int updateNotSoldout(ProductVO vo) throws Exception {
+		return productDAO.updateNotSoldout(vo);
+	}
+
+	@Override
+	public List<?> selectCsList(String pcode) throws Exception {
+		return productDAO.selectCsList(pcode);
+	}
+
 
 	
 

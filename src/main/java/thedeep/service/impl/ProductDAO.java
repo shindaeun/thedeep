@@ -77,8 +77,75 @@ public class ProductDAO extends EgovAbstractDAO {
 		return list("productDAO.selectGname");
 	}
 
-	public String insertproduct(ProductVO vo) {
-		return (String) insert("productDAO.insertproduct",vo);
+	public String insertProduct(ProductVO vo) {
+		return (String) insert("productDAO.insertProduct",vo);
 	}
+
+	public int selectPcode() {
+		return (int) select("productDAO.selectPcode");
+	}
+
+	public String insertProductStock(ProductVO vo) {
+		return (String) insert("productDAO.insertProductStock",vo);
+	}
+
+	public List<?> selectProductListView(DefaultVO searchVO) {
+		return list("productDAO.selectProductListView",searchVO);
+	}
+
+	public int selectProductListTotCnt(DefaultVO searchVO) {
+		return (int) select("productDAO.selectProductListTotCnt",searchVO);
+	}
+
+	public int updateAmount(ProductVO vo) {
+		return update("productDAO.updateAmount",vo);
+	}
+
+	public ProductVO selectProductDetail(String pcode) {
+		return (ProductVO) select("productDAO.selectProductDetail",pcode);
+	}
+
+	public int updateProductFile(ProductVO vo) {
+		return update("productDAO.updateProductFile",vo);
+	}
+
+	public int deleteProduct(ProductVO vo) {
+		return delete("productDAO.deleteProduct",vo);
+	}
+
+	public int deleteCsProduct(ProductVO vo) {
+		return delete("productDAO.deleteCsProduct",vo);
+	}
+
+	public String insertProductModify(ProductVO vo) {
+		return (String) insert("productDAO.insertProductModify",vo);
+	}
+
+	public String insertProductStockModify(ProductVO vo) {
+		return (String) insert("productDAO.insertProductStockModify",vo);
+	}
+
+	public int updateSoldout(ProductVO vo) {
+		return update("productDAO.updateSoldout",vo);
+	}
+
+	public int updateProduct(ProductVO vo) {
+		return update("productDAO.updateProduct",vo);
+	}
+
+	public int selectAmount(ProductVO vo) {
+		return (int) select("productDAO.selectAmount",vo);
+	}
+
+	public int updateNotSoldout(ProductVO vo) {
+		return update("productDAO.updateNotSoldout",vo);
+	}
+
+	public List<?> selectCsList(String pcode) {
+		return list("productDAO.selectCsList",pcode);
+	}
+
+
+
 
 }

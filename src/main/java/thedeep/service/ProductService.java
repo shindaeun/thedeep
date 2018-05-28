@@ -36,7 +36,41 @@ public interface ProductService {
 
 	List<?> selectGname() throws Exception;
 
-	String insertproduct(ProductVO vo) throws Exception;
+	String insertProduct(ProductVO vo) throws Exception;
+
+	int selectPcode() throws Exception;
+
+	String insertProductStock(ProductVO vo) throws Exception;
+
+	List<?> selectProductListView(DefaultVO searchVO) throws Exception;
+
+	int selectProductListTotCnt(DefaultVO searchVO) throws Exception;
+
+	int updateAmount(ProductVO vo) throws Exception;
+
+	ProductVO selectProductDetail(String pcode) throws Exception;
+
+	int updateProductFile(ProductVO vo) throws Exception;
+
+	int deleteProduct(ProductVO vo) throws Exception;
+
+	int deleteCsProduct(ProductVO vo) throws Exception;
+
+	String insertProductModify(ProductVO vo) throws Exception;
+
+	String insertProductStockModify(ProductVO vo) throws Exception;
+
+	int updateSoldout(ProductVO vo) throws Exception;
+
+	int updateProduct(ProductVO vo) throws Exception;
+
+	int selectAmount(ProductVO vo) throws Exception;
+
+	int updateNotSoldout(ProductVO vo) throws Exception;
+
+	List<?> selectCsList(String pcode) throws Exception;
+
+
 
 
 
