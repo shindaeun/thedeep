@@ -289,6 +289,7 @@ public class AdminController {
 		
 		int unq = vo.getUnq();
 		
+		boardService.updateQnaHit(unq);
 		vo = boardService.selectQnaDetail(unq);
 		model.addAttribute("vo", vo);
 		
