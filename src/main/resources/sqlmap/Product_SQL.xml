@@ -208,6 +208,11 @@
 			, gcode
 			, soldout
 			, wait
+			<isNotNull property="editor">
+			<isNotEmpty property="editor">
+			, editor
+			</isNotEmpty>
+			</isNotNull>
 			<isNotNull property="mainfile">
 			<isNotEmpty property="mainfile">
 			, mainfile
@@ -221,6 +226,11 @@
 			, #gcode#
 			, 'Y'
 			, #wait#
+			<isNotNull property="editor">
+			<isNotEmpty property="editor">
+			, #editor#
+			</isNotEmpty>
+			</isNotNull>
 			<isNotNull property="mainfile">
 			<isNotEmpty property="mainfile">
 			, #mainfile#
