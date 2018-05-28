@@ -98,7 +98,7 @@ $(function() {
 	</tr>
 </table>
 
-<form form name="frm" id="frm" method="post" enctype="multipart/form-data">
+<form name="frm" id="frm" method="post" enctype="multipart/form-data">
 <input type="hidden" name="unq" id="unq" value="${vo.unq}" />
 <input type="hidden" name="filename" id="filename" value="${vo.filename}" />
 

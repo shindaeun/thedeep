@@ -92,8 +92,15 @@ a:hover {text-decoration:underline; color: #000000}
 		%>
 	    <td style="text-align:center"><img src="/productImages/${result.pcode}.jpg" width="50" height="50"/></td>
 		<td>
+		<c:if test="${login==1}">
+		<c:if test="${result.forder=='aa'}"><a href="/qnaReDetail.do?unq=${result.unq}">└ [re] ${result.title}</a></c:if>
+		<c:if test="${result.forder!='aa'}"><a href="/qnaDetail.do?unq=${result.unq}">${result.title}</a></c:if>
+		</c:if>
+		<c:if test="${login!=1}">
 		<c:if test="${result.forder=='aa'}">└ [re] </c:if>
-		<a href="/qnaDetail.do?unq=${result.unq}">${result.title}</a></td>
+		<a href="/qnaLock.do?unq=${result.unq}">${result.title}</a>
+		</c:if>
+		</td>
 		<td>${result.name}</td>
 		<td>${result.rdate}</td>
 		<td>${result.hit}</td>

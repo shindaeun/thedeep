@@ -49,4 +49,16 @@ public class AdminDAO extends EgovAbstractDAO {
 		return (String) insert("adminDAO.insertQnareply", vo);
 	}
 
+	public int selectQnaRePwdChk(AdminVO vo) {
+		return (int) select("adminDAO.selectQnaRePwdChk", vo);
+	}
+
+	public int updateQnaReModify(BoardVO vo) {
+		return update("adminDAO.updateQnaReModify", vo);
+	}
+
+	public int deleteQnaRe(BoardVO bvo) {
+		return delete("adminDAO.deleteQnaRe", bvo);
+	}
+
 }

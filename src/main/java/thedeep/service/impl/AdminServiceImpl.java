@@ -64,6 +64,21 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 		return adminDAO.insertQnareply(vo);
 	}
 
+	@Override
+	public int selectQnaRePwdChk(AdminVO vo) throws Exception {
+		return adminDAO.selectQnaRePwdChk(vo);
+	}
+
+	@Override
+	public int updateQnaReModify(BoardVO vo) throws Exception {
+		return adminDAO.updateQnaReModify(vo);
+	}
+
+	@Override
+	public int deleteQnaRe(BoardVO bvo) throws Exception {
+		return adminDAO.deleteQnaRe(bvo);
+	}
+
 
 	
 }

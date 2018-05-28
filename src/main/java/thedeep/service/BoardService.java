@@ -68,6 +68,8 @@ public interface BoardService {
 
 	String selectUserName(String userid) throws Exception;
 
+	String selectQnaTitle(int unq) throws Exception;
+
 
 	
 

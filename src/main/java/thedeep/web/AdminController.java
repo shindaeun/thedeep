@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import thedeep.service.AdminService;
 import thedeep.service.AdminVO;
+import thedeep.service.BoardService;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
 
@@ -25,6 +26,9 @@ public class AdminController {
 	
 	@Resource(name="adminService")
 	AdminService adminService;
+	
+	@Resource(name="boardService")
+	BoardService boardService;
 	
 	@RequestMapping(value="/adminInfo.do")
 	public String insertAdminInfo() throws Exception{
@@ -178,6 +182,9 @@ public class AdminController {
 		int unq = vo.getUnq();
 		model.addAttribute("unq", unq);
 		
+		String pwd = vo.getRepwd();
+		model.addAttribute("pwd", pwd);
+		
 		return "admin/qnaReply";
 	}
 	
@@ -202,4 +209,105 @@ public class AdminController {
 		
 		return map;
 	}
+	
+	@RequestMapping(value="/qnaRePwdChk.do")
+	@ResponseBody
+	public Map<String,Object> selectQnaRePwdChk(AdminVO vo,HttpServletRequest request) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		String result = "";
+		
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepALoginCert");
+		String adminid = (String) a.get("ThedeepAUserId");
+		
+		vo.setAdminid(adminid);
+
+		int cnt = adminService.selectQnaRePwdChk(vo);
+		if(cnt>0) result = "ok";
+		else result = "1";
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	@RequestMapping(value="/qnaReDetail.do")
+	public String selectQnaReDetail(BoardVO vo, ModelMap model, HttpServletRequest request) throws Exception{
+		
+		int unq = vo.getUnq();
+		
+		vo = boardService.selectQnaDetail(unq);
+		model.addAttribute("vo", vo);
+		
+		String a12 = null;
+		try {
+			HashMap a = (HashMap) request.getSession().getAttribute("ThedeepALoginCert");
+			System.out.println("adminid  :  " + a.get("ThedeepAUserId"));
+			a12=(String) a.get("ThedeepAUserId");
+		} catch(Exception e) { }
+		
+		int login = 1;
+		if(a12==null) {
+			login = 2;
+		}
+		
+		model.addAttribute("login", login);
+		
+		return "admin/qnaReDetail";
+	}
+	
+	@RequestMapping(value="/qnaReModify.do")
+	public String selectQnaReModify(BoardVO vo, ModelMap model, HttpServletRequest request) throws Exception{
+		
+		int unq = vo.getUnq();
+		System.out.println("unq  _  " + unq);
+		vo = boardService.selectQnaDetail(unq);
+		
+		model.addAttribute("vo", vo);
+		
+		return "admin/qnaReModify";
+	}
+	
+	@RequestMapping(value="/qnaReModifySave.do")
+	@ResponseBody
+	public Map<String,Object> updateQnaReModify(BoardVO vo) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		String result ="";
+		int cnt = adminService.updateQnaReModify(vo);
+		if(cnt>0) result = "ok";
+		else result = "1";
+			
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	@RequestMapping(value = "/qnaReDelete.do")
+	@ResponseBody 
+	public Map<String,Object> deleteQnaRe(BoardVO bvo, AdminVO vo, HttpServletRequest request) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		String result ="";
+		
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepALoginCert");
+		String adminid = (String) a.get("ThedeepAUserId");
+		
+		vo.setAdminid(adminid);
+		
+		int chk = adminService.selectQnaRePwdChk(vo);
+		if(chk>0){
+			int cnt = adminService.deleteQnaRe(bvo);
+			if(cnt>0) result = "ok";
+			else result = "2";
+		} else result = "1";
+			
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	
 }

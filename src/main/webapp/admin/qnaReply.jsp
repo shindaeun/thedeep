@@ -57,7 +57,7 @@
 	</tr>
 	<tr class="board">
 		<th class="head">passwd</th>
-		<td><input type="password" id="pwd" name="pwd"/></td>
+		<td><input type="password" id="pwd" name="pwd" value="${pwd}"/></td>
 	</tr>
 	<tr class="board">
 		<th class="head">content</th>

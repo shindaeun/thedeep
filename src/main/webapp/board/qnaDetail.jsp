@@ -41,38 +41,11 @@ $(function(){
 	});
 	
 	$("#btnModify").click(function() {
-		if(    $("#pwd").val().length < 4 
-				|| $("#pwd").val().length > 12 )
-			{
-				alert("암호를 입력해주세요 (4~12자)");
-				$("#pwd").focus();
-				return;
-			}
-			if(confirm("수정하시겠습니까?")) {		
-		 		var formData = $("#frm").serialize();
-		 		// 비 동기 전송
-				$.ajax({
-					type: "POST",
-					data: formData,
-					url: "/qnaPwdChk.do",
-					
-					success: function(data) {
-						if(data.result == "ok") {
-							location.href="/qnaModify.do";
-							var form = document.refrm;
-							form.method = "post";
-							form.action = "/qnaModify.do";
-							form.submit();
-						} else {
-							alert("패스워드가 일치하지 않습니다.");	
-						}
-					},
-					error: function () {
-						alert("오류발생 ");
-					}
-				}); 
-			}
-		
+			location.href="/qnaModify.do";
+			var form = document.refrm;
+			form.method = "post";
+			form.action = "/qnaModify.do";
+			form.submit();
 	});
 	
 	$("#btnDelete").click(function(){
@@ -114,7 +87,7 @@ $(function(){
 		form.method = "post";
 		form.action = "/qnaReply.do";
 		form.submit();
-	}); 
+	});
 });
 </script>
 
@@ -131,7 +104,8 @@ $(function(){
 </div>
 
 <form name="refrm" id="refrm">
-<input type="hidden" id="unq" name="unq" value="${vo.unq}">
+<input type="hidden" id="unq" name="unq" value="${vo.unq}"/>
+<input type="hidden" id="repwd" name="repwd" value="${vo.pwd}"/>
 </form>
 
 <form name="frm" id="frm">
@@ -208,6 +182,7 @@ if(filenames != null && !filenames.equals("")) {
 		<td style="text-align:left; padding:5px;">
 		 <input type="password" id="pwd" name="pwd"/>
 		 <input type="hidden" id="unq" name="unq" value="${vo.unq}"/>
+		 <input type="hidden" id="fid" name="fid" value="${vo.fid}"/>
 		 <input type="hidden" id="filename" name="filename" value="${vo.filename}"/>
 		</td>
 	</tr>

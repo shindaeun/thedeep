@@ -16,6 +16,8 @@ public class BoardVO {
 	private int filesize;
 	private String userid;
 	private String delfilename;
+	
+	private String repwd;
 
 	private int nexInt;
 	private int befInt;
@@ -115,6 +117,12 @@ public class BoardVO {
 	}
 	public void setBefInt(int befInt) {
 		this.befInt = befInt;
+	}
+	public String getRepwd() {
+		return repwd;
+	}
+	public void setRepwd(String repwd) {
+		this.repwd = repwd;
 	}
 	
 }
