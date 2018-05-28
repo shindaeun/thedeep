@@ -22,10 +22,22 @@ public interface AdminService {
 
 	String insertQnareply(BoardVO vo) throws Exception;
 
+
 	int selectQnaRePwdChk(AdminVO vo) throws Exception;
 
 	int updateQnaReModify(BoardVO vo) throws Exception;
 
 	int deleteQnaRe(BoardVO bvo) throws Exception;
+
+	List<?> selectOrderList(DefaultVO searchVO) throws Exception;
+
+	int selectOrderListTotCnt(DefaultVO searchVO) throws Exception;
+
+	List<?> selectOrderDetail(String ocode) throws Exception;
+
+	int updateTransNum(DeliveryVO vo) throws Exception;
+
+	int updateDstate(String ocode) throws Exception;
+
 
 }

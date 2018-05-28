@@ -84,6 +84,8 @@ p {
 	</tr>
 </table>
 <form id="form1">
+<input style="VISIBILITY: hidden; WIDTH: 0px">
+
 	<input type="hidden" name="searchkind" value="1" />
 	<table>
 		<tr>
@@ -176,6 +178,7 @@ p {
 <br>
 <br>
 <form id="form2">
+<input style="VISIBILITY: hidden; WIDTH: 0px">
 	<input type="hidden" name="searchkind" value="2" />
 	<table>
 		<tr>

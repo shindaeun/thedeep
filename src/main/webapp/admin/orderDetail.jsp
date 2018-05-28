@@ -3,8 +3,48 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
 $(function() {
-	$("#btnWrite").click(function() {
+	$("#btnList").click(function() {
 		location.href = "/orderList.do";
+	});
+	$("#btnWrite").click(function() {
+		var form = $("#frm").serialize();
+		$.ajax({
+			type : "POST",
+			data: form,
+			url : "/transSave.do",
+			success : function(data) {
+				if (data.result == "ok") {
+					alert("변경하였습니다.");
+					location.href = "/orderList.do";
+				}
+				else {
+					alert("변경 실패했습니다. 다시 시도해 주세요.");
+				}
+			},
+			error: function (request,status,error) {
+            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+              }
+		});
+	});
+	$("#btnPayChk").click(function() {
+		var form = $("#frm").serialize();
+		$.ajax({
+			type : "POST",
+			data: form,
+			url : "/payCheck.do",
+			success : function(data) {
+				if (data.result == "ok") {
+					alert("변경하였습니다.");
+					location.href = "/orderList.do";
+				}
+				else {
+					alert("변경 실패했습니다. 다시 시도해 주세요.");
+				}
+			},
+			error: function (request,status,error) {
+            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+              }
+		});
 	});
 });
 $(window).load(function () {
@@ -16,6 +56,7 @@ $(window).load(function () {
         }
     });
 });
+
 </script>
 
 
@@ -24,40 +65,43 @@ $(window).load(function () {
       <td class="top">주문상세조회</td>
    </tr>
 </table>
-<form name="frm">
+
 	<table>
-		<button type="button" class="white" id="btnWrite">목록</button>
+		<button type="button" class="white" id="btnList">목록</button>
 	</table>
-</form>
+
+<form name="frm" id="frm">
 <table class="board" id="order">
 	<tr class="board">
-		<th width="10%" >주문번호</th>
 		<th width="10%" >구매자</th>
-		<th width="10%" >상품코드</th>
-		<th width="15%" >품목코드</th>
-		<th width="15%" >상품명</th>
-		<th width="10%" >구매개수</th>
-		<th width="10%" >주문일자</th>
-		<th width="10%" >배송 상태</th>
+		<!-- <th width="10%" >상품코드</th> -->
+		<th width="10%" >상품명</th>
+		<th width="10%" >품목코드(개)</th>
+		<th width="10%" >총금액</th>
+		<!-- <th width="10%" >결제결과/방법</th>
+		<th width="10%" >입금자명</th> -->
+		<th width="10%" >사용/적립포인트/사용쿠폰</th>
+		<th width="10%" >배송상태</th>
 		<th width="10%" >운송장번호</th>
 	</tr>
-	<%-- <c:forEach var="result" items="${resultList }" varStatus="status"> --%>
-	<c:forEach var="result" begin="1" end="3">
-		<tr class="board">
-			
-			<td class="gubun">ODR00010</td>
-			<td class="gubun">홍길동</td>
-			<td class="gubun">P00006</td>
-			<td>P00006asd</td>
-			<td>도깨비</td>
-			<td>3</td>
-			<td class="gubun">2048-05</td>
-			<td>배송준비중</td>
-			<td>
-			<input type="text" size="10"/>
+	<c:forEach var="i" items="${olist }">
+		<tr class="board" align="center">
+			<td class="gubun">${i.name }</td>
+			<%-- <td class="gubun">${i.pcode }</td> --%>
+			<td class="gubun">${i.pname }</td>
+			<td>${i.cscode }(${i.amount }개)</td>
+			<td class="gubun">${i.sum }</td>
+			<%-- <td class="gubun">${i.payresult }/${i.paymethod }</td>
+			<td class="gubun">${i.depositname }</td> --%>
+			<td class="gubun">${i.usepoint }/${i.savepoint }/${i.usecoupon }</td>
+			<td class="gubun">${i.dstate }<c:if test="${i.dstate=='입금전' }"><button type="button" class="white" id="btnPayChk">입금확인</button></c:if></td>
+			<td class="gubun">
+			<input type="hidden" name="ocode" value="${i.ocode }"/>
+			<input type="text" name="transportnum" size="10" value="${i.transportnum }"/>
 			<button type="button" class="white" id="btnWrite">입력</button>
 			</td>
 		</tr>
 	</c:forEach>
 </table>
 <br>
+</form>

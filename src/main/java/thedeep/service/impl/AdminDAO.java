@@ -8,6 +8,8 @@ import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import thedeep.service.AdminVO;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.DeliveryVO;
+import thedeep.service.OrderVO;
 import thedeep.service.PwdCkVO;
 
 @Repository("adminDAO")
@@ -49,6 +51,7 @@ public class AdminDAO extends EgovAbstractDAO {
 		return (String) insert("adminDAO.insertQnareply", vo);
 	}
 
+
 	public int selectQnaRePwdChk(AdminVO vo) {
 		return (int) select("adminDAO.selectQnaRePwdChk", vo);
 	}
@@ -59,6 +62,30 @@ public class AdminDAO extends EgovAbstractDAO {
 
 	public int deleteQnaRe(BoardVO bvo) {
 		return delete("adminDAO.deleteQnaRe", bvo);
+	}
+	public List<?> selectOrderList() {
+		return list("adminDAO.selectOrderList");
+	}
+
+	public List<?> selectOrderList(DefaultVO searchVO) {
+		return list("adminDAO.selectOrderList",searchVO);
+	}
+
+	public int selectOrderListTotCnt(DefaultVO searchVO) {
+		return (int) select("adminDAO.selectOrderListTotCnt",searchVO);
+	}
+
+	public List<?> selectOrderDetail(String ocode) {
+		return list("adminDAO.selectOrderDetail",ocode);
+	}
+
+	public int updateTransNum(DeliveryVO vo) {
+		return update("adminDAO.updateTransNum",vo);
+	}
+
+	public int updateDstate(String ocode) {
+		return update("adminDAO.updateDstate",ocode);
+
 	}
 
 }

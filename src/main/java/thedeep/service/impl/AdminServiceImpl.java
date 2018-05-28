@@ -11,6 +11,7 @@ import thedeep.service.AdminService;
 import thedeep.service.AdminVO;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
+import thedeep.service.DeliveryVO;
 import thedeep.service.PwdCkVO;
 
 @Service("adminService")
@@ -78,6 +79,32 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 	public int deleteQnaRe(BoardVO bvo) throws Exception {
 		return adminDAO.deleteQnaRe(bvo);
 	}
+
+
+	public List<?> selectOrderList(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectOrderList(searchVO);
+	}
+
+	@Override
+	public int selectOrderListTotCnt(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectOrderListTotCnt(searchVO);
+	}
+
+	@Override
+	public List<?> selectOrderDetail(String ocode) throws Exception {
+		return adminDAO.selectOrderDetail(ocode);
+	}
+
+	@Override
+	public int updateTransNum(DeliveryVO vo) throws Exception {
+		return adminDAO.updateTransNum(vo);
+	}
+
+	@Override
+	public int updateDstate(String ocode) throws Exception {
+		return adminDAO.updateDstate(ocode);
+	}
+
 
 
 	
