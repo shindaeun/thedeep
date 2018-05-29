@@ -145,6 +145,10 @@ public class ProductDAO extends EgovAbstractDAO {
 		return list("productDAO.selectCsList",pcode);
 	}
 
+	public int updateSmartEditor(ProductVO vo) {
+		return update("productDAO.updateSmartEditor",vo);
+	}
+
 
 
 

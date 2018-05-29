@@ -29,17 +29,44 @@
         });
         //전송버튼
         $("#insertBoard").click(function(){
-            //id가 smarteditor인 textarea에 에디터에서 대입
-            obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
-            //폼 submit
-            $("#insertBoardFrm").submit();
+        	var form = new FormData(document.getElementById('frm'));
+        	obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
+			var test = document.getElementById("editor").value;
+			alert(test);
+            var editor= $('#editor').val();
+            var cscode= $('#cscode').val();
+            var file1= $('#file1').val();
+        	alert(editor);
+        	alert(cscode);
+        	alert(file1);
+        	
+       		$.ajax({
+       			url : '/insertBoard.do',
+       			type : 'post',
+       			datatype : 'json',
+       			data :{
+       				"editor" : editor,
+       				"cscode" : cscode,
+       				"mainfile" : file1
+       			},
+       			
+       			success : function(data){
+       				if(data=="ok"){
+       					location.href="/insertBoard.do";
+       				}
+       			}
+       		});
+        	
         });
+
     });
 </script>
 <body>
  
-    <form action="/insertBoard.do" method="post" id="insertBoardFrm" enctype="multipart/form-data">
+    <form id="frm" name="frm" enctype="multipart/form-data">
         <textarea name="editor" id="editor" style="width: 700px; height: 400px;"></textarea>
+        <input type="text" id="cscode" name="cscode"/>
+        <input type="file" id="file1" name="file1" size="70" /><br/>
         <input type="button" id="insertBoard" value="등록" />
     </form>
  

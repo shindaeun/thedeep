@@ -1,6 +1,9 @@
 package thedeep.web;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -166,7 +169,6 @@ public class ProductController {
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
 		
-		System.out.println("에디터 컨텐츠값:"+vo.getEditor()+"123");
 		String result="",result1="",result2="";
 		int pcode;
 		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\productImages";
@@ -200,6 +202,10 @@ public class ProductController {
 		}
 		
 		if(result1 == null && result2 == null) result = "ok";
+		
+		String hiddenPcode = "P"+ String.format("%05d", pcode);
+		map.put("pcode", hiddenPcode);
+		
 		map.put("result", result);  //  ( Json 이름, 데이터 )
 		map.put("cnt", (String) imap.get("cnt")); // 0,1
 		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
@@ -540,24 +546,50 @@ public class ProductController {
 		return "product/test";
 	}
 
-	/*@RequestMapping("/insertBoard.do")
+	@RequestMapping("/updateSmartEditor.do")
 	@ResponseBody
-	public Map<String,Object> test (ProductVO vo) throws Exception {
+	public Map<String,Object> updateSmartEditor (ProductVO vo) throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
 		
 		System.out.println("에디터 컨텐츠값:"+vo.getEditor());
-		String result="ok";
+		System.out.println("pcode :"+vo.getPcode());
 		
-		map.put("result",result);
+		int cnt = productService.updateSmartEditor(vo);
 		
 		return map;
-	}*/
-	
-	@RequestMapping("/insertBoard.do")
-
-	public void submit(ProductVO vo){
-	    System.out.println("에디터 컨텐츠값:"+vo.getEditor());
 	}
+	
+	/*@RequestMapping("/insertBoard.do")
+	@ResponseBody 
+	public Map<String, String> test11 (
+					ProductVO vo,
+					ModelMap model) throws Exception {
+		
+		
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\productImages";
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+	   
+		File f = new File(vo.getMainfile());
+		FileInputStream fis = new FileInputStream(f);
+		FileOutputStream fos = new FileOutputStream(uploadPath);
+		 
+		int data = 0;
+		while((data=fis.read())!=-1) {
+		    fos.write(data);
+		}
+		 
+		fis.close();
+		fos.close();
+
+
+	    System.out.println("에디터 컨텐츠값:"+vo.getEditor());
+	    System.out.println("cscode:"+vo.getCscode());
+	    System.out.println(vo.getMainfile());
+
+		return map;
+	}*/
 
 
 

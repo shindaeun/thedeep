@@ -185,6 +185,11 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 		return productDAO.selectCsList(pcode);
 	}
 
+	@Override
+	public int updateSmartEditor(ProductVO vo) throws Exception {
+		return productDAO.updateSmartEditor(vo);
+	}
+
 
 	
 

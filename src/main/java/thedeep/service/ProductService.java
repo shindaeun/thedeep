@@ -70,6 +70,8 @@ public interface ProductService {
 
 	List<?> selectCsList(String pcode) throws Exception;
 
+	int updateSmartEditor(ProductVO vo) throws Exception;
+
 
 
 
