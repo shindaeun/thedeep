@@ -314,7 +314,10 @@ p {
 
 <table class="board">
 	<tr>
-		<td style="text-align: center">${vo.content}상품상세사진</td>
+		<c:set var="editor" value="${pvo.editor }" />
+		
+		<p><img src="/resource/photo_upload/bdb83bd3-fe37-4d4f-b891-30000ca4bddd.jpg" title="2.jpg"><br style="clear:both;">블라우스</p>
+		<td style="text-align: center">${pvo.editor}</td>
 	</tr>
 </table>
 

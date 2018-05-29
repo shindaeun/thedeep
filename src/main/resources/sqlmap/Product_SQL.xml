@@ -114,7 +114,7 @@
 		unq DESC
 	</select>
 	<select id="productDAO.selectBest3Product" resultClass="egovMap">
-		select distinct pp.pcode,pname,price,filename,mainfile from(
+		select distinct pp.pcode,pname,price,editor,mainfile from(
 		select p.pcode,sum(amount) amount from orderList l,product p
 		where p.pcode=l.pcode and wait='N'
 		and lower(gcode)=lower(#gcode#)
@@ -123,7 +123,7 @@
 		where i.pcode=pp.pcode and rownum<![CDATA[<=]]>3
 	</select>
 	<select id="productDAO.selectBest50Product" resultClass="egovMap">
-		select distinct pp.pcode,pname,price,filename,mainfile from(
+		select distinct pp.pcode,pname,price,editor,mainfile from(
 			select p.pcode,sum(amount) amount 
 			from orderList l,product p
 			where p.pcode=l.pcode and wait='N'
@@ -132,8 +132,8 @@
 		where i.pcode=pp.pcode and rownum<![CDATA[<=]]>50
 	</select>
 	<select id="productDAO.selectNew50Product" resultClass="egovMap">
-		select pcode,pname,price,filename,mainfile from(
-			select distinct pcode,pname,price,filename,mainfile
+		select pcode,pname,price,editor,mainfile from(
+			select distinct pcode,pname,price,editor,mainfile
 			from product
 			where wait='N'
 			order by pcode desc)
@@ -147,7 +147,7 @@
 		from(
 		SELECT
 		distinct
-		pcode,pname,price,mainfile,filename
+		pcode,pname,price,mainfile,editor
 		FROM
 		product
 		WHERE
@@ -173,7 +173,7 @@
 		pcode DESC
 	</select>
 	<select id="productDAO.selectProductInfo" resultClass="productVO">
-		select distinct pcode,pname,price,price*0.01 point ,filename,mainfile
+		select distinct pcode,pname,price,price*0.01 point ,editor,mainfile
 		from product
 		where lower(pcode)=lower(#pcode#)
 	</select>
