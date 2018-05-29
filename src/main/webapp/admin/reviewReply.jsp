@@ -57,12 +57,5 @@
 	<td><textarea rows="2" cols="100" style="resize: none;"></textarea>
 			<button type="button" id="btnModify" class="white">등록</button></td>
 	</tr>
-	<tr><td>
-		관리자A<br>
-	
-	리뷰 감사합니다.
-	적립금 지급되었습니다.
-	더욱 만족을 드리도록 노력하겠습니다.
-		</td>
-	</tr>
+		
 </table>

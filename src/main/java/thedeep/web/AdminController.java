@@ -22,6 +22,7 @@ import thedeep.service.BoardService;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
+import thedeep.service.ReviewReplyVO;
 
 @Controller
 public class AdminController {
@@ -221,12 +222,65 @@ public class AdminController {
 		return map;
 	}
 	@RequestMapping(value="/adminBoard.do")
-	public String adminBoard() throws Exception{
+	public String adminBoard(ModelMap model,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
+
+		searchVO.setPageUnit(2);// 한 화면에 출력 개수
+		searchVO.setPageSize(2);// 페이지 개수
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		String keyword="";
+		if(searchVO.getSearchkind()==2){
+			System.out.println("in");
+			keyword=searchVO.getSearchKeyword();
+			System.out.println(keyword);
+			searchVO.setSearchKeyword("");
+		}
+		List<?> qlist = adminService.selectQnaList(searchVO);
+		model.addAttribute("qlist", qlist);
+		int totCnt = adminService.selectQnaTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		
+		model.addAttribute("paginationInfo", paginationInfo);
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo2 = new PaginationInfo();
+		paginationInfo2.setCurrentPageNo(searchVO.getPageIndex2());
+		paginationInfo2.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo2.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo2.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo2.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo2.getRecordCountPerPage());
+		if(searchVO.getSearchkind()==2){
+			searchVO.setSearchKeyword(keyword);
+		}else if(searchVO.getSearchkind()==1){
+			searchVO.setSearchKeyword("");
+		}
+		List<?> rlist = adminService.selectReviewList(searchVO);
+		model.addAttribute("rlist", rlist);
+		int totCnt2 = adminService.selectReviewTotCnt(searchVO);
+		paginationInfo2.setTotalRecordCount(totCnt2);
+		searchVO.setSearchKeyword("");
+		model.addAttribute("paginationInfo2", paginationInfo2);
 		return "admin/adminBoard";
 	}
 	@RequestMapping(value="/reviewReply.do")
-	public String reviewReply() throws Exception{
-		return "admin/reviewReply";
+	@ResponseBody
+	public Map<String,Object> reviewReply(ReviewReplyVO vo) throws Exception{
+		Map<String,Object> map = new HashMap<String, Object>();
+		String result="fail"; 
+		result= adminService.insertReviewReply(vo);
+		if(result==null) result="ok";
+		map.put("result", result);
+		return map;
 	}
 	
 	@RequestMapping(value="/qnaReply.do")

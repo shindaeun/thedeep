@@ -145,6 +145,10 @@ public class BoardDAO extends EgovAbstractDAO {
 		return (String) select("boardDAO.selectQnaTitle", unq);
 	}
 
+	public List<?> selectReviewReplyList(int unq) {
+		return list("boardDAO.selectReviewReplyList",unq);
+	}
+
 	
 
 	

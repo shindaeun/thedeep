@@ -13,6 +13,7 @@ import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
 import thedeep.service.PwdCkVO;
+import thedeep.service.ReviewReplyVO;
 
 @Service("adminService")
 public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminService {
@@ -103,6 +104,31 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 	@Override
 	public int updateDstate(String ocode) throws Exception {
 		return adminDAO.updateDstate(ocode);
+	}
+
+	@Override
+	public String insertReviewReply(ReviewReplyVO vo) throws Exception {
+		return adminDAO.insertReviewReply(vo);
+	}
+
+	@Override
+	public List<?> selectQnaList(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectQnaList(searchVO);
+	}
+
+	@Override
+	public int selectQnaTotCnt(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectQnaTotCnt(searchVO);
+	}
+
+	@Override
+	public List<?> selectReviewList(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectReviewList(searchVO);
+	}
+
+	@Override
+	public int selectReviewTotCnt(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectReviewTotCnt(searchVO);
 	}
 
 

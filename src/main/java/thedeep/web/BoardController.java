@@ -659,6 +659,8 @@ public class BoardController {
 		vo = boardService.selectReviewDetail(unq);
 		model.addAttribute("vo", vo);
 		
+		List<?> rlist = boardService.selectReviewReplyList(unq);
+		model.addAttribute("rlist", rlist);
 		return "board/reviewDetail";
 	}
 	

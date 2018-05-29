@@ -31,6 +31,9 @@
    		
    			rn >= $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$
 	</select>
+	<select id="boardDAO.selectReviewReplyList" resultClass="egovMap">
+		select fid,content,rdate from reviewreply where fid=#unq#
+	</select>
 	
 	<select id="boardDAO.selectQnaListTotCnt" resultClass="java.lang.Integer">
    		SELECT COUNT(*)

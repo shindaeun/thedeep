@@ -184,6 +184,11 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 		return boardDAO.selectQnaTitle(unq);
 	}
 
+	@Override
+	public List<?> selectReviewReplyList(int unq) throws Exception {
+		return boardDAO.selectReviewReplyList(unq);
+	}
+
 	
 	
 	

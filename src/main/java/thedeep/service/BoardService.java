@@ -70,6 +70,8 @@ public interface BoardService {
 
 	String selectQnaTitle(int unq) throws Exception;
 
+	List<?> selectReviewReplyList(int unq) throws Exception;
+
 
 	
 
