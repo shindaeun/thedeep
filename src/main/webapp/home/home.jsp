@@ -1,14 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@page import="java.io.File"%>
 <%@page import="javax.imageio.ImageIO"%>
 <%@page import="java.awt.image.BufferedImage"%>
 <%@page import="java.awt.Image"%>
 <%@page import="javax.swing.ImageIcon"%>
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.0.min.js" ></script>
+<script src="/js/jquery-1.12.4.js"></script>
+<script src="/js/jquery-ui.js"></script>
+
 <script>
 $(function(){
 	
@@ -18,6 +24,16 @@ $(".mouse").mouseenter(function(){
 });
 
 </script>
+
+<script>
+$(function() {
+	if($("#happyBTD").val()!="0") {
+		var userid = $("#happyBTD").val();
+		alert(userid + " 님! 생일 축하드립니다! 쿠폰을 발급해드렸으니 확인해 주세요!");
+	}
+});
+</script>
+
 <style>
 .mouse {
 background: white;
@@ -28,6 +44,12 @@ background: white;
   background: -moz-linear-gradient(top,  #dcdcdc,  #dcdcdc); 
 }
 </style>
+
+<form id="frm" name="frm">
+<input type="hidden" id="happyBTD" name="happyBTD" value="${happyBTD}">
+</form>
+
+
 <div class="w-container">
 	<div data-delay="4000" data-animation="slide" data-autoplay="1"
 		data-duration="500" data-infinite="1" class="slider-3 w-slider">

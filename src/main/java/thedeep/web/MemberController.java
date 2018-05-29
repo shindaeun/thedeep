@@ -464,8 +464,6 @@ public class MemberController {
 		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
 		String userid = (String) a.get("ThedeepUserId");
 		
-		Calendar cal = Calendar.getInstance();
-		
 		List<?> list = memberService.selectCouponList(userid);
 		
 		model.addAttribute("List",list);

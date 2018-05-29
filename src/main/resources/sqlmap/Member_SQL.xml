@@ -435,4 +435,30 @@
 				 )
 	</insert>
 	
+	<select id="memberDAO.selectMemberBTD" resultClass="java.lang.String">
+		SELECT to_char(birthday,'MMDD') birthday
+		FROM memberinfo
+		WHERE userid = #userid#
+	</select>
+	
+	<insert id="memberDAO.insertBTDCoupon">
+		INSERT INTO couponlist
+		( userid
+		, ccode
+		, sdate
+		, edate
+		) VALUES ( #userid#
+				 , 'c002'
+				 , sysdate
+				 , #edate#
+				 )
+	</insert>
+	
+	<select id="memberDAO.selectBTDCoupon" resultClass="java.lang.Integer">
+		SELECT COUNT(*) cnt
+		FROM couponlist
+		WHERE userid = #userid#
+		AND ccode = 'c002'
+	</select>
+	
 </sqlMap>

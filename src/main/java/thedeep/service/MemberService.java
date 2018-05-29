@@ -2,6 +2,8 @@ package thedeep.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 public interface MemberService {
 
 	List<?> selectCartList(String userid) throws Exception;
@@ -91,6 +93,12 @@ public interface MemberService {
 	String selectLatestPost(String userid) throws Exception;
 
 	String insertCoupon(CouponVO cvo) throws Exception;
+
+	String selectMemberBTD(String userid) throws Exception;
+
+	String insertBTDCoupon(CouponVO cvo) throws Exception;
+
+	int selectBTDCoupon(String userid) throws Exception;
 
 
 
