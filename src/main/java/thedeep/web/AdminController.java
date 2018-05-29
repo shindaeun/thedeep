@@ -236,7 +236,6 @@ public class AdminController {
 		
 		int unq = vo.getUnq();
 		
-		boardService.updateQnaHit(unq);
 		vo = boardService.selectQnaDetail(unq);
 		model.addAttribute("vo", vo);
 		
@@ -249,6 +248,7 @@ public class AdminController {
 		
 		int login = 1;
 		if(a12==null) {
+			boardService.updateQnaHit(unq);
 			login = 2;
 		}
 		
