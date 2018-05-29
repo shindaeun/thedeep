@@ -225,11 +225,6 @@
 			, gcode
 			, soldout
 			, wait
-			<isNotNull property="editor">
-			<isNotEmpty property="editor">
-			, editor
-			</isNotEmpty>
-			</isNotNull>
 			<isNotNull property="mainfile">
 			<isNotEmpty property="mainfile">
 			, mainfile
@@ -243,11 +238,6 @@
 			, #gcode#
 			, 'Y'
 			, #wait#
-			<isNotNull property="editor">
-			<isNotEmpty property="editor">
-			, #editor#
-			</isNotEmpty>
-			</isNotNull>
 			<isNotNull property="mainfile">
 			<isNotEmpty property="mainfile">
 			, #mainfile#
@@ -319,7 +309,7 @@
 	</update>
 	
 	<select id="productDAO.selectProductDetail" resultClass = "productVO">
-		select distinct(pcode) pcode ,pname ,price ,gcode ,wait ,mainfile
+		select distinct(pcode) pcode ,pname ,price ,gcode ,wait ,mainfile, editor
 		from product
 		where pcode=#pcode#
 	</select>
@@ -411,5 +401,10 @@
 	
 	<select id="productDAO.selectCsList" resultClass="egovMap">
 		select color,psize from stock where pcode=#pcode#
-	</select> 
+	</select>
+	
+	<update id="productDAO.updateSmartEditor">
+		update product set editor=#editor#
+		where pcode = #pcode#
+	</update> 
 </sqlMap>

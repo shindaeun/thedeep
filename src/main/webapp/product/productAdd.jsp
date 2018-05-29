@@ -63,8 +63,7 @@ $(function(){
 		if(confirm("저장하시겠습니까?")) {		
 	 		//var formData = $("#frm").serialize();
 	 		var form = new FormData(document.getElementById('frm'));
-	 		//id가 smarteditor인 textarea에 에디터에서 대입
-            obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
+	 		
 	 		// 비 동기 전송
 			$.ajax({
 				type: "POST",
@@ -84,6 +83,28 @@ $(function(){
 						} else if(data.errCode == "1") {
 							alert("첨부파일은 5M 미만이어야 합니다.");
 						}
+						document.frm2.pcode.value = data.pcode;
+						var pcode= document.frm2.pcode.value
+						alert(pcode);
+						
+						obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
+						var test = document.getElementById("editor").value;
+						alert(test);
+					    var editor= $('#editor').val();
+						alert(editor);
+						$.ajax({
+								url : '/updateSmartEditor.do',
+								type : 'post',
+								datatype : 'json',
+								data :{
+									 "editor" : editor
+								   , "pcode" : pcode
+								},
+								
+								success : function(data){
+								}
+						});
+						
 						location.href = "<c:url value='/productListView.do'/>";
 					} else {
 						alert("저장 실패했습니다. 다시 시도해 주세요.");
@@ -134,12 +155,7 @@ function removeBox(obj) {
 		<input type="file" id="file1" name="file1" size="70" /><br/>
 		</td>
 	</tr>
-	<tr class="board">
-		<th class="head">상품상세설명</th>
-		<td style="height:150px;">
-		<textarea name="editor" id="editor" style="width: 700px; height: 400px;"></textarea>
-		</td>
-	</tr>
+	
 	<tr class="board">
 		<th class="head" width="20%">상품가격</th>
 		<td>
@@ -186,9 +202,19 @@ function removeBox(obj) {
 		</td>
 	</tr>
 	
-</table>
+
 </form>
 
+<form id="frm2" name="frm2" enctype="multipart/form-data">
+<input type="hidden" name="pcode" id="pcode"/>
+	<tr class="board">
+		<th class="head">상품상세설명</th>
+		<td style="height:150px;">
+		<textarea name="editor" id="editor" style="width: 700px; height: 400px;"></textarea>
+		</td>
+	</tr>
+</table>
+</form>
 <table border="0" style="width:100%;">
 	<tr style="text-align:center">
 		<th colspan="2" style="text-align:center">

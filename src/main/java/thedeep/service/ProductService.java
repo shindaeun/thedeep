@@ -74,6 +74,9 @@ public interface ProductService {
 
 	List<?> selectNew50Product() throws Exception;
 
+	int updateSmartEditor(ProductVO vo) throws Exception;
+
+
 
 
 

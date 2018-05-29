@@ -186,6 +186,7 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 	}
 
 	@Override
+
 	public List<?> selectBest50Product() throws Exception {
 		return productDAO.selectBest50Product();
 	}
@@ -193,6 +194,11 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 	@Override
 	public List<?> selectNew50Product() throws Exception {
 		return productDAO.selectNew50Product();
+	}
+	
+	public int updateSmartEditor(ProductVO vo) throws Exception {
+		return productDAO.updateSmartEditor(vo);
+
 	}
 
 

@@ -9,6 +9,10 @@
 <%@ page import="java.awt.image.BufferedImage" %>
 <%@ page import="java.awt.Image" %>
 <%@ page import="javax.swing.ImageIcon" %>
+
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="./resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
+
 <c:set var="mainfile" value="${vo.mainfile}"></c:set>
 
 <%
@@ -40,6 +44,23 @@ if(mainfile != null && !mainfile.equals("")) {
 %>
 <script>
 $(function(){
+	//전역변수
+    var obj = [];              
+    //스마트에디터 프레임생성
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: obj,
+        elPlaceHolder: "editor",
+        sSkinURI: "./resources/editor/SmartEditor2Skin.html",
+        htParams : {
+            // 툴바 사용 여부
+            bUseToolbar : true,            
+            // 입력창 크기 조절바 사용 여부
+            bUseVerticalResizer : true,    
+            // 모드 탭(Editor | HTML | TEXT) 사용 여부
+            bUseModeChanger : true,
+        }
+    });
+
 	$("#btnModify").click(function(){
 		if($("#pname").val() == "") {
 			alert("상품명을 입력해주세요.");
@@ -85,6 +106,28 @@ $(function(){
 						} else if(data.errCode == "1") {
 							alert("첨부파일은 5M 미만이어야 합니다.");
 						}
+						
+						var pcode= document.frm.pcode.value
+						alert(pcode);
+						
+						obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
+						var test = document.getElementById("editor").value;
+						alert(test);
+					    var editor= $('#editor').val();
+						alert(editor);
+						$.ajax({
+								url : '/updateSmartEditor.do',
+								type : 'post',
+								datatype : 'json',
+								data :{
+									 "editor" : editor
+								   , "pcode" : pcode
+								},
+								
+								success : function(data){
+								}
+						});
+						
 						location.href = "<c:url value='/productListView.do'/>";
 					} else {
 						alert("저장 실패했습니다. 다시 시도해 주세요.");
@@ -198,12 +241,7 @@ function removeBox(obj) {
 		<% } %>
 		</td>
 	</tr>
-	<tr class="board">
-		<th class="head">상품상세설명</th>
-		<td style="height:150px;">
-		<textarea name="content" id="content" style="width:98%;height:95%;"></textarea>
-		</td>
-	</tr>
+	
 	<tr class="board">
 		<th class="head" width="20%">상품가격</th>
 		<td>
@@ -257,6 +295,16 @@ function removeBox(obj) {
 		<td>
 			<input type="radio" name="wait" id="wait" value="Y" <c:if test="${vo.wait=='Y'}">checked</c:if>/>wait&nbsp;&nbsp;
 			<input type="radio" name="wait" id="wait" value="N" <c:if test="${vo.wait=='N'}">checked</c:if>/>show&nbsp;&nbsp;
+		</td>
+	</tr>
+
+</form>
+
+<form id="frm2" name="frm2" enctype="multipart/form-data">
+	<tr class="board">
+		<th class="head">상품상세설명</th>
+		<td style="height:150px;">
+		<textarea name="editor" id="editor" style="width: 700px; height: 400px;">${vo.editor}</textarea>
 		</td>
 	</tr>
 </table>
