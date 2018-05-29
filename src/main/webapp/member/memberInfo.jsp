@@ -134,8 +134,10 @@ $(function(){
 					if(data.result == "ok") {
 						alert("저장하였습니다.");
 						location.href = "/home.do";
+					} else if(date.result == "0") {
+						alert("쿠폰저장에 실패했습니다");
 					} else {
-						alert("저장 실패했습니다. 다시 시도해 주세요.");
+						alert("저장에 실패했습니다 다시 시도해주세요")
 					}
 				},
 				error: function () {

@@ -90,6 +90,8 @@ public interface MemberService {
 
 	String selectLatestPost(String userid) throws Exception;
 
+	String insertCoupon(CouponVO cvo) throws Exception;
+
 
 
 

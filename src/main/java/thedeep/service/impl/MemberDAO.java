@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import thedeep.service.CartVO;
+import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
 import thedeep.service.FindVO;
@@ -187,6 +188,10 @@ public class MemberDAO extends EgovAbstractDAO{
 
 	public String selectLatestPost(String userid) {
 		return (String) select("memberDAO.selectLatestPost",userid);
+	}
+
+	public String insertCoupon(CouponVO cvo) {
+		return (String) insert("memberDAO.insertCoupon", cvo);
 	}
 
 	

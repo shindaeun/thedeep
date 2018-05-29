@@ -422,4 +422,17 @@
 		insert into orderList values(#ocode#,#pcode#,#cscode#,#amount#,#totalmoney#)
 	</insert>
 	
+	<insert id="memberDAO.insertCoupon">
+		INSERT INTO couponlist
+		( userid
+		, ccode
+		, sdate
+		, edate
+		) VALUES ( #userid#
+				 , 'c001'
+				 , sysdate
+				 , #edate#
+				 )
+	</insert>
+	
 </sqlMap>
