@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import thedeep.service.CartVO;
+import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
 import thedeep.service.FindVO;
@@ -234,6 +235,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String selectLatestPost(String userid) throws Exception {
 		return memberDAO.selectLatestPost(userid);
+	}
+
+	@Override
+	public String insertCoupon(CouponVO cvo) throws Exception {
+		return memberDAO.insertCoupon(cvo);
 	}
 
 }

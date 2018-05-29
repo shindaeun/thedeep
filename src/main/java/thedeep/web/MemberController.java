@@ -1,6 +1,7 @@
 package thedeep.web;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import thedeep.service.CartVO;
+import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
 import thedeep.service.FindVO;
@@ -42,14 +44,36 @@ public class MemberController {
 	
 	@RequestMapping(value="/memberInfoSave.do")
 	@ResponseBody
-	public Map<String,Object> insertMemeberInfo(MemberVO vo) throws Exception {
+	public Map<String,Object> insertMemeberInfo(MemberVO vo, CouponVO cvo) throws Exception {
 		
 		Map<String,Object> map = new HashMap<String, Object>();
+		Calendar cal = Calendar.getInstance();
 		
 		System.out.println("userid  :  " + vo.getUserid());
 		String result = memberService.insertMember(vo);
-		if(result==null) result = "ok";
-		else result = "1";
+		
+		String userid = vo.getUserid();
+		
+		cal.add(Calendar.MONTH, 1);
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1;
+		int day = cal.get(Calendar.DATE);
+		
+		String edate = year + "-";
+			if(month<10) edate += "0" + month + "-";
+			else edate += month + "-";
+			edate += day + "";
+		cvo.setUserid(userid);
+		cvo.setEdate(edate);
+		
+		if(result==null) {
+			String coupon = memberService.insertCoupon(cvo);
+			if(coupon==null)result = "ok";
+			else result = "0";
+		}
+		else {
+			result = "1";
+		}
 			
 		map.put("result", result);
 		
@@ -435,10 +459,17 @@ public class MemberController {
 		return "/NewFile";
 	}
 	@RequestMapping(value="/coupon.do")
-	public String coupon(ModelMap model) throws Exception{
-		String userid="userid1";
+	public String coupon(ModelMap model, HttpServletRequest request) throws Exception{
+		
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		
+		Calendar cal = Calendar.getInstance();
+		
 		List<?> list = memberService.selectCouponList(userid);
+		
 		model.addAttribute("List",list);
+		
 		return "member/coupon";
 	}
 	@RequestMapping(value="/point.do")
