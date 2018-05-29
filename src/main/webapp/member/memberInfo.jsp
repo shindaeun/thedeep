@@ -71,6 +71,11 @@ $(function(){
 			success: function(data) {
 				if(data.result == "ok") {
 					alert("중복된 아이디가 없습니다");
+					var check = "ok";
+					$("#check").val(check);
+					var form = document.cfrm;
+					form.method = "post";
+					form.action = "/memberInfo.do";
 				} else {
 					alert("중복된 아이디가 있습니다 (다시 입력해 주세요)");
 				}
@@ -105,6 +110,10 @@ $(function(){
 		}
 		if($('input:radio[id=yackguan]:checked').val()=="n") {
 			alert("약관에 동의해 주세요");
+			return;
+		}
+		if($("#check").val()=="") {
+			alert("아이디 중복확인을 해주세요");
 			return;
 		}
 		if(confirm("저장하시겠습니까?")) {		
@@ -154,11 +163,14 @@ $(function(){
 </table>
 
 
+<form name="cfrm" id="cfrm">
+<input type="hidden" name="check" id="check"/>
+</form>
 <form name="frm" id="frm">
 
-<input type="hidden" name="phone" id="phone">
-<input type="hidden" name="post" id="post">
-<input type="hidden" name="email" id="email">
+<input type="hidden" name="phone" id="phone"/>
+<input type="hidden" name="post" id="post"/>
+<input type="hidden" name="email" id="email"/>
 
 <table class="board">
 	<tr class="board">
