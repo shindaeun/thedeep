@@ -28,24 +28,19 @@ background: white;
   background: -moz-linear-gradient(top,  #dcdcdc,  #dcdcdc); 
 }
 </style>
-<div class="w-container">
-	<div data-delay="4000" data-animation="slide" data-autoplay="1"
-		data-duration="500" data-infinite="1" class="slider-3 w-slider">
-		<div class="w-slider-mask">
-			<div class="slide-6 w-slide"></div>
-			<div class="slide-8 w-slide"></div>
-			<div class="slide-7 w-slide"></div>
-		</div>
-		<div class="w-slider-arrow-left">
-			<div class="w-icon-slider-left"></div>
-		</div>
-		<div class="w-slider-arrow-right">
-			<div class="w-icon-slider-right"></div>
-		</div>
-		<div class="w-slider-nav w-round"></div>
-	</div>
-	
-	<div>
+    <table class="top">
+		<tr class="top">
+			<td class="top">best50</td>
+		</tr>
+    </table>
+    <table class="line">
+    	<tr class="line">
+    		<td class="line">
+    		</td>
+    	</tr>
+    </table>
+
+
 	<table class="board">
 		<colgroup>
 		<col width="33%"/>
@@ -54,7 +49,7 @@ background: white;
 		</colgroup>
 		<tr class="board">
 			<c:set var="filenum" value="0"/>
-			<c:forEach var="i" items="${nlist}" varStatus="status">
+			<c:forEach var="i" items="${blist}" varStatus="status">
 			<c:set var="filenum" value="${filenum+1}"/>
 			<c:set var="mainfile" value="${i.mainfile }"/>
 				<%
@@ -89,11 +84,3 @@ background: white;
 			</c:if>
 		</tr>
 	</table>
-	
-	
-	</div>
-</div>
-
-
-
-

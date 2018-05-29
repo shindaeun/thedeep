@@ -4,7 +4,7 @@
         <div data-collapse="medium" data-animation="default" data-duration="400" class="w-nav">
           <div class="container-8 w-container">
             <nav role="navigation" class="nav-menu-2 w-nav-menu">
-            <a href="#" class="nav-link-12 w-nav-link">best50</a>
+            <a href="/best50List.do" class="nav-link-12 w-nav-link">best50</a>
             <a href="/productList.do?gcode=g001" class="nav-link-13 w-nav-link">outer</a>
             <a href="/productList.do?gcode=g002" class="nav-link-14 w-nav-link">top</a>
             <a href="/productList.do?gcode=g003" class="nav-link-15 w-nav-link">bottom</a>

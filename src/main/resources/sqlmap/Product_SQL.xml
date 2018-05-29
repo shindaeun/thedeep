@@ -114,13 +114,30 @@
 		unq DESC
 	</select>
 	<select id="productDAO.selectBest3Product" resultClass="egovMap">
-		select pp.pcode,pname,price,filename from(
+		select distinct pp.pcode,pname,price,filename,mainfile from(
 		select p.pcode,sum(amount) amount from orderList l,product p
-		where p.pcode=l.pcode
-		and lower(gcode)=lower('g002')
+		where p.pcode=l.pcode and wait='N'
+		and lower(gcode)=lower(#gcode#)
 		group by p.pcode
 		order by amount desc) i,product pp
 		where i.pcode=pp.pcode and rownum<![CDATA[<=]]>3
+	</select>
+	<select id="productDAO.selectBest50Product" resultClass="egovMap">
+		select distinct pp.pcode,pname,price,filename,mainfile from(
+			select p.pcode,sum(amount) amount 
+			from orderList l,product p
+			where p.pcode=l.pcode and wait='N'
+			group by p.pcode
+			order by amount desc) i,product pp
+		where i.pcode=pp.pcode and rownum<![CDATA[<=]]>50
+	</select>
+	<select id="productDAO.selectNew50Product" resultClass="egovMap">
+		select pcode,pname,price,filename,mainfile from(
+			select distinct pcode,pname,price,filename,mainfile
+			from product
+			where wait='N'
+			order by pcode desc)
+		where rownum<![CDATA[<=]]>100
 	</select>
 	<select id="productDAO.selectProductList" resultClass="egovMap">
 		select b.*
@@ -135,7 +152,7 @@
 		product
 		WHERE
 		lower($searchCondition$) =
-		lower(#searchKeyword#)
+		lower(#searchKeyword#) and wait='N'
 		ORDER BY
 		pcode DESC
 		) a
@@ -151,7 +168,7 @@
 		FROM
 		product
 		WHERE
-		lower(gcode)=lower(#gcode#)
+		lower(gcode)=lower(#gcode#) and wait='N'
 		ORDER BY
 		pcode DESC
 	</select>

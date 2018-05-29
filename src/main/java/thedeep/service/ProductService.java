@@ -70,6 +70,10 @@ public interface ProductService {
 
 	List<?> selectCsList(String pcode) throws Exception;
 
+	List<?> selectBest50Product() throws Exception;
+
+	List<?> selectNew50Product() throws Exception;
+
 
 
 

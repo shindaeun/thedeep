@@ -185,6 +185,16 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 		return productDAO.selectCsList(pcode);
 	}
 
+	@Override
+	public List<?> selectBest50Product() throws Exception {
+		return productDAO.selectBest50Product();
+	}
+
+	@Override
+	public List<?> selectNew50Product() throws Exception {
+		return productDAO.selectNew50Product();
+	}
+
 
 	
 

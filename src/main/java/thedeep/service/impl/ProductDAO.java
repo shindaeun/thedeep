@@ -145,6 +145,14 @@ public class ProductDAO extends EgovAbstractDAO {
 		return list("productDAO.selectCsList",pcode);
 	}
 
+	public List<?> selectBest50Product() {
+		return list("productDAO.selectBest50Product");
+	}
+
+	public List<?> selectNew50Product() {
+		return list("productDAO.selectNew50Product");
+	}
+
 
 
 
