@@ -10,9 +10,27 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css"/>
 <script src="/js/jquery-1.12.4.js"></script>
 <script src="/js/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="./resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
 <script>
 $(function(){
+	//전역변수
+    var obj = [];              
+    //스마트에디터 프레임생성
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: obj,
+        elPlaceHolder: "editor",
+        sSkinURI: "./resources/editor/SmartEditor2Skin.html",
+        htParams : {
+            // 툴바 사용 여부
+            bUseToolbar : true,            
+            // 입력창 크기 조절바 사용 여부
+            bUseVerticalResizer : true,    
+            // 모드 탭(Editor | HTML | TEXT) 사용 여부
+            bUseModeChanger : true,
+        }
+    });
 	$("#btnSubmit").click(function(){
 		if($("#pname").val() == "") {
 			alert("상품명을 입력해주세요.");
@@ -45,6 +63,8 @@ $(function(){
 		if(confirm("저장하시겠습니까?")) {		
 	 		//var formData = $("#frm").serialize();
 	 		var form = new FormData(document.getElementById('frm'));
+	 		//id가 smarteditor인 textarea에 에디터에서 대입
+            obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
 	 		// 비 동기 전송
 			$.ajax({
 				type: "POST",
@@ -117,7 +137,7 @@ function removeBox(obj) {
 	<tr class="board">
 		<th class="head">상품상세설명</th>
 		<td style="height:150px;">
-		<textarea name="content" id="content" style="width:98%;height:95%;"></textarea>
+		<textarea name="editor" id="editor" style="width: 700px; height: 400px;"></textarea>
 		</td>
 	</tr>
 	<tr class="board">

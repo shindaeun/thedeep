@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 import java.util.Map.Entry;
 
 import javax.annotation.Resource;
@@ -161,9 +162,11 @@ public class ProductController {
 					HttpServletResponse response, 
 					ProductVO vo,
 					ModelMap model) throws Exception {
-
+		
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
+		
+		System.out.println("에디터 컨텐츠값:"+vo.getEditor()+"123");
 		String result="",result1="",result2="";
 		int pcode;
 		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\productImages";
@@ -531,10 +534,83 @@ public class ProductController {
 		
 		return map;
 	}
+	
 	@RequestMapping(value="/test.do")
 	public String test() throws Exception{
 		return "product/test";
 	}
+
+	/*@RequestMapping("/insertBoard.do")
+	@ResponseBody
+	public Map<String,Object> test (ProductVO vo) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		System.out.println("에디터 컨텐츠값:"+vo.getEditor());
+		String result="ok";
+		
+		map.put("result",result);
+		
+		return map;
+	}*/
+	
+	@RequestMapping("/insertBoard.do")
+
+	public void submit(ProductVO vo){
+	    System.out.println("에디터 컨텐츠값:"+vo.getEditor());
+	}
+
+
+
+
+	//단일파일업로드
+
+	@RequestMapping("/photoUpload.do")
+
+	public String photoUpload(HttpServletRequest request, ProductVO vo){
+
+	    String callback = vo.getCallback();
+	    String callback_func = vo.getCallback_func();
+	    String file_result = "";
+
+	    try {
+
+	        if(vo.getFiledata() != null && vo.getFiledata().getOriginalFilename() != null && !vo.getFiledata().getOriginalFilename().equals("")){
+	            //파일이 존재하면
+	            String original_name = vo.getFiledata().getOriginalFilename();
+	            String ext = original_name.substring(original_name.lastIndexOf(".")+1);
+
+	            //파일 기본경로
+	            String defaultPath = request.getSession().getServletContext().getRealPath("/");
+
+	            //파일 기본경로 _ 상세경로
+	            String path = defaultPath + "resource" + File.separator + "photo_upload" + File.separator;              
+	            File file = new File(path);
+	            System.out.println("path:"+path);
+
+	            //디렉토리 존재하지 않을경우 디렉토리 생성
+	            if(!file.exists()) {
+	                file.mkdirs();
+	            }
+
+	            //서버에 업로드 할 파일명(한글문제로 인해 원본파일은 올리지 않는것이 좋음)
+	            String realname = UUID.randomUUID().toString() + "." + ext;
+
+	        ///////////////// 서버에 파일쓰기 ///////////////// 
+	            vo.getFiledata().transferTo(new File(path+realname));
+	            file_result += "&bNewLine=true&sFileName="+original_name+"&sFileURL=/resource/photo_upload/"+realname;
+
+	        } else {
+	            file_result += "&errstr=error";
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return "redirect:" + callback + "?callback_func="+callback_func+file_result;
+
+	}
+
 	
 	
  
