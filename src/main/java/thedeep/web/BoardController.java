@@ -119,7 +119,7 @@ public class BoardController {
 		String userid = (String) a.get("ThedeepUserId");
 		
 		vo.setUserid(userid);
-		vo.setPcode("P00005");
+		vo.setPcode("P00021");
 		
 		String result = boardService.insertQnaWrite(vo);
 		if(result == null) result = "ok";
