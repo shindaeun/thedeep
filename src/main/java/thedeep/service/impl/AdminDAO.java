@@ -93,4 +93,20 @@ public class AdminDAO extends EgovAbstractDAO {
 		return (String) insert("adminDAO.insertReviewReply",vo);
 	}
 
+	public List<?> selectQnaList(DefaultVO searchVO) {
+		return list("adminDAO.selectQnaList",searchVO);
+	}
+
+	public int selectQnaTotCnt(DefaultVO searchVO) {
+		return (int) select("adminDAO.selectQnaTotCnt",searchVO);
+	}
+
+	public List<?> selectReviewList(DefaultVO searchVO) {
+		return list("adminDAO.selectReviewList",searchVO);
+	}
+
+	public int selectReviewTotCnt(DefaultVO searchVO) {
+		return (int) select("adminDAO.selectReviewTotCnt",searchVO);
+	}
+
 }

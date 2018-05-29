@@ -111,6 +111,26 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 		return adminDAO.insertReviewReply(vo);
 	}
 
+	@Override
+	public List<?> selectQnaList(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectQnaList(searchVO);
+	}
+
+	@Override
+	public int selectQnaTotCnt(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectQnaTotCnt(searchVO);
+	}
+
+	@Override
+	public List<?> selectReviewList(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectReviewList(searchVO);
+	}
+
+	@Override
+	public int selectReviewTotCnt(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectReviewTotCnt(searchVO);
+	}
+
 
 
 	

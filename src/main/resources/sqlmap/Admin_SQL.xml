@@ -6,7 +6,103 @@
 	<typeAlias alias="egovMap"
 		type="egovframework.rte.psl.dataaccess.util.EgovMap" />
 	<typeAlias alias="adminVO" type="thedeep.service.AdminVO" />
-	
+	<select id="adminDAO.selectReviewList" resultClass="egovMap">
+		select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+		SELECT
+		unq unq,
+		title title,
+		content content,
+		hit
+		hit,
+		to_char(rdate,'yyyy-mm-dd') rdate
+		FROM
+		review
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' ||
+				#searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+		) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	</select>
+
+	<select id="adminDAO.selectReviewTotCnt" resultClass="java.lang.Integer">
+		SELECT
+		count(unq)
+		FROM
+		review
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' ||
+				#searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+	</select>
+	<select id="adminDAO.selectQnaList" resultClass="egovMap">
+		select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+		SELECT
+		unq unq,
+		title title,
+		content content,
+		hit
+		hit,
+		to_char(rdate,'yyyy-mm-dd') rdate,
+		fid,
+		forder
+		FROM
+		qna
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' ||
+				#searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY fid DESC, forder
+		) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	</select>
+
+	<select id="adminDAO.selectQnaTotCnt" resultClass="java.lang.Integer">
+		SELECT
+		count(unq)
+		FROM
+		qna
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' ||
+				#searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+	</select>
 	<select id="adminDAO.selectOrderList" resultClass="egovMap">
 		select ocode,userid,pcode,pname,amount,odate,dstate
 		from(

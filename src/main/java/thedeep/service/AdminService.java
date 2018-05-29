@@ -41,5 +41,13 @@ public interface AdminService {
 
 	String insertReviewReply(ReviewReplyVO vo) throws Exception;
 
+	List<?> selectQnaList(DefaultVO searchVO) throws Exception;
+
+	int selectQnaTotCnt(DefaultVO searchVO) throws Exception;
+
+	List<?> selectReviewList(DefaultVO searchVO) throws Exception;
+
+	int selectReviewTotCnt(DefaultVO searchVO) throws Exception;
+
 
 }
