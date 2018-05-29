@@ -33,15 +33,9 @@ public class ProductController {
 	@Resource(name="productService")
 	ProductService productService;
 	
-	@RequestMapping(value="/outerDetail.do")
-	public String selectEmpList2() throws Exception{
-		
-		return "product/outerDetail";
-	}
 	@RequestMapping(value="/productList.do")
 	public String selectProductList(ModelMap model ,HttpServletRequest request,GroupVO gvo,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
 		String gcode = request.getParameter("gcode");
-		gcode="g003";
 		gvo=productService.selectGroup(gcode);
 		searchVO.setSearchCondition("gcode");
 		searchVO.setSearchKeyword(gcode);
@@ -71,6 +65,15 @@ public class ProductController {
 		model.addAttribute("plist",plist);
 
 		return "product/productList";
+	}
+	@RequestMapping(value="/best50List.do")
+	public String best50List(ModelMap model ,HttpServletRequest request) throws Exception{
+		
+		List<?> blist = productService.selectBest50Product();
+		
+		model.addAttribute("blist",blist);
+		System.out.println(blist);
+		return "product/best50List";
 	}
 	@RequestMapping(value="/productDetail.do")
 	public String selectProductDetail(ReviewVO rvo,ModelMap model ,HttpServletRequest request,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
