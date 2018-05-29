@@ -90,6 +90,9 @@
 		WHERE adminid=#adminid#
 	</select>
 
+	<insert id="adminDAO.insertReviewReply">
+		insert into reviewReply values(#fid#,#content#,sysdate)
+	</insert>
 	<insert id="adminDAO.insertAdmin">
 		INSERT INTO admininfo
 		( adminid

@@ -11,6 +11,7 @@ import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
 import thedeep.service.OrderVO;
 import thedeep.service.PwdCkVO;
+import thedeep.service.ReviewReplyVO;
 
 @Repository("adminDAO")
 public class AdminDAO extends EgovAbstractDAO {
@@ -86,6 +87,10 @@ public class AdminDAO extends EgovAbstractDAO {
 	public int updateDstate(String ocode) {
 		return update("adminDAO.updateDstate",ocode);
 
+	}
+
+	public String insertReviewReply(ReviewReplyVO vo) {
+		return (String) insert("adminDAO.insertReviewReply",vo);
 	}
 
 }

@@ -39,5 +39,7 @@ public interface AdminService {
 
 	int updateDstate(String ocode) throws Exception;
 
+	String insertReviewReply(ReviewReplyVO vo) throws Exception;
+
 
 }

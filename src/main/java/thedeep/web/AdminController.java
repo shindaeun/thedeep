@@ -22,6 +22,7 @@ import thedeep.service.BoardService;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
+import thedeep.service.ReviewReplyVO;
 
 @Controller
 public class AdminController {
@@ -225,8 +226,14 @@ public class AdminController {
 		return "admin/adminBoard";
 	}
 	@RequestMapping(value="/reviewReply.do")
-	public String reviewReply() throws Exception{
-		return "admin/reviewReply";
+	@ResponseBody
+	public Map<String,Object> reviewReply(ReviewReplyVO vo) throws Exception{
+		Map<String,Object> map = new HashMap<String, Object>();
+		String result="fail"; 
+		result= adminService.insertReviewReply(vo);
+		if(result==null) result="ok";
+		map.put("result", result);
+		return map;
 	}
 	
 	@RequestMapping(value="/qnaReply.do")
