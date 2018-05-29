@@ -242,4 +242,19 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.insertCoupon(cvo);
 	}
 
+	@Override
+	public String selectMemberBTD(String userid) throws Exception {
+		return memberDAO.selectMemberBTD(userid);
+	}
+
+	@Override
+	public String insertBTDCoupon(CouponVO cvo) throws Exception {
+		return memberDAO.insertBTDCoupon(cvo);
+	}
+
+	@Override
+	public int selectBTDCoupon(String userid) throws Exception {
+		return memberDAO.selectBTDCoupon(userid);
+	}
+
 }
