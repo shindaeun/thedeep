@@ -84,7 +84,7 @@
 }
 
 .nav-link-2 {
-  height: 10px;
+  height: 5px;
   margin-top: 0px;
   padding-top: 13px;
 }
@@ -95,7 +95,8 @@
 }
 
 .nav-link-4 {
-  height: 30px;
+  display: block;
+  height: 5px;
   margin-top: -19px;
 }
 
@@ -267,11 +268,14 @@
   background-repeat: no-repeat, repeat;
 }
 
-.container-7 {
-  height: 200px;
+.container-5 {
+  display: block;
+  height: 150px;
+  padding-right: 0px;
+  padding-left: 0px;
   background-image: url('../images/footerimg.png');
-  background-position: 0px 0px;
-  background-size: 250px;
+  background-position: 50% 50%;
+  background-size: auto 150px;
   background-repeat: no-repeat;
 }
 
@@ -281,7 +285,8 @@
 
 .search {
   width: 70%;
-  margin-right: 24px;
+  margin-right: 0px;
+  margin-left: 0px;
   padding-right: 0px;
   padding-left: 41px;
 }
@@ -333,4 +338,109 @@
   -webkit-align-items: stretch;
   -ms-flex-align: stretch;
   align-items: stretch;
+}
+
+.container-6 {
+  height: 150px;
+  padding-right: 0px;
+  background-image: url('../images/footerimg.png');
+  background-position: 0px 50%;
+  background-size: 250px;
+  background-repeat: no-repeat;
+}
+
+.container-7 {
+  height: 200px;
+  background-image: url('../images/footerimg.png');
+  background-position: 0px 0px;
+  background-size: 250px;
+  background-repeat: no-repeat;
+}
+
+.nav-menu-2 {
+  left: 14px;
+  right: 15px;
+  margin-right: -6px;
+  margin-left: 0px;
+  padding-right: 60px;
+  padding-left: 35px;
+  background-color: #fff;
+}
+
+.nav-link-12 {
+  margin-top: 20px;
+  padding-top: 0px;
+  padding-right: 50px;
+  padding-bottom: 0px;
+}
+
+.nav-link-13 {
+  padding-top: 0px;
+  padding-right: 50px;
+  padding-bottom: 0px;
+}
+
+.nav-link-14 {
+  padding-top: 0px;
+  padding-right: 50px;
+  padding-bottom: 0px;
+}
+
+.nav-link-15 {
+  padding-top: 0px;
+  padding-right: 50px;
+  padding-bottom: 0px;
+}
+
+.nav-link-16 {
+  padding-top: 0px;
+  padding-right: 50px;
+  padding-bottom: 0px;
+}
+
+.nav-link-17 {
+  padding-top: 0px;
+  padding-right: 50px;
+  padding-bottom: 0px;
+}
+
+.nav-link-18 {
+  padding-top: 0px;
+  padding-right: 50px;
+  padding-bottom: 0px;
+}
+
+.nav-link-19 {
+  padding-top: 0px;
+  padding-right: 50px;
+  padding-bottom: 0px;
+}
+
+.nav-link-20 {
+  padding-right: 50px;
+  padding-bottom: 0px;
+}
+
+.nav-link-21 {
+  margin-right: -60px;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.search-button {
+  width: 5px;
+  height: 5px;
+  background-image: url('../images/search.PNG');
+  background-position: 0px 0px;
+  background-size: 20px;
+}
+
+.nav-link-22 {
+  margin-right: 0px;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.container-8 {
+  background-color: #fff;
 }
