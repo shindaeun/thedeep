@@ -346,6 +346,7 @@
 	<select id="adminDAO.selectCouponList" resultClass="egovMap">
 		SELECT *
 		FROM coupon
+		ORDER BY ccode ASC
 	</select>
 	
 	<select id="adminDAO.selectCouponDetail"  resultClass="couponVO">
@@ -353,5 +354,30 @@
 		from coupon
 		where ccode = #ccode#
 	</select>
+	
+	<insert id="adminDAO.insertAdminCoupon">
+		INSERT INTO coupon
+		( ccode
+		, cname
+		, applymoney
+		, discountrate
+		, maxdiscmoney
+		) VALUES ( #ccode#
+				 , #cname#
+				 , #applymoney#
+				 , #discountrate#
+				 , #maxdiscmoney#
+				 )
+	</insert>
+	
+	<update id="adminDAO.updateAdminCoupon">
+		update coupon
+		set   ccode = #ccode#
+			, cname = #cname#
+			, applymoney = #applymoney# 
+			, discountrate = #discountrate# 
+			, maxdiscmoney = #maxdiscmoney# 
+		where ccode = #ccode#
+	</update>
 
 </sqlMap>

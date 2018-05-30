@@ -53,5 +53,9 @@ public interface AdminService {
 
 	CouponVO selectCouponDetail(String ccode) throws Exception;
 
+	String insertAdminCoupon(CouponVO vo) throws Exception;
+
+	int updateAdminCoupon(CouponVO vo) throws Exception;
+
 
 }

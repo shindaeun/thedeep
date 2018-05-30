@@ -435,10 +435,10 @@
 				 )
 	</insert>
 	
-	<select id="memberDAO.selectMemberBTD" resultClass="java.lang.String">
-		SELECT to_char(birthday,'MMDD') birthday
+	<select id="memberDAO.selectMemberBTD" resultClass="egovMap">
+		SELECT userid
 		FROM memberinfo
-		WHERE userid = #userid#
+		WHERE to_char(birthday,'MMDD') = #today#
 	</select>
 	
 	<insert id="memberDAO.insertBTDCoupon">
@@ -459,6 +459,12 @@
 		FROM couponlist
 		WHERE userid = #userid#
 		AND ccode = 'c002'
+	</select>
+	
+	<select id="memberDAO.selectBtdCheck" resultClass="java.lang.String">
+		SELECT to_char(birthday,'MMDD') birthday
+		FROM memberinfo
+		WHERE userid = #userid#
 	</select>
 	
 </sqlMap>

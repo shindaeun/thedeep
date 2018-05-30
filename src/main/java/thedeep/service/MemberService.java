@@ -94,11 +94,13 @@ public interface MemberService {
 
 	String insertCoupon(CouponVO cvo) throws Exception;
 
-	String selectMemberBTD(String userid) throws Exception;
+	List<?> selectMemberBTD(String today) throws Exception;
 
 	String insertBTDCoupon(CouponVO cvo) throws Exception;
 
 	int selectBTDCoupon(String userid) throws Exception;
+
+	String selectBtdCheck(String userid) throws Exception;
 
 
 

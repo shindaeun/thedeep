@@ -46,11 +46,6 @@ public class HomeController {
 		today += tday + "";
 		
 		String userid = null;
-		String edate = "";
-		int year = 0;
-		int month = 0;
-		int day = 0;
-		String result = "";
 		String happyBTD = "0";
 
 		try {
@@ -60,25 +55,10 @@ public class HomeController {
 		
 		if(userid!=null) {
 			int coupon = memberService.selectBTDCoupon(userid);
-			if(coupon==0) {
-				String birthday = memberService.selectMemberBTD(userid);
+			if(coupon==1) {
+				String birthday = memberService.selectBtdCheck(userid);
 				if(birthday.equals(today)) {
-					cal.add(Calendar.MONTH, 1);
-					year = cal.get(Calendar.YEAR);
-					month = cal.get(Calendar.MONTH)+1;
-					day = cal.get(Calendar.DATE);
-					edate = year + "-";
-					if(month<10) edate += "0" + month + "-";
-					else edate += month + "-";
-					edate += day + "";
-					
-					cvo.setUserid(userid);
-					cvo.setEdate(edate);
-					
-					result = memberService.insertBTDCoupon(cvo);
-					if(result==null) {
-						happyBTD = userid;
-					} else happyBTD = "0";
+					happyBTD = userid;
 				}
 			}
 		}

@@ -41,7 +41,8 @@ $(function(){
 
 				success: function(data) {
 					if(data.result == "ok") {
-						alert("등록되었습니다")
+						alert("등록되었습니다");
+						location.href = "/adminCoupon.do";
 					} else {
 						alert("등록을 실패했습니다");
 					}
@@ -86,7 +87,8 @@ $(function(){
 
 				success: function(data) {
 					if(data.result == "ok") {
-						alert("수정되었습니다")
+						alert("수정되었습니다");
+						location.href = "/adminCoupon.do";
 					} else {
 						alert("수정을 실패했습니다");
 					}
@@ -97,29 +99,42 @@ $(function(){
 			}); 
 		});
 	$("#btnBTD").click(function(){
-		var formData = $("#frm").serialize();
+		var param = 'ccode=c01';
 	 		// 비 동기 전송
 			$.ajax({
 				type: "POST",
-				data: formData,
+				data: param,
 				url: "/adminBtdCoupon.do",
 
 				success: function(data) {
 					if(data.result == "ok") {
-						alert("등록되었습니다")
+						alert("발급되었습니다");
+						location.href = "/adminCoupon.do";
 					} else {
-						alert("등록을 실패했습니다");
+						alert("이미 발급되었습니다");
 					}
 				},
-				error: function () {
-					alert("오류발생 ");
-				}
+				error: function (request,status,error) {
+	            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	              }
 			}); 
 		});
+	$("#btnCancel").click(function() {
+		location.href = "/adminCoupon.do"
+	});
 });
 </script>
 
 <style>
+hr.coupon {
+    border: none;
+    border-top: 1px dashed #555555;
+    color: #fff;
+    background-color: #fff;
+    height: 1px;
+    width:	100%;
+}
+
 a:link { text-decoration: none; color: #000000} 
 a:visited { text-decoration: none; color: #000000} 
 a:active { text-decoration: none; color: #000000}
@@ -134,7 +149,7 @@ a:hover {text-decoration:underline; color: #000000}
 
 <form id="frm" name="frm">
 <c:if test="${vo.ccode==null}">
-<table style="width:100%; height:45px; border-top: 1px dashed #555555; border-bottom: 1px dashed #555555;">
+<table style="width:100%; height:45px; border-top: 1px solid #555555; border-bottom: 1px solid #555555;">
 	<tr>
 		<th width="10%" style="background-color: #dcdcdc;">등록</th>
 		<th width="15%">
@@ -159,7 +174,7 @@ a:hover {text-decoration:underline; color: #000000}
 </table>
 </c:if>
 <c:if test="${vo.ccode!=null}">
-<table style="width:100%; height:45px; border-top: 1px dashed #555555; border-bottom: 1px dashed #555555;">
+<table style="width:100%; height:45px; border-top: 1px solid #555555; border-bottom: 1px solid #555555;">
 	<tr>
 		<th width="10%" style="background-color: #dcdcdc;">수정</th>
 		<th width="15%">
@@ -179,6 +194,7 @@ a:hover {text-decoration:underline; color: #000000}
 		</th>
 		<th width="10%">
 			<button type="button" id="btnModify" class="white">수정</button>
+			<button type="button" id="btnCancel" class="white">취소</button>
 		</th>
 	</tr>
 </table>
@@ -190,9 +206,10 @@ a:hover {text-decoration:underline; color: #000000}
 		<th class="head" style="width:10%">CODE</th>
 		<th class="head" style="width:20%">COUPON NAME</th>
 		<th class="head" style="width:20%">APPLYMONEY</th>
-		<th class="head" style="width:15%">DISCOUNTRATE</th>
+		<th class="head" style="width:10%">DISCOUNTRATE</th>
 		<th class="head" style="width:20%">MAXDISCMONEY</th>
-		<th class="head" style="width:10%">////</th>
+		<th class="head" style="width:8%;"></th>
+		<th class="head" style="width:8%; border-left: 1px solid #555555;">////</th>
 	</tr>
 	<c:forEach var="list" items="${list}" varStatus="status">
 	<tr class="board" style="text-align:center;">
@@ -202,18 +219,24 @@ a:hover {text-decoration:underline; color: #000000}
 		<td>${list.applymoney}</td>
 		<td>${list.discountrate}</td>
 		<td>${list.maxdiscmoney}</td>
-		<c:if test="${list.ccode=='c002'}">
 		<th>
+			<button type="button" id="btnDelete" class="white" >삭제</button>
+		</th>
+		<c:if test="${list.ccode=='c002'}">
+		<th style="border-left: 1px solid #555555;">
 			<button type="button" id="btnBTD" class="white" >발급</button>
 		</th>
 		</c:if>
 		<c:if test="${list.ccode!='c002'}">
-		<td></td>
+		<td style="border-left: 1px solid #555555;">
+		</td>
 		</c:if>
 	</tr>
 	</c:forEach>
 </table>
 </form>
+
+<hr class="coupon"/>
 
 <div style="height:100px;">
 </div>
