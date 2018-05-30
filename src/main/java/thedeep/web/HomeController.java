@@ -1,22 +1,20 @@
 package thedeep.web;
 
-
-import java.util.List;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import thedeep.service.ProductService;
+
 import thedeep.service.CouponVO;
 import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
+import thedeep.service.ProductService;
 
 
 
@@ -87,7 +85,7 @@ public class HomeController {
 		
 		return "home/home";
 	}
-
+	
 }
 
 

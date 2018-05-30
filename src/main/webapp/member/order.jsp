@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
-<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
 <c:set var="phone" value="${vo.phone}" />
 <c:set var="email" value="${vo.email}" />
 <c:set var="post" value="${vo.post}" />
@@ -14,10 +14,13 @@
 	pageContext.setAttribute("phone3", phone[2]);
 	
 	String po = (String)pageContext.getAttribute("post");
-	String[] post = po.split("/");
-	pageContext.setAttribute("postnum", post[0]);
-	pageContext.setAttribute("arr1", post[1]);
-	pageContext.setAttribute("arr2", post[2]);
+	if(po !=null){
+		
+		String[] post = po.split("/");
+		pageContext.setAttribute("postnum", post[0]);
+		pageContext.setAttribute("arr1", post[1]);
+		pageContext.setAttribute("arr2", post[2]);
+	}
 	
 	String em = (String) pageContext.getAttribute("email");
 	String[] email = em.split("@");
@@ -25,13 +28,6 @@
 	pageContext.setAttribute("email2", email[1]);
 %>
 <script>
-
-
-$( document ).ready(function() {
-    console.log( "ready!" );
-    var IMP = window.IMP; // 생략가능
-    IMP.init('imp73069548'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-});
 
 	function sample6_execDaumPostcode() {
 		new daum.Postcode(
@@ -112,7 +108,7 @@ $( document ).ready(function() {
 		$("input[name=adminmemo]").click(function() {
 			
 			if($("input[name=adminmemo]:checked").val()=="최근배송지"){
-				$("#sample6_postcode").val("${vo.name}");
+				$("#sample6_postcode").val("${postnum}");
 				$("#sample6_address").val("${arr1}");
 				$("#sample6_address2").val("${arr2}");
 			}else{
@@ -169,7 +165,6 @@ $( document ).ready(function() {
 				$("#savepoint").val($("#point").text());
 				
 				if($("input[name=paymethod]:checked").val()=="무통장입금"){
-					$("#payresult").val("입금전");
 					var formData = $("#frm").serialize();
 					// 비 동기 전송
 					$.ajax({
@@ -192,9 +187,7 @@ $( document ).ready(function() {
 			             }
 					});
 				}else{
-					$("#payresult").val("결제완료");
 					var formData = $("#frm").serialize();
-					
 					//var deferred = $p.defer();
 					// 비 동기 전송
 					$.ajax({
@@ -204,7 +197,8 @@ $( document ).ready(function() {
 
 						success : function(data) {
 							if (data.result == "ok") {
-								document.getElementById("ocode").innerHTML = data.ocode;
+								$("#ocode").val(data.ocode);
+								$("#frm").attr({method:'post',action:'/orderSub.do'}).submit();
 							} else {
 								alert("주문 실패했습니다. 다시 시도해 주세요.");return;
 							}
@@ -213,34 +207,7 @@ $( document ).ready(function() {
 			            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			             }
 					});
-					IMP.request_pay({
-					    pg : 'html5_inicis', // version 1.1.0부터 지원.
-					    pay_method : 'card',
-					    merchant_uid : $("#ocode").text(),
-					    name : '주문명:결제테스트',
-					    amount : $("#totalmoney").val(),
-					    buyer_email : $("#email1").val()+"@"+$("#email2").val(),
-					    buyer_name : $("#name").val(),
-					    buyer_tel : $("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val(),
-					    buyer_addr : $("#sample6_address").val()+$("#sample6_address2").val(),
-					    buyer_postcode : $("#sample6_postcode").val(),
-					}, function(rsp) {
-					    if ( rsp.success ) {
-					        var msg = '결제가 완료되었습니다.';
-					        msg += '고유ID : ' + rsp.imp_uid;
-					        msg += '상점 거래ID : ' + rsp.merchant_uid;
-					        msg += '결제 금액 : ' + rsp.paid_amount;
-					        msg += '카드 승인번호 : ' + rsp.apply_num;
-					        alert(msg);
-					        location.href = "/orderComplete.do?ocode="+$("#ocode").text();
-					    } else {
-					        var msg = '결제에 실패하였습니다.';
-					        msg += '에러내용 : ' + rsp.error_msg;
-					        alert(msg);
-					    }
-					    
-					    
-					});
+					
 				}
 				
 			}
@@ -259,11 +226,13 @@ $( document ).ready(function() {
 		$("#money2").text(money - point - coupon);
 	}
 </script>
-<span id="ocode" style="visibility:hidden"></span>
+<span id="ocode1" style="visibility:hidden"></span>
 <form name="frm" id="frm">
+	<input type="hidden" name="ocode" id="ocode"/>
+	<input type="hidden" name="oemail" id="oemail" value="${vo.email }"/>
 	<input type="hidden" name="totalmoney" id="totalmoney" />
 	<input type="hidden" name="savepoint" id="savepoint" /> <input
-		type="hidden" name="payresult" id="payresult"/> <input
+		type="hidden" name="payresult" id="payresult" value="입금전"/> <input
 		type="hidden" name="dpost" id="dpost" /> <input type="hidden"
 		name="dphone" id="dphone" />
 	<c:set var="sumprice" value="0" />

@@ -1,5 +1,6 @@
 package thedeep.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.siot.IamportRestHttpClientJava.IamportClient;
+import com.siot.IamportRestHttpClientJava.request.CancelData;
+import com.siot.IamportRestHttpClientJava.response.IamportResponse;
+import com.siot.IamportRestHttpClientJava.response.Payment;
+import com.siot.IamportRestHttpClientJava.response.Payments;
+
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import thedeep.service.AdminService;
 import thedeep.service.AdminVO;
@@ -23,6 +30,7 @@ import thedeep.service.BoardVO;
 import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
+import thedeep.service.PaymentVO;
 import thedeep.service.ReviewReplyVO;
 
 @Controller
@@ -38,7 +46,54 @@ public class AdminController {
 	public String insertAdminInfo() throws Exception{
 		return "admin/adminInfo";
 	}
+	String api_key = "7972187031404347";
+	String api_secret = "1JFZV7lC38ScZDglLKqf2T1Qg1ubDU3FEIEzQ0bT8457Hlts6UI9OJZ4Ltgooj322HBTHNMQRRYzdr1k";
+
+	@RequestMapping(value="/iamportList.do")
+	public String iamportList(ModelMap model,@RequestParam(name="page", required=false) String page) throws Exception{
+		IamportClient client;
+		
+		client = new IamportClient(api_key, api_secret);
+		String token = client.getToken();
+		System.out.println("token : " + token);
+		IamportResponse<Payment> paymentByMerchantUid = client.paymentByMerchantUid("nobody_1527581672484");
+		System.out.println(paymentByMerchantUid.getResponse().getPayMethod());
+		
+		IamportResponse<Payments> list = client.paymentAll(page);
+		int total = list.getResponse().getTotal();
+		int previous = list.getResponse().getPrevious();
+		int next = list.getResponse().getNext();
+		List<PaymentVO> result = new ArrayList<PaymentVO>();
+		for(int i=0;i<list.getResponse().getList().size();i++){
+			Payment p = list.getResponse().getList().get(i);
+			PaymentVO pay = new PaymentVO(p.getMerchantUid(), p.getAmount(), p.getBuyerName(), p.getBuyerTel(), p.getBuyerPostcode(), p.getBuyerAddr(), p.getStatus(), p.getCancelledAt());
+			result.add(pay);
+		}
+		model.addAttribute("total",total);
+		model.addAttribute("previous",previous);
+		model.addAttribute("next",next);
+		model.addAttribute("result",result);
+		System.out.println(result);
+		return "admin/iamportList";
+	}
 	
+	@RequestMapping(value="/iamportCancel.do")
+	@ResponseBody
+	public Map<String,Object> iamportCancel(@RequestParam(name="merchant_uid", required=false) String merchant_uid) throws Exception{
+		IamportClient client;
+		Map<String,Object> map = new HashMap<String, Object>();
+		String result = "fail";
+		client = new IamportClient(api_key, api_secret);
+		String token = client.getToken();
+		
+		CancelData cancel2 = new CancelData(merchant_uid, false);
+		IamportResponse<Payment> cancelpayment2 = client.cancelPayment(cancel2);
+		if(cancelpayment2.getMessage()==null){
+			result = "ok";
+		}
+		map.put("result",result);
+		return map;
+	}
 	@RequestMapping(value="/adminInfoSave.do")
 	@ResponseBody
 	public Map<String,Object> insertMemeberInfo(AdminVO vo) throws Exception {
