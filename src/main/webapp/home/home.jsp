@@ -26,12 +26,13 @@ $(".mouse").mouseenter(function(){
 </script>
 
 <script>
-$(function() {
+/* $(function() {
 	if($("#happyBTD").val()!="0") {
 		var userid = $("#happyBTD").val();
-		alert(userid + " 님! 생일 축하드립니다! 쿠폰을 발급해드렸으니 확인해 주세요!");
+		var url = "/birthdayPopup.do";
+		window.open(url,"생일축하합니다!","width=500,height=500");
 	}
-});
+});  */
 </script>
 
 <style>
