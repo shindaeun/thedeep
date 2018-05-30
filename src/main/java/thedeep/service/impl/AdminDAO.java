@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import thedeep.service.AdminVO;
 import thedeep.service.BoardVO;
+import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
 import thedeep.service.OrderVO;
@@ -107,6 +108,14 @@ public class AdminDAO extends EgovAbstractDAO {
 
 	public int selectReviewTotCnt(DefaultVO searchVO) {
 		return (int) select("adminDAO.selectReviewTotCnt",searchVO);
+	}
+
+	public List<?> selectCouponList() {
+		return list("adminDAO.selectCouponList");
+	}
+
+	public CouponVO selectCouponDetail(String ccode) {
+		return (CouponVO) select("adminDAO.selectCouponDetail", ccode);
 	}
 
 }
