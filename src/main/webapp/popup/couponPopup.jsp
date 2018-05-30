@@ -7,18 +7,30 @@
 <script src="/js/jquery-1.12.4.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script type="text/javascript">
-function couponApply(rate) {
+function couponApply(cname) {
 	
-	if(isNaN(rate)){
+	var tr = $("#list").find("#" + cname).parent();
+	var rate = tr.children().eq(3).text();
+	rate = rate.substring(0,rate.length-1);
+	var maxdiscmoney = tr.children().eq(2).text();
+	var applymoney = tr.children().eq(1).text();
+	
+	 if(cname=="쿠폰선택"){
 		document.getElementById("discountmoney").innerHTML ="";
 		document.getElementById("discount").innerHTML ="";
-	}else{
+	}
+	 else{
+		var money = parseInt(<%=totalmoney%>);
+		if(money < applymoney) {
+			alert("사용가능금액보다 적어서 적용 불가합니다.");return;
+		}
+		var disrate=parseInt(rate);
+		var discount = money*disrate/100;
+		if(discount > maxdiscmoney) {discount=maxdiscmoney};
+		var discountMoney = money-discount;
 		
-	var money = parseInt(<%=totalmoney%>);
-	var disrate=parseInt(rate);
-	var discountMoney = money*(100-disrate)/100;
-	document.getElementById("discountmoney").innerHTML = discountMoney;
-	document.getElementById("discount").innerHTML =money*disrate/100;
+		document.getElementById("discountmoney").innerHTML = discountMoney;
+		document.getElementById("discount").innerHTML =discount;
 	}
 }
 $(function() {
@@ -29,6 +41,7 @@ $(function() {
 		if(cname=="쿠폰선택"){
 			alert("쿠폰을 선택해주세요");
 		}else{
+			
 			opener.document.getElementById("usecoupon").value=cname;
 			opener.totalcalcul();
 			self.close();
@@ -48,7 +61,7 @@ $(function() {
 		</tr>
     </table>
 
-<table class="board">
+<table class="board" id="list">
 		<tr class="board">
 			<th width="20%" >쿠폰이름</th>
 			<th width="20%" >사용가능금액</th>
@@ -58,7 +71,7 @@ $(function() {
 		</tr>
 		<c:forEach var="i" items="${clist }">
 			<tr class="board" align="center">
-				<td>
+				<td id="${ i.cname}">
 				${i.cname}</td>
 				<td>${i.applymoney}</td>
 				<td>${i.maxdiscmoney}</td>
@@ -79,7 +92,7 @@ $(function() {
 			<select name="selectcoupon" id="selectcoupon" onchange="couponApply(this.value)">
 				<option value="쿠폰선택">쿠폰선택</option>
 				<c:forEach var="i" items="${clist }">
-					<option value="${i.discountrate }">${i.cname }</option>
+					<option value="${i.cname }">${i.cname }</option>
 				</c:forEach>
 			</select>
 			</td>

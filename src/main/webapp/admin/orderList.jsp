@@ -33,6 +33,9 @@ $(function() {
 		}).submit();
 		
 	});
+	$("#btnIamport").click(function() {
+		location.href="/iamportList.do";
+	});
 	
 });
 function submit(i){
@@ -59,7 +62,9 @@ function checkAll(){
       <td class="top">주문목록조회</td>
    </tr>
 </table>
-
+<div width="100%" align="right">
+		<button type="button" id="btnIamport" class="white">카드결제정보</button>
+	</div>
 <form name="frm" id="frm">
 <input style="VISIBILITY: hidden; WIDTH: 0px">
 

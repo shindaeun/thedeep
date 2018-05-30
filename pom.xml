@@ -16,7 +16,13 @@
 		
 	</properties>
 
+	
+
 	<repositories>
+	<repository>
+	    <id>jitpack.io</id>
+	    <url>https://jitpack.io</url>
+	</repository>
 		<repository>
 			<id>mvn2</id>
 			<url>http://repo1.maven.org/maven2/</url>
@@ -50,6 +56,28 @@
 	</repositories>
 
 	<dependencies>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.7</version>
+	</dependency>
+    
+	<dependency>
+	    <groupId>org.apache.httpcomponents</groupId>
+	    <artifactId>httpclient</artifactId>
+	    <version>4.5.2</version>
+	</dependency>
+		
+	<dependency>
+	    <groupId>com.google.code.gson</groupId>
+	    <artifactId>gson</artifactId>
+	    <version>2.8.0</version>
+	</dependency>
+	<dependency>
+    <groupId>com.github.iamport</groupId>
+    <artifactId>iamport-rest-client-java-hc</artifactId>
+    <version>0.0.2</version>
+</dependency>
 	<!-- multipart s -->
 	<dependency>
             <groupId>commons-fileupload</groupId>

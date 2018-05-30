@@ -549,7 +549,7 @@ public class MemberController {
 		
 		ovo.setUserid(userid);
 		result = memberService.insertOrder(ovo);
-		
+		 
 		dvo.setOemail(mvo.getEmail());
 		dvo.setOname(mvo.getName());
 		dvo.setOphone(mvo.getPhone());
@@ -575,6 +575,19 @@ public class MemberController {
 		map.put("ocode", ocode);
 		return map;
 	}
+	@RequestMapping(value="/orderSub.do")
+	public String orderSub(ModelMap model,OrderVO ovo,OrderListVO lvo,DeliveryVO dvo) throws Exception{
+		String userid="userid1";
+		model.addAttribute("ocode",ovo.getOcode());
+		model.addAttribute("oemail",dvo.getOemail());
+		model.addAttribute("name",dvo.getDname());
+		model.addAttribute("phone",dvo.getDphone());
+		model.addAttribute("post",dvo.getDpost());
+		model.addAttribute("totalmoney",ovo.getTotalmoney());
+		System.out.println(ovo.getOcode() + dvo.getOemail()+ dvo.getDname() + dvo.getDphone()+ dvo.getDpost()+ovo.getTotalmoney());
+		return "member/orderSub";
+	}
+	
 	@RequestMapping(value="/orderComplete.do")
 	public String orderComplete(ModelMap model,@RequestParam("ocode") String ocode) throws Exception{
 		OrderVO ovo  = memberService.selectOrderInfo(ocode);
