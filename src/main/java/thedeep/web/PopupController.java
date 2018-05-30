@@ -131,5 +131,11 @@ public class PopupController {
 		model.addAttribute("clist",clist);
 		return "popup/couponPopup";
 	}
+	
+	@RequestMapping(value="/birthdayPopup.do")
+	public String btdPopup() throws Exception{
+		
+		return "popup/birthdayPopup";
+	}
 
 }
