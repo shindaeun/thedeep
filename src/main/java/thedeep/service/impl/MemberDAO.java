@@ -194,8 +194,8 @@ public class MemberDAO extends EgovAbstractDAO{
 		return (String) insert("memberDAO.insertCoupon", cvo);
 	}
 
-	public String selectMemberBTD(String userid) {
-		return (String) select("memberDAO.selectMemberBTD", userid);
+	public List<?> selectMemberBTD(String today) {
+		return list("memberDAO.selectMemberBTD", today);
 	}
 
 	public String insertBTDCoupon(CouponVO cvo) {
@@ -204,6 +204,10 @@ public class MemberDAO extends EgovAbstractDAO{
 
 	public int selectBTDCoupon(String userid) {
 		return (int) select("memberDAO.selectBTDCoupon", userid);
+	}
+
+	public String selectBtdCheck(String userid) {
+		return (String) select("memberDAO.selectBtdCheck", userid);
 	}
 
 	

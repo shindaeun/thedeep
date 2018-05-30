@@ -142,6 +142,16 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 		return adminDAO.selectCouponDetail(ccode);
 	}
 
+	@Override
+	public String insertAdminCoupon(CouponVO vo) throws Exception {
+		return adminDAO.insertAdminCoupon(vo);
+	}
+
+	@Override
+	public int updateAdminCoupon(CouponVO vo) throws Exception {
+		return adminDAO.updateAdminCoupon(vo);
+	}
+
 
 
 	

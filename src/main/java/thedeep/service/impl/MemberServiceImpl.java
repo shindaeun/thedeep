@@ -243,8 +243,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String selectMemberBTD(String userid) throws Exception {
-		return memberDAO.selectMemberBTD(userid);
+	public List<?> selectMemberBTD(String today) throws Exception {
+		return memberDAO.selectMemberBTD(today);
 	}
 
 	@Override
@@ -255,6 +255,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int selectBTDCoupon(String userid) throws Exception {
 		return memberDAO.selectBTDCoupon(userid);
+	}
+
+	@Override
+	public String selectBtdCheck(String userid) throws Exception {
+		return memberDAO.selectBtdCheck(userid);
 	}
 
 }

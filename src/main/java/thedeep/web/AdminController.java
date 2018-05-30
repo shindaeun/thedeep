@@ -1,6 +1,8 @@
 package thedeep.web;
 
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +32,18 @@ import thedeep.service.BoardVO;
 import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
+
 import thedeep.service.PaymentVO;
+import thedeep.service.MemberService;
+import thedeep.service.MemberVO;
+
 import thedeep.service.ReviewReplyVO;
 
 @Controller
 public class AdminController {
+	
+	@Resource(name="memberService")
+	MemberService memberService;
 	
 	@Resource(name="adminService")
 	AdminService adminService;
@@ -488,6 +497,101 @@ public class AdminController {
 		model.addAttribute("vo", vo);
 		
 		return "admin/adminCoupon";
+	}
+	
+	@RequestMapping(value = "/adminCouponSave.do")
+	@ResponseBody 
+	public Map<String,Object> insertAdminCoupon(CouponVO vo, HttpServletRequest request) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+
+		String result = adminService.insertAdminCoupon(vo);
+		if(result==null) result = "ok";
+		else result = "1";
+
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	@RequestMapping(value = "/adminCouponModify.do")
+	@ResponseBody 
+	public Map<String,Object> updateAdminCoupon(CouponVO vo, HttpServletRequest request) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		String result = "";
+
+		int cnt = adminService.updateAdminCoupon(vo);
+		if(cnt>0) result = "ok";
+		else result = "1";
+
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	@SuppressWarnings("null")
+	@RequestMapping(value = "/adminBtdCoupon.do")
+	@ResponseBody 
+	public Map<String,Object> insertBtdCoupon(CouponVO vo, HttpServletRequest request) throws Exception {
+		System.out.println("a");
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		Calendar cal = Calendar.getInstance();
+		
+		String result = "";
+		
+		int tmonth = cal.get(Calendar.MONTH)+1;
+		int tday = cal.get(Calendar.DATE);
+		String today = "";
+		if(tmonth<10) today += "0" + tmonth;
+		else today += tmonth + "";
+		today += tday + "";
+		
+		String edate = "";
+		int year = 0;
+		int month = 0;
+		int day = 0;
+		String userid = "";
+		int cnt = 0;
+		
+		List<?> list = memberService.selectMemberBTD(today);
+		Map<String,String> map2;
+		for(int i=0;i<list.size();i++){
+			map2 = new HashMap<String,String>();
+			map2 = (Map<String, String>) list.get(i);
+			userid += map2.get("userid") + " ";
+		}
+		
+		String[] id = userid.split(" ");
+		
+		for(int i=0; i<id.length; i++) {
+			userid = id[i];
+			int coupon = memberService.selectBTDCoupon(userid);
+			if(coupon==0) {
+				cal.add(Calendar.MONTH, 1);
+				year = cal.get(Calendar.YEAR);
+				month = cal.get(Calendar.MONTH)+1;
+				day = cal.get(Calendar.DATE);
+				edate = year + "-";
+				if(month<10) edate += "0" + month + "-";
+				else edate += month + "-";
+				edate += day + "";
+				
+				vo.setUserid(userid);
+				vo.setEdate(edate);
+				
+				result = memberService.insertBTDCoupon(vo);
+				if(result==null) {
+					result = "ok";
+				} else result = "1";
+			}
+		}
+
+		map.put("result", result);
+		
+		return map;
 	}
 	
 }
