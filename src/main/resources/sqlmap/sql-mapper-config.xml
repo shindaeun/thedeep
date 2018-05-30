@@ -12,5 +12,6 @@
 		<typeAlias alias="uolVO" type="thedeep.service.UolVO" />
 		<typeAlias alias="pwdckVO" type="thedeep.service.PwdCkVO" />
 		<typeAlias alias="adminVO" type="thedeep.service.AdminVO" />
+		<typeAlias alias="couponVO" type="thedeep.service.CouponVO" />
     </typeAliases>
 </configuration>

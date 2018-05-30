@@ -6,6 +6,9 @@
 	<typeAlias alias="egovMap"
 		type="egovframework.rte.psl.dataaccess.util.EgovMap" />
 	<typeAlias alias="adminVO" type="thedeep.service.AdminVO" />
+	<typeAlias alias="couponVO" type="thedeep.service.CouponVO" />
+	
+	
 	<select id="adminDAO.selectReviewList" resultClass="egovMap">
 		select b.*
 		from(
@@ -339,5 +342,16 @@
 		DELETE FROM qna
 		WHERE unq = #unq#
 	</delete>
+	
+	<select id="adminDAO.selectCouponList" resultClass="egovMap">
+		SELECT *
+		FROM coupon
+	</select>
+	
+	<select id="adminDAO.selectCouponDetail"  resultClass="couponVO">
+		select *
+		from coupon
+		where ccode = #ccode#
+	</select>
 
 </sqlMap>

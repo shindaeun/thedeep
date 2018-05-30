@@ -20,6 +20,7 @@ import thedeep.service.AdminService;
 import thedeep.service.AdminVO;
 import thedeep.service.BoardService;
 import thedeep.service.BoardVO;
+import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
 import thedeep.service.ReviewReplyVO;
@@ -417,5 +418,21 @@ public class AdminController {
 		return map;
 	}
 	
+	@RequestMapping(value="/adminCoupon.do")
+	public String selectAdminCoupon(CouponVO vo, ModelMap model) throws Exception{
+		
+		List<?> list = adminService.selectCouponList();
+		model.addAttribute("list", list);
+		
+		String ccode = vo.getCcode();
+		
+		if(ccode!=null) {
+			vo = adminService.selectCouponDetail(ccode);
+		}
+		
+		model.addAttribute("vo", vo);
+		
+		return "admin/adminCoupon";
+	}
 	
 }

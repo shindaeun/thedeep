@@ -49,5 +49,9 @@ public interface AdminService {
 
 	int selectReviewTotCnt(DefaultVO searchVO) throws Exception;
 
+	List<?> selectCouponList() throws Exception;
+
+	CouponVO selectCouponDetail(String ccode) throws Exception;
+
 
 }

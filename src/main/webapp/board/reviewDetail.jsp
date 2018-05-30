@@ -194,7 +194,7 @@ if(filenames != null && !filenames.equals("")) {
 	<tr>
 	<td>
 	<textarea rows="2" id="reply" cols="80%" style="resize: none;"></textarea>
-		<button type="button" id="btnSubmit" class="white">등록</button>
+	<button type="button" id="btnSubmit" class="white" >등록</button>
 	</td>
 	</tr>
 </table>
