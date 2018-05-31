@@ -253,4 +253,18 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectBtdCheck(userid);
 	}
 
+	@Override
+	public int updateUseCoupon(OrderVO ovo) throws Exception {
+		return memberDAO.updateUseCoupon(ovo);
+	}
+	@Override
+	public int updateUseCoupon2(OrderVO ovo) throws Exception {
+		return memberDAO.updateUseCoupon2(ovo);
+	}
+
+	@Override
+	public List<?> selectOrderListByOcode(String ocode) throws Exception {
+		return memberDAO.selectOrderListByOcode(ocode);
+	}
+
 }

@@ -126,7 +126,7 @@
 				        group by o.ocode,o.userid,odate,dstate
 				        ) i,orderList l
 			    where 
-			    	l.ocode=i.ocode and dstate in (#dstate1#,#dstate2#,#dstate3#,#dstate4#,#dstate5#)
+			    	l.ocode=i.ocode and dstate in (#dstate1#,#dstate2#,#dstate3#,#dstate4#,#dstate5#,#dstate6#)
 			    group by i.ocode,i.userid,i.odate,i.dstate
 			    ) j, product p        
 			where 
@@ -159,7 +159,7 @@
 				        group by o.ocode,o.userid,odate,dstate
 				        ) i,orderList l
 			    where 
-			    	l.ocode=i.ocode and dstate in (#dstate1#,#dstate2#,#dstate3#,#dstate4#,#dstate5#)
+			    	l.ocode=i.ocode and dstate in (#dstate1#,#dstate2#,#dstate3#,#dstate4#,#dstate5#,#dstate6#)
 			    group by i.ocode,i.userid,i.odate,i.dstate
 			    ) j, product p        
 			where 
@@ -180,7 +180,7 @@
 	 update delivery set transportnum=#transportnum#,dstate='배송중' where ocode=upper(#ocode#)
 	</update>
 	<update id="adminDAO.updateDstate">
-	 update delivery set dstate='결제완료' where ocode=upper(#ocode#)
+	 update delivery set dstate=#dstate# where ocode=upper(#ocode#)
 	</update>
 	
 	<select id="adminDAO.selectIdChk" resultClass="java.lang.Integer">

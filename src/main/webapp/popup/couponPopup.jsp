@@ -25,7 +25,7 @@ function couponApply(cname) {
 			alert("사용가능금액보다 적어서 적용 불가합니다.");return;
 		}
 		var disrate=parseInt(rate);
-		var discount = money*disrate/100;
+		var discount = Math.floor(money*disrate/100);
 		if(discount > maxdiscmoney) {discount=maxdiscmoney};
 		var discountMoney = money-discount;
 		

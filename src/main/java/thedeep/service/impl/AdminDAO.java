@@ -86,8 +86,8 @@ public class AdminDAO extends EgovAbstractDAO {
 		return update("adminDAO.updateTransNum",vo);
 	}
 
-	public int updateDstate(String ocode) {
-		return update("adminDAO.updateDstate",ocode);
+	public int updateDstate(DeliveryVO vo) {
+		return update("adminDAO.updateDstate",vo);
 
 	}
 

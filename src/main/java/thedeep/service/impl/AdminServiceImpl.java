@@ -104,8 +104,8 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 	}
 
 	@Override
-	public int updateDstate(String ocode) throws Exception {
-		return adminDAO.updateDstate(ocode);
+	public int updateDstate(DeliveryVO vo) throws Exception {
+		return adminDAO.updateDstate(vo);
 	}
 
 	@Override
