@@ -32,8 +32,9 @@ import thedeep.service.BoardVO;
 import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
-
+import thedeep.service.GroupVO;
 import thedeep.service.PaymentVO;
+import thedeep.service.PointVO;
 import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
 
@@ -594,4 +595,26 @@ public class AdminController {
 		return map;
 	}
 	
+	@RequestMapping(value="/pointAdd.do")
+	public String selectgroup(ModelMap model, PointVO vo) throws Exception{
+		List<?> pointList = adminService.selectPointList();
+		model.addAttribute("resultList", pointList);
+
+		return "admin/pointAdd";
+	}
+	
+	@RequestMapping(value="/pointAddSave.do")
+	@ResponseBody
+	public Map<String,Object> insertPoint(PointVO vo) throws Exception{
+		Map <String,Object> map = new HashMap<String,Object>();
+		String result="";
+		int ablepoint = adminService.selectAblePoint(vo.getUserid());
+		vo.setAblepoint(ablepoint+vo.getSavepoint());
+		result = adminService.insertPoint(vo);
+		if(result == null) {
+			result = "ok";
+		}
+		map.put("result", result);
+		return map;
+	}
 }

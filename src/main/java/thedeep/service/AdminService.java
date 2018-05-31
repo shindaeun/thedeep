@@ -57,5 +57,11 @@ public interface AdminService {
 
 	int updateAdminCoupon(CouponVO vo) throws Exception;
 
+	List<?> selectPointList() throws Exception;
+
+	String insertPoint(PointVO vo) throws Exception;
+
+	int selectAblePoint(String userid) throws Exception;
+
 
 }
