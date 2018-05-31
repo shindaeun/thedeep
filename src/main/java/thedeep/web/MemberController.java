@@ -473,10 +473,10 @@ public class MemberController {
 	public String point(ModelMap model) throws Exception{
 		String userid="userid1";
 		String allpoint = memberService.selectAllPoint(userid);
-		String ablepoint = memberService.selectAblePoint(userid);
+		//String ablepoint = memberService.selectAblePoint(userid);
 		List<?> list = memberService.selectPointList(userid);
 		model.addAttribute("allpoint",allpoint);
-		model.addAttribute("ablepoint",ablepoint);
+		//model.addAttribute("ablepoint",ablepoint);
 		model.addAttribute("List",list);
 		System.out.println(list);
 		return "member/point";
@@ -565,9 +565,9 @@ public class MemberController {
 		}
 		//사용포인트 차감
 		mvo.setAblepoint(ovo.getUsepoint());
-		int cnt = memberService.updateAblePoint(mvo);
+		//int cnt = memberService.updateAblePoint(mvo);
 		//쿠폰 삭제
-		cnt = memberService.deleteUseCoupon(ovo);
+		int cnt = memberService.deleteUseCoupon(ovo);
 		map.put("result", result);
 		map.put("ocode", ocode);
 		return map;

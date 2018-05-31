@@ -163,12 +163,6 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 		return adminDAO.insertPoint(vo);
 	}
 
-	@Override
-	public int selectAblePoint(String userid) throws Exception {
-		return adminDAO.selectAblePoint(userid);
-	}
-
-
 
 	
 }
