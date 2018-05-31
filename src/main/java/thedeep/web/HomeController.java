@@ -28,7 +28,7 @@ public class HomeController {
 	@Resource(name="memberService")
 	MemberService memberService;
 	
-	@RequestMapping(value="/home.do")
+	@RequestMapping(value="/theDeep.do")
 	public String selectEmpList1(MemberVO vo, CouponVO cvo, HttpServletRequest request, ModelMap model) throws Exception{
 		
 		List<?> nlist = productService.selectNew50Product();
@@ -63,7 +63,23 @@ public class HomeController {
 		
 		model.addAttribute("happyBTD", happyBTD);
 		
-		return "home/home";
+		
+		String result= productService.selectVisitor();
+		if(result==null || result.equals("")){
+			String result2= productService.insertVisitor();
+		} else {
+			int cnt = productService.updateVisitor();
+		}
+		List<?> visitorlist = productService.selectVisitorList();
+		model.addAttribute("visitorlist",visitorlist);
+		
+		int total = productService.selectVisitorTotal();
+		model.addAttribute("total",total);
+		
+		int today2 = productService.selectVisitorToday();
+		model.addAttribute("today",today2);
+		
+		return "home/theDeep";
 	}
 	
 }
