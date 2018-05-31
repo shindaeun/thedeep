@@ -286,7 +286,7 @@
 		FROM ordermain
 		WHERE userid = #userid#) m, orderlist l, product p
 		WHERE m.ocode = l.ocode
-		AND l.pcode = p.pcode
+		AND l.cscode = p.cscode
 		ORDER by m.odate DESC
 	</select>
 

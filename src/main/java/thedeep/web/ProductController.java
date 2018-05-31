@@ -566,40 +566,6 @@ public class ProductController {
 		return map;
 	}
 	
-	/*@RequestMapping("/insertBoard.do")
-	@ResponseBody 
-	public Map<String, String> test11 (
-					ProductVO vo,
-					ModelMap model) throws Exception {
-		
-		
-		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\productImages";
-		
-		Map<String, String> map = new HashMap<String, String>();
-		
-	   
-		File f = new File(vo.getMainfile());
-		FileInputStream fis = new FileInputStream(f);
-		FileOutputStream fos = new FileOutputStream(uploadPath);
-		 
-		int data = 0;
-		while((data=fis.read())!=-1) {
-		    fos.write(data);
-		}
-		 
-		fis.close();
-		fos.close();
-
-
-	    System.out.println("에디터 컨텐츠값:"+vo.getEditor());
-	    System.out.println("cscode:"+vo.getCscode());
-	    System.out.println(vo.getMainfile());
-
-		return map;
-	}*/
-
-
-
 
 	//단일파일업로드
 

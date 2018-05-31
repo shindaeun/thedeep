@@ -11,6 +11,7 @@ import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
 import thedeep.service.OrderVO;
+import thedeep.service.PointVO;
 import thedeep.service.PwdCkVO;
 import thedeep.service.ReviewReplyVO;
 
@@ -124,6 +125,18 @@ public class AdminDAO extends EgovAbstractDAO {
 
 	public int updateAdminCoupon(CouponVO vo) {
 		return update("adminDAO.updateAdminCoupon", vo);
+	}
+
+	public List<?> selectPointList() {
+		return list("adminDAO.selectPointList");
+	}
+
+	public String insertPoint(PointVO vo) {
+		return (String) insert("adminDAO.insertPoint", vo);
+	}
+
+	public int selectAblePoint(String userid) {
+		return (int) select("adminDAO.selectAblePoint", userid);
 	}
 
 }
