@@ -110,6 +110,8 @@ $(function(){
 					if(data.result == "ok") {
 						alert("발급되었습니다");
 						location.href = "/adminCoupon.do";
+					} else if(data.result == "2") {
+						alert("생일인 회원이 없습니다");
 					} else {
 						alert("이미 발급되었습니다");
 					}
