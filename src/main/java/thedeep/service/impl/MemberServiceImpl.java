@@ -53,11 +53,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String selectAblePoint(String userid) throws Exception {
-		return memberDAO.selectAblePoint(userid);
-	}
-
-	@Override
 	public List<?> selectUserReview(DefaultVO searchVO) throws Exception {
 		return memberDAO.selectUserReview(searchVO);
 	}
@@ -211,10 +206,6 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.insertOrderList(vo);
 	}
 
-	@Override
-	public int updateAblePoint(MemberVO mvo) throws Exception {
-		return memberDAO.updateAblePoint(mvo);
-	}
 
 	@Override
 	public int deleteUseCoupon(OrderVO ovo) throws Exception {

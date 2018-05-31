@@ -18,8 +18,6 @@ public interface MemberService {
 
 	String selectAllPoint(String userid) throws Exception;
 
-	String selectAblePoint(String userid) throws Exception;
-
 	List<?> selectUserReview(DefaultVO searchVO) throws Exception;
 
 	int selectUserReviewTotCnt(DefaultVO searchVO) throws Exception;
@@ -81,8 +79,6 @@ public interface MemberService {
 	String insertDelivery(DeliveryVO dvo)  throws Exception;
 
 	String insertOrderList(OrderListVO vo)  throws Exception;
-
-	int updateAblePoint(MemberVO mvo) throws Exception;
 
 	int deleteUseCoupon(OrderVO ovo) throws Exception;
 

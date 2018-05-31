@@ -42,10 +42,6 @@ public class MemberDAO extends EgovAbstractDAO{
 		return (String) select("memberDAO.selectAllPoint",userid);
 	}
 
-	public String selectAblePoint(String userid) {
-		return (String) select("memberDAO.selectAblePoint",userid);
-	}
-
 	public List<?> selectUserReview(DefaultVO searchVO) {
 		return list("memberDAO.selectUserReview",searchVO);
 	}
@@ -168,10 +164,6 @@ public class MemberDAO extends EgovAbstractDAO{
 
 	public String insertOrderList(OrderListVO vo) {
 		return (String) insert("memberDAO.insertOrderList",vo);
-	}
-
-	public int updateAblePoint(MemberVO mvo) {
-		return update("memberDAO.updateAblePoint",mvo);
 	}
 
 	public int deleteUseCoupon(OrderVO ovo) {

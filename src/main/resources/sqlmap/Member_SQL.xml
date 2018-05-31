@@ -57,16 +57,6 @@
 	 select sum(savepoint) from orderList l,ordermain m where l.ocode=m.ocode and userid=#userid#
 	 ]]>
 	</select>
-	<select id="memberDAO.selectAblePoint" resultClass="java.lang.String">
-	 <![CDATA[
-		select ablepoint from memberinfo where userid=#userid#
-	 ]]>
-	</select>
-	<update id="memberDAO.updateAblePoint">
-	 <![CDATA[
-		update memberinfo set ablepoint = ablepoint - #ablepoint# where userid=#userid#
-	 ]]>
-	</update>
 	<delete id="memberDAO.deleteUseCoupon">
 		delete from couponList 
 		where userid=#userid# 
@@ -204,7 +194,6 @@
 		, email
 		, emailreceive
 		, phonereceive
-		, ablepoint
 		, joindate )
 		VALUES ( #userid#
 		, #name#
@@ -216,7 +205,6 @@
 		, #email#
 		, #emailreceive#
 		, #phonereceive#
-		, '1000'
 		, sysdate )
 	</insert>
 
@@ -238,7 +226,6 @@
 		, email
 		, emailreceive
 		, phonereceive
-		, ablepoint
 		, to_char(joindate,'YYYY-MM-DD') joindate
 		FROM memberinfo
 		WHERE userid=#userid#

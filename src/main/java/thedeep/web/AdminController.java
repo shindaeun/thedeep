@@ -603,7 +603,7 @@ public class AdminController {
 		return "admin/pointAdd";
 	}
 	
-	@RequestMapping(value="/pointAddSave.do")
+	/*@RequestMapping(value="/pointAddSave.do")
 	@ResponseBody
 	public Map<String,Object> insertPoint(PointVO vo) throws Exception{
 		Map <String,Object> map = new HashMap<String,Object>();
@@ -616,5 +616,5 @@ public class AdminController {
 		}
 		map.put("result", result);
 		return map;
-	}
+	}*/
 }
