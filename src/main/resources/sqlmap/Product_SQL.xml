@@ -406,5 +406,39 @@
 	<update id="productDAO.updateSmartEditor">
 		update product set editor=#editor#
 		where pcode = #pcode#
-	</update> 
+	</update>
+	
+	<select id="productDAO.selectVisitor" resultClass="java.lang.String">
+		select rdate 
+		from home
+		where to_char(rdate,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
+	</select>
+	
+	<insert id="productDAO.insertVisitor">
+		insert into home(rdate,hit) values(sysdate,1)
+	</insert>
+	
+	<update id="productDAO.updateVisitor">
+		update home set hit=hit+1 where to_char(rdate,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
+	</update>
+	
+	<select id="productDAO.selectVisitorList" resultClass="egovMap">
+		select b.* from 
+			(select a.*,rownum rn from
+				(select hit, to_char(rdate,'yyyy-mm-dd') rdate 
+				   from home
+				  group by hit,rdate
+		          order by rdate desc)a
+		    )b
+		where rn between 1 and 7
+	</select>
+	
+	<select id="productDAO.selectVisitorTotal" resultClass="java.lang.Integer">
+		select sum(hit) total from home
+	</select>
+	
+	<select id="productDAO.selectVisitorToday" resultClass="java.lang.Integer">
+		select hit from home
+		where to_char(rdate,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
+	</select> 
 </sqlMap>

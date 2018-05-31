@@ -13,7 +13,7 @@ $(function() {
 			dataType:"json",
 			success:function(data) {
 				alert("로그아웃 처리 완료");
-				location.href="/home.do";
+				location.href="/theDeep.do";
 			},
 			error:function(error) {
 				alert("error:"+error);
@@ -28,7 +28,7 @@ $(function() {
 			dataType:"json",
 			success:function(data) {
 				alert("로그아웃 처리 완료");
-				location.href="/home.do";
+				location.href="/theDeep.do";
 			},
 			error:function(error) {
 				alert("error:"+error);
@@ -38,11 +38,16 @@ $(function() {
 });
 
 </script>
-
+<style>
+a:link { text-decoration: none; color: #000000} 
+a:visited { text-decoration: none; color: #000000} 
+a:active { text-decoration: none; color: #000000}
+a:hover {text-decoration:underline; color: #000000}
+</style>
 <div>
     <div class="w-row">
       <div class="column-4 w-col w-col-3">
-        <h1 class="heading">TheDeep</h1>
+        <a href="/theDeep.do"><h1 class="heading">TheDeep</h1></a>
       </div>
       <div class="w-col w-col-9">
         <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">

@@ -76,6 +76,18 @@ public interface ProductService {
 
 	int updateSmartEditor(ProductVO vo) throws Exception;
 
+	String selectVisitor() throws Exception;
+
+	String insertVisitor() throws Exception;
+
+	int updateVisitor() throws Exception;
+
+	List<?> selectVisitorList() throws Exception;
+
+	int selectVisitorTotal() throws Exception;
+
+	int selectVisitorToday() throws Exception;
+
 
 
 

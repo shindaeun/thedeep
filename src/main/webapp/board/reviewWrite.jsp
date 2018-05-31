@@ -11,6 +11,9 @@
 <script src="/js/jquery-1.12.4.js"></script>
 <script src="/js/jquery-ui.js"></script>
 
+<%
+	String pcode = request.getParameter("pcode");
+%>
 <script>
 	$(function(){
 		$("#btnSubmit").click(function(){
@@ -82,6 +85,7 @@
     </table>
     
 <form name="frm" id="frm" method="post" enctype="multipart/form-data">
+<input type="hidden" id="pcode" name="pcode" value="<%=pcode%>">
 <table class="board">
 
 	<tr class="board">

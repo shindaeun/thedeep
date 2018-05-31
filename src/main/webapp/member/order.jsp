@@ -385,7 +385,7 @@
 			<td align="right">
 				<button type="button" id="btnBuy" class="white">결제</button>
 				<button type="button" id="btnCancel" class="white"
-					onclick="location.href='/home.do'">취소</button>
+					onclick="location.href='/theDeep.do'">취소</button>
 			</td>
 		</tr>
 	</table>

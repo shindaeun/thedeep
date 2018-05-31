@@ -201,6 +201,36 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 
 	}
 
+	@Override
+	public String selectVisitor() throws Exception {
+		return productDAO.selectVisitor();
+	}
+
+	@Override
+	public String insertVisitor() throws Exception {
+		return productDAO.insertVisitor();
+	}
+
+	@Override
+	public int updateVisitor() throws Exception {
+		return productDAO.updateVisitor();
+	}
+
+	@Override
+	public List<?> selectVisitorList() throws Exception {
+		return productDAO.selectVisitorList();
+	}
+
+	@Override
+	public int selectVisitorTotal() throws Exception {
+		return productDAO.selectVisitorTotal();
+	}
+
+	@Override
+	public int selectVisitorToday() throws Exception {
+		return productDAO.selectVisitorToday();
+	}
+
 
 	
 
