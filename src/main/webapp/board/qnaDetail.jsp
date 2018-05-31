@@ -19,23 +19,6 @@ String unq = request.getParameter("unq");
 
 <script>
 $(function(){
-	$("#btnNext").click(function(){
-		var nex = ${vo.nexInt};
-		if(nex == 0) {
-			alert("첫 페이지 입니다.");
-		} else {
-			location.href="/qnaDetail.do?unq=${vo.nexInt}";
-		}
-	});
-	$("#btnBefore").click(function(){ 
-		var bef = ${vo.befInt};
-		if( bef == 0) {
-			alert("마지막 페이지 입니다.");
-		} else {
-			location.href="/qnaDetail.do?unq=${vo.befInt}";
-		}
-	});
-	
 	$("#btnList").click(function() {
 		location.href="/qnaList.do";
 	});
@@ -96,12 +79,6 @@ $(function(){
 		<td class="top">Q&A</td>
 	</tr>
 </table>
-
-<div style="width:100%;padding:5px;text-align:right">
-	<button type="button" id="btnNext" class="white">다음</button>
-	&nbsp;
-	<button type="button" id="btnBefore" class="white">이전</button>
-</div>
 
 <form name="refrm" id="refrm">
 <input type="hidden" id="unq" name="unq" value="${vo.unq}"/>
