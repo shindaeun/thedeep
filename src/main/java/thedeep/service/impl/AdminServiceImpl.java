@@ -164,5 +164,17 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 	}
 
 
+	@Override
+	public String selectAblePoint(String userid) throws Exception {
+		return adminDAO.selectAblePoint(userid);
+	}
+
+	@Override
+	public int selectMemberIdChk(String userid) throws Exception {
+		return adminDAO.selectMemberIdChk(userid);
+	}
+
+
+
 	
 }

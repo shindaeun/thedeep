@@ -135,5 +135,13 @@ public class AdminDAO extends EgovAbstractDAO {
 		return (String) insert("adminDAO.insertPoint", vo);
 	}
 
+	public String selectAblePoint(String userid) {
+		return (String) select("adminDAO.selectAblePoint", userid);
+	}
+
+	public int selectMemberIdChk(String userid) {
+		return (int) select("adminDAO.selectMemberIdChk", userid);
+	}
+
 
 }
