@@ -531,7 +531,6 @@ public class AdminController {
 		return map;
 	}
 	
-	@SuppressWarnings("null")
 	@RequestMapping(value = "/adminBtdCoupon.do")
 	@ResponseBody 
 	public Map<String,Object> insertBtdCoupon(CouponVO vo, HttpServletRequest request) throws Exception {
@@ -554,7 +553,6 @@ public class AdminController {
 		int month = 0;
 		int day = 0;
 		String userid = "";
-		int cnt = 0;
 		
 		List<?> list = memberService.selectMemberBTD(today);
 		Map<String,String> map2;
@@ -565,29 +563,31 @@ public class AdminController {
 		}
 		
 		String[] id = userid.split(" ");
-		
-		for(int i=0; i<id.length; i++) {
-			userid = id[i];
-			int coupon = memberService.selectBTDCoupon(userid);
-			if(coupon==0) {
-				cal.add(Calendar.MONTH, 1);
-				year = cal.get(Calendar.YEAR);
-				month = cal.get(Calendar.MONTH)+1;
-				day = cal.get(Calendar.DATE);
-				edate = year + "-";
-				if(month<10) edate += "0" + month + "-";
-				else edate += month + "-";
-				edate += day + "";
-				
-				vo.setUserid(userid);
-				vo.setEdate(edate);
-				
-				result = memberService.insertBTDCoupon(vo);
-				if(result==null) {
-					result = "ok";
-				} else result = "1";
+		if(id[0]!="") {
+			for(int i=0; i<id.length; i++) {
+				userid = id[i];
+				int coupon = memberService.selectBTDCoupon(userid);
+				if(coupon==0) {
+					cal.add(Calendar.MONTH, 1);
+					year = cal.get(Calendar.YEAR);
+					month = cal.get(Calendar.MONTH)+1;
+					day = cal.get(Calendar.DATE);
+					edate = year + "-";
+					if(month<10) edate += "0" + month + "-";
+					else edate += month + "-";
+					edate += day + "";
+					
+					vo.setUserid(userid);
+					vo.setEdate(edate);
+					
+					result = memberService.insertBTDCoupon(vo);
+					if(result==null) {
+						result = "ok";
+					} else result = "1";
+				}
 			}
-		}
+		} else result = "2";
+		
 
 		map.put("result", result);
 		

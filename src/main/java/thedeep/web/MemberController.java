@@ -273,7 +273,7 @@ public class MemberController {
 		String pwd = "";
 		String result = "";
 		
-		for (int i = 0; i < 13; i++) {
+		for (int i = 0; i < 12; i++) {
 			pwd += (char) ((Math.random() * 26) + 97);
 		}
 		System.out.println("new pwd  :  " + pwd);
