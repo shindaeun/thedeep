@@ -608,12 +608,25 @@ public class AdminController {
 	public Map<String,Object> insertPoint(PointVO vo) throws Exception{
 		Map <String,Object> map = new HashMap<String,Object>();
 		String result="";
-		int ablepoint = adminService.selectAblePoint(vo.getUserid());
-		vo.setAblepoint(ablepoint+vo.getSavepoint());
-		result = adminService.insertPoint(vo);
-		if(result == null) {
-			result = "ok";
+		int point;
+		int cnt = adminService.selectMemberIdChk(vo.getUserid());
+		if(cnt > 0) {
+			String ablepoint = adminService.selectAblePoint(vo.getUserid());
+			//System.out.println("1231//"+ablepoint+"123");
+			if(ablepoint==null || ablepoint.equals("")) {
+				point = 0;
+			} else {
+				point = Integer.parseInt(ablepoint);
+			}
+			vo.setAblepoint(point+vo.getSavepoint());
+			result = adminService.insertPoint(vo);
+			if(result == null) {
+				result = "ok";
+			}
+		} else {
+			result="idchk";
 		}
+		
 		map.put("result", result);
 		return map;
 	}

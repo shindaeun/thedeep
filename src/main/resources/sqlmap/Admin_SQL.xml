@@ -383,10 +383,10 @@
 	<select id="adminDAO.selectPointList" resultClass="egovMap">
 		select userid, content, usepoint, savepoint, ablepoint, rdate
 		from point
-		order by rdate
+		order by rdate desc
 	</select>
 	
-	<select id="adminDAO.selectAblePoint" resultClass="java.lang.Integer">
+	<select id="adminDAO.selectAblePoint" resultClass="java.lang.String">
 		select b.ablepoint from 
 			(select a.*,rownum rn from 
 				(select ablepoint 
@@ -401,5 +401,10 @@
 		insert into point(userid, content, usepoint, savepoint, ablepoint, rdate)
 		values(#userid#,#content#,0,#savepoint#,#ablepoint#,sysdate)
 	</insert>
-
+	
+	<select id="adminDAO.selectMemberIdChk" resultClass="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM memberinfo
+		WHERE userid=#userid#
+	</select>
 </sqlMap>

@@ -159,7 +159,7 @@ function removeBox(obj) {
 	<tr class="board">
 		<th class="head" width="20%">상품가격</th>
 		<td>
-		<input type="text" name="price" id="price" style="width:98%;"/>
+		<input type="number" name="price" id="price" style="width:98%;"/>
 		</td>
 	</tr>
 	<tr class="board">

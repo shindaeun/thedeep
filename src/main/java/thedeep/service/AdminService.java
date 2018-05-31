@@ -61,7 +61,9 @@ public interface AdminService {
 
 	String insertPoint(PointVO vo) throws Exception;
 
-	int selectAblePoint(String userid) throws Exception;
+	String selectAblePoint(String userid) throws Exception;
+
+	int selectMemberIdChk(String userid) throws Exception;
 
 
 }

@@ -32,16 +32,19 @@ $(function() {
 			          if(data.result == "ok") {
 			               alert("등록하였습니다.");
 			               location.href = "<c:url value="/pointAdd.do"/>";
+			          } else if(data.result=="idchk") {
+			        	  alert("존재하지 않는 아이디입니다.");
 			          } else {
-			               alert("등록 실패했습니다. 다시 시도해 주세요.");
+			              alert("등록 실패했습니다. 다시 시도해 주세요.");
 			          }
 			     },
 			     error: function(request,status,error) {
 					 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 				}
-			}); 
+			});
 		}
 	});
+});
 
 </script>
 
@@ -68,27 +71,29 @@ $(function() {
 			<option value="배송지연">배송지연</option>
 			<option value="기타">기타</option>
 		</select></th>
-		<th width="25%"><input type="text" name="savepoint" id="savepoint" style="width:50%;"></th>
+		<th width="25%"><input type="number" name="savepoint" id="savepoint" style="width:50%;"></th>
 		<th width="25%"><button type="button" id="btnSubmit" class="white">등록</button></th>
 	</tr>
 </table>
 </form>
 <br>
-<%-- <c:set var="total" value="1"/>
+
 <table class="board">
 <tr class="board">
-		<th width="25%">번호</th>
-		<th width="25%">상품분류코드</th>
-		<th width="25%">상품분류명</th>
-		<th width="25%">삭제</th>
+		<th width="20%">아이디</th>
+		<th width="20%">내용</th>
+		<th width="20%">사용적립금</th>
+		<th width="20%">적립적립금</th>
+		<th width="20%">사용가능적립금</th>
 	</tr>
 <c:forEach var="result" items="${resultList}" varStatus="status">
 	<tr class="board">
-		<th width="25%">${total}</th>
-		<th width="25%"><a href="/group.do?gcode=${result.gcode}">${result.gcode}</a></th>
-		<th width="25%">${result.gname}</th>
-		<th width="25%"><a href="javascript:fnDelete('${result.gcode}')" class="white">&nbsp;del&nbsp;</a></th>
+		<th width="20%">${result.userid}</th>
+		<th width="20%">${result.content}</th>
+		<th width="20%">${result.usepoint}</th>
+		<th width="20%">${result.savepoint}</th>
+		<th width="20%">${result.ablepoint}</th>
 	</tr>
-	<c:set var="total" value="${total+1}"/>
+
 </c:forEach>
-</table> --%>
+</table>
