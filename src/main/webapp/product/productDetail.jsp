@@ -231,7 +231,7 @@ p {
 	</tr>
 	<tr class="board">
 		<td>FIT</td>
-		<td style="text-align: center">
+		<td>
 			<form id="frm2">
 				<input type="hidden" name="pcode" value="${pvo.pcode }" /> <select
 					name="height" id="height">
@@ -286,11 +286,11 @@ p {
 				<c:forEach var="i" items="${surveylist }">
 
 					<p style="width: 40%;">
-						<c:if test="${i.fit=='VB'}">매우크다</c:if>
-						<c:if test="${i.fit=='B'}">크다</c:if>
-						<c:if test="${i.fit=='F'}">맞다</c:if>
-						<c:if test="${i.fit=='S'}">작다</c:if>
-						<c:if test="${i.fit=='VS'}">매우작다</c:if>
+						<c:if test="${i.fit=='VB'}">매우큼</c:if>
+						<c:if test="${i.fit=='B'}">큼</c:if>
+						<c:if test="${i.fit=='F'}">딱맞음</c:if>
+						<c:if test="${i.fit=='S'}">작음</c:if>
+						<c:if test="${i.fit=='VS'}">매우작음</c:if>
 					<div
 						style="width: ${100.0*i.cnt/i.total}%; height: 5px; background: skyblue; float: left;"></div>
 					<div style="width: 50px;">(${100.0*i.cnt/i.total}%)</div>
@@ -314,9 +314,6 @@ p {
 
 <table class="board">
 	<tr>
-		<c:set var="editor" value="${pvo.editor }" />
-		
-		<p><img src="/resource/photo_upload/bdb83bd3-fe37-4d4f-b891-30000ca4bddd.jpg" title="2.jpg"><br style="clear:both;">블라우스</p>
 		<td style="text-align: center">${pvo.editor}</td>
 	</tr>
 </table>

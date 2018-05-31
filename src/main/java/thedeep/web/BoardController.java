@@ -503,6 +503,7 @@ public class BoardController {
 	@RequestMapping(value = "/reviewWriteSave.do")
 	@ResponseBody 
 	public Map<String, String> reviewWriteSave (
+					
 					final MultipartHttpServletRequest multiRequest,
 					HttpServletResponse response, 
 					ReviewVO vo,
@@ -523,7 +524,7 @@ public class BoardController {
 
 		vo.setFilename((String) imap.get("fileName"));
 		
-		vo.setPcode("P00005");
+		System.out.println(vo.getPcode());
 		String userid="userid1";
 		vo.setUserid(userid);
 		

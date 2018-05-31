@@ -159,6 +159,30 @@ public class ProductDAO extends EgovAbstractDAO {
 
 	}
 
+	public String selectVisitor() {
+		return (String) select("productDAO.selectVisitor");
+	}
+
+	public String insertVisitor() {
+		return (String) insert("productDAO.insertVisitor");
+	}
+
+	public int updateVisitor() {
+		return update("productDAO.updateVisitor");
+	}
+
+	public List<?> selectVisitorList() {
+		return list("productDAO.selectVisitorList");
+	}
+
+	public int selectVisitorTotal() {
+		return (int) select("productDAO.selectVisitorTotal");
+	}
+
+	public int selectVisitorToday() {
+		return (int) select("productDAO.selectVisitorToday");
+	}
+
 
 
 

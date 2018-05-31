@@ -133,7 +133,7 @@ $(function(){
 				success: function(data) {
 					if(data.result == "ok") {
 						alert("저장하였습니다.");
-						location.href = "/home.do";
+						location.href = "/theDeep.do";
 					} else if(date.result == "0") {
 						alert("쿠폰저장에 실패했습니다");
 					} else {
@@ -278,7 +278,7 @@ $(function(){
 	<tr>
 		<th style="align:center;">
 		<button type="button" id="btnSubmit" class="white">회원가입</button>&nbsp;
-		<button type="button" class="white" onclick="location.href= '/home.do'">취소</button>
+		<button type="button" class="white" onclick="location.href= '/theDeep.do'">취소</button>
 		</th>
 	</tr>
 </table>

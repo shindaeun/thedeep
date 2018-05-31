@@ -176,9 +176,9 @@
 		</tr>
 		<c:forEach var="i" items="${List }" varStatus="status">
 			<tr class="board">
-				<td><input type="checkbox" name="ordercheck" id="ordercheck"value="${i.cscode}" <c:if test='${i.stock<10 }'>disabled</c:if><c:if test='${i.stock >10}'>checked</c:if>/>&nbsp;${i.pcode }</td>
-				<td>${i.cscode}</td>
-				<td>${i.pname}<c:if test="${i.stock }<10">[품절]</c:if></td>
+				<td style="text-align:center"><input type="checkbox" name="ordercheck" id="ordercheck"value="${i.cscode}" <c:if test='${i.stock<10 }'>disabled</c:if><c:if test='${i.stock >10}'>checked</c:if>/>&nbsp;${i.pcode }</td>
+				<td style="text-align:center">${i.cscode}</td>
+				<td style="text-align:center">${i.pname}<c:if test="${i.stock }<10">[품절]</c:if></td>
 				<c:set var="mainfile" value="${i.mainfile }"/>
 				<%
 				int x=0,y=0;
@@ -198,16 +198,16 @@
 					} 
 				}
 				%>
-				<td><img src="/productImages/${i.mainfile }" width="<%=x %>" height="<%=y %>"/></td>
-				<td>${i.cssize}</td>
-				<td>${i.cscolor}</td>
-				<td><span>${i.price}</span>원</td>
-				<td><span>${i.savepoint}원</span></td>
-				<td><input type="text" size="1" name="amount" id="amount" value="${i.amount}"readonly></td>
-				<td><button type="button" name="plus" onclick="fncnt('+',${status.count-1})"class="white">+</button>
+				<td style="text-align:center"><img src="/productImages/${i.mainfile }" width="<%=x %>" height="<%=y %>"/></td>
+				<td style="text-align:center">${i.cssize}</td>
+				<td style="text-align:center">${i.cscolor}</td>
+				<td style="text-align:center"><span>${i.price}</span>원</td>
+				<td style="text-align:center"><span>${i.savepoint}원</span></td>
+				<td style="text-align:center"><input type="text" size="1" name="amount" id="amount" value="${i.amount}"readonly></td>
+				<td style="text-align:center"><button type="button" name="plus" onclick="fncnt('+',${status.count-1})"class="white">+</button>
 				<button type="button" name="minus" onclick="fncnt('-',${status.count-1})"class="white">-</button>
 				<button type="button" name="btnChange" class="white">변경</button></td>
-				<td><button type="button" name="btnDelete" class="white">삭제</button></td>
+				<td style="text-align:center"><button type="button" name="btnDelete" class="white">삭제</button></td>
 			</tr>
 		</c:forEach>
 		<tr class="board" align="right">

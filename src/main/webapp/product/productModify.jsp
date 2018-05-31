@@ -291,10 +291,10 @@ function removeBox(obj) {
 		</td>
 	</tr>
 	<tr class="board">
-		<th class="head">wait 여부</th>
+		<th class="head">wait</th>
 		<td>
-			<input type="radio" name="wait" id="wait" value="Y" <c:if test="${vo.wait=='Y'}">checked</c:if>/>wait&nbsp;&nbsp;
-			<input type="radio" name="wait" id="wait" value="N" <c:if test="${vo.wait=='N'}">checked</c:if>/>show&nbsp;&nbsp;
+			<input type="radio" name="wait" id="wait" value="Y" <c:if test="${vo.wait=='Y'}">checked</c:if>/>상품대기&nbsp;&nbsp;
+			<input type="radio" name="wait" id="wait" value="N" <c:if test="${vo.wait=='N'}">checked</c:if>/>상품업로드&nbsp;&nbsp;
 		</td>
 	</tr>
 

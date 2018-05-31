@@ -89,6 +89,10 @@ public class ProductController {
 		ProductVO pvo = productService.selectProductInfo(pcode);
 		List<?> oplist = productService.selectSelOptions(pcode);
 		
+		
+		String test =stringReplace(pvo.getEditor());
+		pvo.setEditor(test);
+		
 		model.addAttribute("pvo",pvo);
 		System.out.println(pvo+"pvo");
 		System.out.println(oplist+"oplist");
@@ -647,6 +651,14 @@ public class ProductController {
 	}
 
 	
-	
+	public static String stringReplace(String str) {
+		
+		 str = str.replaceAll("&lt;", "<");
+		 str = str.replaceAll("&gt;", ">");
+		 str = str.replaceAll("&quot;","\"");
+		 str = str.replaceAll("&amp;nbsp;","<br/>");
+
+		return str;
+	}
  
 }

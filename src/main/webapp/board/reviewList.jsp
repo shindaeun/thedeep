@@ -25,6 +25,13 @@ $(function() {
 });
 </script>
 
+<style>
+a:link { text-decoration: none; color: #000000} 
+a:visited { text-decoration: none; color: #000000} 
+a:active { text-decoration: none; color: #000000}
+a:hover {text-decoration:underline; color: #000000}
+</style>
+
 <table class="top">
    <tr class="top">
       <td class="top">review</td>

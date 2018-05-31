@@ -313,7 +313,6 @@ public class MemberController {
 		msg += vo.getPwd() + "</p></div>";
 
 
-
 		// 받는 사람 E-Mail 주소
 		String mail = vo.getEmail();
 		try {
