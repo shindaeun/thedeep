@@ -202,5 +202,18 @@ public class MemberDAO extends EgovAbstractDAO{
 		return (String) select("memberDAO.selectBtdCheck", userid);
 	}
 
+	public int updateUseCoupon(OrderVO ovo) {
+		return update("memberDAO.updateUseCoupon",ovo);
+		
+	}
+
+	public int updateUseCoupon2(OrderVO ovo) {
+		return update("memberDAO.updateUseCoupon2",ovo);
+	}
+
+	public List<?> selectOrderListByOcode(String ocode) {
+		return list("memberDAO.selectOrderListByOcode",ocode);
+	}
+
 	
 }

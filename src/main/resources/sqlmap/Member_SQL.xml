@@ -39,9 +39,9 @@
 
 	<select id="memberDAO.selectUserCouponList" resultClass="egovMap">
 	 <![CDATA[
-		select c.ccode ccode, cname,applymoney,discountrate,maxdiscmoney,to_char(sdate,'yyyy-mm-dd') sdate,to_char(edate,'yyyy-mm-dd') edate 
+		select c.ccode ccode, c.cname cname,applymoney,discountrate,maxdiscmoney,to_char(sdate,'yyyy-mm-dd') sdate,to_char(edate,'yyyy-mm-dd') edate 
 		from coupon c, couponlist l 
-		where c.ccode =l.ccode and userid=#userid# and edate>sysdate
+		where c.ccode =l.ccode and userid=#userid# and edate>sysdate and able='Y'
 	 ]]>
 	</select>
 	<select id="memberDAO.selectPointList" resultClass="egovMap">
@@ -60,8 +60,20 @@
 	<delete id="memberDAO.deleteUseCoupon">
 		delete from couponList 
 		where userid=#userid# 
-		and ccode=(select c.ccode from coupon c, couponlist l where c.ccode=l.ccode and c.cname = #usecoupon#)
+		and cname = #usecoupon#
 	</delete>
+	<update id="memberDAO.updateUseCoupon">
+		update couponList
+		set able='N' 
+		where userid=#userid# and able='Y'
+		and cname = #usecoupon#
+	</update>
+	<update id="memberDAO.updateUseCoupon2">
+		update couponList
+		set able='Y' 
+		where userid=#userid# and able='N'
+		and cname = #usecoupon#
+	</update>
 	<select id="memberDAO.selectUserReview" resultClass="egovMap">
 		select b.*
 		from(
@@ -377,7 +389,7 @@
 	</select>
 	<select id="memberDAO.selectOrderInfo" resultClass="orderVO">
 	 <![CDATA[
-	select ocode,totalmoney,paymethod,to_char(odate,'yyyy-mm-dd') odate 
+	select ocode,userid,totalmoney,paymethod,to_char(odate,'yyyy-mm-dd') odate ,usecoupon
 	from ordermain 
 	where ocode=upper(#ocode#)
 	 ]]>
@@ -391,6 +403,14 @@
 	where rownum=1
 	 ]]>
 	</select>
+	<select id="memberDAO.selectOrderListByOcode" resultClass="egovMap">
+	 <![CDATA[
+	select ocode,cscode,amount
+	from orderlist
+	where ocode=#ocode#
+	 ]]>
+	</select>
+	
 	<select id="memberDAO.selectLatestPost" resultClass="java.lang.String">
 	 <![CDATA[
 		select dpost 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import thedeep.service.AdminService;
 import thedeep.service.CartVO;
 import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
@@ -29,6 +30,8 @@ import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
 import thedeep.service.OrderListVO;
 import thedeep.service.OrderVO;
+import thedeep.service.ProductService;
+import thedeep.service.ProductVO;
 import thedeep.service.UolVO;
 
 @Controller
@@ -36,6 +39,12 @@ public class MemberController {
 	
 	@Resource(name="memberService")
 	MemberService memberService;
+	
+	@Resource(name="productService")
+	ProductService productService;
+	
+	@Resource(name="adminService")
+	AdminService adminService;
 	
 	@RequestMapping(value="/memberInfo.do")
 	public String MemberInfo() throws Exception{
@@ -563,11 +572,7 @@ public class MemberController {
 				}
 			}
 		}
-		//사용포인트 차감
-		mvo.setAblepoint(ovo.getUsepoint());
-		//int cnt = memberService.updateAblePoint(mvo);
-		//쿠폰 삭제
-		int cnt = memberService.deleteUseCoupon(ovo);
+		
 		map.put("result", result);
 		map.put("ocode", ocode);
 		return map;
@@ -586,11 +591,33 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/orderComplete.do")
-	public String orderComplete(ModelMap model,@RequestParam("ocode") String ocode) throws Exception{
+	public String orderComplete(ModelMap model,@RequestParam("ocode") String ocode,@RequestParam(value="paymethod",required=false) String paymethod) throws Exception{
+		
+		if(paymethod!=null){
+			DeliveryVO dvo = new DeliveryVO();
+			dvo.setOcode(ocode);
+			dvo.setDstate("결제완료");
+			adminService.updateDstate(dvo);
+		}
 		OrderVO ovo  = memberService.selectOrderInfo(ocode);
 		String olist = memberService.selectOrderList(ocode);
 		model.addAttribute("ovo",ovo);
 		model.addAttribute("olist",olist);
+		
+		
+		//쿠폰 사용으로 수정
+		int cnt = memberService.updateUseCoupon(ovo);
+		//재고수정
+		List<?> list = memberService.selectOrderListByOcode(ocode);
+		Map<String,String> map = new HashMap<String,String>();
+		ProductVO pvo;
+		for(int i=0;i<list.size();i++){
+			map = (Map<String, String>) list.get(i);
+			pvo = new ProductVO();
+			pvo.setCscode(map.get("cscode"));
+			pvo.setAmount(Integer.parseInt(String.valueOf(map.get("amount")))*-1);
+			productService.updateAmount(pvo);
+		}
 		return "member/orderComplete";
 	}
 	

@@ -47,7 +47,7 @@ $(function() {
 	        msg += '카드 승인번호 : ' + rsp.apply_num;
 	        msg += 'pay_method : ' + rsp.pay_method;
 	        alert(msg);
-	        location.href = "/orderComplete.do?ocode="+$("#ocode").val();
+	        location.href = "/orderComplete.do?ocode="+$("#ocode").val()+"&paymethod=신용카드";
 	    } else {
 	        var msg = '결제에 실패하였습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;

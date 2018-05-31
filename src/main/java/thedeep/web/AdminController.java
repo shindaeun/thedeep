@@ -35,9 +35,11 @@ import thedeep.service.DeliveryVO;
 import thedeep.service.GroupVO;
 import thedeep.service.PaymentVO;
 import thedeep.service.PointVO;
+import thedeep.service.ProductService;
+import thedeep.service.ProductVO;
 import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
-
+import thedeep.service.OrderVO;
 import thedeep.service.ReviewReplyVO;
 
 @Controller
@@ -51,6 +53,9 @@ public class AdminController {
 	
 	@Resource(name="boardService")
 	BoardService boardService;
+	
+	@Resource(name="productService")
+	ProductService productService;
 	
 	@RequestMapping(value="/adminInfo.do")
 	public String insertAdminInfo() throws Exception{
@@ -90,6 +95,7 @@ public class AdminController {
 	@RequestMapping(value="/iamportCancel.do")
 	@ResponseBody
 	public Map<String,Object> iamportCancel(@RequestParam(name="merchant_uid", required=false) String merchant_uid) throws Exception{
+		String userid="userid1";
 		IamportClient client;
 		Map<String,Object> map = new HashMap<String, Object>();
 		String result = "fail";
@@ -100,6 +106,25 @@ public class AdminController {
 		IamportResponse<Payment> cancelpayment2 = client.cancelPayment(cancel2);
 		if(cancelpayment2.getMessage()==null){
 			result = "ok";
+			OrderVO ovo  = memberService.selectOrderInfo(merchant_uid);
+			
+			DeliveryVO dvo = new DeliveryVO();
+			dvo.setOcode(merchant_uid);
+			dvo.setDstate("취소");
+			adminService.updateDstate(dvo);
+			//쿠폰 미사용으로 수정
+			int cnt = memberService.updateUseCoupon2(ovo);
+			//재고수정
+			List<?> list = memberService.selectOrderListByOcode(merchant_uid);
+			Map<String,String> map2 = new HashMap<String,String>();
+			ProductVO pvo;
+			for(int i=0;i<list.size();i++){
+				map2 = (Map<String, String>) list.get(i);
+				pvo = new ProductVO();
+				pvo.setCscode(map2.get("cscode"));
+				pvo.setAmount(Integer.parseInt(String.valueOf(map2.get("amount"))));
+				productService.updateAmount(pvo);
+			}
 		}
 		map.put("result",result);
 		return map;
@@ -234,12 +259,13 @@ public class AdminController {
 		searchVO.setUserid(userid);
 		searchVO.setPageUnit(1);// 한 화면에 출력 개수
 		searchVO.setPageSize(1);// 페이지 개수
-		if(searchVO.getDstate1() == null && searchVO.getDstate2() == null &&searchVO.getDstate3() == null &&searchVO.getDstate4() == null &&searchVO.getDstate5() == null){
+		if(searchVO.getDstate1() == null && searchVO.getDstate2() == null &&searchVO.getDstate3() == null &&searchVO.getDstate4() == null &&searchVO.getDstate5() == null &&searchVO.getDstate6() == null){
 			searchVO.setDstate1("입금전");
 			searchVO.setDstate2("결제완료");
 			searchVO.setDstate3("배송준비중");
 			searchVO.setDstate4("배송중");
 			searchVO.setDstate5("배송완료");
+			searchVO.setDstate6("취소");
 			
 		}
 		/** pageing setting */
@@ -262,9 +288,19 @@ public class AdminController {
 	}
 	@RequestMapping(value="/orderDetail.do")
 	public String orderDetail(ModelMap model,@RequestParam("ocode") String ocode) throws Exception{
+		
 		List<?> olist = adminService.selectOrderDetail(ocode);
 		model.addAttribute("olist",olist);
 		System.out.println(olist);
+		Map<String,String> map = new HashMap<String,String>();
+		map = (Map<String, String>) olist.get(0);
+		if(map.get("dstate").equals("결제완료")){
+			DeliveryVO dvo = new DeliveryVO();
+			dvo.setOcode(ocode);
+			dvo.setDstate("배송준비중");
+			adminService.updateDstate(dvo);
+		}
+			
 		return "admin/orderDetail";
 	}
 	@RequestMapping(value="/transSave.do")
@@ -282,7 +318,8 @@ public class AdminController {
 	public Map<String,Object> payCheck(DeliveryVO vo) throws Exception{
 		Map<String,Object> map = new HashMap<String, Object>();
 		String result="fail";
-		int cnt = adminService.updateDstate(vo.getOcode());
+		vo.setDstate("결제완료");
+		int cnt = adminService.updateDstate(vo);
 		if(cnt>0) result="ok";
 		map.put("result", result);
 		return map;

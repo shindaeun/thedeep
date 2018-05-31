@@ -98,6 +98,14 @@ public interface MemberService {
 
 	String selectBtdCheck(String userid) throws Exception;
 
+	int updateUseCoupon(OrderVO ovo) throws Exception;
+	
+	int updateUseCoupon2(OrderVO ovo) throws Exception;
+
+	List<?> selectOrderListByOcode(String ocode) throws Exception;
+
+
+
 
 
 
