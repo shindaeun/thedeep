@@ -20,6 +20,7 @@ $(function() {
 			if('${search.dstate3}' == "배송준비중") $("input:checkbox[name='dstate3']").prop("checked", true);
 			if('${search.dstate4}' == "배송중") $("input:checkbox[name='dstate4']").prop("checked", true);
 			if('${search.dstate5}' == "배송완료") $("input:checkbox[name='dstate5']").prop("checked", true);
+			if('${search.dstate6}' == "취소") $("input:checkbox[name='dstate6']").prop("checked", true);
 	});
 	
 	$("#btnSearch").click(function() {
@@ -83,7 +84,8 @@ function checkAll(){
 			<input type="checkbox" class="chk"name="dstate2" value="결제완료"/>결제완료&nbsp;&nbsp;
 			<input type="checkbox"class="chk" name="dstate3" value="배송준비중"/>배송준비중&nbsp;&nbsp; 
 			<input type="checkbox" class="chk" name="dstate4" value="배송중"/>배송중&nbsp;&nbsp;
-			<input type="checkbox" class="chk" name="dstate5" value="배송완료" />배송완료&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="checkbox" class="chk" name="dstate5" value="배송완료" />배송완료&nbsp;&nbsp;
+			<input type="checkbox" class="chk" name="dstate6" value="취소" />취소&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="checkbox" id="checkall" value="checkall" onclick="checkAll()"checked/>전체선택</th>
 		</tr>
 	</table>
