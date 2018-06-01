@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -348,8 +349,9 @@ public class MemberController {
 
 	
 	@RequestMapping(value="/userBoard.do")
-	public String userBoard(ModelMap model,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
-		String userid="userid1";
+	public String userBoard(HttpServletRequest request,ModelMap model,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		searchVO.setUserid(userid);
 		searchVO.setPageUnit(1);// 한 화면에 출력 개수
 		searchVO.setPageSize(1);// 페이지 개수
@@ -401,17 +403,19 @@ public class MemberController {
 		return "member/userBoard";
 	}
 	@RequestMapping(value="/cart.do")
-	public String cart(ModelMap model) throws Exception{
-		String userid="userid1";
+	public String cart(HttpServletRequest request, ModelMap model) throws Exception{
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		List<?> list = memberService.selectCartList(userid);
 		model.addAttribute("List",list);
 		return "member/cart";
 	}
 	@RequestMapping(value="/addCart.do")
 	@ResponseBody
-	public Map<String,Object> addCart(RedirectAttributes redirectAttributes,ModelMap model,CartVO vo,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr) throws Exception{
+	public Map<String,Object> addCart(HttpServletRequest request,RedirectAttributes redirectAttributes,ModelMap model,CartVO vo,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr) throws Exception{
 		Map<String,Object> map = new HashMap<String, Object>();
-		String userid="userid1";
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		String result="fail";
 		for(int i=0;i<csarr.length;i++){
 			String tmp[]=csarr[i].split(" ");
@@ -437,10 +441,11 @@ public class MemberController {
 	
 	@RequestMapping(value="/cartUpdate.do")
 	@ResponseBody
-	public Map<String,Object> cartUpdate(CartVO vo) throws Exception{
+	public Map<String,Object> cartUpdate(HttpServletRequest request,CartVO vo) throws Exception{
 		Map<String,Object> map = new HashMap<String, Object>();
 		String result="fail";
-		String userid="userid1";
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		vo.setUserid(userid);
 		int cnt = memberService.updateCart(vo);
 		if(cnt>0){
@@ -451,10 +456,11 @@ public class MemberController {
 	}
 	@RequestMapping(value="/cartDelete.do")
 	@ResponseBody
-	public Map<String,Object> cartDelete(CartVO vo) throws Exception{
+	public Map<String,Object> cartDelete(HttpServletRequest request,CartVO vo) throws Exception{
 		Map<String,Object> map = new HashMap<String, Object>();
 		String result="fail";
-		String userid="userid1";
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		vo.setUserid(userid);
 		int cnt = memberService.cartDelete(vo);
 		if(cnt>0){
@@ -480,8 +486,9 @@ public class MemberController {
 		return "member/coupon";
 	}
 	@RequestMapping(value="/point.do")
-	public String point(ModelMap model) throws Exception{
-		String userid="userid1";
+	public String point(HttpServletRequest request, ModelMap model) throws Exception{
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		String allpoint = memberService.selectAllPoint(userid);
 		List<?> list = memberService.selectPointList(userid);
 		model.addAttribute("allpoint",allpoint);
@@ -494,9 +501,10 @@ public class MemberController {
 		return "member/point";
 	}
 	@RequestMapping(value="/order.do")
-	public String order(ModelMap model,@RequestParam(name="ordercheck", required=false) String[] orderarr) throws Exception{
+	public String order(HttpServletRequest request,ModelMap model,@RequestParam(name="ordercheck", required=false) String[] orderarr) throws Exception{
 		System.out.println(orderarr);
-		String userid="userid1";
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		List<CartVO> olist = new ArrayList<CartVO>();
 		if(orderarr!=null){
 			for(int i=0;i<orderarr.length;i++){
@@ -517,9 +525,10 @@ public class MemberController {
 		return "member/order";
 	}
 	@RequestMapping(value="/orderNow.do")
-	public String orderNow(CartVO vo,ModelMap model,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr) throws Exception{
+	public String orderNow(HttpServletRequest request,CartVO vo,ModelMap model,@RequestParam(name="cscode", required=false) String[] csarr,@RequestParam(name="amount", required=false) String[] amarr) throws Exception{
 		
-		String userid="userid1";
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		String pcode=vo.getPcode();
 		List<CartVO> olist = new ArrayList<CartVO>();
 
@@ -546,11 +555,12 @@ public class MemberController {
 	}
 	@RequestMapping(value="/orderSave.do")
 	@ResponseBody
-	public Map<String,Object> orderSave(OrderVO ovo,OrderListVO lvo,DeliveryVO dvo) throws Exception{
+	public Map<String,Object> orderSave(HttpServletRequest request,OrderVO ovo,OrderListVO lvo,DeliveryVO dvo) throws Exception{
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		String result = "fail";
-		String userid="userid1";
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		List<OrderListVO> olist = lvo.getOlist();
 		String ocode = memberService.selectOcodeNext(); 
 		MemberVO mvo =memberService.selectMemeberDetail(userid);
@@ -583,8 +593,9 @@ public class MemberController {
 		return map;
 	}
 	@RequestMapping(value="/orderSub.do")
-	public String orderSub(ModelMap model,OrderVO ovo,OrderListVO lvo,DeliveryVO dvo) throws Exception{
-		String userid="userid1";
+	public String orderSub(HttpServletRequest request,ModelMap model,OrderVO ovo,OrderListVO lvo,DeliveryVO dvo) throws Exception{
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		model.addAttribute("ocode",ovo.getOcode());
 		model.addAttribute("oemail",dvo.getOemail());
 		model.addAttribute("name",dvo.getDname());
@@ -598,8 +609,9 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/orderComplete.do")
-	public String orderComplete(ModelMap model,PointVO point,@RequestParam("ocode") String ocode,@RequestParam(value="paymethod",required=false) String paymethod) throws Exception{
-		String userid="userid1";
+	public String orderComplete(HttpServletRequest request,ModelMap model,PointVO point,@RequestParam("ocode") String ocode,@RequestParam(value="paymethod",required=false) String paymethod) throws Exception{
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		if(paymethod!=null && paymethod.equals("신용카드")){
 			DeliveryVO dvo = new DeliveryVO();
 			dvo.setOcode(ocode);
@@ -647,9 +659,10 @@ public class MemberController {
 	}
 	@RequestMapping(value="/updateDstate.do")
 	@ResponseBody
-	public Map<String,String> updateDstate(@RequestParam("dstate") String dstate,@RequestParam("ocode") String ocode) throws Exception{
+	public Map<String,String> updateDstate(HttpServletRequest request,@RequestParam("dstate") String dstate,@RequestParam("ocode") String ocode) throws Exception{
 		String result="fail";
-		String userid= "userid1";
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		Map<String,String> map = new HashMap<String,String>();
 		DeliveryVO dvo = new DeliveryVO();
 		dvo.setOcode(ocode);

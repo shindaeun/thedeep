@@ -506,6 +506,7 @@ public class BoardController {
 					
 					final MultipartHttpServletRequest multiRequest,
 					HttpServletResponse response, 
+					HttpServletRequest request,
 					ReviewVO vo,
 					ModelMap model) throws Exception {
 
@@ -525,7 +526,8 @@ public class BoardController {
 		vo.setFilename((String) imap.get("fileName"));
 		
 		System.out.println(vo.getPcode());
-		String userid="userid1";
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		vo.setUserid(userid);
 		
 		String result = boardService.insertReview(vo);

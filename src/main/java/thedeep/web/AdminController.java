@@ -94,8 +94,9 @@ public class AdminController {
 	
 	@RequestMapping(value="/iamportCancel.do")
 	@ResponseBody
-	public Map<String,Object> iamportCancel(@RequestParam(name="merchant_uid", required=false) String merchant_uid) throws Exception{
-		String userid="userid1";
+	public Map<String,Object> iamportCancel(HttpServletRequest request, @RequestParam(name="merchant_uid", required=false) String merchant_uid) throws Exception{
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		IamportClient client;
 		Map<String,Object> map = new HashMap<String, Object>();
 		String result = "fail";
@@ -267,8 +268,9 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/orderList.do")
-	public String orderList(ModelMap model,@ModelAttribute("searchVO")DefaultVO searchVO) throws Exception{
-		String userid="userid1";
+	public String orderList(HttpServletRequest request,ModelMap model,@ModelAttribute("searchVO")DefaultVO searchVO) throws Exception{
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		searchVO.setUserid(userid);
 		searchVO.setPageUnit(10);// 한 화면에 출력 개수
 		searchVO.setPageSize(10);// 페이지 개수

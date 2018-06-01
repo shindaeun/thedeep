@@ -149,15 +149,7 @@
 			<td class="top">cart</td>
 		</tr>
     </table>
-<!--     <form name="frm" id="frm">
-    
-    <table width="100%">
-		<tr>
-			<td align="right"><input type="text" name="userid" value="userid1"checked/><button type="button" id="btnBuy"
-					class="white">구매</button></td>
-		</tr>
-	</table>
-    </form> -->
+
 <form name="frm" id="frm">
 	<input type="checkbox" name="checkall" value="checkall" onclick="checkAll()"checked/>전체선택
 	<table class="board">

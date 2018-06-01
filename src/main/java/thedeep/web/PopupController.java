@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -125,8 +126,9 @@ public class PopupController {
 
 	
 	@RequestMapping(value="/couponPopup.do")
-	public String couponPopup(ModelMap model) throws Exception{
-		String userid = "userid1";
+	public String couponPopup(HttpServletRequest request,ModelMap model) throws Exception{
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
 		List<?> clist = memberService.selectUserCouponList(userid);
 		model.addAttribute("clist",clist);
 		return "popup/couponPopup";
