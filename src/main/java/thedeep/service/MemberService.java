@@ -104,6 +104,8 @@ public interface MemberService {
 
 	List<?> selectOrderListByOcode(String ocode) throws Exception;
 
+	String insertPoint(PointVO point) throws Exception;
+
 
 
 

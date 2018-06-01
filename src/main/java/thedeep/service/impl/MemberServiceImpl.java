@@ -15,6 +15,7 @@ import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
 import thedeep.service.OrderListVO;
 import thedeep.service.OrderVO;
+import thedeep.service.PointVO;
 import thedeep.service.PwdCkVO;
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
@@ -265,6 +266,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<?> selectOrderListByOcode(String ocode) throws Exception {
 		return memberDAO.selectOrderListByOcode(ocode);
+	}
+
+	@Override
+	public String insertPoint(PointVO point) throws Exception {
+		return memberDAO.insertPoint(point);
 	}
 
 }

@@ -47,7 +47,7 @@ $(function() {
 	        msg += '카드 승인번호 : ' + rsp.apply_num;
 	        msg += 'pay_method : ' + rsp.pay_method;
 	        alert(msg);
-	        location.href = "/orderComplete.do?ocode="+$("#ocode").val()+"&paymethod=신용카드";
+	        $("#frm2").attr({method:'post',action:'/orderComplete.do'}).submit();
 	    } else {
 	        var msg = '결제에 실패하였습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;
@@ -68,6 +68,12 @@ $(function() {
 	<input type="hidden" name="arr2" id="arr2" value="${arr2}"/>
 	<input type="hidden" name="phone" id="dphone" value="${phone}"/>
 	<input type="hidden" name="name" id="name" value="${name}"/>
+</form>
+<form name="frm2" id="frm2">
+	<input type="hidden" name="ocode" id="ocode" value="${ocode}"/>
+	<input type="hidden" name="paymethod" id="paymethod" value="신용카드"/>
+	<input type="hidden" name="usepoint" id="usepoint" value="${usepoint}"/>
+	<input type="hidden" name="savepoint" id="savepoint" value="${savepoint}"/>
 </form>
 </body>
 </html>

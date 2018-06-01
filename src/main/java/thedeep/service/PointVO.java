@@ -7,10 +7,20 @@ public class PointVO {
 	private int savepoint;
 	private int ablepoint;
 	private String rdate;
-	
+	public PointVO(){}
+	public PointVO(String userid, String content, int usepoint, int savepoint, int ablepoint, String rdate) {
+		super();
+		this.userid = userid;
+		this.content = content;
+		this.usepoint = usepoint;
+		this.savepoint = savepoint;
+		this.ablepoint = ablepoint;
+		this.rdate = rdate;
+	}
 	public String getRdate() {
 		return rdate;
 	}
+	
 	public void setRdate(String rdate) {
 		this.rdate = rdate;
 	}
