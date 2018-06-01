@@ -46,21 +46,21 @@
 	</select>
 	<select id="memberDAO.selectPointList" resultClass="egovMap">
 	 <![CDATA[
-	 select l.ocode,to_char(odate,'yyyy-mm-dd') odate,pname,'-'||usepoint point from orderList l, orderMain m,product p where l.ocode=m.ocode and l.cscode=p.cscode and userid=#userid#
+	select userid,content,'-'||usepoint point,ablepoint,rdate rdate1,to_char(rdate,'yyyy-mm-dd') rdate from point p where usepoint !=0 and userid=#userid#
 	union
-	select l.ocode,to_char(odate,'yyyy-mm-dd') odate,pname,'+'||savepoint point from orderList l, orderMain m,product p where l.ocode=m.ocode and l.cscode=p.cscode and userid=#userid#
-	order by ocode desc
+	select userid,content,'+'||savepoint,ablepoint,rdate rdate1,to_char(rdate,'yyyy-mm-dd') rdate from point p where savepoint !=0 and userid=#userid#
+ 	order by rdate1 desc
 	 ]]>
 	</select>
 	<select id="memberDAO.selectAllPoint" resultClass="java.lang.String">
 	 <![CDATA[
-	 select sum(savepoint) from orderList l,ordermain m where l.ocode=m.ocode and userid=#userid#
+	 select sum(savepoint) from point where userid=#userid#
 	 ]]>
 	</select>
 	<delete id="memberDAO.deleteUseCoupon">
 		delete from couponList 
 		where userid=#userid# 
-		and cname = #usecoupon#
+		and able='N' and cname = #usecoupon#
 	</delete>
 	<update id="memberDAO.updateUseCoupon">
 		update couponList
@@ -172,9 +172,9 @@
 	</select>
 	<select id="memberDAO.selectCouponList" resultClass="egovMap">
 	 <![CDATA[
-	select c.ccode ccode,cname||' '||discountrate||'% 할인' coupon, applymoney||'원 이상 주문 시 사용가능' subject1, '최대 '||maxDiscmoney||'원 할인 가능' subject2,sdate||'~'||edate usedate
+	select c.ccode ccode,c.cname||' '||discountrate||'% 할인' coupon, applymoney||'원 이상 주문 시 사용가능' subject1, '최대 '||maxDiscmoney||'원 할인 가능' subject2,sdate||'~'||edate usedate
 	from couponList l, coupon c 
-	where c.CCODE = l.CCODE and userid=#userid# and sysdate<edate
+	where c.CCODE = l.CCODE and userid=#userid# and sysdate<edate and able='Y'
 	 ]]>
 	</select>
 
@@ -278,10 +278,14 @@
 	<select resultClass="egovMap" id="memberDAO.selectUserOrderList">
 		SELECT m.userid userid
 		, m.ocode ocode
+		, m.paymethod
 		, p.cscode cscode
+		, p.pcode pcode
 		, p.pname pname
+		, l.reviewconfirm
 		, to_char(m.odate,'YYYY-MM-DD') odate
-		FROM (SELECT userid, ocode, odate
+		,(select dstate from delivery d where d.ocode = m.ocode) dstate
+		FROM (SELECT userid, ocode, odate ,paymethod
 		FROM ordermain
 		WHERE userid = #userid#) m, orderlist l, product p
 		WHERE m.ocode = l.ocode
@@ -389,7 +393,7 @@
 	</select>
 	<select id="memberDAO.selectOrderInfo" resultClass="orderVO">
 	 <![CDATA[
-	select ocode,userid,totalmoney,paymethod,to_char(odate,'yyyy-mm-dd') odate ,usecoupon
+	select ocode,userid,totalmoney,paymethod,to_char(odate,'yyyy-mm-dd') odate ,usecoupon,savepoint,usepoint
 	from ordermain 
 	where ocode=upper(#ocode#)
 	 ]]>
@@ -426,7 +430,10 @@
 		insert into delivery values(#ocode#,'입금전','',#oname#,#ophone#,#oemail#,#dname#,#dphone#,#dpost#,#message#)
 	</insert>
 	<insert id="memberDAO.insertOrderList">
-		insert into orderList values(#ocode#,#pcode#,#cscode#,#amount#,#totalmoney#)
+		insert into orderList values(#ocode#,#pcode#,#cscode#,#amount#,#totalmoney#,'N')
+	</insert>
+	<insert id="memberDAO.insertPoint">
+		insert into point values(#userid#,#content#,#usepoint#,#ablepoint#,#savepoint#,sysdate)
 	</insert>
 	
 	<insert id="memberDAO.insertCoupon">

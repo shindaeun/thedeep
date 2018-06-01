@@ -31,8 +31,8 @@
 		</tr>
 		<c:forEach var="i" items="${List }" varStatus="status">
 			<tr class="board" align="center">
-				<td>${i.odate}</td>
-				<td>${i.pname}</td>
+				<td>${i.rdate}</td>
+				<td>${i.content}</td>
 				<td>${i.point}원</td>
 			</tr>
 		</c:forEach>

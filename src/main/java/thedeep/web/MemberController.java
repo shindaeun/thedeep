@@ -30,6 +30,7 @@ import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
 import thedeep.service.OrderListVO;
 import thedeep.service.OrderVO;
+import thedeep.service.PointVO;
 import thedeep.service.ProductService;
 import thedeep.service.ProductVO;
 import thedeep.service.UolVO;
@@ -482,10 +483,12 @@ public class MemberController {
 	public String point(ModelMap model) throws Exception{
 		String userid="userid1";
 		String allpoint = memberService.selectAllPoint(userid);
-		//String ablepoint = memberService.selectAblePoint(userid);
 		List<?> list = memberService.selectPointList(userid);
 		model.addAttribute("allpoint",allpoint);
-		//model.addAttribute("ablepoint",ablepoint);
+		Map<String,String> map = new HashMap<String,String>();
+		map = (Map<String, String>) list.get(0);
+		String ablepoint = String.valueOf(map.get("ablepoint"));
+		model.addAttribute("ablepoint",ablepoint);
 		model.addAttribute("List",list);
 		System.out.println(list);
 		return "member/point";
@@ -509,6 +512,8 @@ public class MemberController {
 		vo = memberService.selectMemeberDetail(userid);
 		vo.setPost(memberService.selectLatestPost(userid));
 		model.addAttribute("vo",vo);
+		String ablepoint = adminService.selectAblePoint(userid);
+		model.addAttribute("ablepoint",ablepoint);
 		return "member/order";
 	}
 	@RequestMapping(value="/orderNow.do")
@@ -586,14 +591,16 @@ public class MemberController {
 		model.addAttribute("phone",dvo.getDphone());
 		model.addAttribute("post",dvo.getDpost());
 		model.addAttribute("totalmoney",ovo.getTotalmoney());
-		System.out.println(ovo.getOcode() + dvo.getOemail()+ dvo.getDname() + dvo.getDphone()+ dvo.getDpost()+ovo.getTotalmoney());
+		model.addAttribute("usepoint",ovo.getUsepoint());
+		model.addAttribute("savepoint",ovo.getSavepoint());
+		System.out.println("point1 : "+ovo.getUsepoint() +","+ovo.getSavepoint() );
 		return "member/orderSub";
 	}
 	
 	@RequestMapping(value="/orderComplete.do")
-	public String orderComplete(ModelMap model,@RequestParam("ocode") String ocode,@RequestParam(value="paymethod",required=false) String paymethod) throws Exception{
-		
-		if(paymethod!=null){
+	public String orderComplete(ModelMap model,PointVO point,@RequestParam("ocode") String ocode,@RequestParam(value="paymethod",required=false) String paymethod) throws Exception{
+		String userid="userid1";
+		if(paymethod!=null && paymethod.equals("신용카드")){
 			DeliveryVO dvo = new DeliveryVO();
 			dvo.setOcode(ocode);
 			dvo.setDstate("결제완료");
@@ -603,8 +610,14 @@ public class MemberController {
 		String olist = memberService.selectOrderList(ocode);
 		model.addAttribute("ovo",ovo);
 		model.addAttribute("olist",olist);
-		
-		
+		//적립금 지급
+		point.setUserid(userid);
+		point.setContent("구매("+ocode+")");
+		System.out.println("point : "+point.getUsepoint()+","+ point.getSavepoint());
+		String ablepoint = adminService.selectAblePoint(userid);
+		int ablepoint2 = Integer.parseInt(ablepoint) - point.getUsepoint() + point.getSavepoint();
+		point.setAblepoint(ablepoint2);
+		memberService.insertPoint(point);
 		//쿠폰 사용으로 수정
 		int cnt = memberService.updateUseCoupon(ovo);
 		//재고수정
@@ -631,6 +644,26 @@ public class MemberController {
 		model.addAttribute("list", list);
 		
 		return "member/userOrderList";
+	}
+	@RequestMapping(value="/updateDstate.do")
+	@ResponseBody
+	public Map<String,String> updateDstate(@RequestParam("dstate") String dstate,@RequestParam("ocode") String ocode) throws Exception{
+		String result="fail";
+		String userid= "userid1";
+		Map<String,String> map = new HashMap<String,String>();
+		DeliveryVO dvo = new DeliveryVO();
+		dvo.setOcode(ocode);
+		dvo.setDstate(dstate);
+		int cnt = adminService.updateDstate(dvo);
+		if(cnt>0){
+			result = "ok";
+		}
+		
+		OrderVO ovo = memberService.selectOrderInfo(ocode);
+
+		memberService.deleteUseCoupon(ovo);
+		map.put("result", result);
+		return map;
 	}
 
 }
