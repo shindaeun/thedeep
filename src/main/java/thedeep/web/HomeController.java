@@ -3,6 +3,7 @@ package thedeep.web;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import thedeep.service.CouponVO;
 import thedeep.service.MemberService;
@@ -28,6 +30,17 @@ public class HomeController {
 	@Resource(name="memberService")
 	MemberService memberService;
 	
+	@RequestMapping(value="/Group.do")
+	@ResponseBody
+	public Map<String,Object> Group(ModelMap model) throws Exception{
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result="ok";
+		List<?> glist = productService.selectGroupList();
+		map.put("glist", glist);
+		map.put("result", result);
+		return map;
+	}
 	@RequestMapping(value="/theDeep.do")
 	public String selectEmpList1(MemberVO vo, CouponVO cvo, HttpServletRequest request, ModelMap model) throws Exception{
 		
