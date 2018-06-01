@@ -8,6 +8,7 @@ import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.NoticeVO;
+import thedeep.service.OrderListVO;
 import thedeep.service.ReviewVO;
 
 @Repository("boardDAO")
@@ -147,6 +148,10 @@ public class BoardDAO extends EgovAbstractDAO {
 
 	public List<?> selectReviewReplyList(int unq) {
 		return list("boardDAO.selectReviewReplyList",unq);
+	}
+
+	public int updateOrderList(OrderListVO ovo) {
+		return update("boardDAO.updateOrderList",ovo);
 	}
 
 	

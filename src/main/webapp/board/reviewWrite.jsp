@@ -13,6 +13,7 @@
 
 <%
 	String pcode = request.getParameter("pcode");
+	String ocode = request.getParameter("ocode");
 %>
 <script>
 	$(function(){
@@ -86,6 +87,7 @@
     
 <form name="frm" id="frm" method="post" enctype="multipart/form-data">
 <input type="hidden" id="pcode" name="pcode" value="<%=pcode%>">
+<input type="hidden" id="ocode" name="ocode" value="<%=ocode%>">
 <table class="board">
 
 	<tr class="board">
