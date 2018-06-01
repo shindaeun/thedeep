@@ -61,6 +61,7 @@ public class ProductController {
 		model.addAttribute("plist", plist);
 		int totCnt = productService.selectProductTotCnt(gcode);
 		paginationInfo.setTotalRecordCount(totCnt);
+		System.out.println(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 		
 		model.addAttribute("gvo",gvo);
