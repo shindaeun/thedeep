@@ -72,6 +72,9 @@ public interface BoardService {
 
 	List<?> selectReviewReplyList(int unq) throws Exception;
 
+	int updateOrderList(OrderListVO ovo) throws Exception;
+
+
 
 	
 

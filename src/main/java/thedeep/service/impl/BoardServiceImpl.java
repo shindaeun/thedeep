@@ -11,6 +11,7 @@ import thedeep.service.BoardService;
 import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.NoticeVO;
+import thedeep.service.OrderListVO;
 import thedeep.service.ReviewVO;
 
 @Service("boardService")
@@ -187,6 +188,11 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 	@Override
 	public List<?> selectReviewReplyList(int unq) throws Exception {
 		return boardDAO.selectReviewReplyList(unq);
+	}
+
+	@Override
+	public int updateOrderList(OrderListVO ovo) throws Exception {
+		return boardDAO.updateOrderList(ovo);
 	}
 
 	

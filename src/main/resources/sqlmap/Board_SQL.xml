@@ -448,4 +448,10 @@
 		WHERE unq=#unq#
 	</select>
 	
+	<update id="boardDAO.updateOrderList">
+		update orderlist set reviewconfirm='Y'
+		where pcode=#pcode#
+		and ocode=#ocode#
+	</update>
+	
 </sqlMap>

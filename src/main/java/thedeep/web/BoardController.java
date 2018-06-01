@@ -28,6 +28,7 @@ import thedeep.service.BoardVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.MemberVO;
 import thedeep.service.NoticeVO;
+import thedeep.service.OrderListVO;
 import thedeep.service.ReviewVO;
 
 @Controller
@@ -503,18 +504,18 @@ public class BoardController {
 	@RequestMapping(value = "/reviewWriteSave.do")
 	@ResponseBody 
 	public Map<String, String> reviewWriteSave (
-					
 					final MultipartHttpServletRequest multiRequest,
 					HttpServletResponse response, 
 					HttpServletRequest request,
 					ReviewVO vo,
+					OrderListVO ovo,
 					ModelMap model) throws Exception {
 
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
 		
 		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\reviewImages";
-		
+		String result="";
 		//String uploadPath = "c:\\upload";
 		File saveFolder = new File(uploadPath);
 		if (!saveFolder.exists()) {
@@ -530,8 +531,14 @@ public class BoardController {
 		String userid = (String) a.get("ThedeepUserId");
 		vo.setUserid(userid);
 		
-		String result = boardService.insertReview(vo);
-		if(result == null) result = "ok";
+		int reviewconfirm = boardService.updateOrderList(ovo);
+		if(reviewconfirm > 0) {
+			result = boardService.insertReview(vo);
+			if(result == null) result = "ok";
+		}else {
+			result="f";
+		}
+		
 		map.put("result", result);  //  ( Json 이름, 데이터 )
 		map.put("cnt", (String) imap.get("cnt")); // 0,1
 		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
