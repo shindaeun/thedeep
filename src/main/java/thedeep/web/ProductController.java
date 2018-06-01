@@ -623,8 +623,7 @@ public class ProductController {
 		 str = str.replaceAll("&gt;", ">");
 		 str = str.replaceAll("&quot;","\"");
 		 str = str.replaceAll("&amp;","&");
-		 
-		 
+		 str = str.replaceAll("&#39;","\'");
 
 		return str;
 	}
