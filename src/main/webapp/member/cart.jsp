@@ -123,27 +123,28 @@
 			}	
 	}
 	
- 	
  	function fncnt(a,index){
- 		var now_num = document.frm.amount[index].value;
- 		if(a=="+" && now_num<=10){
- 			if (now_num == 10) {
-				alert("1회 10개 구매 가능합니다.");
-			} else {
- 				document.frm.amount[index].value++;
-			}
- 		}
- 		else if(a=="-" && now_num>=1){
- 			if (now_num == 1) {
-				alert("1개 이하 구매 불가능합니다.");
-			} else {
- 				document.frm.amount[index].value--;
-			}
- 		}
- 		
- 	}
+	 var now_num = document.getElementsByName("amount")[index].value;
+	 if(a=="+" && now_num<=10){
+		if (now_num == 10) {
+			alert("1회 10개 구매 가능합니다.");
+		} else {
+			document.getElementsByName("amount")[index].value++;
+		}
+	}
+	else if(a=="-" && now_num>=1){
+		if (now_num == 1) {
+			alert("1개 이하 구매 불가능합니다.");
+		} else {
+			document.getElementsByName("amount")[index].value--;
+		}
+	}  
+	
+}
+ 	
 
-</script>
+</script> 
+
 <table class="top">
 		<tr class="top">
 			<td class="top">cart</td>
@@ -168,7 +169,7 @@
 		</tr>
 		<c:forEach var="i" items="${List }" varStatus="status">
 			<tr class="board">
-				<td style="text-align:center"><input type="checkbox" name="ordercheck" id="ordercheck"value="${i.cscode}" <c:if test="${i.stock<10 }">disabled</c:if><c:if test="${i.stock >10}">checked</c:if>/>&nbsp;${i.pcode }</td>
+				<td style="text-align:center"><input type="checkbox" name="ordercheck" id="ordercheck"value="${i.cscode}" <c:if test="${i.stock<1 }">disabled</c:if><c:if test="${i.stock >0}">checked</c:if>/>&nbsp;${i.pcode }</td>
 				<td style="text-align:center">${i.cscode}</td>
 				<td style="text-align:center">${i.pname}<c:if test="${i.stock }<10">[품절]</c:if></td>
 				<c:set var="mainfile" value="${i.mainfile }"/>

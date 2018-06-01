@@ -16,7 +16,7 @@ String po = (String)pageContext.getAttribute("post");
 		pageContext.setAttribute("postnum", post[0]);
 		pageContext.setAttribute("arr1", post[1]);
 		pageContext.setAttribute("arr2", post[2]);
-	}
+	} 
 	
 %>
 

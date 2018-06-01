@@ -7,227 +7,238 @@
 <c:set var="email" value="${vo.email}" />
 <c:set var="post" value="${vo.post}" />
 <%
+
 	String ph = (String) pageContext.getAttribute("phone");
-	String[] phone = ph.split("-");
-	pageContext.setAttribute("phone1", phone[0]);
-	pageContext.setAttribute("phone2", phone[1]);
-	pageContext.setAttribute("phone3", phone[2]);
+	
+		String[] phone = ph.split("-");
+		pageContext.setAttribute("phone1", phone[0]);
+		pageContext.setAttribute("phone2", phone[1]);
+		pageContext.setAttribute("phone3", phone[2]);
 	
 	String po = (String)pageContext.getAttribute("post");
-	if(po !=null){
+	 if(po !=null){
 		
-		String[] post = po.split("/");
+		 String[] post = po.split("/");
 		pageContext.setAttribute("postnum", post[0]);
 		pageContext.setAttribute("arr1", post[1]);
-		pageContext.setAttribute("arr2", post[2]);
+		pageContext.setAttribute("arr2", post[2]); 
 	}
 	
 	String em = (String) pageContext.getAttribute("email");
-	String[] email = em.split("@");
-	pageContext.setAttribute("email1", email[0]);
-	pageContext.setAttribute("email2", email[1]);
+	
+		String[] email = em.split("@");
+		pageContext.setAttribute("email1", email[0]);
+		pageContext.setAttribute("email2", email[1]);
+	
 %>
-<script>
 
-	function sample6_execDaumPostcode() {
-		new daum.Postcode(
-				{
-					oncomplete : function(data) {
-						// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+<script type="text/javascript">
 
-						// 각 주소의 노출 규칙에 따라 주소를 조합한다.
-						// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-						var fullAddr = ''; // 최종 주소 변수
-						var extraAddr = ''; // 조합형 주소 변수
-
-						// 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-						if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-							fullAddr = data.roadAddress;
-
-						} else { // 사용자가 지번 주소를 선택했을 경우(J)
-							fullAddr = data.jibunAddress;
-						}
-
-						// 사용자가 선택한 주소가 도로명 타입일때 조합한다.
-						if (data.userSelectedType === 'R') {
-							//법정동명이 있을 경우 추가한다.
-							if (data.bname !== '') {
-								extraAddr += data.bname;
-							}
-							// 건물명이 있을 경우 추가한다.
-							if (data.buildingName !== '') {
-								extraAddr += (extraAddr !== '' ? ', '
-										+ data.buildingName : data.buildingName);
-							}
-							// 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
-							fullAddr += (extraAddr !== '' ? ' (' + extraAddr
-									+ ')' : '');
-						}
-
-						// 우편번호와 주소 정보를 해당 필드에 넣는다.
-						document.getElementById('sample6_postcode').value = data.zonecode; //5자리 새우편번호 사용
-						document.getElementById('sample6_address').value = fullAddr;
-
-						// 커서를 상세주소 필드로 이동한다.
-						document.getElementById('sample6_address2').focus();
-					}
-				}).open();
-	}
-	$(function() {
-		$("#applypoint").click(function() {
-			var use = $("#usepoint").val();
-			var able = ${ablepoint};
-			if (parseInt(use) == 0 || use == "") {
-				$("#usepoint").val("0");
-				document.getElementById("usepointresult").innerHTML = "0";
-			} else if (use > able) {
-				alert("사용가능 금액보다 많습니다! 다시 시도해주세요.");
-				$("#usepoint").val("0");
-				document.getElementById("usepointresult").innerHTML = "0";
-
-			} else {
-				document.getElementById("usepointresult").innerHTML = $("#applypoint").val();
-				document.getElementById("usepointresult").innerHTML = use;
-				alert("적용되었습니다.");
-
-			}
-			totalcalcul();
-		});
-
-		$("#btnCoupon").click(function() {
-			var totalmoney = $("#money1").text();
-			url = "/couponPopup.do?totalmoney=" + totalmoney;
-			windowObj = window.open(url, "쿠폰리스트", "width=700,height=300");
-
-		});
-		$("#btnCouponReset").click(function() {
-			$("#cname").val("");
-			document.getElementById("usecouponresult").innerHTML = "0";
-			totalcalcul();
-		});
-		$("input[name=adminmemo]").click(function() {
+$(function() {
+	
+	$("#btnBuy").click(function() {
+		
+		if($("#dname").val() == "") {
+			alert("수취인 이름을 입력해주세요.");
+			$("#dname").focus();
+			return;
+		}
+		if ($("#phone5").val() == "" || $("#phone6").val() == "") {
+			alert("수취인 핸드폰 번호를 입력해주세요.");
+			$("#phone5").focus();
+			return;
+		}
+		if($("#sample6_postcode").val() == "") {
+			alert("주소를 입력해주세요.");
+			$("#sample6_postcode").focus();
+			return;
+		}
+		if($("#sample6_address2").val() == "") {
+			alert("상세주소를 입력해주세요.");
+			$("#sample6_address2").focus();
+			return;
+		}
+		
+		if (confirm("결제하시겠습니까?")) {
 			
-			if($("input[name=adminmemo]:checked").val()=="최근배송지"){
-				$("#sample6_postcode").val("${postnum}");
-				$("#sample6_address").val("${arr1}");
-				$("#sample6_address2").val("${arr2}");
+			var dpost = $("#sample6_postcode").val();
+			dpost += "/" + $("#sample6_address").val();
+			dpost += "/" + $("#sample6_address2").val();
+			$("#dpost").val(dpost);
+			var dphone = $("#phone4").val();
+			dphone += "-" + $("#phone5").val();
+			dphone += "-" + $("#phone6").val();
+			$("#dphone").val(dphone);
+		
+			$("#totalmoney").val($("#money2").text());
+			$("#savepoint").val($("#point").text());
+			$("#savepoint1").val($("#point").text());
+			$("#usepoint1").val($("#usepoint").val());
+			
+			 if($("input[name=paymethod]:checked").val()=="무통장입금"){
+				var formData = $("#frm").serialize();
+				// 비 동기 전송
+				$.ajax({
+					type : "POST",
+					data : formData,
+					url : "/orderSave.do",
+
+					success : function(data) {
+						if (data.result == "ok") {
+							alert("주문 성공하였습니다.");
+							$("#ocode1").val(data.ocode);
+							$("#frm2").attr({method:'post',action:'/orderComplete.do'}).submit();
+						} else {
+							alert("주문 실패했습니다. 다시 시도해 주세요.");
+						}
+					},
+					 error: function (request,status,error) {
+		            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
+		                    //alert("오류발생 ");
+		             }
+				});
 			}else{
-				$("#sample6_postcode").val("");
-				$("#sample6_address").val("");
-				$("#sample6_address2").val("");
-			}
+				var formData = $("#frm").serialize();
+				//var deferred = $p.defer();
+				// 비 동기 전송
+				$.ajax({
+					type : "POST",
+					data : formData,
+					url : "/orderSave.do",
 
-		});
-		$("#same").click(function() {
-			if ($("#same").is(":checked")) {
-				$("#dname").val("${vo.name}");
-				$("#phone4").val("011").prop("selected", true);
-				$("#phone5").val($("#phone2").val());
-				$("#phone6").val($("#phone3").val());
-			} else {
-				$("#dname").val("");
-				$("#phone4").val("");
-				$("#phone5").val("");
-				$("#phone6").val("");
-			}
-
-		});
-		$("#btnBuy").click(function() {
-			
-			if($("#dname").val() == "") {
-				alert("수취인 이름을 입력해주세요.");
-				$("#dname").focus();
-				return;
-			}
-			if ($("#phone5").val() == "" || $("#phone6").val() == "") {
-				alert("수취인 핸드폰 번호를 입력해주세요.");
-				$("#phone5").focus();
-				return;
-			}
-			if($("#sample6_postcode").val() == "") {
-				alert("주소를 입력해주세요.");
-				$("#sample6_postcode").focus();
-				return;
-			}
-			
-			if (confirm("결제하시겠습니까?")) {
+					success : function(data) {
+						if (data.result == "ok") {
+							$("#ocode").val(data.ocode);
+							$("#frm").attr({method:'post',action:'/orderSub.do'}).submit();
+						} else {
+							alert("주문 실패했습니다. 다시 시도해 주세요.");return;
+						}
+					},
+					 error: function (request,status,error) {
+		            	  //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		             }
+				});
 				
-				var dpost = $("#sample6_postcode").val();
-				dpost += "/" + $("#sample6_address").val();
-				dpost += "/" + $("#sample6_address2").val();
-				$("#dpost").val(dpost);
-				var dphone = $("#phone4").val();
-				dphone += "-" + $("#phone5").val();
-				dphone += "-" + $("#phone6").val();
-				$("#dphone").val(dphone);
+			} 
 			
-				$("#totalmoney").val($("#money2").text());
-				$("#savepoint").val($("#point").text());
-				$("#savepoint1").val($("#point").text());
-				$("#usepoint1").val($("#usepoint").val());
-				
-				if($("input[name=paymethod]:checked").val()=="무통장입금"){
-					var formData = $("#frm").serialize();
-					// 비 동기 전송
-					$.ajax({
-						type : "POST",
-						data : formData,
-						url : "/orderSave.do",
-
-						success : function(data) {
-							if (data.result == "ok") {
-								alert("주문 성공하였습니다.");
-								$("#ocode1").val(data.ocode);
-								$("#frm2").attr({method:'post',action:'/orderComplete.do'}).submit();
-							} else {
-								alert("주문 실패했습니다. 다시 시도해 주세요.");
-							}
-						},
-						 error: function (request,status,error) {
-			            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-
-			                    //alert("오류발생 ");
-			             }
-					});
-				}else{
-					var formData = $("#frm").serialize();
-					//var deferred = $p.defer();
-					// 비 동기 전송
-					$.ajax({
-						type : "POST",
-						data : formData,
-						url : "/orderSave.do",
-
-						success : function(data) {
-							if (data.result == "ok") {
-								$("#ocode").val(data.ocode);
-								$("#frm").attr({method:'post',action:'/orderSub.do'}).submit();
-							} else {
-								alert("주문 실패했습니다. 다시 시도해 주세요.");return;
-							}
-						},
-						 error: function (request,status,error) {
-			            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-			             }
-					});
-					
-				}
-				
-			}
-
-		});
+		}
 
 	});
-	function calcul() {
-		var point = $("#usepointresult").text();
+
+	$("#applypoint").click(function() {
+		var use = $("#usepoint").val();
+		var able = ${ablepoint};
+		if (parseInt(use) == 0 || use == "") {
+			$("#usepoint").val("0");
+			document.getElementById("usepointresult").innerHTML = "0";
+		} else if (use > able) {
+			alert("사용가능 금액보다 많습니다! 다시 시도해주세요.");
+			$("#usepoint").val("0");
+			document.getElementById("usepointresult").innerHTML = "0";
+
+		} else {
+			document.getElementById("usepointresult").innerHTML = $("#applypoint").val();
+			document.getElementById("usepointresult").innerHTML = use;
+			alert("적용되었습니다.");
+
+		}
 		totalcalcul();
-	}
-	function totalcalcul() {
-		var money = $("#money1").text();
-		var point = $("#usepointresult").text();
-		var coupon = $("#usecouponresult").text();
-		$("#money2").text(money - point - coupon);
-	}
+	});
+	$("#btnCoupon").click(function() {
+		var totalmoney = $("#money1").text();
+		url = "/couponPopup.do?totalmoney=" + totalmoney;
+		windowObj = window.open(url, "쿠폰리스트", "width=700,height=300");
+
+	});
+	$("#btnCouponReset").click(function() {
+		$("#usecoupon").val("");
+		document.getElementById("usecouponresult").innerHTML = "0";
+		totalcalcul();
+	});
+	$("input[name=adminmemo]").click(function() {
+		
+		if($("input[name=adminmemo]:checked").val()=="최근배송지"){
+			$("#sample6_postcode").val("${postnum}");
+			$("#sample6_address").val("${arr1}");
+			$("#sample6_address2").val("${arr2}");
+		}else{
+			$("#sample6_postcode").val("");
+			$("#sample6_address").val("");
+			$("#sample6_address2").val("");
+		}
+
+	});
+	$("#same").click(function() {
+		if ($("#same").is(":checked")) {
+			$("#dname").val("${vo.name}");
+			$("#phone4").val("011").prop("selected", true);
+			$("#phone5").val($("#phone2").val());
+			$("#phone6").val($("#phone3").val());
+		} else {
+			$("#dname").val("");
+			$("#phone4").val("");
+			$("#phone5").val("");
+			$("#phone6").val("");
+		}
+
+	});
+	
+});
+
+</script>
+<script type="text/javascript">
+function sample6_execDaumPostcode() {
+	new daum.Postcode(
+			{
+				oncomplete : function(data) {
+					// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+					// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+					// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+					var fullAddr = ''; // 최종 주소 변수
+					var extraAddr = ''; // 조합형 주소 변수
+
+					// 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+					if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+						fullAddr = data.roadAddress;
+
+					} else { // 사용자가 지번 주소를 선택했을 경우(J)
+						fullAddr = data.jibunAddress;
+					}
+
+					// 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+					if (data.userSelectedType === 'R') {
+						//법정동명이 있을 경우 추가한다.
+						if (data.bname !== '') {
+							extraAddr += data.bname;
+						}
+						// 건물명이 있을 경우 추가한다.
+						if (data.buildingName !== '') {
+							extraAddr += (extraAddr !== '' ? ', '
+									+ data.buildingName : data.buildingName);
+						}
+						// 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+						fullAddr += (extraAddr !== '' ? ' (' + extraAddr
+								+ ')' : '');
+					}
+
+					// 우편번호와 주소 정보를 해당 필드에 넣는다.
+					document.getElementById('sample6_postcode').value = data.zonecode; //5자리 새우편번호 사용
+					document.getElementById('sample6_address').value = fullAddr;
+
+					// 커서를 상세주소 필드로 이동한다.
+					document.getElementById('sample6_address2').focus();
+				}
+			}).open();
+}
+
+ function totalcalcul() {
+	var money = $("#money1").text();
+	var point = $("#usepointresult").text();
+	var coupon = $("#usecouponresult").text();
+	$("#money2").text(money - point - coupon);
+} 
 </script>
 <form name="frm2" id="frm2">
 	<input type="hidden" name="ocode" id="ocode1"/>
