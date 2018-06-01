@@ -43,9 +43,9 @@ public class ProductController {
 		searchVO.setSearchCondition("gcode");
 		searchVO.setSearchKeyword(gcode);
 		List<?> blist = productService.selectBest3Product(gcode);
-		
-		searchVO.setPageUnit(15);// 한 화면에 출력 개수
-		searchVO.setPageSize(15);// 페이지 개수
+		System.out.println("best "+blist);
+		searchVO.setPageUnit(14);// 한 화면에 출력 개수
+		searchVO.setPageSize(14);// 페이지 개수
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
