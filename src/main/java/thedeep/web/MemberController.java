@@ -502,7 +502,6 @@ public class MemberController {
 	}
 	@RequestMapping(value="/order.do")
 	public String order(HttpServletRequest request,ModelMap model,@RequestParam(name="ordercheck", required=false) String[] orderarr) throws Exception{
-		System.out.println(orderarr);
 		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
 		String userid = (String) a.get("ThedeepUserId");
 		List<CartVO> olist = new ArrayList<CartVO>();
@@ -551,6 +550,8 @@ public class MemberController {
 		mvo = memberService.selectMemeberDetail(userid);
 		mvo.setPost(memberService.selectLatestPost(userid));
 		model.addAttribute("vo",mvo);
+		String ablepoint = adminService.selectAblePoint(userid);
+		model.addAttribute("ablepoint",ablepoint);
 		return "member/order";
 	}
 	@RequestMapping(value="/orderSave.do")

@@ -44,12 +44,12 @@ $( document ).ready(function() {
 	});
     
 });
-	!function(o, c) {
+	 !function(o, c) {
 		var n = c.documentElement, t = " w-mod-";
 		n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch
 				&& c instanceof DocumentTouch)
 				&& (n.className += t + "touch")
-	}(window, document);
+	}(window, document); 
 </script>
 <link href="https://daks2k3a4ib2z.cloudfront.net/img/favicon.ico"
 	rel="shortcut icon" type="image/x-icon">
