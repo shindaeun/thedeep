@@ -53,9 +53,8 @@ background: white;
 
 	<table class="board">
 		<colgroup>
-		<col width="33%"/>
-		<col width="33%"/>
-		<col width="33%"/>
+		<col width="50%"/>
+		<col width="50%"/>
 	</colgroup>
 		<tr class="board">
 			<c:forEach var="i" items="${blist}" varStatus="status">
@@ -70,11 +69,11 @@ background: white;
 					int imgHeight = img.getHeight(null);
 					
 					if (imgWidth > imgHeight) {
-						x =200;
-						y =(imgHeight*200)/imgWidth;
+						x =350;
+						y =(imgHeight*350)/imgWidth;
 					} else {
-						y =200;
-						x =(imgWidth*200)/imgHeight;
+						y =350;
+						x =(imgWidth*350)/imgHeight;
 					} 
 				}
 				%>
@@ -99,9 +98,8 @@ background: white;
 
 	<table class="board">
 		<colgroup>
-		<col width="33%"/>
-		<col width="33%"/>
-		<col width="33%"/>
+		<col width="50%"/>
+		<col width="50%"/>
 		</colgroup>
 		<tr class="board">
 			<c:set var="filenum" value="0"/>
@@ -118,16 +116,16 @@ background: white;
 					int imgHeight = img.getHeight(null);
 					
 					if (imgWidth > imgHeight) {
-						x =200;
-						y =(imgHeight*200)/imgWidth;
+						x =350;
+						y =(imgHeight*350)/imgWidth;
 					} else {
-						y =200;
-						x =(imgWidth*200)/imgHeight;
+						y =400;
+						x =(imgWidth*350)/imgHeight;
 					} 
 				}
 				%>
 			<th class="mouse"><a href="/productDetail.do?pcode=${i.pcode }"><img src="/productImages/${i.mainfile }" style="cursur:pointer"width="<%=x %>" height="<%=y %>"/></a><br>${i.pname }<br>${i.price }</th>
-			<c:if test="${filenum==3}">
+			<c:if test="${filenum==2}">
 				<c:set var="filenum" value="0"/>
 				</tr>
 				<tr class="board">

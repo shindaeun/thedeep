@@ -32,11 +32,11 @@
 		int imgHeight = img.getHeight(null);
 
 		if (imgWidth > imgHeight) {
-			x = 300;
-			y = (imgHeight * 300) / imgWidth;
+			x = 350;
+			y = (imgHeight * 350) / imgWidth;
 		} else {
-			y = 300;
-			x = (imgWidth * 300) / imgHeight;
+			y = 350;
+			x = (imgWidth * 350) / imgHeight;
 		}
 	}
 %>

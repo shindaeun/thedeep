@@ -114,22 +114,25 @@
 		unq DESC
 	</select>
 	<select id="productDAO.selectBest3Product" resultClass="egovMap">
-		select distinct pp.pcode,pname,price,editor,mainfile from(
-		select p.pcode,sum(amount) amount from orderList l,product p
-		where p.pcode=l.pcode and wait='N'
-		and lower(gcode)=lower(#gcode#)
-		group by p.pcode
-		order by amount desc) i,product pp
-		where i.pcode=pp.pcode and rownum<![CDATA[<=]]>3
+		select distinct pp.pcode,pname,price,editor,mainfile 
+		from(
+			select p.pcode,nvl(sum(amount),0) amount 
+	        from product p,orderlist l 
+	        where p.pcode = l.pcode(+) and p.gcode=#gcode# 
+	        group by p.pcode) i,
+			(select distinct pcode,pname,price,editor,mainfile 
+			from product 
+			where gcode=#gcode#) pp
+		where i.pcode(+)=pp.pcode and rownum <![CDATA[<=]]>2
 	</select>
 	<select id="productDAO.selectBest50Product" resultClass="egovMap">
 		select distinct pp.pcode,pname,price,editor,mainfile from(
-			select p.pcode,sum(amount) amount 
+			select p.pcode,nvl(sum(amount),0) amount 
 			from orderList l,product p
-			where p.pcode=l.pcode and wait='N'
+			where p.pcode=l.pcode(+) and wait='N'
 			group by p.pcode
 			order by amount desc) i,product pp
-		where i.pcode=pp.pcode and rownum<![CDATA[<=]]>50
+		where i.pcode(+)=pp.pcode and rownum<![CDATA[<=]]>50
 	</select>
 	<select id="productDAO.selectNew50Product" resultClass="egovMap">
 		select pcode,pname,price,editor,mainfile from(
