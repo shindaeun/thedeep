@@ -585,10 +585,10 @@ public class ProductController {
 	            String ext = original_name.substring(original_name.lastIndexOf(".")+1);
 
 	            //파일 기본경로
-	            String defaultPath = request.getSession().getServletContext().getRealPath("/");
+	            //String defaultPath = request.getSession().getServletContext().getRealPath("/");
 
 	            //파일 기본경로 _ 상세경로
-	            String path = defaultPath + "resource" + File.separator + "photo_upload" + File.separator;              
+	            String path = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\productImages" + File.separator;              
 	            File file = new File(path);
 	            System.out.println("path:"+path);
 
@@ -602,7 +602,7 @@ public class ProductController {
 
 	        ///////////////// 서버에 파일쓰기 ///////////////// 
 	            vo.getFiledata().transferTo(new File(path+realname));
-	            file_result += "&bNewLine=true&sFileName="+original_name+"&sFileURL=/resource/photo_upload/"+realname;
+	            file_result += "&bNewLine=true&sFileName="+original_name+"&sFileURL=/productImages/"+realname;
 
 	        } else {
 	            file_result += "&errstr=error";
@@ -622,7 +622,8 @@ public class ProductController {
 		 str = str.replaceAll("&lt;", "<");
 		 str = str.replaceAll("&gt;", ">");
 		 str = str.replaceAll("&quot;","\"");
-		 str = str.replaceAll("&amp;nbsp;","<br/>");
+		 str = str.replaceAll("&amp;","&");
+		 str = str.replaceAll("&#39;","\'");
 
 		return str;
 	}
