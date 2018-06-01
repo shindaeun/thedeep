@@ -76,7 +76,7 @@
 	$(function() {
 		$("#applypoint").click(function() {
 			var use = $("#usepoint").val();
-			var able = ${vo.ablepoint};
+			var able = ${ablepoint};
 			if (parseInt(use) == 0 || use == "") {
 				$("#usepoint").val("0");
 				document.getElementById("usepointresult").innerHTML = "0";
@@ -163,6 +163,8 @@
 			
 				$("#totalmoney").val($("#money2").text());
 				$("#savepoint").val($("#point").text());
+				$("#savepoint1").val($("#point").text());
+				$("#usepoint1").val($("#usepoint").val());
 				
 				if($("input[name=paymethod]:checked").val()=="무통장입금"){
 					var formData = $("#frm").serialize();
@@ -175,7 +177,8 @@
 						success : function(data) {
 							if (data.result == "ok") {
 								alert("주문 성공하였습니다.");
-								location.href = "/orderComplete.do?ocode="+data.ocode;
+								$("#ocode1").val(data.ocode);
+								$("#frm2").attr({method:'post',action:'/orderComplete.do'}).submit();
 							} else {
 								alert("주문 실패했습니다. 다시 시도해 주세요.");
 							}
@@ -226,7 +229,12 @@
 		$("#money2").text(money - point - coupon);
 	}
 </script>
-<span id="ocode1" style="visibility:hidden"></span>
+<form name="frm2" id="frm2">
+	<input type="hidden" name="ocode" id="ocode1"/>
+	<input type="hidden" name="paymethod" id="paymethod" value="무통장입금"/>
+	<input type="hidden" name="usepoint" id="usepoint1" value="0"/>
+	<input type="hidden" name="savepoint" id="savepoint1"/>
+</form>
 <form name="frm" id="frm">
 	<input type="hidden" name="ocode" id="ocode"/>
 	<input type="hidden" name="oemail" id="oemail" value="${vo.email }"/>
@@ -355,7 +363,7 @@
 	<table class="board">
 		<tr class="board">
 			<th class="head" width="20%">적립금 사용</th>
-			<td>${vo.ablepoint }원&nbsp; (사용 가능 적립금) <br>
+			<td>${ablepoint }원&nbsp; (사용 가능 적립금) <br>
 			<input type="text" name="usepoint" id="usepoint" value="0"
 				style="text-align: right;" />원
 				<button type="button" id="applypoint" class="white">적용</button></td>

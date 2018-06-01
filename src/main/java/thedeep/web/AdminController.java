@@ -112,6 +112,7 @@ public class AdminController {
 			dvo.setOcode(merchant_uid);
 			dvo.setDstate("취소");
 			adminService.updateDstate(dvo);
+			
 			//쿠폰 미사용으로 수정
 			int cnt = memberService.updateUseCoupon2(ovo);
 			//재고수정
@@ -125,6 +126,18 @@ public class AdminController {
 				pvo.setAmount(Integer.parseInt(String.valueOf(map2.get("amount"))));
 				productService.updateAmount(pvo);
 			}
+			//적립금 회수
+			PointVO point = new PointVO();
+			point.setUserid(userid);
+			point.setContent("구매취소("+merchant_uid+")");
+			ovo = memberService.selectOrderInfo(merchant_uid);
+			System.out.println("point3 : "+ovo.getUsepoint()+","+ ovo.getSavepoint());
+			point.setUsepoint(ovo.getSavepoint());
+			point.setSavepoint(ovo.getUsepoint());
+			String ablepoint = adminService.selectAblePoint(userid);
+			int ablepoint2 = Integer.parseInt(ablepoint) - point.getUsepoint() + point.getSavepoint();
+			point.setAblepoint(ablepoint2);
+			memberService.insertPoint(point);
 		}
 		map.put("result",result);
 		return map;
@@ -257,8 +270,8 @@ public class AdminController {
 	public String orderList(ModelMap model,@ModelAttribute("searchVO")DefaultVO searchVO) throws Exception{
 		String userid="userid1";
 		searchVO.setUserid(userid);
-		searchVO.setPageUnit(1);// 한 화면에 출력 개수
-		searchVO.setPageSize(1);// 페이지 개수
+		searchVO.setPageUnit(10);// 한 화면에 출력 개수
+		searchVO.setPageSize(10);// 페이지 개수
 		if(searchVO.getDstate1() == null && searchVO.getDstate2() == null &&searchVO.getDstate3() == null &&searchVO.getDstate4() == null &&searchVO.getDstate5() == null &&searchVO.getDstate6() == null){
 			searchVO.setDstate1("입금전");
 			searchVO.setDstate2("결제완료");

@@ -13,6 +13,7 @@ import thedeep.service.FindVO;
 import thedeep.service.MemberVO;
 import thedeep.service.OrderListVO;
 import thedeep.service.OrderVO;
+import thedeep.service.PointVO;
 import thedeep.service.PwdCkVO;
 
 @Repository("memberDAO")
@@ -213,6 +214,10 @@ public class MemberDAO extends EgovAbstractDAO{
 
 	public List<?> selectOrderListByOcode(String ocode) {
 		return list("memberDAO.selectOrderListByOcode",ocode);
+	}
+
+	public String insertPoint(PointVO point) {
+		return (String) insert("memberDAO.insertPoint",point);
 	}
 
 	
