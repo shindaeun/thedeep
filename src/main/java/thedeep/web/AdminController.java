@@ -41,6 +41,7 @@ import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
 import thedeep.service.OrderVO;
 import thedeep.service.ReviewReplyVO;
+import thedeep.service.ReviewVO;
 
 @Controller
 public class AdminController {
@@ -213,7 +214,18 @@ public class AdminController {
 		
 		return map;
 	}
-	
+	@RequestMapping(value="/reviewDetailAdmin.do")
+	public String selectReviewDetailAdmin(ReviewVO vo,ModelMap model) throws Exception {
+		
+		int unq = vo.getUnq();
+		boardService.updateReviewHit(unq);
+		vo = boardService.selectReviewDetail(unq);
+		model.addAttribute("vo", vo);
+		
+		List<?> rlist = boardService.selectReviewReplyList(unq);
+		model.addAttribute("rlist", rlist);
+		return "admin/reviewDetail";
+	}
 	@RequestMapping(value="/adminList.do")
 	public String selectAdminList(@ModelAttribute("searchVO") DefaultVO searchVO, ModelMap model) throws Exception{
 		

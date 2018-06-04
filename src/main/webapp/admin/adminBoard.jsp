@@ -207,7 +207,7 @@ p {
 		<c:forEach var="i" items="${rlist }" varStatus="status">
 			<tr class="board" align="center">
 				<td>${paginationInfo2.totalRecordCount+1 - ((searchVO.pageIndex2-1) * searchVO.pageSize + status.count)}</td>
-				<td><a href="/reviewDetail.do?unq=${i.unq}">${i.title}</a>
+				<td><a href="/reviewDetailAdmin.do?unq=${i.unq}">${i.title}</a>
 				</td>
 				<td>${i.rdate}</td>
 				<td>${i.hit}</td>

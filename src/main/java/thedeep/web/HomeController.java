@@ -95,8 +95,7 @@ public class HomeController {
 		return "home/theDeep";
 	}
 	@RequestMapping(value="/theDeepAdmin.do")
-	public String selectEmpList1() throws Exception{
-
+	public String selectEmpList1(HttpServletRequest request) throws Exception{
 		return "adminHome/theDeepAdmin";
 	}
 	

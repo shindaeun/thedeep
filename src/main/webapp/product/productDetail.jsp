@@ -62,8 +62,8 @@
 		tag += "</td>\n";
 		tag += "</td>\n";
 		tag += "<td>\n";
-		tag += "<input type=\"button\" value=\"삭제\" class='white' onclick=\"deleterow('cma_text[]','cma_num[]','cma_text_value','tr_id',"
-				+ (new_row_num) + ");\" />\n";
+		tag += "<button type=\"button\" class='white' onclick=\"deleterow('cma_text[]','cma_num[]','cma_text_value','tr_id',"
+				+ (new_row_num) + ");\" >삭제</button>\n";
 		tag += "</td>\n";
 		tag += "</tr>\n";
 

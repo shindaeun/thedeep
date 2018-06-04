@@ -33,7 +33,7 @@ a:hover {text-decoration:underline; color: #000000}
 <div>
     <div class="w-row">
       <div class="column-4 w-col w-col-3">
-        <a href="/theDeep.do"><h1 class="heading">TheDeep</h1></a>
+        <a href="/theDeepAdmin.do"><h1 class="heading">TheDeep</h1></a>
       </div>
       <div class="w-col w-col-9">
         <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
