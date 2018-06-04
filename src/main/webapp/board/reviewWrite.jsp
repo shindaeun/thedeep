@@ -93,7 +93,7 @@
 	<tr class="board">
 		<th class="head" width="20%">name</th>
 		<td>
-		<input type="text" name="name" id="name" style="width:98%;"/>
+		<input type="text" name="name" id="name" style="width:98%;" value="${name}"/>
 		</td>
 	</tr>
 	<tr class="board">

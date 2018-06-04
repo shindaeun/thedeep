@@ -44,7 +44,7 @@ a:hover {text-decoration:underline; color: #000000}
             <a href="/adminModify.do" class="w-nav-link">Profile</a>
             <a href="/adminList.do" class="w-nav-link">Member List</a>
             <a href="/orderList.do" class="w-nav-link">Order List</a>
-            <a href="#" class="w-nav-link">Product</a>
+            <a href="/productListView.do" class="w-nav-link">Product</a>
             <a href="/adminBoard.do" class="w-nav-link">Board</a>
             <a href="/pointAdd.do" class="w-nav-link">Point</a>
             <a href="/adminCoupon.do" class="w-nav-link">Coupon</a>

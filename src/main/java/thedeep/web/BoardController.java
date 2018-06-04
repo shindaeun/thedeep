@@ -394,7 +394,19 @@ public class BoardController {
 		int totCnt = boardService.selectNoticeListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
-
+		
+		String AUserid = null;
+		int login;
+		try {
+			HashMap a = (HashMap) request.getSession().getAttribute("ThedeepALoginCert");
+			AUserid=(String) a.get("ThedeepAUserId");
+			login = 1;
+		} catch(Exception e) {
+			login = 2;
+		}
+		
+		model.addAttribute("login", login);
+		
 		return "board/noticeList";
 	}
 	
@@ -497,7 +509,13 @@ public class BoardController {
 	
 	
 	@RequestMapping(value="/reviewWrite.do")
-	public String reviewWrite() throws Exception{
+	public String reviewWrite(ModelMap model, HttpServletRequest request, MemberVO vo) throws Exception{
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		vo.setUserid(userid);
+		
+		String name = boardService.selectUserName(userid);
+		model.addAttribute("name", name);
 		return "board/reviewWrite";
 	}
 	
