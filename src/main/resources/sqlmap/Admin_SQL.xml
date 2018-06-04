@@ -107,15 +107,15 @@
 		unq DESC
 	</select>
 	<select id="adminDAO.selectOrderList" resultClass="egovMap">
-		select ocode,userid,pcode,pname,amount,odate,dstate
+		select ocode,userid,name,pcode,pname,amount,odate,dstate
 		from(
 		select
-		rownum rn,ocode,userid,pcode,pname,amount,odate,dstate
+		rownum rn,ocode,userid,name,pcode,pname,amount,odate,dstate
 		from(
 			select 
-				distinct(ocode) ocode,j.userid userid,j.odate odate ,j.dstate dstate,j.pcode pcode,pname pname,amount amount
+				distinct(ocode) ocode,j.userid userid,name,j.odate odate ,j.dstate dstate,j.pcode pcode,pname pname,amount amount
 			from(
-				select i.ocode,i.userid,i.odate,i.dstate ,sum(amount) amount,max(pcode) pcode
+				select i.ocode,i.userid,(select distinct name from memberinfo m where m.userid=i.userid) name,i.odate,i.dstate ,sum(amount) amount,max(pcode) pcode
 				    from(
 				        select 
 				        	o.ocode,o.userid,odate,dstate
@@ -148,7 +148,7 @@
 			select 
 				count(distinct(ocode))
 			from(
-				select i.ocode,i.userid,i.odate,i.dstate ,sum(amount) amount,max(pcode) pcode
+				select i.ocode,i.userid,(select distinct name from memberinfo m where m.userid=i.userid) name,i.odate,i.dstate ,sum(amount) amount,max(pcode) pcode
 				    from(
 				        select 
 				        	o.ocode,o.userid,odate,dstate

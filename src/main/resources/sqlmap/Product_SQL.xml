@@ -166,12 +166,10 @@
 	</select>
 
 	<select id="productDAO.selectProductTotCnt" resultClass="java.lang.Integer">
-		select count(pcode)
-		from
-			(SELECT pcode
+		SELECT sum(count( distinct pcode))
 			FROM product
-			WHERE lower(gcode)=lower(#pcode#) and wait='N'
-			group by pcode)
+			WHERE lower(gcode)=lower(#gcode#) and wait='N'
+			group by pcode
 	</select>
 	<select id="productDAO.selectProductInfo" resultClass="productVO">
 		select distinct pcode,pname,price,price*0.01 point ,editor,mainfile
