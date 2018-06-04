@@ -71,7 +71,7 @@ a:hover {text-decoration:underline; color: #000000}
 	<tr class="login">
 		<td>ID</td>
 		<td  align="center">
-		<input type="text" name="userid" id="userid" style="border-style:none;" 
+		<input type="text" name="userid" id="userid" style="border-style:none; ime-mode:inactive;" 
 			<c:if test="${useridIn!=null}">value="${useridIn}"</c:if>
 			<c:if test="${useridIn==null}">autofocus</c:if> />
 		</td>
@@ -79,7 +79,7 @@ a:hover {text-decoration:underline; color: #000000}
 	<tr class="login">
 		<td>PASSWORD</td>
 		<td align="center">
-		<input type="password" name="pwd" id="pwd" style="border-style:none;" 
+		<input type="password" name="pwd" id="pwd" style="border-style:none;  ime-mode:inactive;" 
 			<c:if test="${useridIn!=null}">autofocus</c:if>/>
 		</td>
 	</tr>
