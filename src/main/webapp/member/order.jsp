@@ -172,12 +172,12 @@ $(function() {
 	$("#same").click(function() {
 		if ($("#same").is(":checked")) {
 			$("#dname").val("${vo.name}");
-			$("#phone4").val("011").prop("selected", true);
+			$("#phone4").val($("#phone1").val()).prop("selected", true);
 			$("#phone5").val($("#phone2").val());
 			$("#phone6").val($("#phone3").val());
 		} else {
 			$("#dname").val("");
-			$("#phone4").val("");
+			$("#phone4").val("011").prop("selected", true);
 			$("#phone5").val("");
 			$("#phone6").val("");
 		}

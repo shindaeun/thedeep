@@ -37,7 +37,28 @@ $(function(){
 		var url = "/reviewPwdCheck.do?unq=${vo.unq}";
 		window.open(url,"비밀번호확인","width=500,height=300");
 	});
-	
+	$("#btnSubmit").click(function(){
+		$("#content").val($("#admin").val()+"\n\n" +$("#reply").val());
+		var form = $("#rform").serialize();
+		$.ajax({
+			type : "POST",
+			data: form,
+			url : "/reviewReply.do",
+			success : function(data) {
+				if (data.result == "ok") {
+					alert("저장하였습니다.");
+					location.href = "/reviewDetail.do?unq=${vo.unq}";
+				}
+				else {
+					alert("저장 실패했습니다. 다시 시도해 주세요.");
+				}
+			},
+			error: function (request,status,error) {
+            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+              }
+		});
+		
+	});
 });
 </script>
 <table class="top">
@@ -161,3 +182,22 @@ if(filenames != null && !filenames.equals("")) {
 	</td></tr>
 </table>
 <br>
+<c:if test="${sessionScope.ThedeepALoginCert.ThedeepAUserId != null}">
+<form id="rform">
+<table style="width:100%;"> 
+<tr valign="center">
+	<td>
+		<input type="hidden" name="content" id="content"/>
+		<input type="hidden" id="fid" name="fid" value="${vo.unq }">
+		이름<input type="text" id="admin"/>
+	</td>
+	</tr>
+	<tr>
+	<td>
+	<textarea rows="2" id="reply" cols="80%" style="resize: none;"></textarea>
+	<button type="button" id="btnSubmit" class="white" >등록</button>
+	</td>
+	</tr>
+</table>
+</form>
+</c:if>

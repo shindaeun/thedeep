@@ -53,7 +53,7 @@ a:hover {text-decoration:underline; color: #000000}
         <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
           <div class="container w-container">
             <nav role="navigation" class="w-nav-menu">
-            <c:if test="${sessionScope.ThedeepLoginCert.ThedeepUserId == null && sessionScope.ThedeepALoginCert.ThedeepAUserId == null}">	
+            <c:if test="${sessionScope.ThedeepLoginCert.ThedeepUserId == null}">	
             <a href="/login.do" class="w-nav-link">Login</a>
             <a href="/memberInfo.do" class="w-nav-link">Join</a>
             <a href="/cart.do" class="w-nav-link">Cart</a>
@@ -64,13 +64,13 @@ a:hover {text-decoration:underline; color: #000000}
             <a href="/cart.do" class="w-nav-link">Cart</a>
             <a href="/myPage.do" class="w-nav-link">My Page</a>
             </c:if>
-            <c:if test="${sessionScope.ThedeepALoginCert.ThedeepAUserId != null}">
+           <%--  <c:if test="${sessionScope.ThedeepALoginCert.ThedeepAUserId != null}">
             <a href="#" class="w-nav-link"><span id="btnAdminLogout">Logout</span></a>
             <a href="/adminModify.do" class="w-nav-link">Profile</a>
             <a href="/adminList.do" class="w-nav-link">Member List</a>
             <a href="/orderList.do" class="w-nav-link">Order List</a>
             <a href="#" class="w-nav-link">Product</a>
-            </c:if>
+            </c:if> --%>
             </nav>
 
             <div class="w-nav-button">

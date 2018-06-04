@@ -673,6 +673,7 @@ public class BoardController {
 		model.addAttribute("rlist", rlist);
 		return "board/reviewDetail";
 	}
+
 	
 	@RequestMapping(value="/reviewModify.do")
 	public String reviewModify(ReviewVO vo,ModelMap model) 

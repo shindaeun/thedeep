@@ -23,7 +23,7 @@ $(function(){
 			success: function(data) {
 				if(data.result == "ok") {
 					alert("로그인 되었습니다.");
-					location.href="/theDeep.do";
+					location.href="/theDeepAdmin.do";
 				} else if(data.result == "-1") {
 					alert("아이디와 패스워드가 일치하지 않습니다.");
 				}
