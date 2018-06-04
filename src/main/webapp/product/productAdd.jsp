@@ -124,11 +124,15 @@ $(function(){
 
 function addBox() {
 	var color = eval("$('#putcolor').val()");
-	var txt = "&nbsp;&nbsp;<input type='checkbox' name='color' id='color' value='"+color+"'>"+color;
+	if(color=="" || color==null) {
+		alert("색상을 입력해주세요");
+	} else {
+		var txt = "&nbsp;&nbsp;<input type='checkbox' name='color' id='color' value='"+color+"' checked>"+color;
 		txt += "<input type='button' value='X' onClick='removeBox(this)'>";
-	var area = document.createElement('span');
-	area.innerHTML = txt;
-	document.getElementById('textBoxArea').appendChild(area);
+		var area = document.createElement('span');
+		area.innerHTML = txt;
+		document.getElementById('textBoxArea').appendChild(area);
+	}
 }
 function removeBox(obj) {
 	document.getElementById('textBoxArea').removeChild(obj.parentNode);
