@@ -220,5 +220,13 @@ public class MemberDAO extends EgovAbstractDAO{
 		return (String) insert("memberDAO.insertPoint",point);
 	}
 
+	public String insertMemPoint(String userid) {
+		return (String) insert("memberDAO.insertMemPoint", userid);
+	}
+
+	public int selectMemberPoint(String userid) {
+		return (int) select("memberDAO.selectMemberPoint", userid);
+	}
+
 	
 }

@@ -611,7 +611,8 @@ public class AdminController {
 		String today = "";
 		if(tmonth<10) today += "0" + tmonth;
 		else today += tmonth + "";
-		today += tday + "";
+		if(tday<10) today += "0" + tday;
+		else today += tday + "";
 		
 		String edate = "";
 		int year = 0;
@@ -626,7 +627,7 @@ public class AdminController {
 			map2 = (Map<String, String>) list.get(i);
 			userid += map2.get("userid") + " ";
 		}
-		
+		System.out.println("userid  /  " + userid + "  today  /" + today);
 		String[] id = userid.split(" ");
 		if(id[0]!="") {
 			for(int i=0; i<id.length; i++) {

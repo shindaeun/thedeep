@@ -273,4 +273,14 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.insertPoint(point);
 	}
 
+	@Override
+	public String insertMemPoint(String userid) throws Exception {
+		return memberDAO.insertMemPoint(userid);
+	}
+
+	@Override
+	public int selectMemberPoint(String userid) throws Exception {
+		return memberDAO.selectMemberPoint(userid);
+	}
+
 }

@@ -106,6 +106,10 @@ public interface MemberService {
 
 	String insertPoint(PointVO point) throws Exception;
 
+	String insertMemPoint(String userid) throws Exception;
+
+	int selectMemberPoint(String userid) throws Exception;
+
 
 
 

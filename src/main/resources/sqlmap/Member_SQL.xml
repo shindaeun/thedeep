@@ -267,6 +267,7 @@
 		SELECT COUNT(*) cnt
 		FROM couponlist
 		WHERE userid=#userid#
+		AND able = 'Y'
 	</select>
 
 	<select resultClass="java.lang.Integer" id="memberDAO.selectMemberMoney">
@@ -348,34 +349,42 @@
 	
 	<select id="memberDAO.selectInMoneyCnt" resultClass="java.lang.Integer">
 		SELECT COUNT(d.ocode) cnt
-		FROM delivery d, memberinfo m
+		FROM delivery d, memberinfo m, ordermain o
 		WHERE d.dstate = '입금전'
 		AND m.userid = #userid#
 		AND d.oname = m.name
+		AND m.userid = o.userid
+		AND o.ocode = d.ocode
 	</select>
 	
 	<select id="memberDAO.selectPreparingCnt" resultClass="java.lang.Integer">
 		SELECT COUNT(d.ocode) cnt
-		FROM delivery d, memberinfo m
+		FROM delivery d, memberinfo m, ordermain o
 		WHERE d.dstate = '배송준비중'
 		AND m.userid = #userid#
 		AND d.oname = m.name
+		AND m.userid = o.userid
+		AND o.ocode = d.ocode
 	</select>
 	
 	<select id="memberDAO.selectDeliverCnt" resultClass="java.lang.Integer">
 		SELECT COUNT(d.ocode) cnt
-		FROM delivery d, memberinfo m
+		FROM delivery d, memberinfo m, ordermain o
 		WHERE d.dstate = '배송중'
 		AND m.userid = #userid#
 		AND d.oname = m.name
+		AND m.userid = o.userid
+		AND o.ocode = d.ocode
 	</select>
 	
 	<select id="memberDAO.selectCompleteCnt" resultClass="java.lang.Integer">
 		SELECT COUNT(d.ocode) cnt
-		FROM delivery d, memberinfo m
+		FROM delivery d, memberinfo m, ordermain o
 		WHERE d.dstate = '배송완료'
 		AND m.userid = #userid#
 		AND d.oname = m.name
+		AND m.userid = o.userid
+		AND o.ocode = d.ocode
 	</select>
 
 	<select id="memberDAO.selectProductInfo" resultClass="cartVO">
@@ -442,10 +451,14 @@
 		, ccode
 		, sdate
 		, edate
+		, able
+		, cname
 		) VALUES ( #userid#
 				 , 'c001'
 				 , sysdate
 				 , #edate#
+				 , 'Y'
+				 , '신규가입'
 				 )
 	</insert>
 	
@@ -461,10 +474,14 @@
 		, ccode
 		, sdate
 		, edate
+		, able
+		, cname
 		) VALUES ( #userid#
 				 , 'c002'
 				 , sysdate
 				 , #edate#
+				 , 'Y'
+				 , '생일쿠폰'
 				 )
 	</insert>
 	
@@ -479,6 +496,30 @@
 		SELECT to_char(birthday,'MMDD') birthday
 		FROM memberinfo
 		WHERE userid = #userid#
+	</select>
+	
+	<insert id="memberDAO.insertMemPoint">
+		INSERT INTO point
+		( userid
+		, content
+		, usepoint
+		, ablepoint
+		, savepoint
+		, rdate
+		) VALUES ( #userid#
+				 , '신규가입'
+				 , '0'
+				 , '1000'
+				 , '1000'
+				 , sysdate
+				 )
+	</insert>
+	
+	<select id="memberDAO.selectMemberPoint" resultClass="java.lang.Integer">
+		SELECT savepoint point
+		FROM point p, (SELECT MAX(rdate) rdate FROM point) r
+		WHERE p.rdate = r.rdate
+		AND userid = #userid#
 	</select>
 	
 </sqlMap>
