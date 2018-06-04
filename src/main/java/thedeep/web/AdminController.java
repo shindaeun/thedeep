@@ -269,9 +269,9 @@ public class AdminController {
 	
 	@RequestMapping(value="/orderList.do")
 	public String orderList(HttpServletRequest request,ModelMap model,@ModelAttribute("searchVO")DefaultVO searchVO) throws Exception{
-		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		/*HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
 		String userid = (String) a.get("ThedeepUserId");
-		searchVO.setUserid(userid);
+		searchVO.setUserid(userid);*/
 		searchVO.setPageUnit(10);// 한 화면에 출력 개수
 		searchVO.setPageSize(10);// 페이지 개수
 		if(searchVO.getDstate1() == null && searchVO.getDstate2() == null &&searchVO.getDstate3() == null &&searchVO.getDstate4() == null &&searchVO.getDstate5() == null &&searchVO.getDstate6() == null){

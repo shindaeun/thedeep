@@ -94,6 +94,11 @@ public class HomeController {
 		
 		return "home/theDeep";
 	}
+	@RequestMapping(value="/theDeepAdmin.do")
+	public String selectEmpList1() throws Exception{
+
+		return "adminHome/theDeepAdmin";
+	}
 	
 }
 

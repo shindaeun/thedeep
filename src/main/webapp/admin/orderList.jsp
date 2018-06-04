@@ -74,6 +74,7 @@ function checkAll(){
 		<tr>
 			<th><select name="searchCondition">
 					<option value="userid" <c:if test="${search.searchCondition=='userid'}">selected</c:if>>아이디</option>
+					<option value="name" <c:if test="${search.searchCondition=='name'}">selected</c:if>>이름</option>
 					<option value="pname" <c:if test="${search.searchCondition=='pname'}">selected</c:if>>상품명</option>
 			</select> <input type="text" name="searchKeyword" id="searchKeyword" value="${search.searchKeyword }">
 				<button type="button" id="btnSearch" class="white">검색</button></th>
@@ -105,7 +106,7 @@ function checkAll(){
 		<tr class="board" align="center">
 			<td>${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}</td>
 			<td><a href="/orderDetail.do?ocode=${i.ocode}">${i.ocode}</a></td>
-			<td>${i.userid}</td>
+			<td>${i.name}<br>( ${i.userid })</td>
 			<td>${i.pcode}</td>
 			<td>${i.pname}</td>
 			<td>${i.amount}</td>
