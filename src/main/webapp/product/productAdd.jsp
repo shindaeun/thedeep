@@ -85,13 +85,13 @@ $(function(){
 						}
 						document.frm2.pcode.value = data.pcode;
 						var pcode= document.frm2.pcode.value
-						alert(pcode);
+						//alert(pcode);
 						
 						obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
 						var test = document.getElementById("editor").value;
-						alert(test);
+						//alert(test);
 					    var editor= $('#editor').val();
-						alert(editor);
+						//alert(editor);
 						$.ajax({
 								url : '/updateSmartEditor.do',
 								type : 'post',

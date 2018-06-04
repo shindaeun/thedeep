@@ -31,9 +31,12 @@
 			<mvc:interceptor>		
 				<mvc:mapping path="/myPage.do"/>		
 				<mvc:mapping path="/memberModify.do"/>		
-				<mvc:mapping path="/userOrderList.do"/>	
+				<mvc:mapping path="/userOrderList.do"/>
+				<mvc:mapping path="/userBoard.do"/>	
 				<mvc:mapping path="/qnaWrite.do"/>
-				<mvc:mapping path="/qnaModify.do"/>		
+				<mvc:mapping path="/qnaModify.do"/>
+				<mvc:mapping path="/reviewWrite.do"/>
+				<mvc:mapping path="/reviewModify.do"/>	
 				<!-- 인터셉터 가동 -->		
 				<bean id="sessionInterceptor" class="thedeep.web.SessionInterceptor"/>		
 			</mvc:interceptor>		

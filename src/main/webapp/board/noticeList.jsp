@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <script>
 $(function() {
    $("#btnSearch").click(function() {
@@ -34,7 +35,9 @@ $(function() {
          <button type="button" id="btnSearch" class="white">검색</button>
       </td>
       <td style="border:0px; text-align:right;">
+      	 <c:if test="${adminid!=null}">
          <button type="button" class="white" onClick="location.href='/noticeWrite.do'">Write</button>
+         </c:if>
       </td>
    </tr>
 </table>

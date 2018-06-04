@@ -99,7 +99,7 @@
 					<button type="button" id="btnConfirm" class="white">구매확정</button>
 				</c:if>
 				<c:if test="${list.dstate=='배송완료' }">
-					<c:if test="${list.reviewconfirm==null }"> &nbsp;&nbsp;
+					<c:if test="${list.reviewconfirm=='N' }"> &nbsp;&nbsp;
 					<button type="button"class="white" onclick="location.href='/reviewWrite.do?pcode=${list.pcode}&ocode=${list.ocode }'">리뷰쓰기</button>
 					</c:if>
 				</c:if>

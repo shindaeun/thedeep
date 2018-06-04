@@ -370,7 +370,7 @@ public class BoardController {
 
 	@RequestMapping(value="/noticeList.do")
 	public String selectNoticeList(
-			@ModelAttribute("searchVO") DefaultVO searchVO,ModelMap model) 
+			@ModelAttribute("searchVO") DefaultVO searchVO,ModelMap model,HttpServletRequest request) 
 				throws Exception {
 
 		/** EgovPropertyService.sample */
@@ -581,7 +581,8 @@ public class BoardController {
 					if(    !exeName.equals("jpg") 
 					    && !exeName.equals("jpeg") 
 					    && !exeName.equals("gif") 
-					    && !exeName.equals("bmp") )
+					    && !exeName.equals("bmp")
+					    && !exeName.equals("png"))
 					{
 						errCode = "0";
 					} else {

@@ -50,7 +50,7 @@ a:hover {text-decoration:underline; color: #000000}
          <button type="button" id="btnSearch" class="white">검색</button>
       </td>
       <td style="border:0px; text-align:right;">
-         <button type="button" class="white" onClick="location.href='/reviewWrite.do'">Write</button>
+         <button type="button" class="white" onClick="location.href='/userOrderList.do'">Write</button>
       </td>
    </tr>
 </table>

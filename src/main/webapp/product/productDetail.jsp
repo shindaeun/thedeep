@@ -418,7 +418,7 @@ p {
 	<tr>
 		<td style="border: 0px; text-align: right;">
 			<button type="button" class="white"
-				onClick="location.href='/reviewWrite.do?pcode=${pvo.pcode}'">Write</button>
+				onClick="location.href='/userOrderList.do'">Write</button>
 		</td>
 	</tr>
 </table>
