@@ -124,13 +124,14 @@
 	}
 	
  	function fncnt(a,index){
-	 var now_num = document.getElementsByName("amount")[index].value;
-	 if(a=="+" && now_num<=10){
-		if (now_num == 10) {
-			alert("1회 10개 구매 가능합니다.");
+	 var now_num = parseInt(document.getElementsByName("amount")[index].value);
+	 var now_stock = parseInt(document.getElementsByName("stock")[index].value);
+	 if(a=="+" && now_num<=now_stock){
+		 if (now_num == now_stock) {
+			 alert("재고량보다 많습니다. 재고량["+now_stock+"개]");
 		} else {
 			document.getElementsByName("amount")[index].value++;
-		}
+		} 
 	}
 	else if(a=="-" && now_num>=1){
 		if (now_num == 1) {
@@ -169,9 +170,9 @@
 		</tr>
 		<c:forEach var="i" items="${List }" varStatus="status">
 			<tr class="board">
-				<td style="text-align:center"><input type="checkbox" name="ordercheck" id="ordercheck"value="${i.cscode}" <c:if test="${i.stock<1 }">disabled</c:if><c:if test="${i.stock >0}">checked</c:if>/>&nbsp;${i.pcode }</td>
+				<td style="text-align:center"><input type="checkbox" name="ordercheck" id="ordercheck"value="${i.cscode}" <c:if test="${i.amount>i.stock }">disabled</c:if><c:if test="${i.amount<=i.stock}">checked</c:if>/>&nbsp;${i.pcode }</td>
 				<td style="text-align:center">${i.cscode}</td>
-				<td style="text-align:center">${i.pname}<c:if test="${i.stock }<10">[품절]</c:if></td>
+				<td style="text-align:center">${i.pname}<c:if test="${i.amount>i.stock }"> [ 품절 ] </c:if></td>
 				<c:set var="mainfile" value="${i.mainfile }"/>
 				<%
 				int x=0,y=0;
@@ -196,7 +197,9 @@
 				<td style="text-align:center">${i.cscolor}</td>
 				<td style="text-align:center"><span>${i.price}</span>원</td>
 				<td style="text-align:center"><span>${i.savepoint}원</span></td>
-				<td style="text-align:center"><input type="text" size="1" name="amount" id="amount" value="${i.amount}"readonly></td>
+				<td style="text-align:center"><input type="text" size="1" name="amount" id="amount" value="${i.amount}"readonly>
+											<input type="hidden" name="stock" value="${i.stock}" disabled>	
+				</td>
 				<td style="text-align:center"><button type="button" name="plus" onclick="fncnt('+',${status.count-1})"class="white">+</button>
 				<button type="button" name="minus" onclick="fncnt('-',${status.count-1})"class="white">-</button>
 				<button type="button" name="btnChange" class="white">변경</button></td>

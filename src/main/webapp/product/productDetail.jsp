@@ -43,7 +43,7 @@
 <script>
 	var num_rows = 0;
 	var new_row_num = 0;
-	function add_new_row(obj, cscode) {
+	function add_new_row(obj, cscode,stock) {
 		$("#num_rows").val(++num_rows);
 		var tag = ""
 		tag += "<tr bgcolor=\"#ffffff\" id=\"tr_id" + (new_row_num) + "\">\n";
@@ -51,6 +51,8 @@
 		tag += "<td>\n";
 		tag += "<input type=\"hidden\" name=\"cscode\" id=\"cma_num"
 				+ (new_row_num) + "\" value=\"" + (cscode) + "\" />\n";
+		tag += "<input type=\"hidden\" name=\"stock\" id=\"stock_num"
+				+ (new_row_num) + "\" value=\"" + (stock) + "\" />\n";
 		tag += "<input type=\"text\" class=\"ordernum\"name=\"amount\"  size='1' id=\"cma_text"
 				+ (new_row_num) + "\" value=\"1\" readonly/>개\n";
 		tag += "<button type=\"button\" class=\"white\"name=\"plus\" onclick=\"fncnt('+',"
@@ -78,7 +80,7 @@
 			alert("다른 상품을 선택해주세요.");
 			for (var i = 0; obj[i].className == "disabled"; i++)
 				;
-			obj.selectedIndex = i;
+			obj.selectedIndex = 0;
 			return;
 		}
 		else {
@@ -88,7 +90,11 @@
 					alert("상품이 이미 추가되어 있습니다.");return;
 				}
 			}
-			add_new_row('table_list', $("#selectoption").val());
+			var cscode = $("#selectoption").val();
+			var stock = document.getElementById(cscode).value;
+			add_new_row('table_list', $("#selectoption").val(),stock);
+			
+			
 		}
 
 	}
@@ -146,10 +152,10 @@
 			});
 	function fncnt(a, row_num) {
 		var now_num = parseInt($("#cma_text" + row_num).val());
-
-		if (a == "+" && now_num <= 10) {
-			if (now_num == 10) {
-				alert("1회 10개 구매 가능합니다.");
+		var now_stock = parseInt($("#stock_num" + row_num).val());
+		if (a == "+" && now_num <= now_stock) {
+			if (now_num == now_stock) {
+				alert("재고량보다 많습니다. 재고량["+now_stock+"개]");
 			} else {
 				$("#cma_text" + row_num).val(now_num + 1);
 
@@ -163,16 +169,7 @@
 		}
 
 	}
-	/* $("#btnBuy").click(function() {
-	 alert("bb");
-	
-	 //$("#frm").attr({method:'post',action:'/order.do'}).submit();
-	 });
-	 $("#btnCart").click(function() {
-	 alert("aaa");
-	 //$("#frm").attr({method:'post',action:'/addCart.do'}).submit();
 
-	 }); */
 </script>
 
 <style type="text/css">
@@ -220,12 +217,15 @@ p {
 	</tr>
 	<tr class="board">
 		<td>옵션</td>
+		<c:forEach var="i" items="${oplist }">
+		<input type="hidden" id="${i.seloption }" value="${i.amount }" disabled/> 
+		</c:forEach>
 		<td><select onchange="disableCheck(this)" id="selectoption">
 				<option class=disabled>옵션을 선택해주세요.</option>
 				<c:forEach var="i" items="${oplist }">
 					<option value="${i.seloption }"
-						<c:if test="${i.amount<10 }"> class=disabled</c:if>>${i.seloption }<c:if
-							test="${i.amount<10 }"> 품절</c:if></option>
+						<c:if test="${i.amount<1 }"> class=disabled</c:if>>${i.seloption }<c:if
+							test="${i.amount<1 }"> 품절</c:if></option>
 				</c:forEach>
 		</select></td>
 	</tr>
