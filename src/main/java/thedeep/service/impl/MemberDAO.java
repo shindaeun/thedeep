@@ -227,6 +227,7 @@ public class MemberDAO extends EgovAbstractDAO{
 	public String selectBuyConfirm(String ocode) {
 		return (String) select("memberDAO.selectBuyConfirm",ocode);
 	}
+
 	public String insertMemPoint(String userid) {
 		return (String) insert("memberDAO.insertMemPoint", userid);
 	}
