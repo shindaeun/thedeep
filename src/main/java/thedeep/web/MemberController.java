@@ -712,6 +712,7 @@ public class MemberController {
 			dvo.setDstate("구매확정");
 			cnt = adminService.updateDstate(dvo);
 		}
+		
 		return map;
 	}
 	
