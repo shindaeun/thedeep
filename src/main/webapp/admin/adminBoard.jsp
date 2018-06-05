@@ -111,9 +111,11 @@ p {
 <div>
 	<table class="board">
 		<tr class="board">
-			<th style="width: 10%;">NO</th>
-			<th width="50%">SUBJECT</th>
-			<th width="30%">DATE</th>
+			<th width="10%">NO</th>
+			<th width="30%">SUBJECT</th>
+			<th width="15%">WRITER</th>
+			<th width="15%">USERID</th>
+			<th width="20%">DATE</th>
 			<th width="10%">HIT</th>
 		</tr>
 		<c:forEach var="i" items="${qlist }" varStatus="status">
@@ -123,6 +125,8 @@ p {
 				<c:if test="${i.forder=='aa'}"><a href="/qnaReDetail.do?unq=${i.unq}">└ [re] ${i.title}</a></c:if>
 				<c:if test="${i.forder!='aa'}"><a href="/adminQnaDetail.do?unq=${i.unq}">${i.title}</a></c:if>
 				</td>
+				<td>${i.name}</td>
+				<td>${i.userid}</td>
 				<td>${i.rdate}</td>
 				<td>${i.hit}</td>
 			</tr>
@@ -200,8 +204,10 @@ p {
 	<table class="board">
 		<tr class="board">
 			<th width="10%">NO</th>
-			<th width="50%">SUBJECT</th>
-			<th width="30%">DATE</th>
+			<th width="30%">SUBJECT</th>
+			<th width="15%">WRITER</th>
+			<th width="15%">USERID</th>
+			<th width="20%">DATE</th>
 			<th width="10%">HIT</th>
 		</tr>
 		<c:forEach var="i" items="${rlist }" varStatus="status">
@@ -215,6 +221,8 @@ p {
       								[${i.cnt}]
       								</c:if></a>
 				</td>
+				<td>${i.name}</td>
+				<td>${i.userid}</td>
 				<td>${i.rdate}</td>
 				<td>${i.hit}</td>
 			</tr>

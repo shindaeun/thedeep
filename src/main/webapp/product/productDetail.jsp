@@ -39,11 +39,13 @@
 			x = (imgWidth * 350) / imgHeight;
 		}
 	}
+
+	
 %>
 <script>
 	var num_rows = 0;
 	var new_row_num = 0;
-	function add_new_row(obj, cscode,stock) {
+	function add_new_row(obj, cscode, stock) {
 		$("#num_rows").val(++num_rows);
 		var tag = ""
 		tag += "<tr bgcolor=\"#ffffff\" id=\"tr_id" + (new_row_num) + "\">\n";
@@ -82,19 +84,18 @@
 				;
 			obj.selectedIndex = 0;
 			return;
-		}
-		else {
+		} else {
 			var cscodes = document.getElementsByName("cscode");
-			for(var i=0;i<cscodes.length;i++){
-				if(cscodes[i].value==$("#selectoption").val()){
-					alert("상품이 이미 추가되어 있습니다.");return;
+			for (var i = 0; i < cscodes.length; i++) {
+				if (cscodes[i].value == $("#selectoption").val()) {
+					alert("상품이 이미 추가되어 있습니다.");
+					return;
 				}
 			}
 			var cscode = $("#selectoption").val();
 			var stock = document.getElementById(cscode).value;
-			add_new_row('table_list', $("#selectoption").val(),stock);
-			
-			
+			add_new_row('table_list', $("#selectoption").val(), stock);
+
 		}
 
 	}
@@ -117,19 +118,19 @@
 			var formData = $("#frm").serialize();
 			$.ajax({
 				type : "POST",
-				data: formData,
+				data : formData,
 				url : "/addCart.do",
 				success : function(data) {
 					if (data.result == "ok") {
 						alert("장바구니에 담겼습니다.");
-					}
-					else {
+					} else {
 						alert("장바구니에 담기 실패했습니다. 다시 시도해 주세요.");
 					}
 				},
-				error: function (request,status,error) {
-	            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	              }
+				error : function(request, status, error) {
+					alert("code:" + request.status + "\n" + "message:"
+							+ request.responseText + "\n" + "error:" + error);
+				}
 			});
 		}
 	}
@@ -155,7 +156,7 @@
 		var now_stock = parseInt($("#stock_num" + row_num).val());
 		if (a == "+" && now_num <= now_stock) {
 			if (now_num == now_stock) {
-				alert("재고량보다 많습니다. 재고량["+now_stock+"개]");
+				alert("재고량보다 많습니다. 재고량[" + now_stock + "개]");
 			} else {
 				$("#cma_text" + row_num).val(now_num + 1);
 
@@ -169,7 +170,6 @@
 		}
 
 	}
-
 </script>
 
 <style type="text/css">
@@ -218,7 +218,8 @@ p {
 	<tr class="board">
 		<td>옵션</td>
 		<c:forEach var="i" items="${oplist }">
-		<input type="hidden" id="${i.seloption }" value="${i.amount }" disabled/> 
+			<input type="hidden" id="${i.seloption }" value="${i.amount }"
+				disabled />
 		</c:forEach>
 		<td><select onchange="disableCheck(this)" id="selectoption">
 				<option class=disabled>옵션을 선택해주세요.</option>
@@ -235,38 +236,38 @@ p {
 			<form id="frm2">
 				<input type="hidden" name="pcode" value="${pvo.pcode }" /> <select
 					name="height" id="height">
-						<option value="140-145"
-							<c:if test="${vo.height=='140-145'}">selected</c:if>>140-145cm</option>
-						<option value="145-150"
-							<c:if test="${rvo.height=='145-150'}">selected</c:if>>145-150cm</option>
-						<option value="150-155"
-							<c:if test="${rvo.height=='150-155'}">selected</c:if>>150-155cm</option>
-						<option value="155-160"
-							<c:if test="${rvo.height=='155-160'}">selected</c:if>>155-160cm</option>
-						<option value="160-165"
-							<c:if test="${rvo.height=='160-165'}">selected</c:if>>160-165cm</option>
-						<option value="165-170"
-							<c:if test="${rvo.height=='165-170'}">selected</c:if>>165-170cm</option>
-						<option value="170-175"
-							<c:if test="${rvo.height=='170-175'}">selected</c:if>>170-175cm</option>
+					<option value="140-145"
+						<c:if test="${vo.height=='140-145'}">selected</c:if>>140-145cm</option>
+					<option value="145-150"
+						<c:if test="${rvo.height=='145-150'}">selected</c:if>>145-150cm</option>
+					<option value="150-155"
+						<c:if test="${rvo.height=='150-155'}">selected</c:if>>150-155cm</option>
+					<option value="155-160"
+						<c:if test="${rvo.height=='155-160'}">selected</c:if>>155-160cm</option>
+					<option value="160-165"
+						<c:if test="${rvo.height=='160-165'}">selected</c:if>>160-165cm</option>
+					<option value="165-170"
+						<c:if test="${rvo.height=='165-170'}">selected</c:if>>165-170cm</option>
+					<option value="170-175"
+						<c:if test="${rvo.height=='170-175'}">selected</c:if>>170-175cm</option>
 
 				</select> <select name="weight" id="weight">
-						<option value="40-45"
-							<c:if test="${vo.weight=='40-45'}">selected</c:if>>40-45kg</option>
-						<option value="45-50"
-							<c:if test="${rvo.weight=='45-50'}">selected</c:if>>45-50kg</option>
-						<option value="50-55"
-							<c:if test="${rvo.weight=='50-55'}">selected</c:if>>50-55kg</option>
-						<option value="55-60"
-							<c:if test="${rvo.weight=='55-60'}">selected</c:if>>55-60kg</option>
-						<option value="60-65"
-							<c:if test="${rvo.weight=='60-65'}">selected</c:if>>60-65kg</option>
-						<option value="65-70"
-							<c:if test="${rvo.weight=='65-70'}">selected</c:if>>65-70kg</option>
-						<option value="70-75"
-							<c:if test="${rvo.weight=='70-75'}">selected</c:if>>70-75kg</option>
-						<option value="75-80"
-							<c:if test="${rvo.weight=='75-80'}">selected</c:if>>75-80kg</option>
+					<option value="40-45"
+						<c:if test="${vo.weight=='40-45'}">selected</c:if>>40-45kg</option>
+					<option value="45-50"
+						<c:if test="${rvo.weight=='45-50'}">selected</c:if>>45-50kg</option>
+					<option value="50-55"
+						<c:if test="${rvo.weight=='50-55'}">selected</c:if>>50-55kg</option>
+					<option value="55-60"
+						<c:if test="${rvo.weight=='55-60'}">selected</c:if>>55-60kg</option>
+					<option value="60-65"
+						<c:if test="${rvo.weight=='60-65'}">selected</c:if>>60-65kg</option>
+					<option value="65-70"
+						<c:if test="${rvo.weight=='65-70'}">selected</c:if>>65-70kg</option>
+					<option value="70-75"
+						<c:if test="${rvo.weight=='70-75'}">selected</c:if>>70-75kg</option>
+					<option value="75-80"
+						<c:if test="${rvo.weight=='75-80'}">selected</c:if>>75-80kg</option>
 
 				</select> 구매 사이즈 : <select name="psize" id="psize">
 					<option value="S" <c:if test="${rvo.psize=='S'}">selected</c:if>>S</option>
@@ -293,7 +294,7 @@ p {
 						<c:if test="${i.fit=='VS'}">매우작음</c:if>
 					<div
 						style="width: ${100.0*i.cnt/i.total}%; height: 5px; background: skyblue; float: left;"></div>
-					<div style="width: 50px;">(${100.0*i.cnt/i.total}%)</div>
+					<div>${100.0*i.cnt/i.total}%(${i.cnt }표)</div>
 				</c:forEach>
 			</c:if></td>
 	</tr>
@@ -341,8 +342,9 @@ p {
 	<table class="board">
 		<tr class="board">
 			<th style="width: 10%;">NO</th>
-			<th width="50%">SUBJECT</th>
-			<th width="30%">DATE</th>
+			<th width="40%">SUBJECT</th>
+			<th width="20%">WRITER</th>
+			<th width="20%">DATE</th>
 			<th width="10%">HIT</th>
 		</tr>
 		<c:forEach var="i" items="${qlist }" varStatus="status">
@@ -350,14 +352,30 @@ p {
 				<td>${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}</td>
 				<td><p class="heading">${i.title}</p>
 					<div class="content">
-						<%
+						<c:set var="filenames" value="${i.filename}"></c:set>
+							<%
+							int i=0;
+							String[] filename1={};
+							String filenames1 = (String)pageContext.getAttribute("filenames");
+							if(filenames1 != null && !filenames1.equals("")) {
+								filename1= filenames1.split(",");
+							}
+							if(filenames1 != null) {
+								for(i=0; i<filename1.length; i++) {
+							%>
+							<img src="/qnaImages/<%=filename1[i]%>" width="<%=x%>" height="<%=y%>"><br>
+							<%
+								}
+							}
 							pageContext.setAttribute("newLine", "\n"); //Space, Enter
 								pageContext.setAttribute("br", "<br/>"); //br 태그
 						%>
-						${fn:replace(i.content,newLine,br)} <br>
+						${fn:replace(i.content,newLine,br)}<br>
 						<button type="button" class="white"
 							onClick="location.href='/qnaModify.do?unq=${i.unq}'">수정</button>
-					</div></td>
+				</div>
+				</td>
+				<td>${i.name}</td>
 				<td>${i.rdate}</td>
 				<td>${i.hit}</td>
 			</tr>
@@ -425,9 +443,10 @@ p {
 <div class="">
 	<table class="board">
 		<tr class="board">
-			<th width="10%">NO</th>
-			<th width="50%">SUBJECT</th>
-			<th width="30%">DATE</th>
+			<th style="width: 10%;">NO</th>
+			<th width="40%">SUBJECT</th>
+			<th width="20%">WRITER</th>
+			<th width="20%">DATE</th>
 			<th width="10%">HIT</th>
 		</tr>
 		<c:forEach var="i" items="${rlist }" varStatus="status">
@@ -441,15 +460,35 @@ p {
       								[${i.cnt}]
       								</c:if>
       								</p>
+						<c:if test="${i.filename!='0'}">
+							<img src="/icon/photo.JPG" width="23" height="18" />
+						</c:if>
+						<c:if test="${i.cnt!='0'}">
+      								[${i.cnt}]
+      								</c:if>
+					</p>
 					<div class="content">
-						<%
-							pageContext.setAttribute("newLine", "\n"); //Space, Enter
-								pageContext.setAttribute("br", "<br/>"); //br 태그
-						%>
+					<c:set var="filenames" value="${i.filename}"></c:set>
+							<%
+							int i=0;
+							String[] filename={};
+							String filenames = (String)pageContext.getAttribute("filenames");
+							if(filenames != null && !filenames.equals("")) {
+								filename= filenames.split(",");
+							}
+							if(filenames != null) {
+								for(i=0; i<filename.length; i++) {
+							%>
+							<img src="/reviewImages/<%=filename[i]%>" width="<%=x%>" height="<%=y%>"><br>
+							<%
+								}
+							}
+							%>
 						${fn:replace(i.content,newLine,br)}<br>
 						<button type="button" class="white"
 							onClick="location.href='/reviewModify.do?unq=${i.unq}'">수정</button>
 					</div></td>
+				<td>${i.name}</td>
 				<td>${i.rdate}</td>
 				<td>${i.hit}</td>
 			</tr>

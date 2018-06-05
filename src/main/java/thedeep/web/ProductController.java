@@ -90,7 +90,7 @@ public class ProductController {
 		ProductVO pvo = productService.selectProductInfo(pcode);
 		List<?> oplist = productService.selectSelOptions(pcode);
 		
-		
+		System.out.println(pvo.getMainfile());
 		String test =stringReplace(pvo.getEditor());
 		pvo.setEditor(test);
 		

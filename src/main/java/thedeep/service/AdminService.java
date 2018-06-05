@@ -75,5 +75,4 @@ public interface AdminService {
 	String selectCouponName(String ccode) throws Exception;
 
 
-
 }
