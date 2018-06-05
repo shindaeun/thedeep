@@ -15,13 +15,13 @@
 		pageContext.setAttribute("phone2", phone[1]);
 		pageContext.setAttribute("phone3", phone[2]);
 	
-/* 	String po = (String)pageContext.getAttribute("post");
+ 	String po = (String)pageContext.getAttribute("post");
 	 if(po !=null){
 		String[] post = po.split("/");
 		pageContext.setAttribute("postnum", post[0]);
 		pageContext.setAttribute("arr1", post[1]);
 		pageContext.setAttribute("arr2", post[2]); 
-	} */
+	} 
 	
 	String em = (String) pageContext.getAttribute("email");
 	
@@ -32,6 +32,23 @@
 %>
 
 <script type="text/javascript">
+//새로고침 방지
+function noRefresh()
+{
+ /* CTRL + N키 막음. */
+ if ((event.keyCode == 78) && (event.ctrlKey == true))
+ {
+     event.keyCode = 0;
+     return false;
+ }
+ /* F5 번키 막음. */
+ if(event.keyCode == 116)
+ {
+     event.keyCode = 0;
+     return false;
+ }
+}
+document.onkeydown = noRefresh ;
 
 $(function() {
 	
@@ -250,7 +267,7 @@ function sample6_execDaumPostcode() {
 	<input type="hidden" name="oemail" id="oemail" value="${vo.email }"/>
 	<input type="hidden" name="totalmoney" id="totalmoney" />
 	<input type="hidden" name="savepoint" id="savepoint" /> <input
-		type="hidden" name="payresult" id="payresult" value="입금전"/> <input
+		type="hidden" name="payresult" id="payresult" value="취소"/> <input
 		type="hidden" name="dpost" id="dpost" /> <input type="hidden"
 		name="dphone" id="dphone" />
 	<c:set var="sumprice" value="0" />

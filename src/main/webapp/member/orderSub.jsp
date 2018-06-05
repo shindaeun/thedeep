@@ -46,12 +46,12 @@ $(function() {
 	        msg += '결제 금액 : ' + rsp.paid_amount;
 	        msg += '카드 승인번호 : ' + rsp.apply_num;
 	        msg += 'pay_method : ' + rsp.pay_method;
-	        alert(msg);
 	        $("#frm2").attr({method:'post',action:'/orderComplete.do'}).submit();
 	    } else {
 	        var msg = '결제에 실패하였습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;
 	        alert(msg);
+	        location.href="/theDeep.do";
 	    }
     
     

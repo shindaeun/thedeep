@@ -207,7 +207,7 @@ if(filenames != null && !filenames.equals("")) {
 	<td>
 		<input type="hidden" name="content" id="content"/>
 		<input type="hidden" id="fid" name="fid" value="${vo.unq }">
-		이름<input type="text" id="admin"/>
+		이름<input type="text" id="admin" value="관리자"/>
 	</td>
 	</tr>
 	<tr>
