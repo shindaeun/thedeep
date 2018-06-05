@@ -122,16 +122,35 @@ $(function(){
 			$("#pwd").focus();
 			return;
 		}
-		if($('input:radio[id=gender]:checked').val()==undefined) {
-			alert("성별을 입력해주세요.");
-			$("#gender").focus();
+		
+		if($("#bir1").val() == "==" || $("#bir2").val() == "==" || $("#bir3").val() == "==") {
+			alert("생일을 입력해 주세요.");
+			$("#bir1").focus();
 			return;
 		}
+		
+		var birthday = $("#bir1").val();
+ 		if($("#bir2").val()<10) {
+ 			birthday += "-" + "0" + $("#bir2").val();
+ 		} else birthday += "-" + $("#bir2").val();
+ 		if($("#bir3").val()<10) {
+ 			birthday += "-" + "0" + $("#bir3").val();
+ 		} else birthday += "-" + $("#bir3").val();
+ 		
+ 		$("#birthday").val(birthday);
+		
 		if($("#birthday").val() == $("#today").val()) {
 			alert("생일이 올바르지 않습니다.");
 			$("#birthday").focus();
 			return;
 		}
+		
+		if($('input:radio[id=gender]:checked').val()==undefined) {
+			alert("성별을 입력해주세요.");
+			$("#gender").focus();
+			return;
+		}
+		
 		if($("#email1").val() == "") {
 			alert("이메일을 입력해주세요.");
 			$("#email1").focus();
@@ -175,15 +194,6 @@ $(function(){
 	 		var email  = $("#email1").val();
 	 			email += "@" + $("#email2").val();
 	 		$("#email").val(email);
-	 		
-	 		var birthday = $("#bir1").val();
-	 		if($("#bir2").val()<10) {
-	 			birthday += "-" + "0" + $("#bir2").val();
-	 		} else birthday += "-" + $("#bir2").val();
-	 		if($("#bir3").val()<10) {
-	 			birthday += "-" + "0" + $("#bir3").val();
-	 		} else birthday += "-" + $("#bir3").val();
-	 		$("#birthday").val(birthday);
 	 		
 	 		var formData = $("#frm").serialize();
 	 		// 비 동기 전송
@@ -273,16 +283,19 @@ $(function(){
 		<th class="head">생일</th>
 		<td align="left" style="padding:5px;">
 		<select name="bir1" id="bir1">
+			<option value="==">년도</option>
 			<c:forEach var="i" begin="1970" end="2017">
 			<option value="${i}">${i}</option>
 			</c:forEach>
 		</select>
 		<select name="bir2" id="bir2">
+			<option value="==">월</option>
 			<c:forEach var="i" begin="1" end="12">
 			<option value="${i}">${i}</option>
 			</c:forEach>
 		</select>
 		<select name="bir3" id="bir3">
+			<option value="==">일</option>
 			<c:forEach var="i" begin="1" end="31">
 			<option value="${i}">${i}</option>
 			</c:forEach>
