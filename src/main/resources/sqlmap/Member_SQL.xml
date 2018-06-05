@@ -406,8 +406,7 @@
 	</select>
 	<select id="memberDAO.selectOcodeNext" resultClass="java.lang.String">
 	 <![CDATA[
-	select 'ODR'|| lpad(order_seq.nextval,5,'0') ocode
-	from dual
+	select makeOcode from dual
 	 ]]>
 	</select>
 	<select id="memberDAO.selectOrderInfo" resultClass="orderVO">
@@ -420,7 +419,7 @@
 	<select id="memberDAO.selectOrderList" resultClass="java.lang.String">
 	 <![CDATA[
 	select list 
-	from(select rownum,pname||' 外 '|| (count(ocode)over()-1) ||'개' list 
+	from(select rownum,decode(count(ocode)over(),1,pname,pname||' 外 '|| (count(ocode)over()-1) ||'개') list 
 		from orderlist l,product p 
 		where l.cscode = p.cscode and ocode=upper(#ocode#))
 	where rownum=1

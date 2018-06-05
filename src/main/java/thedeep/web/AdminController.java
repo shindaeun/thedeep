@@ -315,7 +315,7 @@ public class AdminController {
 			searchVO.setDstate4("배송중");
 			searchVO.setDstate5("배송완료");
 			searchVO.setDstate6("취소");
-			searchVO.setDstate6("구매확정");
+			searchVO.setDstate7("구매확정");
 			
 		}
 		/** pageing setting */
