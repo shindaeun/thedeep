@@ -84,7 +84,7 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 		return adminDAO.deleteQnaRe(bvo);
 	}
 
-
+	@Override
 	public List<?> selectOrderList(DefaultVO searchVO) throws Exception {
 		return adminDAO.selectOrderList(searchVO);
 	}
