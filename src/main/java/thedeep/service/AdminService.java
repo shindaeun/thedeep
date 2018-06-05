@@ -67,6 +67,8 @@ public interface AdminService {
 
 	int deleteAdminCoupon(String ccode) throws Exception;
 
+	int deleteReviewReply(String unq) throws Exception;
+
 
 
 }
