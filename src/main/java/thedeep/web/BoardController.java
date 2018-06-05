@@ -121,6 +121,7 @@ public class BoardController {
 		
 		vo.setUserid(userid);
 		String pcode = vo.getPcode();
+		System.out.println("pcode  :  " + pcode);
 		if(pcode==null||pcode=="") {
 			pcode = null;
 			vo.setPcode(pcode);
