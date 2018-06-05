@@ -121,7 +121,7 @@ p {
 				<td>${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}</td>
 				<td>
 				<c:if test="${i.forder=='aa'}"><a href="/qnaReDetail.do?unq=${i.unq}">└ [re] ${i.title}</a></c:if>
-				<c:if test="${i.forder!='aa'}"><a href="/qnaDetail.do?unq=${i.unq}">${i.title}</a></c:if>
+				<c:if test="${i.forder!='aa'}"><a href="/adminQnaDetail.do?unq=${i.unq}">${i.title}</a></c:if>
 				</td>
 				<td>${i.rdate}</td>
 				<td>${i.hit}</td>

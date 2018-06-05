@@ -13,41 +13,24 @@
 <%@ page import="java.awt.Image" %>
 <%@ page import="javax.swing.ImageIcon" %>
 
+<%
+String unq = request.getParameter("unq");
+%>
+
 <script>
 $(function(){
 	$("#btnList").click(function() {
 		location.href="/adminBoard.do";
 	});
+	
 	$("#btnModify").click(function() {
-		if(    $("#pwd").val().length < 4 
-				|| $("#pwd").val().length > 12 )
-			{
-				alert("암호를 입력해주세요 (4~12자)");
-				$("#pwd").focus();
-				return;
-			}
- 		var formData = $("#frm").serialize();
- 		// 비 동기 전송
-		$.ajax({
-			type: "POST",
-			data: formData,
-			url: "/qnaRePwdChk.do",
-			success: function(data) {
-				if(data.result == "ok") {
-					location.href="/qnaReModify.do";
-					var form = document.frm;
-					form.method = "post";
-					form.action = "/qnaReModify.do";
-					form.submit();
-				} else {
-					alert("패스워드가 일치하지 않습니다.");	
-				}
-			},
-			error: function () {
-				alert("오류발생 ");
-			}
-		}); 	
+			location.href="/qnaModify.do";
+			var form = document.refrm;
+			form.method = "post";
+			form.action = "/qnaModify.do";
+			form.submit();
 	});
+	
 	$("#btnDelete").click(function(){
 		if(    $("#pwd").val().length < 4 
 			|| $("#pwd").val().length > 12 )
@@ -62,7 +45,7 @@ $(function(){
 			$.ajax({
 				type: "POST",
 				data: formData,
-				url: "/qnaReDelete.do",
+				url: "/qnaDelete.do",
 				success: function(data) {
 					if(data.result == "ok") {
 						alert("삭제하였습니다.");
@@ -79,6 +62,15 @@ $(function(){
 			}); 
 		}
 	});
+	
+	/* 답글은 관리자만 허용 */
+	$("#btnReboard").click(function() { 
+		location.href="/qnaReply.do";
+		var form = document.refrm;
+		form.method = "post";
+		form.action = "/qnaReply.do";
+		form.submit();
+	});
 });
 </script>
 
@@ -88,24 +80,73 @@ $(function(){
 	</tr>
 </table>
 
-<form name="frm" id="frm">
+<form name="refrm" id="refrm">
 <input type="hidden" id="unq" name="unq" value="${vo.unq}"/>
+<input type="hidden" id="repwd" name="repwd" value="${vo.pwd}"/>
+</form>
+
+<form name="frm" id="frm">
 <table class="board">
 	<tr class="board">
-		<th style="height:20%;" class="head">title</th>
+		<th style="height:30px;" class="head">title</th>
 		<td style="text-align:left; padding:5px;">
 		${vo.title}
 		</td>
 	</tr>
 	<tr class="board">
-		<th class="head" >name</th>
+		<th class="head" style="height:30px;" >name</th>
 		<td style="text-align:left; padding:5px;">
 		${vo.name}
 		</td>
 	</tr>
+	<c:set var="filenames" value="${vo.filename}"></c:set>
+
+<%
+int x=0,y=0,i=0;
+String[] filename={};
+String filenames = (String)pageContext.getAttribute("filenames");
+if(filenames != null && !filenames.equals("")) {
+	filename= filenames.split(",");
+	for(i=0; i<filename.length; i++) {
+		File file = new File("C:/Users/acorn/workspace/thedeep/src/main/webapp/qnaImages/"+filename[i]);
+		BufferedImage img = ImageIO.read(file);
+		int imgWidth = img.getWidth(null);
+		int imgHeight = img.getHeight(null);
+		if(imgWidth > imgHeight) {
+			x = 400;
+			y = (imgHeight * x) / imgWidth;
+		} else if(imgWidth < imgHeight) {
+			y = 400;
+			x = (imgWidth * y) / imgHeight;
+		} else {
+			x=400;
+			y=400;
+		}
+	}
+
+}
+/*
+ // 1024(넓이)/768(높이)
+ // 1024:768 = 100:y
+ // int y = 768 * 100 / 1024
+ // int y = (imgHeight * 100) / imgWidth
+*/
+%>
+	
+	
 	<tr class="board">
 		<th class="head">content</th>
 		<td style="text-align:left;height:150px">
+		<%
+		if(filenames != null && !filenames.equals("")) {
+			for(i=0; i<filename.length; i++) {
+		%>
+		<img src="/qnaImages/<%=filename[i]%>" width="<%=x%>" height="<%=y%>"><br>
+		<%
+			}
+		}
+		%>
+		<br>
 		<% 
       	pageContext.setAttribute("newLine","\n"); //Space, Enter
       	pageContext.setAttribute("br", "<br/>"); //br 태그
@@ -113,24 +154,28 @@ $(function(){
 		${fn:replace(vo.content,newLine,br)}
 		</td>
 	</tr>
-	<c:if test="${login==1}">
 	<tr class="board">
 		<th class="head">password</th>
 		<td style="text-align:left; padding:5px;">
-		 <input type="password" id="pwd" name="pwd" placeholder="관리자ID 비밀번호 입력"/>
+		 <input type="password" id="pwd" name="pwd"/>
+		 <input type="hidden" id="unq" name="unq" value="${vo.unq}"/>
+		 <input type="hidden" id="fid" name="fid" value="${vo.fid}"/>
+		 <input type="hidden" id="filename" name="filename" value="${vo.filename}"/>
 		</td>
 	</tr>
-	</c:if>
 </table>
 <table style="width:100%">
 	<tr>
 		<th style="width:90%">
 		<button type="button" id="btnList" class="white">목록</button>&nbsp;
-		<c:if test="${login==1}">
 		<button type="button" id="btnModify" class="white">수정</button>&nbsp;
 		<button type="button" id="btnDelete" class="white">삭제</button>
-		</c:if>
 		</th>
+		<td style="text-align:right; width:10%">
+		<c:if test="${login==1}">
+		<button type="button" id="btnReboard" class="white">답글</button>
+		</c:if>
+		</td>
 	</tr>
 </table>
 </form>

@@ -1533,4 +1533,29 @@ public class AdminController {
 		map.put("errCode", errCode);
 		return map;
 	}
+	
+	@RequestMapping(value="/adminQnaDetail.do")
+	public String selectQnaDetail(BoardVO vo,ModelMap model,HttpServletRequest request) throws Exception{
+		
+		int unq = vo.getUnq();
+		boardService.updateQnaHit(unq);
+		vo = boardService.selectQnaDetail(unq);
+		model.addAttribute("vo", vo);
+		
+		String a12 = null;
+		try {
+			HashMap a = (HashMap) request.getSession().getAttribute("ThedeepALoginCert");
+			System.out.println("adminid  :  " + a.get("ThedeepAUserId"));
+			a12=(String) a.get("ThedeepAUserId");
+		} catch(Exception e) { }
+		
+		int login = 1;
+		if(a12==null) {
+			login = 2;
+		}
+		
+		model.addAttribute("login", login);
+		
+		return "admin/adminQnaDetail";
+	}
 }

@@ -14,10 +14,10 @@ $(function() {
 
 					success: function(data) {
 						if(data.result == "ok") {
-							location.href = "/qnaReDetail.do";
+							location.href = "/UqnaReDetail.do";
 							var form = document.frm;
 							form.method = "post";
-							form.action = "/qnaReDetail.do";
+							form.action = "/UqnaReDetail.do";
 							form.submit();
 						} else {
 							alert("비밀번호가 일치하지 않습니다");

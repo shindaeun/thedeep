@@ -57,7 +57,7 @@ $(function() {
 				
 				success: function(data) {
 					if(data.result == "ok") {
-						alert("저장하였습니다.\n\n("+data.cnt+")개의 파일 저장");
+						alert("저장하였습니다.");
 						if(data.errCode == "-1") {
 							alert("첨부파일을 확인해주세요. 확장명 오류");
 						} else if(data.errCode == "0") {
