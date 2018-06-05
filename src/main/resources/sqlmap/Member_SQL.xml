@@ -532,7 +532,7 @@
 	</insert>
 	
 	<select id="memberDAO.selectMemberPoint" resultClass="java.lang.Integer">
-		SELECT savepoint point
+		SELECT ablepoint point
 		FROM point p, (SELECT MAX(rdate) rdate FROM point WHERE userid=#userid#) r
 		WHERE p.rdate = r.rdate
 	</select>

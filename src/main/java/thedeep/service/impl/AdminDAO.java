@@ -160,13 +160,6 @@ public class AdminDAO extends EgovAbstractDAO {
 		return (String) select("adminDAO.selectCouponName", ccode);
 	}
 
-	public String insertAdminCouponOut(CheckVO cvo) {
-		return (String) insert("adminDAO.insertAdminCouponOut", cvo);
-	}
-
-	public String selectCouponName(String ccode) {
-		return (String) select("adminDAO.selectCouponName", ccode);
-	}
 
 
 }
