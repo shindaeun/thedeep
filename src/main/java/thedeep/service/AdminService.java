@@ -75,9 +75,6 @@ public interface AdminService {
 	String selectCouponName(String ccode) throws Exception;
 
 
-	String insertAdminCouponOut(CheckVO cvo) throws Exception;
-
-	String selectCouponName(String ccode) throws Exception;
 
 
 

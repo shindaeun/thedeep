@@ -103,6 +103,44 @@ $(function(){
 		${vo.name}
 		</td>
 	</tr>
+<<<<<<< HEAD:src/main/webapp/admin/qnaReDetail.jsp
+=======
+	<c:set var="filenames" value="${vo.filename}"></c:set>
+
+<%
+int x=0,y=0,i=0;
+String[] filename={};
+String filenames = (String)pageContext.getAttribute("filenames");
+if(filenames != null && !filenames.equals("")) {
+	filename= filenames.split(",");
+	for(i=0; i<filename.length; i++) {
+		File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/qnaImages/"+filename[i]);
+		BufferedImage img = ImageIO.read(file);
+		int imgWidth = img.getWidth(null);
+		int imgHeight = img.getHeight(null);
+		if(imgWidth > imgHeight) {
+			x = 400;
+			y = (imgHeight * x) / imgWidth;
+		} else if(imgWidth < imgHeight) {
+			y = 400;
+			x = (imgWidth * y) / imgHeight;
+		} else {
+			x=400;
+			y=400;
+		}
+	}
+
+}
+/*
+ // 1024(넓이)/768(높이)
+ // 1024:768 = 100:y
+ // int y = 768 * 100 / 1024
+ // int y = (imgHeight * 100) / imgWidth
+*/
+%>
+	
+	
+>>>>>>> qna 수정 완:src/main/webapp/admin/adminQnaDetail.jsp
 	<tr class="board">
 		<th class="head">content</th>
 		<td style="text-align:left;height:150px">
