@@ -147,5 +147,9 @@ public class AdminDAO extends EgovAbstractDAO {
 		return delete("adminDAO.deleteAdminCoupon", ccode);
 	}
 
+	public int deleteReviewReply(String unq) {
+		return delete("adminDAO.deleteReviewReply", unq);
+	}
+
 
 }

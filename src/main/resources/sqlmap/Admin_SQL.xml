@@ -190,8 +190,11 @@
 	</select>
 
 	<insert id="adminDAO.insertReviewReply">
-		insert into reviewReply values(#fid#,#content#,sysdate)
+		insert into reviewReply values(#fid#,#content#,sysdate,review_seq.nextval)
 	</insert>
+	<delete id="adminDAO.deleteReviewReply">
+	 delete from reviewreply where unq=#unq#
+	</delete>
 	<insert id="adminDAO.insertAdmin">
 		INSERT INTO admininfo
 		( adminid

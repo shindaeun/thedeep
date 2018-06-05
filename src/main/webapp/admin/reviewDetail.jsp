@@ -56,6 +56,27 @@ $(function(){
 		
 	});
 });
+function fnDelete(unq){
+	var param = "unq="+unq;
+	$.ajax({
+		type : "POST",
+		data: param,
+		url : "/reviewReplyDelete.do",
+		success : function(data) {
+			if (data.result == "ok") {
+				alert("삭제하였습니다.");
+				location.href = "/reviewDetailAdmin.do?unq=${vo.unq}";
+			}
+			else {
+				alert("삭제 실패했습니다. 다시 시도해 주세요.");
+			}
+		},
+		error: function (request,status,error) {
+        	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+          }
+	});
+	
+}
 </script>
 <table class="top">
 		<tr class="top">
@@ -171,7 +192,9 @@ if(filenames != null && !filenames.equals("")) {
 	<tr><td>
 	<c:forEach var="i" items="${rlist}" varStatus="status">
 			<tr class="board">
-				<td>${fn:replace(i.content,newLine,br)}<br><br></td>
+				<td>${fn:replace(i.content,newLine,br)}<br><br>
+					<button type="button" class="white" onclick="fnDelete(${i.unq})">삭제</button>
+				</td>
 			</tr>
 	</c:forEach>
 	</td></tr>

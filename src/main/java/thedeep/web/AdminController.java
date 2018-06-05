@@ -235,6 +235,18 @@ public class AdminController {
 		model.addAttribute("rlist", rlist);
 		return "admin/reviewDetail";
 	}
+	@RequestMapping(value="/reviewReplyDelete.do")
+	 @ResponseBody
+	public Map<String,Object> reviewReplyDelete(AdminVO vo, HttpServletRequest request) throws Exception {
+		String result="fail";
+		String unq = request.getParameter("unq");
+		Map<String,Object> map = new HashMap<String, Object>();
+		int cnt = adminService.deleteReviewReply(unq);
+		if(cnt>0)result="ok";
+		map.put("result", result);
+		
+		return map;
+	}
 	@RequestMapping(value="/adminList.do")
 	public String selectAdminList(@ModelAttribute("searchVO") DefaultVO searchVO, ModelMap model) throws Exception{
 		

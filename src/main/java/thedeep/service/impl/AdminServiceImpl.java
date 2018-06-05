@@ -178,6 +178,11 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 		return adminDAO.deleteAdminCoupon(ccode);
 	}
 
+	@Override
+	public int deleteReviewReply(String unq) throws Exception {
+		return adminDAO.deleteReviewReply(unq);
+	}
+
 
 
 	

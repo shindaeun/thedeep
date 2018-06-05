@@ -18,7 +18,6 @@
 		$("#btnConfirm").click(
 				function() {
 					var ocode = $(this).parent().parent().children().eq(0).text();
-					alert(ocode);
 					var param = "dstate=배송완료&ocode=" + ocode;
 					$.ajax({
 						type : "POST",
@@ -42,7 +41,6 @@
 		$("#buyConfirm").click(
 				function() {
 					var ocode = $(this).parent().parent().parent().children().eq(1).children().eq(0).text();
-					alert(ocode);
 					var pcode = $(this).parent().children().eq(0).val();
 					var param = "pcode="+pcode+"&ocode=" + ocode;
 					$.ajax({
