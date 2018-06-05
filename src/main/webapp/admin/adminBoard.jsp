@@ -80,7 +80,7 @@ p {
 
 <table class="top">
 	<tr class="top">
-		<td class="top">board</td>
+		<td class="top">게시판목록조회</td>
 	</tr>
 </table>
 <form id="form1">

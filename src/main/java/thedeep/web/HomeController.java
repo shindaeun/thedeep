@@ -75,14 +75,17 @@ public class HomeController {
 		}
 		
 		model.addAttribute("happyBTD", happyBTD);
-		
-		
 		String result= productService.selectVisitor();
 		if(result==null || result.equals("")){
 			String result2= productService.insertVisitor();
 		} else {
 			int cnt = productService.updateVisitor();
 		}
+		return "home/theDeep";
+	}
+	@RequestMapping(value="/theDeepAdmin.do")
+	public String selectEmpList1(ModelMap model, HttpServletRequest request) throws Exception{
+		
 		List<?> visitorlist = productService.selectVisitorList();
 		model.addAttribute("visitorlist",visitorlist);
 		
@@ -92,10 +95,6 @@ public class HomeController {
 		int today2 = productService.selectVisitorToday();
 		model.addAttribute("today",today2);
 		
-		return "home/theDeep";
-	}
-	@RequestMapping(value="/theDeepAdmin.do")
-	public String selectEmpList1(HttpServletRequest request) throws Exception{
 		return "adminHome/theDeepAdmin";
 	}
 	

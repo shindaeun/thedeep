@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 import java.util.Map.Entry;
 
@@ -46,6 +47,7 @@ import thedeep.service.ProductService;
 import thedeep.service.ProductVO;
 import thedeep.service.MemberService;
 import thedeep.service.MemberVO;
+import thedeep.service.NoticeVO;
 import thedeep.service.OrderVO;
 import thedeep.service.ReviewReplyVO;
 import thedeep.service.ReviewVO;
@@ -1154,5 +1156,287 @@ public class AdminController {
 
 	    return "redirect:" + callback + "?callback_func="+callback_func+file_result;
 
+	}
+	
+	@RequestMapping(value="/adminNoticeWrite.do")
+	public String selectNoticeWrite() throws Exception{
+		return "admin/adminNoticeWrite";
+	}
+	
+	@RequestMapping(value = "/adminNoticeWriteSave.do")
+	@ResponseBody 
+	public Map<String, String> noticeWriteSave (
+					final MultipartHttpServletRequest multiRequest,
+					HttpServletResponse response, 
+					NoticeVO vo,
+					ModelMap model) throws Exception {
+
+		Map<String, String> map = new HashMap<String, String>();
+		Map<String, MultipartFile> files = multiRequest.getFileMap();
+		
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\noticeImages";
+		
+		//String uploadPath = "c:\\upload";
+		File saveFolder = new File(uploadPath);
+		if (!saveFolder.exists()) {
+			saveFolder.mkdirs();
+		}
+
+		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
+
+		vo.setFilename((String) imap.get("fileName"));
+
+		String result = boardService.insertnotice(vo);
+		if(result == null) result = "ok";
+		map.put("result", result);  //  ( Json 이름, 데이터 )
+		map.put("cnt", (String) imap.get("cnt")); // 0,1
+		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
+		// Json =>  result=ok&cnt=1
+		
+		return map;
+	}
+	
+	@RequestMapping(value = "/adminNoticeDelete.do")
+	@ResponseBody 
+	public Map<String, Object> deleteNotice(
+			HttpServletRequest request,
+			HttpServletResponse response, 
+			NoticeVO vo) throws Exception {
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\noticeImages";
+		String fullPath = "", result="";
+		
+		int cnt = boardService.deleteNotice(vo);
+		if(cnt > 0) {
+			String filenames = vo.getFilename();
+			String[] filename = filenames.split(",");
+			for(int i=0; i<filename.length; i++) {
+				fullPath = uploadPath+"\\"+filename[i];
+				File file = new File(fullPath);
+				file.delete();
+			}
+			result="ok";
+		}
+		map.put("result", result);
+		map.put("cnt", cnt);
+		return map;
+	}
+
+	@RequestMapping(value="/adminNoticeList.do")
+	public String selectNoticeList(
+			@ModelAttribute("searchVO") DefaultVO searchVO,ModelMap model,HttpServletRequest request) 
+				throws Exception {
+
+		/** EgovPropertyService.sample */
+		/* context-properties.xml */
+		searchVO.setPageUnit(10); // 한화면의 출력 개수
+		searchVO.setPageSize(10); // 페이지 너버 개수
+
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<?> sampleList = boardService.selectNoticeList(searchVO);
+		model.addAttribute("resultList", sampleList);
+
+		int totCnt = boardService.selectNoticeListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		
+		String AUserid = null;
+		int login;
+		try {
+			HashMap a = (HashMap) request.getSession().getAttribute("ThedeepALoginCert");
+			AUserid=(String) a.get("ThedeepAUserId");
+			login = 1;
+		} catch(Exception e) {
+			login = 2;
+		}
+		
+		model.addAttribute("login", login);
+		
+		return "admin/adminNoticeList";
+	}
+	
+	@RequestMapping(value="/adminNoticeDetail.do")
+	public String selectNoticeDetail(NoticeVO vo,ModelMap model) throws Exception {
+		
+		int unq = vo.getUnq();
+		boardService.updateNoticeHit(unq);
+		vo = boardService.selectNoticeDetail(unq);
+		model.addAttribute("vo", vo);
+		
+		return "admin/adminNoticeDetail";
+	}
+	
+	@RequestMapping(value="/adminNoticeModify.do")
+	public String noticewModify(NoticeVO vo,ModelMap model) 
+				throws Exception {
+		
+		int unq = vo.getUnq();
+		
+		vo = boardService.selectNoticeDetail(unq);
+		model.addAttribute("vo", vo);
+		
+		return "admin/adminNoticeModify";
+	}
+	
+	@RequestMapping(value = "/adminNoticeFileDelete.do")
+	@ResponseBody 
+	public Map<String,Object> updateNoticeFile (ReviewVO vo) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\noticeImages";
+		String fullPath = "";
+		String result = "";
+		String filename=vo.getFilename();
+		String delfilename=vo.getDelfilename();
+		
+		
+		filename=filename.replace(delfilename,"");
+		vo.setFilename(filename);
+		
+		int cnt = boardService.updateNoticeFile(vo);
+
+		if(cnt > 0) {
+			String[] splitfilename = delfilename.split(",");
+			for(int i=0; i<splitfilename.length; i++) {
+				fullPath = uploadPath+"\\"+splitfilename[i];
+				File file = new File(fullPath);
+				file.delete();
+			}
+			result="1";
+		}
+		else {
+			result = "-1";
+		}
+
+		map.put("result", result);
+		return map;
+	}
+	
+	@RequestMapping(value = "/adminNoticeModifySave.do")
+	@ResponseBody 
+	public Map<String, String> updateNoticeModify (
+						final MultipartHttpServletRequest multiRequest,
+						HttpServletResponse response, 
+						NoticeVO vo,
+						ModelMap model) throws Exception {
+
+		Map<String, String> map = new HashMap<String, String>();
+		Map<String, MultipartFile> files = multiRequest.getFileMap();
+		String result="";
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\noticeImages";
+		
+		//String uploadPath = "c:\\upload";
+		File saveFolder = new File(uploadPath);
+		if (!saveFolder.exists()) {
+			saveFolder.mkdirs();
+		}
+		
+		String nowfilename = boardService.selectNoticeNowFilename(vo.getUnq());
+		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
+		
+		if(nowfilename==null) {
+			vo.setFilename((String) imap.get("fileName"));
+		} else {
+			vo.setFilename((String) nowfilename+imap.get("fileName"));
+		}
+		System.out.println(vo.getFilename());
+		
+		int cnt = boardService.updateNotice(vo);
+		if(cnt > 0) result = "ok";
+		map.put("result", result);  //  ( Json 이름, 데이터 )
+		map.put("cnt", (String) imap.get("cnt")); // 0,1
+		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
+		// Json =>  result=ok&cnt=1
+		
+		return map;
+	}
+	public static Map multipartProcess (Map files,String uploadPath) {
+		MultipartFile file;
+		String filePath = "";
+		int cnt = 0;
+		Map<String,String> map = new HashMap();
+		
+		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
+
+		String filename = "";
+		String filenames = "";
+		int filesize = 0;
+		String errCode = "";
+		String exeName = "";
+		
+		while (itr.hasNext()) {
+			Entry<String, MultipartFile> entry = itr.next();
+			file = entry.getValue();
+			if (!"".equals(file.getOriginalFilename())) {
+
+				String realFile = file.getOriginalFilename();
+
+				if(realFile.lastIndexOf(".") == -1) {
+					errCode = "-1";
+				}  else {
+					String[] array = realFile.split("\\.");
+					exeName = array[array.length-1];
+					exeName = exeName.toLowerCase();
+					if(    !exeName.equals("jpg") 
+					    && !exeName.equals("jpeg") 
+					    && !exeName.equals("gif") 
+					    && !exeName.equals("bmp")
+					    && !exeName.equals("png"))
+					{
+						errCode = "0";
+					} else {
+						if(file.getSize() > 1024*1024*5) {
+							errCode = "1";
+						}
+					}
+				}
+				long unixTime = System.currentTimeMillis();
+				Random rn = new Random();
+				int b = rn.nextInt(90);
+
+				if(errCode.equals("")) {
+					System.out.println(errCode);
+					filename = unixTime+b+"."+exeName;
+					filenames += filename + ",";
+					filePath = uploadPath + "\\" + filename;
+					filesize = (int)file.getSize();
+					String targetPath = uploadPath + "\\" + unixTime+"_1."+exeName;
+					// 물리적인 파일 저장 -> transferTo
+					try {
+						file.transferTo(new File(filePath));
+						
+						//imeCreate(uploadPath,unixTime+"",exeName,100);
+						//imeCreate(uploadPath,unixTime+"",exeName,80);
+						
+						//imageResize(uploadPath,unixTime+"",exeName,100);
+						//imageResize(uploadPath,unixTime+"",exeName,80);
+						
+						cnt++;
+						
+						// Thumbnail (썸네일) 이미지 생성
+						// (현재파일경로,New파일경로,타입,크기)
+						//imageResize(filePath,targetPath,"jpg",70);
+						
+					} catch(Exception e) {
+						errCode = "2";
+					}
+				}	
+			}
+		}
+		map.put("fileName", filenames);
+		map.put("fileSize", filesize+"");
+		map.put("cnt", cnt+"");
+		map.put("errCode", errCode);
+		return map;
 	}
 }

@@ -23,28 +23,6 @@
 <script src="/js/jquery-ui.js"></script>
 
 <script type="text/javascript">
-$( document ).ready(function() {
-	var values = [];
-    $.ajax({
-		type : "POST",
-		url : "/Group.do",
-		success : function(data) {
-			if (data.result == "ok") {
-				values = data.glist;
-				$.each(values, function( index, value ) {
-					document.getElementById('pgnav').innerHTML += '<a href="/productList.do?gcode='+value.gcode+'" class="nav-link-14 w-nav-link">'+value.gname+'</a>';
-	              });
-			}
-			else {
-				alert("실패했습니다. 다시 시도해 주세요.");
-			}
-		},
-		error: function (request,status,error) {
-        	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-          }
-	});
-    
-});
 	 !function(o, c) {
 		var n = c.documentElement, t = " w-mod-";
 		n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch

@@ -111,27 +111,6 @@ background: white;
 			</c:if>
 		</tr>
 	</table>
-	
-	<table border="3">
-		<tr>
-			<th>TOTAL&nbsp;&nbsp;:&nbsp;${total}명</th>
-		</tr>
-		
-		<tr>
-			<th>TODAY&nbsp;:&nbsp;${today}명</th>
-		</tr>
-	</table>
-	
-	<table>
-		<c:forEach var="i" items="${visitorlist}">
-		<tr height= "40px" width="100%">
-			<td>${i.rdate}</td><td><span style="width: ${i.hit/10.0}px; height: 20px; background: skyblue; float: left;"></span>${i.hit}</td>
-		</tr>
-		</c:forEach>
-		
-	</table>
-	
-	
 	</div>
 </div>
 

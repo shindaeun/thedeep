@@ -1,33 +1,106 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<c:if test="${sessionScope.ThedeepALoginCert.ThedeepAUserId == null}">
+<script>
+$(function(){
+	$("#btnLogin").click(function(){
+		if($("#adminid").val() == "") {
+			alert("아이디를 입력해주세요.");
+			$("#adminid").focus();
+			return;
+		}
+		if($("#pwd").val() == "") {
+			alert("비밀번호를 입력해주세요.");
+			$("#pwd").focus();
+			return;
+		}
+		var formData = $("#frm").serialize();
+		$.ajax({
+			type: "POST",
+			data: formData,
+			url: "/adminLoginCert.do",
+			
+			success: function(data) {
+				if(data.result == "ok") {
+					alert("로그인 되었습니다.");
+					location.href="/theDeepAdmin.do";
+				} else if(data.result == "-1") {
+					alert("아이디와 패스워드가 일치하지 않습니다.");
+				}
+			},
+			error: function(error) {
+				alert("error : " + error);
+			}
+		});	
+	});
+});
+</script>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.0.min.js" ></script>
-<script src="/js/jquery-1.12.4.js"></script>
-<script src="/js/jquery-ui.js"></script>
-<div class="w-container">
-	<div data-delay="4000" data-animation="slide" data-autoplay="1"
-		data-duration="500" data-infinite="1" class="slider-3 w-slider">
-		<div class="w-slider-mask">
-			<div class="slide-6 w-slide"></div>
-			<div class="slide-8 w-slide"></div>
-			<div class="slide-7 w-slide"></div>
-		</div>
-		<div class="w-slider-arrow-left">
-			<div class="w-icon-slider-left"></div>
-		</div>
-		<div class="w-slider-arrow-right">
-			<div class="w-icon-slider-right"></div>
-		</div>
-		<div class="w-slider-nav w-round"></div>
-	</div>
-	<br>
+<style>
+div.a {
+	font-size:13pt;
+	font-weight: bold;
+	color: #646464;	
+	text-align: center;
+	margin-top: 100px;
+}
+tr.login {
+	border-bottom: 2px solid #808080;
+	margin-top: 5px;
+}
+a:link { text-decoration: none; color: #000000} 
+a:visited { text-decoration: none; color: #000000} 
+a:active { text-decoration: none; color: #000000}
+a:hover {text-decoration:underline; color: #000000}
+
+</style>
+
+<div class="a">admin login</div>
+<form id="frm" name="frm">
+<table style="width:30%; margin-left:340px; margin-top:30px;">
+	<colgroup>
+		<col width="15%" />
+		<col width="35%" />
+		<col width="15%" />
+		<col width="35%" />
+	</colgroup>
+	<tr class="login">
+		<td>ID</td>
+		<td  align="center">
+		<input type="text" name="adminid" id="adminid" style="border-style:none;" autofocus/>
+		</td>
+	</tr>
+	<tr class="login">
+		<td>PASSWORD</td>
+		<td align="center">
+		<input type="password" name="pwd" id="pwd" style="border-style:none;"/>
+		</td>
+	</tr>
+</table>
+</form>
+<div style="width:100%; margin-left:340px; margin-top:10px;">
+<button type="button" class="white" style="width:280px;" id="btnLogin">Login</button>
 </div>
-
-
-
-
+</c:if>
+<c:if test="${sessionScope.ThedeepALoginCert.ThedeepAUserId != null}">
+	<table border="3">
+		<tr>
+			<th>TOTAL&nbsp;&nbsp;:&nbsp;${total}명</th>
+		</tr>
+		
+		<tr>
+			<th>TODAY&nbsp;:&nbsp;${today}명</th>
+		</tr>
+	</table>
+	
+	<table>
+		<c:forEach var="i" items="${visitorlist}">
+		<tr height= "40px" width="100%">
+			<td>${i.rdate}</td><td><span style="width: ${i.hit/10.0}px; height: 20px; background: skyblue; float: left;"></span>${i.hit}</td>
+		</tr>
+		</c:forEach>
+		
+	</table>
+</c:if>

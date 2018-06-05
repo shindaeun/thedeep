@@ -32,7 +32,7 @@
 				$.ajax({
 					type: "POST",
 					data: form,
-					url: "/noticeWriteSave.do",
+					url: "/adminNoticeWriteSave.do",
 					dataType: "json",
 					processData: false,
 					contentType: false, 
@@ -47,7 +47,7 @@
 							} else if(data.errCode == "1") {
 								alert("첨부파일은 5M 미만이어야 합니다.");
 							}
-							location.href="/noticeList.do";
+							location.href="/adminNoticeList.do";
 						} else {
 							alert("저장 실패했습니다. 다시 시도해 주세요.");
 						}
@@ -59,7 +59,7 @@
 			}
 		});
 	$("#btnList").click(function(){
-		location.href="/noticeList.do";
+		location.href="/adminNoticeList.do";
 	});
 	
 });

@@ -37,7 +37,7 @@ a:hover {text-decoration:underline; color: #000000}
 </style>
 <table class="top">
 	<tr class="top">
-		<td class="top">회원 정보 조회</td>
+		<td class="top">회원목록조회</td>
 	</tr>
 </table>
 

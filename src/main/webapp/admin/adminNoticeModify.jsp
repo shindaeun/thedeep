@@ -14,7 +14,7 @@
 <script>
 $(function(){
 	$("#btnList").click(function(){
-		location.href="/noticeList.do";
+		location.href="/adminNoticeList.do";
 	});
 	$("#btnDelete").click(function(){
 		if(confirm("삭제하시겠습니까?")) {		
@@ -24,7 +24,7 @@ $(function(){
 			$.ajax({
 				type: "POST",
 				data: form,
-				url: "/noticeDelete.do",
+				url: "/adminNoticeDelete.do",
 				dataType: "json",
 				processData: false,
 				contentType: false, 
@@ -32,7 +32,7 @@ $(function(){
 				success: function(data) {
 					if(data.result == "ok") {
 						alert("삭제하였습니다.\n\n("+data.cnt+")개의 파일 삭제");
-						location.href = "<c:url value='/noticeList.do'/>";
+						location.href = "<c:url value='/adminNoticeList.do'/>";
 					} else {
 						alert("삭제 실패했습니다. 다시 시도해 주세요.");
 					}
@@ -62,7 +62,7 @@ $(function(){
 			$.ajax({
 				type: "POST",
 				data: form,
-				url: "/noticeModifySave.do",
+				url: "/adminNoticeModifySave.do",
 				dataType: "json",
 				processData: false,
 				contentType: false, 
@@ -77,7 +77,7 @@ $(function(){
 						} else if(data.errCode == "1") {
 							alert("첨부파일은 5M 미만이어야 합니다.");
 						}
-						location.href = "<c:url value='/noticeList.do'/>";
+						location.href = "<c:url value='/adminNoticeList.do'/>";
 					} else {
 						alert("저장 실패했습니다. 다시 시도해 주세요.");
 					}
@@ -102,7 +102,7 @@ $(function(){
 	$.ajax({
 		type : "POST",
 		data : param,
-		url : "/noticeFileDelete.do",
+		url : "/adminNoticeFileDelete.do",
 		success: function(data) {
 			if(data.result == "1") {
 				alert("삭제하였습니다.");
