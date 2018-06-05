@@ -11,7 +11,7 @@ $(function() {
          return;
       }
       $("form").attr({
-         action:'/noticeList.do',method:'post'
+         action:'/adminNoticeList.do',method:'post'
       }).submit();
    });
 });
@@ -34,6 +34,11 @@ $(function() {
          <input type="text" name="searchKeyword" id="searchKeyword">
          <button type="button" id="btnSearch" class="white">검색</button>
       </td>
+      <td style="border:0px; text-align:right;">
+      	 <c:if test="${login==1}">
+         <button type="button" class="white" onClick="location.href='/adminNoticeWrite.do'">Write</button>
+         </c:if>
+      </td>
    </tr>
 </table>
 </form>
@@ -50,7 +55,7 @@ $(function() {
 		<c:forEach var="result" items="${resultList }" varStatus="status">
 			<tr class="board" style="height:30px;">
 				<td style="text-align:center">${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}</td>
-				<td style="text-align:center"><a href="/noticeDetail.do?unq=${result.unq}">${result.title}</a></td>
+				<td style="text-align:center"><a href="/adminNoticeDetail.do?unq=${result.unq}">${result.title}</a></td>
 				<td style="text-align:center">${result.name}</td>
 				<td style="text-align:center">${result.rdate}</td>
 				<td style="text-align:center">${result.hit}</td>

@@ -19,7 +19,7 @@ $(function(){
 		if(nex == 0) {
 			alert("마지막 페이지 입니다.");
 		} else {
-			location.href="/reviewDetail.do?unq=${vo.nexInt}";
+			location.href="/reviewDetailAdmin.do?unq=${vo.nexInt}";
 		}
 	});
 	$("#btnBefore").click(function(){ 
@@ -27,15 +27,11 @@ $(function(){
 		if( bef == 0) {
 			alert("마지막 페이지 입니다.");
 		} else {
-			location.href="/reviewDetail.do?unq=${vo.befInt}";
+			location.href="/reviewDetailAdmin.do?unq=${vo.befInt}";
 		}
 	});
 	$("#btnList").click(function(){
-		location.href="/reviewList.do";
-	});
-	$("#btnModify").click(function(){
-		var url = "/reviewPwdCheck.do?unq=${vo.unq}";
-		window.open(url,"비밀번호확인","width=500,height=300");
+		location.href="/adminBoard.do";
 	});
 	$("#btnSubmit").click(function(){
 		$("#content").val($("#admin").val()+"\n\n" +$("#reply").val());
@@ -47,7 +43,7 @@ $(function(){
 			success : function(data) {
 				if (data.result == "ok") {
 					alert("저장하였습니다.");
-					location.href = "/reviewDetail.do?unq=${vo.unq}";
+					location.href = "/reviewDetailAdmin.do?unq=${vo.unq}";
 				}
 				else {
 					alert("저장 실패했습니다. 다시 시도해 주세요.");
@@ -169,8 +165,7 @@ if(filenames != null && !filenames.equals("")) {
 <table border="0" style="width:100%;">
 	<tr style="text-align:center">
 		<th style="text-align:center">
-		<button type="button" id="btnList" class="white">목록</button>&nbsp;
-		<button type="button" id="btnModify" class="white">수정</button>
+		<button type="button" id="btnList" class="white">목록</button>
 		</th>
 	</tr>
 	<tr><td>

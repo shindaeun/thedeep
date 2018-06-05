@@ -18,7 +18,7 @@ $(function(){
 		if(nex == 0) {
 			alert("마지막 페이지 입니다.");
 		} else {
-			location.href="/noticeDetail.do?unq=${vo.nexInt}";
+			location.href="/adminNoticeDetail.do?unq=${vo.nexInt}";
 		}
 	});
 	$("#btnBefore").click(function(){ 
@@ -26,13 +26,17 @@ $(function(){
 		if( bef == 0) {
 			alert("마지막 페이지 입니다.");
 		} else {
-			location.href="/noticeDetail.do?unq=${vo.befInt}";
+			location.href="/adminNoticeDetail.do?unq=${vo.befInt}";
 		}
 	});
 	$("#btnList").click(function(){
-		location.href="/noticeList.do";
+		location.href="/adminNoticeList.do";
 	});
 	
+	$("#btnModify").click(function(){
+		var url = "/adminNoticePwdCheck.do?unq=${vo.unq}";
+		window.open(url,"비밀번호확인","width=500,height=300");
+	});
 });
 </script>
 
@@ -42,7 +46,6 @@ $(function(){
 		</tr>
     </table>
 <div style="width:100%;padding:5px;text-align:right">
-
 		<button type="button" id="btnBefore">이전</button>
 		&nbsp;
 		<button type="button" id="btnNext">다음</button>
@@ -126,7 +129,8 @@ if(filenames != null && !filenames.equals("")) {
 <table border="0" style="width:100%;">
 	<tr style="text-align:center">
 		<th style="text-align:center">
-		<button type="button" id="btnList" class="white">목록</button>
+		<button type="button" id="btnList" class="white">목록</button>&nbsp;
+		<button type="button" id="btnModify" class="white">수정</button>
 		</th>
 	</tr>
 </table>

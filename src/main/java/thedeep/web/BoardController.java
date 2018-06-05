@@ -302,75 +302,11 @@ public class BoardController {
 		
 		return map;
 	}
-	
-	@RequestMapping(value="/noticeWrite.do")
-	public String selectNoticeWrite() throws Exception{
-		return "board/noticeWrite";
-	}
-	
-	@RequestMapping(value = "/noticeWriteSave.do")
-	@ResponseBody 
-	public Map<String, String> noticeWriteSave (
-					final MultipartHttpServletRequest multiRequest,
-					HttpServletResponse response, 
-					NoticeVO vo,
-					ModelMap model) throws Exception {
 
-		Map<String, String> map = new HashMap<String, String>();
-		Map<String, MultipartFile> files = multiRequest.getFileMap();
-		
-		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\noticeImages";
-		
-		//String uploadPath = "c:\\upload";
-		File saveFolder = new File(uploadPath);
-		if (!saveFolder.exists()) {
-			saveFolder.mkdirs();
-		}
-
-		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
-
-		vo.setFilename((String) imap.get("fileName"));
-
-		String result = boardService.insertnotice(vo);
-		if(result == null) result = "ok";
-		map.put("result", result);  //  ( Json 이름, 데이터 )
-		map.put("cnt", (String) imap.get("cnt")); // 0,1
-		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
-		// Json =>  result=ok&cnt=1
-		
-		return map;
-	}
-	
-	@RequestMapping(value = "/noticeDelete.do")
-	@ResponseBody 
-	public Map<String, Object> deleteNotice(
-			HttpServletRequest request,
-			HttpServletResponse response, 
-			NoticeVO vo) throws Exception {
-
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\noticeImages";
-		String fullPath = "", result="";
-		
-		int cnt = boardService.deleteNotice(vo);
-		if(cnt > 0) {
-			String filenames = vo.getFilename();
-			String[] filename = filenames.split(",");
-			for(int i=0; i<filename.length; i++) {
-				fullPath = uploadPath+"\\"+filename[i];
-				File file = new File(fullPath);
-				file.delete();
-			}
-			result="ok";
-		}
-		map.put("result", result);
-		map.put("cnt", cnt);
-		return map;
-	}
 
 	@RequestMapping(value="/noticeList.do")
 	public String selectNoticeList(
-			@ModelAttribute("searchVO") DefaultVO searchVO,ModelMap model) 
+			@ModelAttribute("searchVO") DefaultVO searchVO,ModelMap model,HttpServletRequest request) 
 				throws Exception {
 
 		/** EgovPropertyService.sample */
@@ -394,7 +330,19 @@ public class BoardController {
 		int totCnt = boardService.selectNoticeListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
-
+		
+		String AUserid = null;
+		int login;
+		try {
+			HashMap a = (HashMap) request.getSession().getAttribute("ThedeepALoginCert");
+			AUserid=(String) a.get("ThedeepAUserId");
+			login = 1;
+		} catch(Exception e) {
+			login = 2;
+		}
+		
+		model.addAttribute("login", login);
+		
 		return "board/noticeList";
 	}
 	
@@ -409,95 +357,15 @@ public class BoardController {
 		return "board/noticeDetail";
 	}
 	
-	@RequestMapping(value="/noticeModify.do")
-	public String noticewModify(NoticeVO vo,ModelMap model) 
-				throws Exception {
-		
-		int unq = vo.getUnq();
-		
-		vo = boardService.selectNoticeDetail(unq);
-		model.addAttribute("vo", vo);
-		
-		return "board/noticeModify";
-	}
-	
-	@RequestMapping(value = "/noticeFileDelete.do")
-	@ResponseBody 
-	public Map<String,Object> updateNoticeFile (ReviewVO vo) throws Exception {
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\noticeImages";
-		String fullPath = "";
-		String result = "";
-		String filename=vo.getFilename();
-		String delfilename=vo.getDelfilename();
-		
-		
-		filename=filename.replace(delfilename,"");
-		vo.setFilename(filename);
-		
-		int cnt = boardService.updateNoticeFile(vo);
-
-		if(cnt > 0) {
-			String[] splitfilename = delfilename.split(",");
-			for(int i=0; i<splitfilename.length; i++) {
-				fullPath = uploadPath+"\\"+splitfilename[i];
-				File file = new File(fullPath);
-				file.delete();
-			}
-			result="1";
-		}
-		else {
-			result = "-1";
-		}
-
-		map.put("result", result);
-		return map;
-	}
-	
-	@RequestMapping(value = "/noticeModifySave.do")
-	@ResponseBody 
-	public Map<String, String> updateNoticeModify (
-						final MultipartHttpServletRequest multiRequest,
-						HttpServletResponse response, 
-						NoticeVO vo,
-						ModelMap model) throws Exception {
-
-		Map<String, String> map = new HashMap<String, String>();
-		Map<String, MultipartFile> files = multiRequest.getFileMap();
-		String result="";
-		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\noticeImages";
-		
-		//String uploadPath = "c:\\upload";
-		File saveFolder = new File(uploadPath);
-		if (!saveFolder.exists()) {
-			saveFolder.mkdirs();
-		}
-		
-		String nowfilename = boardService.selectNoticeNowFilename(vo.getUnq());
-		HashMap imap = (HashMap) multipartProcess(files,uploadPath);
-		
-		if(nowfilename==null) {
-			vo.setFilename((String) imap.get("fileName"));
-		} else {
-			vo.setFilename((String) nowfilename+imap.get("fileName"));
-		}
-		System.out.println(vo.getFilename());
-		
-		int cnt = boardService.updateNotice(vo);
-		if(cnt > 0) result = "ok";
-		map.put("result", result);  //  ( Json 이름, 데이터 )
-		map.put("cnt", (String) imap.get("cnt")); // 0,1
-		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
-		// Json =>  result=ok&cnt=1
-		
-		return map;
-	}
-	
-	
 	
 	@RequestMapping(value="/reviewWrite.do")
-	public String reviewWrite() throws Exception{
+	public String reviewWrite(ModelMap model, HttpServletRequest request, MemberVO vo) throws Exception{
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		vo.setUserid(userid);
+		
+		String name = boardService.selectUserName(userid);
+		model.addAttribute("name", name);
 		return "board/reviewWrite";
 	}
 	
@@ -581,7 +449,8 @@ public class BoardController {
 					if(    !exeName.equals("jpg") 
 					    && !exeName.equals("jpeg") 
 					    && !exeName.equals("gif") 
-					    && !exeName.equals("bmp") )
+					    && !exeName.equals("bmp")
+					    && !exeName.equals("png"))
 					{
 						errCode = "0";
 					} else {

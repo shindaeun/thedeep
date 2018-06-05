@@ -103,7 +103,7 @@ public class PopupController {
 		return map;
 	}
 	
-	@RequestMapping(value="/noticePwdCheck.do")
+	@RequestMapping(value="/adminNoticePwdCheck.do")
 	public String noticePwdCheck() throws Exception{
 		return "popup/noticePwdCheck";
 	}

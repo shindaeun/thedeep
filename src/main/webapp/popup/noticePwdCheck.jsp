@@ -38,7 +38,7 @@ String unq = request.getParameter("unq");
 					
 					success: function(data) {
 						if(data.result == "1") {
-							opener.location.href="/noticeModify.do?unq=<%=unq%>";
+							opener.location.href="/adminNoticeModify.do?unq=<%=unq%>";
 							window.close();
 						} else {
 							alert("비밀번호가 일치하지 않습니다. 다시 시도해 주세요.");
