@@ -453,12 +453,13 @@ p {
 			<tr class="board" align="center">
 				<td>${paginationInfo2.totalRecordCount+1 - ((searchVO.pageIndex2-1) * searchVO.pageSize + status.count)}</td>
 				<td><p class="heading">${i.title}&nbsp;
-      								<c:if test="${i.filename!='0'}">
-      								<img src="/icon/photo.JPG" width="23" height="18"/>
-      								</c:if>
-      								<c:if test="${i.cnt!='0'}">
+						<c:if test="${i.filename!='0'}">
+							<img src="/icon/photo.JPG" width="23" height="18" />
+						</c:if>
+						<c:if test="${i.cnt!='0'}">
       								[${i.cnt}]
       								</c:if>
+
       								</p>
 						<c:if test="${i.filename!='0'}">
 							<img src="/icon/photo.JPG" width="23" height="18" />
@@ -466,6 +467,7 @@ p {
 						<c:if test="${i.cnt!='0'}">
       								[${i.cnt}]
       								</c:if>
+
 					</p>
 					<div class="content">
 					<c:set var="filenames" value="${i.filename}"></c:set>
