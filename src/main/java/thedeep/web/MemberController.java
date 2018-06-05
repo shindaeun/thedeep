@@ -691,10 +691,21 @@ public class MemberController {
 		if(cnt>0){
 			result = "ok";
 		}
+		map.put("result", result);
+		return map;
+	}
+	@RequestMapping(value="/deleteCoupon.do")
+	@ResponseBody
+	public Map<String,String> deleteCoupon(HttpServletRequest request,@RequestParam("ocode") String ocode) throws Exception{
+		String result="fail";
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		Map<String,String> map = new HashMap<String,String>();
 		
 		OrderVO ovo = memberService.selectOrderInfo(ocode);
 
-		memberService.deleteUseCoupon(ovo);
+		int cnt = memberService.deleteUseCoupon(ovo);
+		if(cnt>0) result="ok";
 		map.put("result", result);
 		return map;
 	}
@@ -703,6 +714,32 @@ public class MemberController {
 	public String teatCal() throws Exception{
 		
 		return "member/testCalendar";
+	}
+
+
+	@RequestMapping(value="/buyConfirm.do")
+	@ResponseBody
+	public Map<String,String> buyConfirm(HttpServletRequest request,@RequestParam("ocode") String ocode,@RequestParam("pcode") String pcode) throws Exception{
+		System.out.println("in"+ocode+pcode);
+		String result="fail";
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		Map<String,String> map = new HashMap<String,String>();
+		OrderListVO vo = new OrderListVO();
+		vo.setPcode(pcode);
+		vo.setOcode(ocode);
+		int cnt = memberService.updateBuyConfirm(vo);
+		if(cnt>0) result="ok";
+		map.put("result", result);
+		
+		String check = memberService.selectBuyConfirm(ocode);
+		if(check.equals("Y")){
+			DeliveryVO dvo = new DeliveryVO();
+			dvo.setOcode(ocode);
+			dvo.setDstate("구매확정");
+			cnt = adminService.updateDstate(dvo);
+		}
+		return map;
 	}
 
 }

@@ -110,6 +110,11 @@ public interface MemberService {
 
 	int selectMemberPoint(String userid) throws Exception;
 
+	int updateBuyConfirm(OrderListVO vo)  throws Exception;
+
+	String selectBuyConfirm(String ocode) throws Exception;
+
+
 
 
 

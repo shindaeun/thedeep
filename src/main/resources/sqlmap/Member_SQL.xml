@@ -283,6 +283,7 @@
 		, p.pcode pcode
 		, p.pname pname
 		, l.reviewconfirm
+		, l.buyconfirm
 		, to_char(m.odate,'YYYY-MM-DD') odate
 		,(select dstate from delivery d where d.ocode = m.ocode) dstate
 		FROM (SELECT userid, ocode, odate ,paymethod
@@ -430,6 +431,11 @@
 		where ocode=(select max(ocode) from ordermain where userid=#userid#)
 	 ]]>
 	</select>
+	<select id="memberDAO.selectBuyConfirm" resultClass="java.lang.String">
+	 <![CDATA[
+		select decode(count(buyconfirm),0,'Y','N') from orderlist where ocode=#ocode# and buyconfirm='N'
+	 ]]>
+	</select>
 	
 	<insert id="memberDAO.insertOrder">
 		insert into ordermain values(#ocode#,#userid#,#totalmoney#,#payresult#,#paymethod#,#depositname#,#usepoint#,#savepoint#,'',sysdate,#usecoupon#)
@@ -438,12 +444,14 @@
 		insert into delivery values(#ocode#,'입금전','',#oname#,#ophone#,#oemail#,#dname#,#dphone#,#dpost#,#message#)
 	</insert>
 	<insert id="memberDAO.insertOrderList">
-		insert into orderList values(#ocode#,#pcode#,#cscode#,#amount#,#totalmoney#,'N')
+		insert into orderList values(#ocode#,#pcode#,#cscode#,#amount#,#totalmoney#,'N','N')
 	</insert>
 	<insert id="memberDAO.insertPoint">
 		insert into point values(#userid#,#content#,#usepoint#,#ablepoint#,#savepoint#,sysdate)
 	</insert>
-	
+	<update id="memberDAO.updateBuyConfirm">
+	 update orderlist set buyconfirm='Y' where ocode=#ocode# and pcode=#pcode#
+	</update>
 	<insert id="memberDAO.insertCoupon">
 		INSERT INTO couponlist
 		( userid

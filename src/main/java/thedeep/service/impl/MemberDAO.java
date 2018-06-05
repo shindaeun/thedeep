@@ -220,12 +220,21 @@ public class MemberDAO extends EgovAbstractDAO{
 		return (String) insert("memberDAO.insertPoint",point);
 	}
 
+
 	public String insertMemPoint(String userid) {
 		return (String) insert("memberDAO.insertMemPoint", userid);
 	}
 
 	public int selectMemberPoint(String userid) {
 		return (int) select("memberDAO.selectMemberPoint", userid);
+	}
+	public int updateBuyConfirm(OrderListVO vo) {
+		return update("memberDAO.updateBuyConfirm",vo);
+	}
+
+	public String selectBuyConfirm(String ocode) {
+		return (String) select("memberDAO.selectBuyConfirm",ocode);
+
 	}
 
 	

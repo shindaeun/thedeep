@@ -286,13 +286,14 @@ public class AdminController {
 		searchVO.setUserid(userid);*/
 		searchVO.setPageUnit(10);// 한 화면에 출력 개수
 		searchVO.setPageSize(10);// 페이지 개수
-		if(searchVO.getDstate1() == null && searchVO.getDstate2() == null &&searchVO.getDstate3() == null &&searchVO.getDstate4() == null &&searchVO.getDstate5() == null &&searchVO.getDstate6() == null){
+		if(searchVO.getDstate1() == null && searchVO.getDstate2() == null &&searchVO.getDstate3() == null &&searchVO.getDstate4() == null &&searchVO.getDstate5() == null &&searchVO.getDstate6() == null&&searchVO.getDstate7() == null){
 			searchVO.setDstate1("입금전");
 			searchVO.setDstate2("결제완료");
 			searchVO.setDstate3("배송준비중");
 			searchVO.setDstate4("배송중");
 			searchVO.setDstate5("배송완료");
 			searchVO.setDstate6("취소");
+			searchVO.setDstate6("구매확정");
 			
 		}
 		/** pageing setting */
