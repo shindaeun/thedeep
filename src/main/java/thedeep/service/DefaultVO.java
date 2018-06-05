@@ -41,7 +41,7 @@ public class DefaultVO implements Serializable {
 	 *  serialVersion UID
 	 */
 	private static final long serialVersionUID = -858838578081269359L;
-	private String dstate1,dstate2,dstate3,dstate4,dstate5,dstate6;
+	private String dstate1,dstate2,dstate3,dstate4,dstate5,dstate6,dstate7;
 
 	public String getDstate1() {
 		return dstate1;
@@ -88,6 +88,13 @@ public class DefaultVO implements Serializable {
 
 	public void setDstate6(String dstate6) {
 		this.dstate6 = dstate6;
+	}
+	public String getDstate7() {
+		return dstate7;
+	}
+
+	public void setDstate7(String dstate7) {
+		this.dstate7 = dstate7;
 	}
 	private String userid;
 	private String pcode;

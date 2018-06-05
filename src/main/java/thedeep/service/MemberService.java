@@ -106,6 +106,10 @@ public interface MemberService {
 
 	String insertPoint(PointVO point) throws Exception;
 
+	int updateBuyConfirm(OrderListVO vo)  throws Exception;
+
+	String selectBuyConfirm(String ocode) throws Exception;
+
 
 
 

@@ -273,4 +273,14 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.insertPoint(point);
 	}
 
+	@Override
+	public int updateBuyConfirm(OrderListVO vo) throws Exception {
+		return memberDAO.updateBuyConfirm(vo);
+	}
+
+	@Override
+	public String selectBuyConfirm(String ocode) throws Exception {
+		return memberDAO.selectBuyConfirm(ocode);
+	}
+
 }

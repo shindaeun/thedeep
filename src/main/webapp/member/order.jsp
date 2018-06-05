@@ -15,14 +15,13 @@
 		pageContext.setAttribute("phone2", phone[1]);
 		pageContext.setAttribute("phone3", phone[2]);
 	
-	String po = (String)pageContext.getAttribute("post");
+/* 	String po = (String)pageContext.getAttribute("post");
 	 if(po !=null){
-		
-		 String[] post = po.split("/");
+		String[] post = po.split("/");
 		pageContext.setAttribute("postnum", post[0]);
 		pageContext.setAttribute("arr1", post[1]);
 		pageContext.setAttribute("arr2", post[2]); 
-	}
+	} */
 	
 	String em = (String) pageContext.getAttribute("email");
 	
