@@ -460,7 +460,7 @@
 		insert into orderList values(#ocode#,#pcode#,#cscode#,#amount#,#totalmoney#,'N','N')
 	</insert>
 	<insert id="memberDAO.insertPoint">
-		insert into point values(#userid#,#content#,#usepoint#,#ablepoint#,#savepoint#,sysdate)
+		insert into point values(#userid#,#usepoint#,#ablepoint#,#savepoint#,sysdate,#content#)
 	</insert>
 	<update id="memberDAO.updateBuyConfirm">
 	 update orderlist set buyconfirm='Y' where ocode=#ocode# and pcode=#pcode#
