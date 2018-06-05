@@ -207,7 +207,13 @@ p {
 		<c:forEach var="i" items="${rlist }" varStatus="status">
 			<tr class="board" align="center">
 				<td>${paginationInfo2.totalRecordCount+1 - ((searchVO.pageIndex2-1) * searchVO.pageSize + status.count)}</td>
-				<td><a href="/reviewDetailAdmin.do?unq=${i.unq}">${i.title}</a>
+				<td><a href="/reviewDetailAdmin.do?unq=${i.unq}">${i.title}&nbsp;
+      								<c:if test="${i.filename!='0'}">
+      								<img src="/icon/photo.JPG" width="23" height="18"/>
+      								</c:if>
+      								<c:if test="${i.cnt!='0'}">
+      								[${i.cnt}]
+      								</c:if></a>
 				</td>
 				<td>${i.rdate}</td>
 				<td>${i.hit}</td>
