@@ -34,9 +34,11 @@ $(function(){
 			success: function(data) {
 				if(data.result == "ok") {
 					alert("기존 비밀번호와 일치합니다.");
+					var check = "1";
 					var npwd = $("#npwd").val();
 					npwd = $.trim(npwd);
 					opener.document.frm.opwd.value = npwd;
+					opener.document.frm.check.value = check;
 					self.close();
 				} else {
 					alert("기존 비밀번호와 일치하지 않습니다. 다시 시도해 주세요.");
@@ -49,7 +51,6 @@ $(function(){
 		}); 
  		
 	});
-	
 	$("#btnClose").click(function() {
 		self.close();
 	});

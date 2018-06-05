@@ -661,6 +661,25 @@ public class AdminController {
 		return map;
 	}
 	
+	@RequestMapping(value = "/adminCouponDel.do")
+	@ResponseBody 
+	public Map<String,Object> deleteAdminCoupon(CouponVO vo, HttpServletRequest request) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		String result = "";
+		
+		String ccode = vo.getCcode();
+
+		int cnt = adminService.deleteAdminCoupon(ccode);
+		if(cnt>0) result = "ok";
+		else result = "1";
+
+		map.put("result", result);
+		
+		return map;
+	}
+	
 	@RequestMapping(value="/pointAdd.do")
 	public String selectgroup(ModelMap model, PointVO vo) throws Exception{
 		List<?> pointList = adminService.selectPointList();

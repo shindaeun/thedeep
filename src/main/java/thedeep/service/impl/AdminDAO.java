@@ -143,5 +143,9 @@ public class AdminDAO extends EgovAbstractDAO {
 		return (int) select("adminDAO.selectMemberIdChk", userid);
 	}
 
+	public int deleteAdminCoupon(String ccode) {
+		return delete("adminDAO.deleteAdminCoupon", ccode);
+	}
+
 
 }

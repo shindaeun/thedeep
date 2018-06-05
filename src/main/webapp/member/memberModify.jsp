@@ -164,6 +164,7 @@ pageContext.setAttribute("email2", email[1]);
 <input type="hidden" name="phone" id="phone"/>
 <input type="hidden" name="post" id="post"/>
 <input type="hidden" name="email" id="email"/>
+<input type="hidden" name="check" id="check" value="0"/>
 
 <table class="board">
 	<tr class="board">
@@ -206,7 +207,7 @@ pageContext.setAttribute("email2", email[1]);
 	<tr class="board">
 		<th class="head">생일</th>
 		<td align="left" style="padding:5px;">
-		<input type="text" name="birthday" id="birthday" style="width:20%" value="${vo.birthday}"/>
+			${vo.birthday}
 		</td>
 	</tr>
 	<tr class="board">

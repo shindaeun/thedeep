@@ -99,7 +99,7 @@ $(function(){
 			}); 
 		});
 	$("#btnBTD").click(function(){
-		var param = 'ccode=c01';
+		var param = 'ccode=c002';
 	 		// 비 동기 전송
 			$.ajax({
 				type: "POST",
@@ -125,6 +125,35 @@ $(function(){
 		location.href = "/adminCoupon.do"
 	});
 });
+function fnDelete(ccode) {
+	if(confirm("삭제하시겠습니까?")) {
+		// 비 동기 전송
+		var param = "ccode=" + ccode;
+
+		$.ajax({
+	  	   type: "GET",
+	  	   data: param,
+	 	    url: "/adminCouponDel.do",
+	 	    dataType: "json",
+	 	    processData: false,
+	 	    contentType: false,
+	 	    
+	 	    success: function(data) {
+	    	      alert(data.result);
+	     	     if(data.result == "ok") {
+	    	         alert("쿠폰을 삭제했습니다.");
+	      	         location.href = "/adminCoupon.do";
+	      	    } else {
+	      	         alert("삭제에 실패했습니다. 다시 시도해 주세요");
+	     	     }
+	    	 },
+	    	 error: function () {
+	    	       alert("오류발생ㅠㅠ");
+	     	}
+		}); 
+	}
+	
+}
 </script>
 
 <style>
@@ -180,7 +209,7 @@ a:hover {text-decoration:underline; color: #000000}
 	<tr>
 		<th width="10%" style="background-color: #dcdcdc;">수정</th>
 		<th width="15%">
-			code <input type="text" id="ccode" name="ccode" style="width:50%" value="${vo.ccode}"/>
+			${vo.ccode} <input type="hidden" id="ccode" name="ccode" value="${vo.ccode}"/>
 		</th>
 		<th width="20%">
 			name <input type="text" id="cname" name="cname" style="width:70%" value="${vo.cname}"/>
@@ -222,7 +251,7 @@ a:hover {text-decoration:underline; color: #000000}
 		<td>${list.discountrate}</td>
 		<td>${list.maxdiscmoney}</td>
 		<th>
-			<button type="button" id="btnDelete" class="white" >삭제</button>
+			<button type="button" class="white" onclick="javascript:fnDelete('${list.ccode}')">삭제</button>
 		</th>
 		<c:if test="${list.ccode=='c002'}">
 		<th style="border-left: 1px solid #555555;">
@@ -239,6 +268,8 @@ a:hover {text-decoration:underline; color: #000000}
 </form>
 
 <hr class="coupon"/>
+
+
 
 <div style="height:100px;">
 </div>

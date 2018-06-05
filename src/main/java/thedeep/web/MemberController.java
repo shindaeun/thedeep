@@ -77,9 +77,7 @@ public class MemberController {
 		Map<String,Object> map = new HashMap<String, Object>();
 		Calendar cal = Calendar.getInstance();
 		
-		System.out.println("userid  :  " + vo.getUserid());
 		String result = memberService.insertMember(vo);
-		
 		String userid = vo.getUserid();
 		
 		cal.add(Calendar.MONTH, 1);
