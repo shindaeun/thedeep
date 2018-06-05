@@ -114,6 +114,8 @@ public interface MemberService {
 
 	String selectBuyConfirm(String ocode) throws Exception;
 
+	int selectOnMoneyCnt(String userid) throws Exception;
+
 
 
 

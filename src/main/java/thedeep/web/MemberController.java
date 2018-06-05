@@ -146,6 +146,9 @@ public class MemberController {
 		int inMoney = memberService.selectInMoneyCnt(userid);
 		model.addAttribute("inMoney", inMoney);
 		
+		int onMoney = memberService.selectOnMoneyCnt(userid);
+		model.addAttribute("onMoney", onMoney);
+		
 		int preparing = memberService.selectPreparingCnt(userid);
 		model.addAttribute("preparing", preparing);
 		

@@ -10,6 +10,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import thedeep.service.AdminService;
 import thedeep.service.AdminVO;
 import thedeep.service.BoardVO;
+import thedeep.service.CheckVO;
 import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
@@ -183,6 +184,17 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 		return adminDAO.deleteReviewReply(unq);
 	}
 
+	@Override
+	public String insertAdminCouponOut(CheckVO cvo) throws Exception {
+		return adminDAO.insertAdminCouponOut(cvo);
+	}
+
+	@Override
+	public String selectCouponName(String ccode) throws Exception {
+		return adminDAO.selectCouponName(ccode);
+	}
+
+	
 
 
 	
