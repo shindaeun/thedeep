@@ -124,8 +124,25 @@ $(function(){
 	$("#btnCancel").click(function() {
 		location.href = "/adminCoupon.do"
 	});
+	$("#btnList").click(function() {
+		location.href = "/adminCoupon.do"
+	});
+	$("#btnSearch").click(function() {
+	      if($("#searchKeyword").val()=="") {
+	         alert("검색어를 입력해주세요.");
+	         $("#searchKeyword").focus();
+	         return;
+	      }
+	      $("#frm2").attr({
+	         action:'/adminCoupon.do',method:'post'
+	      }).submit();
+	   });
 });
 function fnDelete(ccode) {
+	if(ccode=="c001" || ccode=="c002") {
+		alert("기본 쿠폰은 삭제할 수 없습니다");
+		return;
+	}
 	if(confirm("삭제하시겠습니까?")) {
 		// 비 동기 전송
 		var param = "ccode=" + ccode;
@@ -152,7 +169,39 @@ function fnDelete(ccode) {
 	     	}
 		}); 
 	}
-	
+}
+function fnOut(ccode) {
+	if($('input:checkbox[id=check]:checked').length == 0) {
+		alert("발급할 회원을 선택해 주세요.");
+		return;
+	}
+	if(confirm("발급하시겠습니까?")) {
+		// 비 동기 전송
+		$("#ccode1").val(ccode);
+		var form = new FormData(document.getElementById('frm2'));
+
+		$.ajax({
+	  	   type: "POST",
+	  	   data: form,
+	 	    url: "/adminCouponOut.do",
+	 	    dataType: "json",
+	 	    processData: false,
+	 	    contentType: false,
+	 	    
+	 	    success: function(data) {
+	    	      alert(data.result);
+	     	     if(data.result == "ok") {
+	    	         alert("쿠폰이 발급되었습니다.");
+	      	         location.href = "/adminCoupon.do";
+	      	    } else {
+	      	         alert("발급에 실패했습니다. 다시 시도해 주세요");
+	     	     }
+	    	 },
+	    	 error: function () {
+	    	       alert("오류발생ㅠㅠ");
+	     	}
+		}); 
+	}
 }
 </script>
 
@@ -165,7 +214,16 @@ hr.coupon {
     height: 1px;
     width:	100%;
 }
-
+div.one {
+	width:100%;
+	height:50px;
+	font-size:14pt;
+	font-weight: bold;
+	color: #646464;	
+	text-align: center;
+	margin-top:60px;
+	margin-bottom:10px;
+}
 a:link { text-decoration: none; color: #000000} 
 a:visited { text-decoration: none; color: #000000} 
 a:active { text-decoration: none; color: #000000}
@@ -253,23 +311,80 @@ a:hover {text-decoration:underline; color: #000000}
 		<th>
 			<button type="button" class="white" onclick="javascript:fnDelete('${list.ccode}')">삭제</button>
 		</th>
-		<c:if test="${list.ccode=='c002'}">
+		<c:if test="${list.ccode=='c001'}">
 		<th style="border-left: 1px solid #555555;">
-			<button type="button" id="btnBTD" class="white" >발급</button>
 		</th>
 		</c:if>
-		<c:if test="${list.ccode!='c002'}">
+		<c:if test="${list.ccode=='c002'}">
+		<th style="border-left: 1px solid #555555;">
+			<button type="button" id="btnBTD" class="white">발급</button>
+		</th>
+		</c:if>
+		<c:if test="${list.ccode!='c002' && list.ccode!='c001'}">
 		<td style="border-left: 1px solid #555555;">
+			<button type="button" class="white" onclick="javascript:fnOut('${list.ccode}')">발급</button>
 		</td>
 		</c:if>
 	</tr>
 	</c:forEach>
 </table>
 </form>
-
 <hr class="coupon"/>
-
-
+<br/>
+<form id="frm2" name="frm2">
+<input type="hidden" name="ccode1" id="ccode1"/>
+<table style="width:100%;">
+	<tr>
+		<td style="text-align:left;">
+			<button type="button" id="btnList" class="white">목록</button>
+		</td>
+		<td style="font-weight: bold; text-align:right;">
+         <select name="searchCondition">
+            <option value="userid">아이디</option>
+            <option value="name">이름</option>
+         </select>
+         <input type="text" name="searchKeyword" id="searchKeyword">
+         <button type="button" id="btnSearch" class="white">검색</button>
+      </td>
+   </tr>
+</table>
+<table class="board">
+	<tr class="board" style="height:30px;">
+		<th width="5%" class="head"></th>
+		<th width="15%" class="head">ID</th>
+		<th width="10%" class="head">NAME</th>
+		<th width="15%" class="head">PHONE</th>
+		<th width="15%" class="head">BIRTHDAY</th>
+		<th width="25%" class="head">E-MAIL</th>
+		<th width="15%" class="head">J-DATE</th>
+	</tr>
+	<c:forEach var="result" items="${list2}" varStatus="status">
+	<tr class="board" style="height:30px; text-align:center;">
+		<td><input type="checkbox" name="check" id="check" class="check" value="${result.userid}"/></td>
+		<td>${result.userid}</td>
+		<td>${result.name}</td>
+		<td>${result.phone}</td>
+		<td>${result.birthday}</td>
+		<td>${result.email}</td>
+		<td >${result.joindate}</td>
+	 </tr>
+	</c:forEach>
+</table>
+</form>
+<br>
+<table border="0" width="100%">
+	<tr>
+		<td align="center" style="board:0px;">
+			<div id="paging">
+			<c:set var="parm1" value="searchCondition=${searchVO.getSearchCondition()}"/>
+			<c:set var="parm2" value="searchKeyword=${searchVO.getSearchKeyword()}"/>
+			<c:forEach var="i" begin="1" end="${paginationInfo.getTotalPageCount()}">
+				<a href="/adminList.do?pageIndex=${i}&${parm1}&${parm2}">${i}</a>
+			</c:forEach>
+			</div>
+		</td>
+	</tr>
+</table>
 
 <div style="height:100px;">
 </div>

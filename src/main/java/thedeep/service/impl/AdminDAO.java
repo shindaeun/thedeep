@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 import thedeep.service.AdminVO;
 import thedeep.service.BoardVO;
+import thedeep.service.CheckVO;
 import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
@@ -147,8 +148,16 @@ public class AdminDAO extends EgovAbstractDAO {
 		return delete("adminDAO.deleteAdminCoupon", ccode);
 	}
 
+
 	public int deleteReviewReply(String unq) {
 		return delete("adminDAO.deleteReviewReply", unq);
+	}
+	public String insertAdminCouponOut(CheckVO cvo) {
+		return (String) insert("adminDAO.insertAdminCouponOut", cvo);
+	}
+
+	public String selectCouponName(String ccode) {
+		return (String) select("adminDAO.selectCouponName", ccode);
 	}
 
 

@@ -67,7 +67,12 @@ public interface AdminService {
 
 	int deleteAdminCoupon(String ccode) throws Exception;
 
+
 	int deleteReviewReply(String unq) throws Exception;
+
+	String insertAdminCouponOut(CheckVO cvo) throws Exception;
+
+	String selectCouponName(String ccode) throws Exception;
 
 
 

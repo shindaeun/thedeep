@@ -357,6 +357,16 @@
 		AND o.ocode = d.ocode
 	</select>
 	
+	<select id="memberDAO.selectOnMoneyCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(d.ocode) cnt
+		FROM delivery d, memberinfo m, ordermain o
+		WHERE d.dstate = '결제완료'
+		AND m.userid = #userid#
+		AND d.oname = m.name
+		AND m.userid = o.userid
+		AND o.ocode = d.ocode
+	</select>
+	
 	<select id="memberDAO.selectPreparingCnt" resultClass="java.lang.Integer">
 		SELECT COUNT(d.ocode) cnt
 		FROM delivery d, memberinfo m, ordermain o
@@ -488,7 +498,7 @@
 				 , sysdate
 				 , #edate#
 				 , 'Y'
-				 , '생일쿠폰'
+				 , '생일축하쿠폰'
 				 )
 	</insert>
 	
@@ -514,7 +524,7 @@
 		, savepoint
 		, rdate
 		) VALUES ( #userid#
-				 , '신규가입'
+				 , '신규가입쿠폰'
 				 , '0'
 				 , '1000'
 				 , '1000'
@@ -524,9 +534,8 @@
 	
 	<select id="memberDAO.selectMemberPoint" resultClass="java.lang.Integer">
 		SELECT savepoint point
-		FROM point p, (SELECT MAX(rdate) rdate FROM point) r
+		FROM point p, (SELECT MAX(rdate) rdate FROM point WHERE userid=#userid#) r
 		WHERE p.rdate = r.rdate
-		AND userid = #userid#
 	</select>
 	
 </sqlMap>
