@@ -104,7 +104,7 @@ public class BoardController {
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
 		
-		String uploadPath = "C:\\Users\\acorn\\workspace\\thedeep\\src\\main\\webapp\\qnaImages";
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\qnaImages";
 		
 		//String uploadPath = "c:\\upload";
 		File saveFolder = new File(uploadPath);
@@ -120,7 +120,11 @@ public class BoardController {
 		String userid = (String) a.get("ThedeepUserId");
 		
 		vo.setUserid(userid);
-		vo.setPcode("P00021");
+		String pcode = vo.getPcode();
+		if(pcode==null||pcode=="") {
+			pcode = null;
+			vo.setPcode(pcode);
+		}
 		
 		String result = boardService.insertQnaWrite(vo);
 		if(result == null) result = "ok";
@@ -201,7 +205,7 @@ public class BoardController {
 	public Map<String,Object> updateQnaFile (BoardVO vo) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		String uploadPath = "C:\\Users\\acorn\\workspace\\thedeep\\src\\main\\webapp\\qnaImages";
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\qnaImages";
 		String fullPath = "";
 		String result = "";
 		String filename=vo.getFilename();
@@ -241,7 +245,7 @@ public class BoardController {
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
 		String result="";
-		String uploadPath = "C:\\Users\\acorn\\workspace\\thedeep\\src\\main\\webapp\\qnaImages";
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\qnaImages";
 		
 		//String uploadPath = "c:\\upload";
 		File saveFolder = new File(uploadPath);
@@ -276,7 +280,7 @@ public class BoardController {
 			BoardVO vo) throws Exception {
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		String uploadPath = "C:\\Users\\acorn\\workspace\\thedeep\\src\\main\\webapp\\qnaImages";
+		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\qnaImages";
 		String fullPath = "", result="";
 		
 		int chk = boardService.selectQnaPwdChk(vo);

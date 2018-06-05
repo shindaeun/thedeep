@@ -334,7 +334,7 @@ p {
 		<tr>
 			<td style="border: 0px; text-align: right;">
 				<button type="button" class="white"
-					onClick="location.href='/qnaWrite.do'">Write</button>
+					onClick="location.href='/qnaWrite.do?pcode=${vo.pcode}'">Write</button>
 			</td>
 		</tr>
 	</table>

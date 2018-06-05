@@ -24,6 +24,18 @@ $(function() {
 			alert("제목을 선택해 주세요");
 			return;
 		}
+		var content = $("#content").val();
+		content = $.trim(content);
+		if($("#content").val() == "") {
+			alert("내용을 입력해 주세요");
+			$("#content").focus();
+			return;
+		}
+		if(content == "") {
+			alert("내용을 입력해 주세요");
+			$("#content").focus();
+			return;
+		}
 		if($("#pwd").val().length<4
 				||$("#pwd").val().length>12) {
 			alert("암호는4~12자리 사이로 입력해 주세요");
