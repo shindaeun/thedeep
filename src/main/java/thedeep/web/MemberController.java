@@ -49,7 +49,24 @@ public class MemberController {
 	AdminService adminService;
 	
 	@RequestMapping(value="/memberInfo.do")
-	public String MemberInfo() throws Exception{
+	public String MemberInfo(ModelMap model) throws Exception{
+		
+		Calendar cal = Calendar.getInstance();
+		
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1;
+		int day = cal.get(Calendar.DATE);
+		
+		String today = year + "-";
+		if(month>10) today += month + "-";
+		else today += "0" + month + "-";
+		
+		if(day>10) today += day + "";
+		else today += "0" + day + "";
+		System.out.println(today);
+		
+		model.addAttribute("today", today);
+		
 		return "member/memberInfo";
 	}
 	
@@ -79,7 +96,8 @@ public class MemberController {
 		
 		if(result==null) {
 			String coupon = memberService.insertCoupon(cvo);
-			if(coupon==null)result = "ok";
+			String point = memberService.insertMemPoint(userid);
+			if(coupon==null && point==null)result = "ok";
 			else result = "0";
 		}
 		else {
@@ -120,6 +138,9 @@ public class MemberController {
 		
 		int coupon = memberService.selectMemberCoupon(userid);
 		model.addAttribute("coupon", coupon);
+		
+		int point = memberService.selectMemberPoint(userid);
+		model.addAttribute("point", point);
 		
 		int total = memberService.selectMemberMoney(userid);
 		model.addAttribute("total", total);
@@ -717,4 +738,10 @@ public class MemberController {
 	}
 	
 	
+	@RequestMapping(value="/testCal.do")
+	public String teatCal() throws Exception{
+		
+		return "member/testCalendar";
+	}
+
 }

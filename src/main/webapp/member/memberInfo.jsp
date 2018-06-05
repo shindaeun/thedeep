@@ -8,6 +8,9 @@
 <%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <%@ taglib prefix="spring"    uri="http://www.springframework.org/tags"%>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+
 <script src="/js/jquery-1.12.4.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
@@ -54,6 +57,7 @@ function sample6_execDaumPostcode() {
         }
     }).open();
 }
+
 $(function(){
 	$("#idChk").click(function() {
 		if($("#userid").val() == "") {
@@ -103,9 +107,49 @@ $(function(){
 			$("#pwd").focus();
 			return;
 		}
+		
+		var pwdck = /(^[a-zA-Z0-9]*$)/;
+		var pwd = $("#pwd").val();
+		
+		if(!pwdck.test(pwd)) {
+			alert("암호는 숫자 혹은 영어만 올 수 있습니다.");
+			$("#pwd").focus();
+			return;
+		}
+		
 		if($("#pwd").val() != $("#pwd2").val()) {
 			alert("암호가 일치하지 않습니다");
 			$("#pwd").focus();
+			return;
+		}
+		if($('input:radio[id=gender]:checked').val()==undefined) {
+			alert("성별을 입력해주세요.");
+			$("#gender").focus();
+			return;
+		}
+		if($("#birthday").val() == $("#today").val()) {
+			alert("생일이 올바르지 않습니다.");
+			$("#birthday").focus();
+			return;
+		}
+		if($("#email1").val() == "") {
+			alert("이메일을 입력해주세요.");
+			$("#email1").focus();
+			return;
+		}
+		if($("#phone2").val() == "" || $("#phone3").val() == "") {
+			alert("연락처를 입력해주세요.");
+			$("#phone2").focus();
+			return;
+		}
+		if($("#sample6_postcode").val() == "") {
+			alert("우편번호를 입력해주세요");
+			$("#sample6_postcode").focus();
+			return;
+		}
+		if($("#sample6_address2").val() == "") {
+			alert("상세주소를 입력해주세요");
+			$("#sample6_address2").focus();
 			return;
 		}
 		if($('input:radio[id=yackguan]:checked').val()=="n") {
@@ -173,6 +217,7 @@ $(function(){
 <input type="hidden" name="phone" id="phone"/>
 <input type="hidden" name="post" id="post"/>
 <input type="hidden" name="email" id="email"/>
+<input type="hidden" name="today" id="today" value="${today}"/>
 
 <table class="board">
 	<tr class="board">
@@ -185,27 +230,27 @@ $(function(){
 		<th class="head">ID</th>
 		<td align="left" style="padding:5px;">
 		<input type="text" name="userid" id="userid" 
-							placeholder="ID 입력" style="width: 15%;"/>
+					placeholder="ID 입력" style="width: 15%; ime-mode:inactive;"/>
 		<button type="button" id="idChk" class="white">중복확인</button>
 		</td>
 	</tr>
 	<tr class="board">
 		<th class="head">비밀번호</th>
 		<td align="left" style="padding:5px;">
-		<input type="password" name="pwd" id="pwd" style="width:25%;" placeholder="비밀번호 입력 (4~12자리)"/>
+		<input type="password" name="pwd" id="pwd" style="width:25%; ime-mode:inactive;" placeholder="비밀번호 입력 (4~12자리)"/>
 		(4~12자리)
 		</td>
 	</tr>
 	<tr class="board">
 		<th class="head">비밀번호 확인</th>
 		<td align="left" style="padding:5px;">
-		<input type="password" name="pwd2" id="pwd2" style="width:25%;" placeholder="동일하게 입력해 주세요"/>
+		<input type="password" name="pwd2" id="pwd2" style="width:25%; ime-mode:inactive;" placeholder="동일하게 입력해 주세요"/>
 		</td>
 	</tr>
 	<tr class="board">
 		<th class="head">이메일</th>
 		<td align="left" style="padding:5px;">
-		<input type="text" name="email1" id="email1" style="width:20%;"/>
+		<input type="text" name="email1" id="email1" style="width:20%; ime-mode:inactive;"/>
 		@
 		<select name="email2" id="email2">
 			<option value="naver.com">naver.com</option>
@@ -241,10 +286,10 @@ $(function(){
 	<tr class="board">
 		<th class="head">주소</th>
 		<td style="text-align: left; padding:5px;">
-		<input type="text" id="sample6_postcode" placeholder="우편번호" style="width:30%; margin-top: 1%;"/>
+		<input type="text" name="sample6_postcode" id="sample6_postcode" placeholder="우편번호" style="width:30%; margin-top: 1%;"/>
 		<button type="button" onclick="sample6_execDaumPostcode()" class="white">우편번호 찾기</button><br/>
-		<input type="text" id="sample6_address" placeholder="주소" style="width:50%; margin-top: 1%;"><br/>
-		<input type="text" id="sample6_address2" placeholder="상세주소" style="width:70%; margin-top: 1%; margin-bottom:1%;"><br/>
+		<input type="text" name="sample6_address" id="sample6_address" placeholder="주소" style="width:50%; margin-top: 1%;"><br/>
+		<input type="text" name="sample6_address2" id="sample6_address2" placeholder="상세주소" style="width:70%; margin-top: 1%; margin-bottom:1%;"><br/>
 		</td>
 	</tr>
 	<tr class="board">

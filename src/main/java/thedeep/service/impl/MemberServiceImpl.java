@@ -282,5 +282,13 @@ public class MemberServiceImpl implements MemberService {
 	public String selectBuyConfirm(String ocode) throws Exception {
 		return memberDAO.selectBuyConfirm(ocode);
 	}
+	public String insertMemPoint(String userid) throws Exception {
+		return memberDAO.insertMemPoint(userid);
+	}
+
+	@Override
+	public int selectMemberPoint(String userid) throws Exception {
+		return memberDAO.selectMemberPoint(userid);
+	}
 
 }

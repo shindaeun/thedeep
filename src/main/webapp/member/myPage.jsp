@@ -93,7 +93,7 @@ a:hover {text-decoration:underline; color: #000000}
 			<th class="my">COUPON</th>
 			<td style="font-size:9pt;"><a href="/coupon.do">${coupon}</a></td>
 			<th class="my">POINT</th>
-			<td style="font-size:9pt;">${vo.ablepoint}</td>
+			<td style="font-size:9pt;">${point}</td>
 		</tr>
 		<tr>
 			<th class="my">TOTAL</th>

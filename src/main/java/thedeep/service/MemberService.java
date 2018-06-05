@@ -106,9 +106,15 @@ public interface MemberService {
 
 	String insertPoint(PointVO point) throws Exception;
 
+<<<<<<< HEAD
 	int updateBuyConfirm(OrderListVO vo)  throws Exception;
 
 	String selectBuyConfirm(String ocode) throws Exception;
+=======
+	String insertMemPoint(String userid) throws Exception;
+
+	int selectMemberPoint(String userid) throws Exception;
+>>>>>>> 회원가입 알림창 | 신규가입 쿠폰, 포인트 | 생일쿠폰 발급 수정
 
 
 
