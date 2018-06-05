@@ -154,6 +154,7 @@ public class BoardDAO extends EgovAbstractDAO {
 		return update("boardDAO.updateOrderList",ovo);
 	}
 
+
 	
 
 	
