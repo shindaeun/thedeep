@@ -11,35 +11,34 @@
 	
 	
 	<select id="adminDAO.selectReviewList" resultClass="egovMap">
-		select b.*
-		from(
-		select
-		rownum rn,a.*
-		from(
-		SELECT
-		unq unq,
-		title title,
-		content content,
-		hit
-		hit,
-		to_char(rdate,'yyyy-mm-dd') rdate
-		FROM
-		review
-		WHERE
-		1=1
-		<isNotNull property="searchKeyword">
-			<isNotEmpty property="searchKeyword">
-				AND $searchCondition$ LIKE '%' ||
-				#searchKeyword# || '%'
-			</isNotEmpty>
-		</isNotNull>
-		ORDER BY
-		unq DESC
-		) a
-		) b
+		select b.* from(
+			select rownum rn,a.* from(
+				SELECT 
+					r.unq unq,
+					r.pcode pcode,
+					r.title title,
+					r.name name,
+					to_char(r.rdate,'yyyy-mm-dd') rdate,
+					nvl(r.hit,0) hit,
+					nvl(r.filename,0) filename,
+					r.content content,
+					p.cnt cnt
+				FROM
+					review r, (select count(fid) cnt, r.unq from reviewreply p, review r where p.fid(+) = r.unq group by r.unq) p 
+				WHERE
+					1 = 1
+					and r.unq = p.unq
+					<isNotNull property="searchKeyword">
+						<isNotEmpty property="searchKeyword">
+						AND lower($searchCondition$) LIKE '%' ||
+						lower(#searchKeyword#) || '%'
+						</isNotEmpty>
+					</isNotNull>
+				ORDER BY unq DESC
+				) a
+			) b
 		where
-		rn > $firstIndex$ and rn  <![CDATA[<=]]>
-		$lastIndex$
+		rn > $firstIndex$ and rn  <![CDATA[<=]]> $lastIndex$
 	</select>
 
 	<select id="adminDAO.selectReviewTotCnt" resultClass="java.lang.Integer">

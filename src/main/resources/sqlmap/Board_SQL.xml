@@ -114,16 +114,19 @@
 	SELECT rownum rn,a.* FROM (
 	
 		SELECT 
-			unq unq,
-			pcode pcode,
-			title title,
-			name name,
-			to_char(rdate,'yyyy-mm-dd') rdate,
-			nvl(hit,0) hit
+			r.unq unq,
+			r.pcode pcode,
+			r.title title,
+			r.name name,
+			to_char(r.rdate,'yyyy-mm-dd') rdate,
+			nvl(r.hit,0) hit,
+			nvl(r.filename,0) filename,
+			p.cnt cnt
 		FROM
-			review 
+			review r, (select count(fid) cnt, r.unq from reviewreply p, review r where p.fid(+) = r.unq group by r.unq) p 
 		WHERE
 			1 = 1
+			and r.unq = p.unq
 			<isNotNull property="searchKeyword">
 				<isNotEmpty property="searchKeyword">
 			AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'

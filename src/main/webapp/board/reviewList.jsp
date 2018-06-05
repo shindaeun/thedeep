@@ -90,7 +90,15 @@ a:hover {text-decoration:underline; color: #000000}
 		}
 		%>
 	  <td style="text-align:center"><img src="/productImages/${result.pcode }.jpg" width="<%=x %>" height="<%=y %>"/></td>
-      <td style="text-align:center"><a href="/reviewDetail.do?unq=${result.unq}">${result.title}</a></td>
+      <td style="text-align:center"><a href="/reviewDetail.do?unq=${result.unq}">
+      								${result.title}&nbsp;
+      								<c:if test="${result.filename!='0'}">
+      								<img src="/icon/photo.JPG" width="23" height="18"/>
+      								</c:if>
+      								<c:if test="${result.cnt!='0'}">
+      								[${result.cnt}]
+      								</c:if>
+      								</a></td>
       <td style="text-align:center">${result.name}</td>
       <td style="text-align:center">${result.rdate}</td>
       <td style="text-align:center">${result.hit}</td>
