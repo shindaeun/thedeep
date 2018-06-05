@@ -174,6 +174,11 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 		return adminDAO.selectMemberIdChk(userid);
 	}
 
+	@Override
+	public int deleteAdminCoupon(String ccode) throws Exception {
+		return adminDAO.deleteAdminCoupon(ccode);
+	}
+
 
 
 	

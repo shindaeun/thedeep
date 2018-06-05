@@ -65,6 +65,8 @@ public interface AdminService {
 
 	int selectMemberIdChk(String userid) throws Exception;
 
+	int deleteAdminCoupon(String ccode) throws Exception;
+
 
 
 }

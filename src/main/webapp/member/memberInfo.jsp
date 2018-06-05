@@ -176,6 +176,15 @@ $(function(){
 	 			email += "@" + $("#email2").val();
 	 		$("#email").val(email);
 	 		
+	 		var birthday = $("#bir1").val();
+	 		if($("#bir2").val()<10) {
+	 			birthday += "-" + "0" + $("#bir2").val();
+	 		} else birthday += "-" + $("#bir2").val();
+	 		if($("#bir3").val()<10) {
+	 			birthday += "-" + "0" + $("#bir3").val();
+	 		} else birthday += "-" + $("#bir3").val();
+	 		$("#birthday").val(birthday);
+	 		
 	 		var formData = $("#frm").serialize();
 	 		// 비 동기 전송
 			$.ajax({
@@ -217,6 +226,7 @@ $(function(){
 <input type="hidden" name="phone" id="phone"/>
 <input type="hidden" name="post" id="post"/>
 <input type="hidden" name="email" id="email"/>
+<input type="hidden" name="birthday" id="birthday"/>
 <input type="hidden" name="today" id="today" value="${today}"/>
 
 <table class="board">
@@ -262,7 +272,21 @@ $(function(){
 	<tr class="board">
 		<th class="head">생일</th>
 		<td align="left" style="padding:5px;">
-		<input type="text" name="birthday" id="birthday" style="width:20%"/>
+		<select name="bir1" id="bir1">
+			<c:forEach var="i" begin="1970" end="2017">
+			<option value="${i}">${i}</option>
+			</c:forEach>
+		</select>
+		<select name="bir2" id="bir2">
+			<c:forEach var="i" begin="1" end="12">
+			<option value="${i}">${i}</option>
+			</c:forEach>
+		</select>
+		<select name="bir3" id="bir3">
+			<c:forEach var="i" begin="1" end="31">
+			<option value="${i}">${i}</option>
+			</c:forEach>
+		</select>
 		</td>
 	</tr>
 	<tr class="board">

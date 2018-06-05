@@ -253,7 +253,6 @@
 	<update id="memberDAO.updateMember">
 		UPDATE memberinfo
 		SET pwd = #pwd#
-		, birthday = #birthday#
 		, gender = #gender#
 		, post = #post#
 		, phone = #phone#
