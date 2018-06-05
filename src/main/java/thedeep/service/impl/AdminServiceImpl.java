@@ -194,4 +194,5 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 		return adminDAO.selectCouponName(ccode);
 	}
 
+
 }

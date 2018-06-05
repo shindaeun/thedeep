@@ -111,8 +111,6 @@ if(filenames != null && !filenames.equals("")) {
 
 		File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/qnaImages/"+filename[i]);
 
-		File file = new File("C:/Users/acorn/workspace/thedeep/src/main/webapp/qnaImages/"+filename[i]);
-
 		BufferedImage img = ImageIO.read(file);
 		int imgWidth = img.getWidth(null);
 		int imgHeight = img.getHeight(null);
