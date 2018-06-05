@@ -283,4 +283,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectMemberPoint(userid);
 	}
 
+	@Override
+	public int selectOnMoneyCnt(String userid) throws Exception {
+		return memberDAO.selectOnMoneyCnt(userid);
+	}
+
 }

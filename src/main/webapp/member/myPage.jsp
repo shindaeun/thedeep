@@ -63,11 +63,12 @@ a:hover {text-decoration:underline; color: #000000}
 
 <table class="board">
 		<tr class="a">
-			<td class="a" colspan="5">ORDER STATUS (RECENT 3 MONTHS)</td>
+			<td class="a" colspan="6">ORDER STATUS (RECENT 3 MONTHS)</td>
 		</tr>
 		<tr class="b">
 			<td width="10%"></td>
 			<td>입금전 ${inMoney}</td>
+			<td>결제완료 ${onMoney}</td>
 			<td>배송준비중 ${preparing}</td>
 			<td>배송중 ${deliver}</td>
 			<td>배송완료 ${complete}</td>

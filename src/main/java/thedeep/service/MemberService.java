@@ -110,6 +110,8 @@ public interface MemberService {
 
 	int selectMemberPoint(String userid) throws Exception;
 
+	int selectOnMoneyCnt(String userid) throws Exception;
+
 
 
 

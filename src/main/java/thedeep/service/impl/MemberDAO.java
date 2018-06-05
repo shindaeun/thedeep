@@ -228,5 +228,9 @@ public class MemberDAO extends EgovAbstractDAO{
 		return (int) select("memberDAO.selectMemberPoint", userid);
 	}
 
+	public int selectOnMoneyCnt(String userid) {
+		return (int) select("memberDAO.selectOnMoneyCnt", userid);
+	}
+
 	
 }

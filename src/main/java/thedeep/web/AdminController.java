@@ -29,6 +29,7 @@ import thedeep.service.AdminService;
 import thedeep.service.AdminVO;
 import thedeep.service.BoardService;
 import thedeep.service.BoardVO;
+import thedeep.service.CheckVO;
 import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
@@ -548,7 +549,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/adminCoupon.do")
-	public String selectAdminCoupon(CouponVO vo, ModelMap model) throws Exception{
+	public String selectAdminCoupon(CouponVO vo, ModelMap model,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
 		
 		List<?> list = adminService.selectCouponList();
 		model.addAttribute("list", list);
@@ -560,6 +561,25 @@ public class AdminController {
 		}
 		
 		model.addAttribute("vo", vo);
+		
+		searchVO.setPageUnit(10); 	// 한 화면 출력 개수
+		searchVO.setPageSize(10);	// 페이지 너비 개수
+		
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		List<?> list2 = adminService.selectAdminList(searchVO);
+		model.addAttribute("list2", list2);
+		
+		int totCnt = adminService.selectAdminListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
 		
 		return "admin/adminCoupon";
 	}
@@ -614,11 +634,17 @@ public class AdminController {
 		if(tday<10) today += "0" + tday;
 		else today += tday + "";
 		
-		String edate = "";
-		int year = 0;
-		int month = 0;
-		int day = 0;
 		String userid = "";
+		
+		cal.add(Calendar.MONTH, 1);
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1;
+		int day = cal.get(Calendar.DATE);
+		String edate = year + "-";
+		if(month<10) edate += "0" + month + "-";
+		else edate += month + "-";
+		if(day<10) edate += "0" + day;
+		else edate += day + "";
 		
 		List<?> list = memberService.selectMemberBTD(today);
 		Map<String,String> map2;
@@ -634,15 +660,6 @@ public class AdminController {
 				userid = id[i];
 				int coupon = memberService.selectBTDCoupon(userid);
 				if(coupon==0) {
-					cal.add(Calendar.MONTH, 1);
-					year = cal.get(Calendar.YEAR);
-					month = cal.get(Calendar.MONTH)+1;
-					day = cal.get(Calendar.DATE);
-					edate = year + "-";
-					if(month<10) edate += "0" + month + "-";
-					else edate += month + "-";
-					edate += day + "";
-					
 					vo.setUserid(userid);
 					vo.setEdate(edate);
 					
@@ -672,6 +689,50 @@ public class AdminController {
 
 		int cnt = adminService.deleteAdminCoupon(ccode);
 		if(cnt>0) result = "ok";
+		else result = "1";
+
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	@RequestMapping(value = "/adminCouponOut.do")
+	@ResponseBody 
+	public Map<String,Object> insertAdminCouponOut(CheckVO cvo, HttpServletRequest request) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		Calendar cal = Calendar.getInstance();
+		
+		String result = "";
+		
+		String ccode = cvo.getCcode1();
+		String check = cvo.getCheck();
+		String cname = "";
+		String cnt = "";
+
+		cal.add(Calendar.MONTH, 1);
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1;
+		int day = cal.get(Calendar.DATE);
+		String edate = year + "-";
+		if(month<10) edate += "0" + month + "-";
+		else edate += month + "-";
+		if(day<10) edate += "0" + day;
+		else edate += day + "";
+		
+		
+		String[] userid = check.split(",");
+		for(int i=0; i<userid.length; i++) {
+			cvo.setUserid(userid[i]);
+			cname = adminService.selectCouponName(ccode);
+			if(cname!=null) {
+				cvo.setEdate(edate);
+				cvo.setCname(cname);
+				System.out.println(edate + "  /  " + cname + "  / " + ccode);
+				cnt = adminService.insertAdminCouponOut(cvo);
+			}
+		}
+		if(cnt==null) result = "ok";
 		else result = "1";
 
 		map.put("result", result);

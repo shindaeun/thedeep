@@ -7,6 +7,7 @@
 		type="egovframework.rte.psl.dataaccess.util.EgovMap" />
 	<typeAlias alias="adminVO" type="thedeep.service.AdminVO" />
 	<typeAlias alias="couponVO" type="thedeep.service.CouponVO" />
+	<typeAlias alias="checkVO" type="thedeep.service.CheckVO" />
 	
 	
 	<select id="adminDAO.selectReviewList" resultClass="egovMap">
@@ -412,4 +413,28 @@
 		FROM memberinfo
 		WHERE userid=#userid#
 	</select>
+	
+	<insert id="adminDAO.insertAdminCouponOut">
+		insert into couponlist 
+		( userid
+		, ccode
+		, sdate
+		, edate
+		, able
+		, cname
+		) values ( #userid#
+				 , #ccode1#
+				 , sysdate
+				 , #edate#
+				 , 'Y'
+				 , #cname#
+				 )
+	</insert>
+	
+	<select id="adminDAO.selectCouponName" resultClass="java.lang.String">
+		SELECT cname
+		FROM coupon
+		WHERE ccode=#ccode#
+	</select>
+	
 </sqlMap>
