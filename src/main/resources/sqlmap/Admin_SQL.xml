@@ -18,6 +18,7 @@
 					r.pcode pcode,
 					r.title title,
 					r.name name,
+					r.userid,
 					to_char(r.rdate,'yyyy-mm-dd') rdate,
 					nvl(r.hit,0) hit,
 					nvl(r.filename,0) filename,
@@ -66,6 +67,7 @@
 		SELECT
 		unq unq,
 		title title,
+		name,userid,
 		content content,
 		hit
 		hit,

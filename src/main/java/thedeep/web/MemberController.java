@@ -396,6 +396,7 @@ public class MemberController {
 		}
 		List<?> qlist = memberService.selectUserQna(searchVO);
 		model.addAttribute("qlist", qlist);
+		System.out.println(qlist);
 		int totCnt = memberService.selectUserQnaTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		

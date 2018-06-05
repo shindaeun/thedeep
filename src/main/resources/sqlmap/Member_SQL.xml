@@ -83,6 +83,8 @@
 		SELECT
 		unq unq,
 		title title,
+		filename,
+		name,
 		content content,
 		hit
 		hit,
@@ -131,6 +133,8 @@
 		SELECT
 		unq unq,
 		title title,
+		name,
+		filename,
 		content content,
 		hit
 		hit,

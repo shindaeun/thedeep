@@ -75,6 +75,8 @@
 		unq unq,
 		title title,
 		content content,
+		filename,
+		name,
 		hit
 		hit,
 		to_char(rdate,'yyyy-mm-dd') rdate

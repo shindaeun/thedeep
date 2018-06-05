@@ -3,6 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="java.io.File" %>
+<%@ page import="javax.imageio.ImageIO" %>
+<%@ page import="java.awt.image.BufferedImage" %>
+<%@ page import="java.awt.Image" %>
+<%@ page import="javax.swing.ImageIcon" %>
 <%
 	String pageIndex2 = request.getParameter("pageIndex2");
 	if (pageIndex2 == null)
@@ -121,7 +126,36 @@ p {
 				<td>${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}</td>
 				<td><p class="heading">${i.title}</p>
 					<div class="content">
-					<% 
+					
+					<c:set var="filenames" value="${i.filename}"></c:set>
+							 <%
+							int x1=0,y1=0,i1=0;
+							String[] filename1={};
+							String filenames1 = (String)pageContext.getAttribute("filenames");
+							if(filenames1 != null && !filenames1.equals("")) {
+								filename1= filenames1.split(",");
+								File file1 = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/qnaImages/"+filename1[i1]);
+								BufferedImage img = ImageIO.read(file1);
+								int imgWidth = img.getWidth(null);
+								int imgHeight = img.getHeight(null);
+								if(imgWidth > imgHeight) {
+									x1 = 400;
+									y1 = (imgHeight * x1) / imgWidth;
+								} else if(imgWidth < imgHeight) {
+									y1 = 400;
+									x1 = (imgWidth * y1) / imgHeight;
+								} else {
+									x1=400;
+									y1=400;
+								}
+							}
+							if(filenames1 != null) {
+								for(int i=0; i<filename1.length; i++) {
+							%> 
+							<img src="/qnaImages/<%=filename1[i]%>" width="<%=x1%>" height="<%=y1%>"><br>
+							<%
+							 	}
+							}  
       				pageContext.setAttribute("newLine","\n"); //Space, Enter
       				pageContext.setAttribute("br", "<br/>"); //br 태그
 					%> 
@@ -213,7 +247,37 @@ p {
 			<tr class="board" align="center">
 				<td>${paginationInfo2.totalRecordCount+1 - ((searchVO.pageIndex2-1) * searchVO.pageSize + status.count)}</td>
 				<td><p class="heading">${i.title}</p>
-				<div class="content"><% 
+				<div class="content">
+				<c:set var="filenames" value="${i.filename}"></c:set>
+							<%
+							int x=0,y=0,i=0;
+							String[] filename={};
+							String filenames = (String)pageContext.getAttribute("filenames");
+							if(filenames != null && !filenames.equals("")) {
+								filename= filenames.split(",");
+								File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/reviewImages/"+filename[i]);
+								BufferedImage img = ImageIO.read(file);
+								int imgWidth = img.getWidth(null);
+								int imgHeight = img.getHeight(null);
+								if(imgWidth > imgHeight) {
+									x = 400;
+									y = (imgHeight * x) / imgWidth;
+								} else if(imgWidth < imgHeight) {
+									y = 400;
+									x = (imgWidth * y) / imgHeight;
+								} else {
+									x=400;
+									y=400;
+								}
+							}
+							if(filenames != null) {
+								for(i=0; i<filename.length; i++) {
+							%>
+							<img src="/reviewImages/<%=filename[i]%>" width="<%=x%>" height="<%=y%>"><br>
+							<%
+								}
+							}
+							
       				pageContext.setAttribute("newLine","\n"); //Space, Enter
       				pageContext.setAttribute("br", "<br/>"); //br 태그
 					%> 
