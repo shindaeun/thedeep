@@ -237,5 +237,6 @@ public class MemberDAO extends EgovAbstractDAO{
 
 	}
 
+
 	
 }
