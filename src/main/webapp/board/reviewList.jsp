@@ -89,7 +89,7 @@ a:hover {text-decoration:underline; color: #000000}
 			} 
 		}
 		%>
-	  <td style="text-align:center"><img src="/productImages/${result.pcode }.jpg" width="<%=x %>" height="<%=y %>"/></td>
+	  <td style="text-align:center"><a href="/productDetail.do?pcode=${result.pcode}"><img src="/productImages/${result.pcode }.jpg" width="<%=x %>" height="<%=y %>"/></a></td>
       <td style="text-align:center"><a href="/reviewDetail.do?unq=${result.unq}">
       								${result.title}&nbsp;
       								<c:if test="${result.filename!='0'}">
