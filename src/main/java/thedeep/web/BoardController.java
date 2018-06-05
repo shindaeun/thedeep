@@ -660,5 +660,30 @@ public class BoardController {
 		return map;
 	}
 	
+	@RequestMapping(value="/UqnaReDetail.do")
+	public String selectUQnaReDetail(BoardVO vo, ModelMap model, HttpServletRequest request) throws Exception{
+		
+		int unq = vo.getUnq();
+		
+		vo = boardService.selectQnaDetail(unq);
+		model.addAttribute("vo", vo);
+		
+		String a12 = null;
+		try {
+			HashMap a = (HashMap) request.getSession().getAttribute("ThedeepALoginCert");
+			System.out.println("adminid  :  " + a.get("ThedeepAUserId"));
+			a12=(String) a.get("ThedeepAUserId");
+		} catch(Exception e) { }
+		
+		int login = 1;
+		if(a12==null) {
+			boardService.updateQnaHit(unq);
+			login = 2;
+		}
+		
+		model.addAttribute("login", login);
+		
+		return "board/UqnaReDetail";
+	}
 	
 }

@@ -16,7 +16,7 @@
 <script>
 $(function(){
 	$("#btnList").click(function() {
-		location.href="/adminBoard.do";
+		location.href="/qnaList.do";
 	});
 	$("#btnModify").click(function() {
 		if(    $("#pwd").val().length < 4 
