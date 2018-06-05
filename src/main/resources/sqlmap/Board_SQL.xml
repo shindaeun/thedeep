@@ -360,11 +360,7 @@
 				</isNotEmpty>
   			</isNotNull>
   			, userid
-  			<isNotNull property="pcode">
-				<isNotEmpty property="pcode">
   			, pcode
-				</isNotEmpty>
-  			</isNotNull>
   			, fid
 			)
 	        VALUES ( qna_seq.nextval
@@ -381,11 +377,7 @@
 	            	 	</isNotEmpty>
 	            	 </isNotNull>
 	            	 , #userid#
-		  			 <isNotNull property="pcode">
-					 	 <isNotEmpty property="pcode">
 		  		  	 , #pcode#
-					 	 </isNotEmpty>
-		  			 </isNotNull>
 	            	 , qna_seq.nextval
 	            	 ) 
 	  </insert>

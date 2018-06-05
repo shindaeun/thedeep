@@ -76,7 +76,7 @@ a:hover {text-decoration:underline; color: #000000}
 		int x=0,y=0;
 		String filename = (String) pageContext.getAttribute("pcode");
 		filename=filename + ".jpg"; 
-		File file = new File("C:/Users/acorn/workspace/thedeep/src/main/webapp/productImages/" + filename);
+		File file = new File("C:/eGovFrameDev-3.7.0-64bit/workspace/thedeep/src/main/webapp/productImages/" + filename);
 		if(!filename.equals(null) &&!filename.equals("")&& file.exists()){
 			BufferedImage img = ImageIO.read(file);
 			int imgWidth = img.getWidth(null);
@@ -91,7 +91,7 @@ a:hover {text-decoration:underline; color: #000000}
 			}
 		}
 		%>
-	    <td style="text-align:center"><img src="/productImages/${result.pcode}.jpg" width="50" height="50"/></td>
+	    <td style="text-align:center"><img src="/productImages/${result.pcode}.jpg" width="<%=x %>" height="<%=y %>"/></td>
 	    </c:if>
 	    <c:if test="${pcode==null}">
 	    <td style="text-align:center"></td>
