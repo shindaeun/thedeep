@@ -599,7 +599,7 @@ public class MemberController {
 		dvo.setOphone(mvo.getPhone());
 		if(result==null){
 			result = memberService.insertDelivery(dvo);
-			if(result==null){
+			if(result==null && olist.size()>0){
 				for(int i =0;i<olist.size();i++){
 					OrderListVO vo = olist.get(i);
 					vo.setOcode(ocode);

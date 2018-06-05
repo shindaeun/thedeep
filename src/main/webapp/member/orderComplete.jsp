@@ -10,7 +10,7 @@
 		주문번호 : ${ovo.ocode}<br>
 		주문일자 : ${ovo.odate}<br>
 		주문목록 : ${olist}<br>
-		주문금액 : ${ovo.totalmoney}<br>
+		주문금액 : ${ovo.totalmoney}원<br>
 		결제방법 : ${ovo.paymethod}<br><br>
 
 
