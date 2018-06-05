@@ -380,6 +380,11 @@
 		where ccode = #ccode#
 	</update>
 	
+	<delete id="adminDAO.deleteAdminCoupon">
+		DELETE FROM coupon
+		WHERE ccode = #ccode#
+	</delete>
+	
 	<select id="adminDAO.selectPointList" resultClass="egovMap">
 		select userid, content, usepoint, savepoint, ablepoint, rdate
 		from point
