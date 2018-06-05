@@ -281,7 +281,7 @@ p {
 	</tr>
 	<tr class="board">
 		<td>설문조사</td>
-		<td><c:if test="${surveylist=='' }">결과가 없습니다.</c:if> <c:if
+		<td><c:if test="${surveylist.size()==0 }">리뷰가  없습니다.</c:if> <c:if
 				test="${surveylist!=null }">
 				<c:forEach var="i" items="${surveylist }">
 
