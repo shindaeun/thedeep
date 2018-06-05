@@ -293,7 +293,7 @@ p {
 						<c:if test="${i.fit=='VS'}">매우작음</c:if>
 					<div
 						style="width: ${100.0*i.cnt/i.total}%; height: 5px; background: skyblue; float: left;"></div>
-					<div style="width: 50px;">(${100.0*i.cnt/i.total}%)</div>
+					<div>${100.0*i.cnt/i.total}%(${i.cnt }표)</div>
 				</c:forEach>
 			</c:if></td>
 	</tr>
