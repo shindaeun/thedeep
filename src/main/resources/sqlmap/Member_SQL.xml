@@ -471,6 +471,11 @@
 		select decode(count(buyconfirm),0,'Y','N') from orderlist where ocode=#ocode# and buyconfirm='N'
 	 ]]>
 	</select>
+	<select id="memberDAO.selectCancelConfirm" resultClass="java.lang.Integer">
+	 <![CDATA[
+		select count(cscode) from orderlist where ocode=#ocode# and buyconfirm not in ('C')
+	 ]]>
+	</select>
 	<select id="memberDAO.selectOrderInfoByOVO" resultClass="orderListVO">
 	 <![CDATA[
 		select ocode,pcode,cscode,amount,totalmoney from orderlist where ocode=#ocode# and cscode=#cscode#
@@ -498,6 +503,9 @@
 	</update>
 	<update id="memberDAO.updateBuyConfirm2">
 	 update orderlist set buyconfirm='C' where ocode=#ocode# and cscode=#cscode#
+	</update>
+	<update id="memberDAO.updateBuyConfirm3">
+	 update orderlist set buyconfirm='취소요청' where ocode=#ocode# and cscode=#cscode#
 	</update>
 	<update id="memberDAO.updateAdminMemo">
 	 update ordermain set adminmemo=#adminmemo# where ocode=#ocode#
@@ -564,7 +572,7 @@
 		, savepoint
 		, rdate
 		) VALUES ( #userid#
-				 , '신규가입쿠폰'
+				 , '신규가입'
 				 , '0'
 				 , '1000'
 				 , '1000'
