@@ -137,6 +137,17 @@ $(function(){
 	         action:'/adminCoupon.do',method:'post'
 	      }).submit();
 	   });
+	$("#checkAll").click(function() {
+		if($("#checkAll").prop('checked')) {
+			$('input[name=check]:checkbox').each(function() {
+				$(this).prop('checked',true);
+			});
+		} else {
+			$('input[name=check]:checkbox').each(function() {
+				$(this).prop('checked',false);
+			});
+		}
+	});
 });
 function fnDelete(ccode) {
 	if(ccode=="c001" || ccode=="c002") {
@@ -289,7 +300,7 @@ a:hover {text-decoration:underline; color: #000000}
 </table>
 </c:if>
 
-<table class="board">
+<table class="board" style="margin-top:10px;">
 	<tr class="board">
 		<th class="head" style="width:5%">NO</th>
 		<th class="head" style="width:10%">CODE</th>
@@ -348,9 +359,9 @@ a:hover {text-decoration:underline; color: #000000}
       </td>
    </tr>
 </table>
-<table class="board">
+<table class="board" style="margin-top:5px;">
 	<tr class="board" style="height:30px;">
-		<th width="5%" class="head"></th>
+		<td width="5%" class="head" style="text-align:center;"><input type="checkbox" id="checkAll"></td>
 		<th width="15%" class="head">ID</th>
 		<th width="10%" class="head">NAME</th>
 		<th width="15%" class="head">PHONE</th>
@@ -379,7 +390,7 @@ a:hover {text-decoration:underline; color: #000000}
 			<c:set var="parm1" value="searchCondition=${searchVO.getSearchCondition()}"/>
 			<c:set var="parm2" value="searchKeyword=${searchVO.getSearchKeyword()}"/>
 			<c:forEach var="i" begin="1" end="${paginationInfo.getTotalPageCount()}">
-				<a href="/adminList.do?pageIndex=${i}&${parm1}&${parm2}">${i}</a>
+				<a href="/adminCoupon.do?pageIndex=${i}&${parm1}&${parm2}">${i}</a>
 			</c:forEach>
 			</div>
 		</td>

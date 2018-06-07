@@ -232,7 +232,7 @@ pageContext.setAttribute("email2", email[1]);
 		<th class="head">주소</th>
 		<td style="text-align: left; padding:5px;">
 		<input type="text" id="sample6_postcode" placeholder="우편번호" style="width:30%; margin-top: 1%;" value="${postnum}"/>
-		<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="white"/><br/>
+		<button type="button" onclick="sample6_execDaumPostcode()" class="white">우편번호 찾기</button><br/>
 		<input type="text" id="sample6_address" placeholder="주소" style="width:50%; margin-top: 1%;" value="${arr1}"/><br/>
 		<input type="text" id="sample6_address2" placeholder="상세주소" style="width:70%; margin-top: 1%; margin-bottom:1%;" value="${arr2}"/><br/>
 		</td>

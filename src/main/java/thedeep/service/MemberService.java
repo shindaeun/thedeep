@@ -126,6 +126,8 @@ public interface MemberService {
 
 	int selectDisRate(String ocode) throws Exception;
 
+	int selectUserOrderListCnt(DefaultVO searchVO) throws Exception;
+
 
 
 

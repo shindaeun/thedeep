@@ -301,6 +301,27 @@
 	</select>
 
 	<select resultClass="egovMap" id="memberDAO.selectUserOrderList">
+		<!-- SELECT b.* FROM (
+   			SELECT rownum rn, a.* FROM (
+   				SELECT 
+   					unq, title, name, to_char(rdate, 'yyyy-mm-dd') rdate, pcode, hit, forder, fid
+   				FROM 
+   					qna
+   				WHERE 
+   					1=1
+   					<isNotNull property="searchKeyword">
+   						<isNotEmpty property="searchKeyword">
+   							AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+   						</isNotEmpty>
+   					</isNotNull>
+   				ORDER BY m.odate DESC
+			) a
+		) b
+   			
+   		WHERE
+   		
+   			rn >= $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$
+   			 -->
 		SELECT m.userid userid
 		, m.ocode ocode
 		, m.paymethod
@@ -310,14 +331,14 @@
 		, p.pname pname
 		, l.reviewconfirm
 		, l.buyconfirm
-		, to_char(m.odate,'YYYY-MM-DD') odate
-		,(select dstate from delivery d where d.ocode = m.ocode) dstate
+		, TO_CHAR(m.odate,'YYYY-MM-DD') odate
+		,(SELECT dstate FROM delivery d WHERE d.ocode = m.ocode) dstate
 		FROM (SELECT userid, ocode, odate ,paymethod,adminmemo
-		FROM ordermain
-		WHERE userid = #userid#) m, orderlist l, product p
+		      FROM ordermain
+			  WHERE userid = #userid#) m, orderlist l, product p
 		WHERE m.ocode = l.ocode
 		AND l.cscode = p.cscode
-		ORDER by m.odate DESC
+		ORDER BY m.odate DESC
 	</select>
 
 	<select resultClass="java.lang.Integer" id="memberDAO.selectFindid">

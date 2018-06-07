@@ -213,3 +213,16 @@
 		</tr>
 	</c:forEach>
 </table>
+<table border="0" width="100%">
+	<tr>
+		<td align="center" style="board:0px;">
+			<div id="paging">
+			<c:set var="parm1" value="searchCondition=${searchVO.getSearchCondition()}"/>
+			<c:set var="parm2" value="searchKeyword=${searchVO.getSearchKeyword()}"/>
+			<c:forEach var="i" begin="1" end="${paginationInfo.getTotalPageCount()}">
+				<a href="/userOrderList.do?pageIndex=${i}&${parm1}&${parm2}">${i}</a>
+			</c:forEach>
+			</div>
+		</td>
+	</tr>
+</table>

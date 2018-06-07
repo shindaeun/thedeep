@@ -14,6 +14,9 @@ public class MemberVO {
 	private int ablepoint;
 	private String joindate;
 	
+	private String bir1;
+	private String bir2;
+	
 	public String getUserid() {
 		return userid;
 	}
@@ -85,6 +88,18 @@ public class MemberVO {
 	}
 	public void setJoindate(String joindate) {
 		this.joindate = joindate;
+	}
+	public String getBir1() {
+		return bir1;
+	}
+	public void setBir1(String bir1) {
+		this.bir1 = bir1;
+	}
+	public String getBir2() {
+		return bir2;
+	}
+	public void setBir2(String bir2) {
+		this.bir2 = bir2;
 	}
 	
 }

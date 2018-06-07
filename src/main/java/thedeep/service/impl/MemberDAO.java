@@ -261,6 +261,10 @@ public class MemberDAO extends EgovAbstractDAO{
 		return (int) select("memberDAO.selectDisRate",ocode);
 	}
 
+	public int selectUserOrderListCnt(DefaultVO searchVO) {
+		return (int) select("memberDAO.selectUserOrderListCnt", searchVO);
+	}
+
 
 	
 }
