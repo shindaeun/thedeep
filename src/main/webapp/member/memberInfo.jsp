@@ -129,6 +129,21 @@ $(function(){
 			return;
 		}
 		
+		var year = $("#bir1").val();
+		var month = $("#bir2").val();
+		var day = $("#bir3").val();
+		
+		var fitstDayOfMonth = [year, month, 1].join('-');
+		var date = new Date(fitstDayOfMonth);
+		date.setMonth(date.getMonth()+1);
+		date.setDate(date.getDate()-1);
+		
+		var last = date.getDate();
+		if(last<day) {
+			alert("요일을 잘못 지정하셨습니다.");
+			return;
+		}
+		
 		var birthday = $("#bir1").val();
  		if($("#bir2").val()<10) {
  			birthday += "-" + "0" + $("#bir2").val();
@@ -293,24 +308,9 @@ $(function(){
 			<option value="${i}">${i}</option>
 			</c:forEach>
 		</select>
-		
-<%-- <%
-Calendar cal = Calendar.getInstance();
-String bir1 = (String) pageContext.getAttribute("bir0");
-String bir2 = (String) pageContext.getAttribute("bir00");
-String day = "31";
-if(bir1!=null && bir2!=null) {
-	int year = Integer.parseInt(bir1);
-	int month = Integer.parseInt(bir2);
-	cal.set(year,month,1);
-	int dday = cal.getActualMaximum(Calendar.DATE);
-	day = dday + "";
-}
-pageContext.setAttribute("day", day);
-%> 년도와 월을 뭘 선택했는지 알 수 없음 --%>
 		<select name="bir3" id="bir3">
 			<option value="==">일</option>
-			<c:forEach var="i" begin="1" end="${day}">
+			<c:forEach var="i" begin="1" end="31">
 			<option value="${i}">${i}</option>
 			</c:forEach>
 		</select>
