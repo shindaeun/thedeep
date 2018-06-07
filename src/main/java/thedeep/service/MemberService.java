@@ -118,6 +118,8 @@ public interface MemberService {
 
 	int selectPointTotCnt(String userid) throws Exception;
 
+	int updateAdminMemo(OrderVO vo) throws Exception;
+
 
 
 

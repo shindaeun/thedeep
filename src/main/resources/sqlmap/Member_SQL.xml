@@ -304,6 +304,7 @@
 		SELECT m.userid userid
 		, m.ocode ocode
 		, m.paymethod
+		, m.adminmemo
 		, p.cscode cscode
 		, p.pcode pcode
 		, p.pname pname
@@ -311,7 +312,7 @@
 		, l.buyconfirm
 		, to_char(m.odate,'YYYY-MM-DD') odate
 		,(select dstate from delivery d where d.ocode = m.ocode) dstate
-		FROM (SELECT userid, ocode, odate ,paymethod
+		FROM (SELECT userid, ocode, odate ,paymethod,adminmemo
 		FROM ordermain
 		WHERE userid = #userid#) m, orderlist l, product p
 		WHERE m.ocode = l.ocode
@@ -436,7 +437,7 @@
 	</select>
 	<select id="memberDAO.selectOrderInfo" resultClass="orderVO">
 	 <![CDATA[
-	select ocode,userid,totalmoney,paymethod,to_char(odate,'yyyy-mm-dd') odate ,usecoupon,savepoint,usepoint
+	select ocode,userid,totalmoney,paymethod,to_char(odate,'yyyy-mm-dd') odate ,usecoupon,savepoint,usepoint,adminmemo
 	from ordermain 
 	where ocode=upper(#ocode#)
 	 ]]>
@@ -484,6 +485,9 @@
 	</insert>
 	<update id="memberDAO.updateBuyConfirm">
 	 update orderlist set buyconfirm='Y' where ocode=#ocode# and pcode=#pcode#
+	</update>
+	<update id="memberDAO.updateAdminMemo">
+	 update ordermain set adminmemo=#adminmemo# where ocode=#ocode#
 	</update>
 	<insert id="memberDAO.insertCoupon">
 		INSERT INTO couponlist
@@ -558,9 +562,6 @@
 	<select id="memberDAO.selectMemberPoint" resultClass="java.lang.Integer">
 
 		SELECT p.ablepoint point
-
-		SELECT ablepoint point
-
 		FROM point p, (SELECT MAX(rdate) rdate FROM point WHERE userid=#userid#) r
 		WHERE p.rdate = r.rdate
 		AND p.userid = #userid#
