@@ -245,6 +245,10 @@ public class MemberDAO extends EgovAbstractDAO{
 		return (int) select("memberDAO.selectPointTotCnt", userid);
 	}
 
+	public int updateAdminMemo(OrderVO vo) {
+		return update("memberDAO.updateAdminMemo",vo);
+	}
+
 
 	
 }

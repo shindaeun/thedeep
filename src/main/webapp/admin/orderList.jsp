@@ -38,8 +38,56 @@ $(function() {
 	$("#btnIamport").click(function() {
 		location.href="/iamportList.do";
 	});
+	$("#btnCancel").click(
+			function() {
+				var btn = $(this);
+				var tr = btn.parent().parent();
+				var td = tr.children();
+				var merchant_uid = td.eq(0).text();
+				var param = "merchant_uid=" + merchant_uid;
+
+				$.ajax({
+					type : "POST",
+					data : param,
+					url : "/CancelAlert.do",
+					success : function(data) {
+						if (data.result == "ok") {
+							alert("취소요청하였습니다.");
+							location.href = "/userOrderList.do";
+						} else {
+							alert("취소요청실패했습니다. 다시 시도해 주세요.");
+						}
+					},
+					error : function(request, status, error) {
+						alert("code:" + request.status + "\n" + "message:"
+								+ request.responseText + "\n" + "error:"
+								+ error);
+					}
+				});
+			});
 	
 });
+function fnCancel(ocode){
+	var param = "merchant_uid=" + ocode;
+	$.ajax({
+		type : "POST",
+		data : param,
+		url : "/CancelApply.do",
+		success : function(data) {
+			if (data.result == "ok") {
+				alert("취소요청하였습니다.");
+				location.href = "/orderList.do";
+			} else {
+				alert("취소요청실패했습니다. 다시 시도해 주세요.");
+			}
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"
+					+ request.responseText + "\n" + "error:"
+					+ error);
+		}
+	});
+}	
 function submit(i){
 	$("#frm").attr({
 		method : 'post',
@@ -107,8 +155,17 @@ function checkAll(){
 	<c:forEach var="i" items="${olist }" varStatus="status">
 		<tr class="board" align="center">
 			<td>${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}</td>
-			<td><a href="/orderDetail.do?ocode=${i.ocode}">${i.ocode}</a></td>
-			<td>${i.name}<br>( ${i.userid })</td>
+			<td><a href="/orderDetail.do?ocode=${i.ocode}">${i.ocode}</a>
+			<c:if test="${i.adminmemo!=null }">
+			<c:if test="${i.adminmemo=='취소요청' }"><br>
+			(${i.adminmemo }<button type="button" class="white" onclick="fnCancel('${i.ocode}')">취소처리</button>)
+			</c:if>
+			<c:if test="${i.adminmemo!='취소요청' }"><br>
+			(${i.adminmemo })
+			</c:if>
+			</c:if>
+			</td>
+			<td>${i.name}<br>( ${i.userid } )</td>
 			<td>${i.pcode}</td>
 			<td>${i.pname}</td>
 			<td>${i.amount}</td>

@@ -154,6 +154,72 @@ public class AdminController {
 		map.put("result",result);
 		return map;
 	}
+	@RequestMapping(value="/CancelApply.do")
+	@ResponseBody
+	public Map<String,String> CancelApply(HttpServletRequest request, @RequestParam("merchant_uid") String merchant_uid) throws Exception{
+		
+		String result="fail";
+		Map<String,String> map = new HashMap<String,String>();
+		System.out.println("inin");
+		OrderVO ovo  = memberService.selectOrderInfo(merchant_uid);
+		
+		DeliveryVO dvo = new DeliveryVO();
+		dvo.setOcode(merchant_uid);
+		dvo.setDstate("취소");
+		adminService.updateDstate(dvo);
+		
+		//쿠폰 미사용으로 수정
+		int cnt = memberService.updateUseCoupon2(ovo);
+		//재고수정
+		List<?> list = memberService.selectOrderListByOcode(merchant_uid);
+		Map<String,String> map2 = new HashMap<String,String>();
+		ProductVO pvo;
+		for(int i=0;i<list.size();i++){
+			map2 = (Map<String, String>) list.get(i);
+			pvo = new ProductVO();
+			pvo.setCscode(map2.get("cscode"));
+			pvo.setAmount(Integer.parseInt(String.valueOf(map2.get("amount"))));
+			productService.updateAmount(pvo);
+		}
+		//적립금 회수
+		PointVO point = new PointVO();
+		point.setUserid(ovo.getUserid());
+		point.setContent("구매취소("+merchant_uid+")");
+		ovo = memberService.selectOrderInfo(merchant_uid);
+		System.out.println("point3 : "+ovo.getUsepoint()+","+ ovo.getSavepoint());
+		point.setUsepoint(ovo.getSavepoint());
+		point.setSavepoint(ovo.getUsepoint());
+		String ablepoint = adminService.selectAblePoint(ovo.getUserid());
+		int ablepoint2 = Integer.parseInt(ablepoint) - point.getUsepoint() + point.getSavepoint();
+		point.setAblepoint(ablepoint2);
+		memberService.insertPoint(point);
+		//adminmemo 수정
+		OrderVO vo = new OrderVO();
+		vo.setOcode(merchant_uid);
+		vo.setAdminmemo("취소요청 처리완료");
+		cnt = memberService.updateAdminMemo(vo);
+		result="ok";
+
+		map.put("result",result);
+		return map;
+	}
+	@RequestMapping(value="/CancelAlert.do")
+	@ResponseBody
+	public Map<String,String> CancelAlert(HttpServletRequest request, @RequestParam(name="ocode", required=false) String ocode) throws Exception{
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		String result="fail";
+		Map<String,String> map = new HashMap<String,String>();
+		OrderVO vo = new OrderVO();
+		vo.setOcode(ocode);
+		vo.setAdminmemo("취소요청");
+		int cnt = memberService.updateAdminMemo(vo);
+		if(cnt>0){
+			result="ok";
+		}
+		map.put("result",result);
+		return map;
+	}
 	@RequestMapping(value="/adminInfoSave.do")
 	@ResponseBody
 	public Map<String,Object> insertMemeberInfo(AdminVO vo) throws Exception {

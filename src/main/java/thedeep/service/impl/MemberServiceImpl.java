@@ -303,5 +303,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectPointTotCnt(userid);
 	}
 
+	@Override
+	public int updateAdminMemo(OrderVO vo) throws Exception {
+		return memberDAO.updateAdminMemo(vo);
+	}
+
 
 }

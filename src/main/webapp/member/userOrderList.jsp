@@ -91,7 +91,27 @@
 				});
 		
 	});
-	
+	function fnCancel(ocode){
+		var param = "ocode=" + ocode;
+		$.ajax({
+			type : "POST",
+			data : param,
+			url : "/CancelAlert.do",
+			success : function(data) {
+				if (data.result == "ok") {
+					alert("취소요청하였습니다.");
+					location.href = "/userOrderList.do";
+				} else {
+					alert("취소요청실패했습니다. 다시 시도해 주세요.");
+				}
+			},
+			error : function(request, status, error) {
+				alert("code:" + request.status + "\n" + "message:"
+						+ request.responseText + "\n" + "error:"
+						+ error);
+			}
+		});
+	}	
 </script>
 
 <table class="top">
@@ -110,12 +130,26 @@
 	</tr>
 	<c:forEach var="list" items="${list}" varStatus="status">
 		<tr class="board" style="height: 30px; text-align: center;">
-			<td class="gubun">${list.ocode}</td>
+			<td class="gubun">${list.ocode}
+			<c:if test="${list.dstate=='결제완료' }"> &nbsp;&nbsp;
+					<c:if test="${list.paymethod=='신용카드' }"><br>
+						<button type="button" id="btnCancel" class="white">취소</button>
+					</c:if>
+					<c:if test="${list.paymethod=='무통장입금' }">
+					<c:if test="${list.adminmemo!='취소요청' }"><br>
+						<button type="button" onclick="fnCancel('${list.ocode}');" class="white">취소요청하기</button>
+					</c:if>
+					<c:if test="${list.adminmemo=='취소요청' }"><br>
+						(취소 대기 중)
+					</c:if>
+					</c:if>
+			</c:if>
+			</td>
 			<td>${list.pname}</td>
 			<td>${list.odate}</td>
 			<td>${list.dstate}<c:if test="${list.dstate=='결제완료' }"> &nbsp;&nbsp;
 					<c:if test="${list.paymethod=='신용카드' }">
-						<button type="button" id="btnCancel" class="white">취소</button>
+						<button type="button" id="btnCancel" class="white">부분취소</button>
 					</c:if>
 				</c:if> <c:if test="${list.dstate=='배송중' }"> &nbsp;&nbsp;
 					<button type="button" id="btnConfirm" class="white">배송확인</button>

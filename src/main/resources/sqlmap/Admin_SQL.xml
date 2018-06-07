@@ -109,7 +109,7 @@
 		unq DESC
 	</select>
 	<select id="adminDAO.selectOrderList" resultClass="egovMap">
-		select ocode,userid,name,pcode,pname,amount,odate,dstate
+		select b.ocode,b.userid,b.name,b.pcode,b.pname,b.amount,b.odate,b.dstate, (select adminmemo from ordermain o where o.ocode=b.ocode) adminmemo
 		from(
 		select
 		rownum rn,ocode,userid,name,pcode,pname,amount,odate,dstate
