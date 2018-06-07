@@ -23,7 +23,6 @@ function fnaction(a) {
 	alert(delfilename);
 
 	var param = "filename="+filename+"&delfilename="+delfilename+",&unq="+unq;
-	alert(param);
 	$.ajax({
 		type : "POST",
 		data : param,

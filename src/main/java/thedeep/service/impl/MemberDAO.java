@@ -268,6 +268,10 @@ public class MemberDAO extends EgovAbstractDAO{
 	public int selectCancelConfirm(String ocode) {
 		return (int) select("memberDAO.selectCancelConfirm",ocode);
 	}
+	
+	public int selectUserOrderListCnt(DefaultVO searchVO) {
+		return (int) select("memberDAO.selectUserOrderListCnt", searchVO);
+	}
 
 
 	

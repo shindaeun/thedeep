@@ -49,13 +49,14 @@ public class MemberController {
 	AdminService adminService;
 	
 	@RequestMapping(value="/memberInfo.do")
-	public String MemberInfo(ModelMap model) throws Exception{
+	public String MemberInfo(ModelMap model, MemberVO vo) throws Exception{
 		
 		Calendar cal = Calendar.getInstance();
 		
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH)+1;
 		int day = cal.get(Calendar.DATE);
+		int bday = 31;
 		
 		String today = year + "-";
 		if(month>10) today += month + "-";
@@ -699,13 +700,33 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/userOrderList.do")
-	public String selectUserOrderList(UolVO vo, ModelMap model, HttpServletRequest request) throws Exception{
+	public String selectUserOrderList(UolVO vo, ModelMap model, HttpServletRequest request, @ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
 		
 		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
 		String userid = (String) a.get("ThedeepUserId");
 		
+		/*searchVO.setPageUnit(10);
+		searchVO.setPageSize(10);
+		
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+		
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());*/
+		
 		List<?> list = memberService.selectUserOrderList(userid);
 		model.addAttribute("list", list);
+		/*
+		searchVO.setUserid(userid);
+		
+		int totCnt = memberService.selectUserOrderListCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);*/
+		
+		
 		
 		return "member/userOrderList";
 	}

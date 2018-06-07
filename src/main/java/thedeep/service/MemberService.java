@@ -129,6 +129,9 @@ public interface MemberService {
 	int updateBuyConfirm3(OrderListVO vo) throws Exception;
 
 	int selectCancelConfirm(String ocode) throws Exception;
+	
+	int selectUserOrderListCnt(DefaultVO searchVO) throws Exception;
+
 
 
 
