@@ -75,7 +75,7 @@ $(window).load(function () {
 	<tr class="board">
 		<th width="10%" >구매자</th>
 		<!-- <th width="10%" >상품코드</th> -->
-		<th width="10%" >상품명</th>
+		<th width="10%" >상품명(buy state)</th>
 		<th width="10%" >품목코드(개)</th>
 		<th width="10%" >총금액</th>
 		<!-- <th width="10%" >결제결과/방법</th>
@@ -88,7 +88,7 @@ $(window).load(function () {
 		<tr class="board" align="center">
 			<td class="gubun">${i.name }</td>
 			<%-- <td class="gubun">${i.pcode }</td> --%>
-			<td class="gubun">${i.pname }</td>
+			<td class="gubun">${i.pname }( ${i.buyconfirm } )</td>
 			<td>${i.cscode }(${i.amount }개)</td>
 			<td class="gubun">${i.sum }</td>
 			<%-- <td class="gubun">${i.payresult }/${i.paymethod }</td>

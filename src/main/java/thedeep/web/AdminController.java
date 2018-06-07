@@ -2,15 +2,16 @@ package thedeep.web;
 
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.UUID;
-import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -42,14 +43,14 @@ import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
 import thedeep.service.GroupVO;
+import thedeep.service.MemberService;
+import thedeep.service.NoticeVO;
+import thedeep.service.OrderListVO;
+import thedeep.service.OrderVO;
 import thedeep.service.PaymentVO;
 import thedeep.service.PointVO;
 import thedeep.service.ProductService;
 import thedeep.service.ProductVO;
-import thedeep.service.MemberService;
-import thedeep.service.MemberVO;
-import thedeep.service.NoticeVO;
-import thedeep.service.OrderVO;
 import thedeep.service.ReviewReplyVO;
 import thedeep.service.ReviewVO;
 
@@ -215,6 +216,49 @@ public class AdminController {
 		vo.setAdminmemo("취소요청");
 		int cnt = memberService.updateAdminMemo(vo);
 		if(cnt>0){
+			result="ok";
+		}
+		map.put("result",result);
+		return map;
+	}
+	@RequestMapping(value="/CancelAlert2.do")
+	@ResponseBody
+	public Map<String,String> CancelAlert2(HttpServletRequest request, @RequestParam(name="ocode", required=false) String ocode, @RequestParam(name="cscode", required=false) String cscode) throws Exception{
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		String result="fail";
+		Map<String,String> map = new HashMap<String,String>();
+		//BuyConfirm C(취소)로 변경
+		OrderListVO vo = new OrderListVO();
+		vo.setOcode(ocode);
+		vo.setCscode(cscode);
+		int cnt = memberService.updateBuyConfirm2(vo);
+		//재고수정
+		OrderListVO lvo = memberService.selectOrderInfoByOVO(vo);
+		ProductVO pvo = new ProductVO();
+		pvo.setCscode(cscode);
+		pvo.setAmount(lvo.getAmount());
+		productService.updateAmount(pvo);
+		//적립금회수
+		PointVO point = new PointVO();
+		point.setUserid(userid);
+		point.setContent("구매취소("+ocode+")");
+		point.setUsepoint((int) Math.floor(lvo.getTotalmoney()*0.001));
+		point.setSavepoint(0);
+		String ablepoint = adminService.selectAblePoint(userid);
+		int ablepoint2 = Integer.parseInt(ablepoint) - point.getUsepoint();
+		point.setAblepoint(ablepoint2);
+		memberService.insertPoint(point);
+		//카드취소
+		IamportClient client;
+		int disrate = memberService.selectDisRate(ocode);
+		BigDecimal cancelAmount = new BigDecimal(lvo.getTotalmoney()/100*(100-disrate));
+		client = new IamportClient(api_key, api_secret);
+		String token = client.getToken();
+		
+		CancelData cancel2 = new CancelData(ocode, false,cancelAmount);
+		IamportResponse<Payment> cancelpayment2 = client.cancelPayment(cancel2);
+		if(cancelpayment2.getMessage()==null){
 			result="ok";
 		}
 		map.put("result",result);

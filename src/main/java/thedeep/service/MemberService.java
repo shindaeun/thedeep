@@ -120,6 +120,12 @@ public interface MemberService {
 
 	int updateAdminMemo(OrderVO vo) throws Exception;
 
+	int updateBuyConfirm2(OrderListVO vo) throws Exception;
+
+	OrderListVO selectOrderInfoByOVO(OrderListVO vo) throws Exception;
+
+	int selectDisRate(String ocode) throws Exception;
+
 
 
 

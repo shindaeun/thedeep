@@ -174,7 +174,7 @@
 		
 	</select>
 	<select id="adminDAO.selectOrderDetail" resultClass="egovMap">
-			select distinct o.ocode ,m.name,l.pcode,p.pname,l.cscode,l.amount,l.totalmoney,o.totalmoney sum,o.payresult,o.paymethod,o.depositname,o.usepoint,o.savepoint,o.usecoupon, dstate,transportnum
+			select distinct o.ocode ,m.name,l.pcode,p.pname,l.cscode,l.buyconfirm,l.amount,l.totalmoney,o.totalmoney sum,o.payresult,o.paymethod,o.depositname,o.usepoint,o.savepoint,o.usecoupon, dstate,transportnum
 			from ordermain o,memberinfo m,orderlist l,product p ,delivery d 
 			where o.userid = m.userid and o.ocode = l.ocode and p.pcode = l.pcode and o.ocode=d.ocode and o.ocode=upper(#ocode#)
 	</select>

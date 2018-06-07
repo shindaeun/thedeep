@@ -308,5 +308,20 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.updateAdminMemo(vo);
 	}
 
+	@Override
+	public int updateBuyConfirm2(OrderListVO vo) throws Exception {
+		return memberDAO.updateBuyConfirm2(vo);
+	}
+
+	@Override
+	public OrderListVO selectOrderInfoByOVO(OrderListVO vo) throws Exception {
+		return memberDAO.selectOrderInfoByOVO(vo);
+	}
+
+	@Override
+	public int selectDisRate(String ocode) throws Exception {
+		return memberDAO.selectDisRate(ocode);
+	}
+
 
 }
