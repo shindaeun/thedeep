@@ -276,7 +276,9 @@ function sample6_execDaumPostcode() {
 	<div>
 		<table class="board">
 			<tr class="board">
-				<th width="50%">구입상품명</th>
+				<th width="30%">구입상품명</th>
+				<th width="10%">사이즈</th>
+				<th width="10%">컬러</th>
 				<th width="20%">수량</th>
 				<th width="15%">가격</th>
 				<th width="15%">적립</th>
@@ -292,6 +294,8 @@ function sample6_execDaumPostcode() {
 				
 				<tr class="board" align="center">
 					<td>${i.pname}</td>
+					<td>${i.cssize}</td>
+					<td>${i.cscolor}</td>
 					<td>${i.amount}</td>
 					<td>${i.price}</td>
 					<td>${i.savepoint}</td>

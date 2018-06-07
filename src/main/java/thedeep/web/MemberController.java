@@ -720,6 +720,7 @@ public class MemberController {
 		dvo.setOcode(ocode);
 		dvo.setDstate(dstate);
 		int cnt = adminService.updateDstate(dvo);
+		System.out.println(ocode + dstate);
 		if(cnt>0){
 			result = "ok";
 		}

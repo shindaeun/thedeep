@@ -471,6 +471,16 @@
 		select decode(count(buyconfirm),0,'Y','N') from orderlist where ocode=#ocode# and buyconfirm='N'
 	 ]]>
 	</select>
+	<select id="memberDAO.selectOrderInfoByOVO" resultClass="orderListVO">
+	 <![CDATA[
+		select ocode,pcode,cscode,amount,totalmoney from orderlist where ocode=#ocode# and cscode=#cscode#
+	 ]]>
+	</select>
+	<select id="memberDAO.selectDisRate" resultClass="java.lang.Integer">
+	 <![CDATA[
+		select discountrate from ordermain o ,coupon c where o.usecoupon = c.cname and ocode=#ocode#
+	 ]]>
+	</select>
 	<insert id="memberDAO.insertOrder">
 		insert into ordermain values(#ocode#,#userid#,#totalmoney#,#payresult#,#paymethod#,#depositname#,#usepoint#,#savepoint#,'',sysdate,#usecoupon#)
 	</insert>
@@ -485,6 +495,9 @@
 	</insert>
 	<update id="memberDAO.updateBuyConfirm">
 	 update orderlist set buyconfirm='Y' where ocode=#ocode# and pcode=#pcode#
+	</update>
+	<update id="memberDAO.updateBuyConfirm2">
+	 update orderlist set buyconfirm='C' where ocode=#ocode# and cscode=#cscode#
 	</update>
 	<update id="memberDAO.updateAdminMemo">
 	 update ordermain set adminmemo=#adminmemo# where ocode=#ocode#

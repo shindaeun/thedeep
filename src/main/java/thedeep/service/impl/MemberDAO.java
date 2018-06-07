@@ -249,6 +249,18 @@ public class MemberDAO extends EgovAbstractDAO{
 		return update("memberDAO.updateAdminMemo",vo);
 	}
 
+	public int updateBuyConfirm2(OrderListVO vo) {
+		return update("memberDAO.updateBuyConfirm2",vo);
+	}
+
+	public OrderListVO selectOrderInfoByOVO(OrderListVO vo) {
+		return (OrderListVO) select("memberDAO.selectOrderInfoByOVO",vo);
+	}
+
+	public int selectDisRate(String ocode) {
+		return (int) select("memberDAO.selectDisRate",ocode);
+	}
+
 
 	
 }
