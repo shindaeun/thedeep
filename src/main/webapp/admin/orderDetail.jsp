@@ -56,7 +56,46 @@ $(window).load(function () {
         }
     });
 });
-
+function iamportCancelPart(ocode, cscode) {
+	var param = "ocode=" + ocode + "&cscode=" + cscode;
+	$.ajax({
+		type : "POST",
+		data : param,
+		url : "/iamportCancelPart.do",
+		success : function(data) {
+			if (data.result == "ok") {
+				alert("취소하였습니다.");
+				location.href = "/userOrderList.do";
+			} else {
+				alert("취소실패했습니다. 다시 시도해 주세요.");
+			}
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"
+					+ request.responseText + "\n" + "error:" + error);
+		}
+	});
+}
+function depositCancelPart(ocode, cscode) {
+	var param = "ocode=" + ocode + "&cscode=" + cscode;
+	$.ajax({
+		type : "POST",
+		data : param,
+		url : "/depositCancelPart.do",
+		success : function(data) {
+			if (data.result == "ok") {
+				alert("취소하였습니다.");
+				location.href = "/userOrderList.do";
+			} else {
+				alert("취소실패했습니다. 다시 시도해 주세요.");
+			}
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"
+					+ request.responseText + "\n" + "error:" + error);
+		}
+	});
+}
 </script>
 
 
@@ -88,7 +127,20 @@ $(window).load(function () {
 		<tr class="board" align="center">
 			<td class="gubun">${i.name }</td>
 			<%-- <td class="gubun">${i.pcode }</td> --%>
-			<td class="gubun">${i.pname }( ${i.buyconfirm } )</td>
+			<td class="gubun">${i.pname }<br>( ${i.buyconfirm } )<br>
+			<c:if test="${i.buyconfirm=='취소요청' }">
+				<c:if test="${i.paymethod=='신용카드' }">
+				<button type="button"
+								onclick="iamportCancelPart('${i.ocode}','${i.cscode}');"
+								class="white">부분취소</button>
+				</c:if>
+				<c:if test="${i.paymethod=='무통장입금' }">
+				<button type="button"
+								onclick="depositCancelPart('${i.ocode}','${i.cscode}');"
+								class="white">부분취소</button>
+				</c:if>
+			</c:if>
+			</td>
 			<td>${i.cscode }(${i.amount }개)</td>
 			<td class="gubun">${i.sum }</td>
 			<%-- <td class="gubun">${i.payresult }/${i.paymethod }</td>

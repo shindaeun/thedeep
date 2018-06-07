@@ -68,6 +68,33 @@
 						}
 					});
 				});
+		$("#buyConfirmC").click(
+				function() {
+					var ocode = $(this).parent().parent().parent().children()
+							.eq(1).children().eq(0).text();
+					ocode = jQuery.trim(ocode);
+					var pcode = $(this).parent().children().eq(0).val();
+					pcode = jQuery.trim(pcode);
+					var param = "pcode=" + pcode + "&ocode=" + ocode;
+					$.ajax({
+						type : "POST",
+						data : param,
+						url : "/buyConfirm.do",
+						success : function(data) {
+							if (data.result == "ok") {
+								alert("구매확정하였습니다.");
+								location.href = "/userOrderList.do";
+							} else {
+								alert("구매확정실패");
+							}
+						},
+						error : function(request, status, error) {
+							alert("code:" + request.status + "\n" + "message:"
+									+ request.responseText + "\n" + "error:"
+									+ error);
+						}
+					});
+				});
 		$("#btnCancel").click(
 				function() {
 					var btn = $(this);
@@ -117,7 +144,7 @@
 			}
 		});
 	}
-	function fnCancel2(ocode, cscode) {
+ 	function CancelAlert2(ocode, cscode) {
 		var param = "ocode=" + ocode + "&cscode=" + cscode;
 		$.ajax({
 			type : "POST",
@@ -125,10 +152,10 @@
 			url : "/CancelAlert2.do",
 			success : function(data) {
 				if (data.result == "ok") {
-					alert("취소처리하였습니다.");
+					alert("취소요청하였습니다.");
 					location.href = "/userOrderList.do";
 				} else {
-					alert("취소처리실패했습니다. 다시 시도해 주세요.");
+					alert("취소요청실패했습니다. 다시 시도해 주세요.");
 				}
 			},
 			error : function(request, status, error) {
@@ -137,6 +164,27 @@
 			}
 		});
 	}
+	function iamportCancelPart(ocode, cscode) {
+		var param = "ocode=" + ocode + "&cscode=" + cscode;
+		$.ajax({
+			type : "POST",
+			data : param,
+			url : "/iamportCancelPart.do",
+			success : function(data) {
+				if (data.result == "ok") {
+					alert("취소하였습니다.");
+					location.href = "/userOrderList.do";
+				} else {
+					alert("취소실패했습니다. 다시 시도해 주세요.");
+				}
+			},
+			error : function(request, status, error) {
+				alert("code:" + request.status + "\n" + "message:"
+						+ request.responseText + "\n" + "error:" + error);
+			}
+		});
+	}
+
 </script>
 
 <table class="top">
@@ -176,29 +224,52 @@
 			</td>
 			<td>${list.pname}</td>
 			<td>${list.odate}</td>
-			<td>${list.dstate}<c:if test="${list.dstate=='결제완료' }"> &nbsp;&nbsp;
+			<td>${list.dstate}
+			<c:if test="${list.dstate=='결제완료' }"> &nbsp;&nbsp;
 					<c:if test="${list.paymethod=='신용카드' }">
 						<c:if test="${list.buyconfirm!='C' }">
 							<button type="button"
-								onclick="fnCancel2('${list.ocode}','${list.cscode}');"
+								onclick="iamportCancelPart('${list.ocode}','${list.cscode}');"
 								class="white">부분취소</button>
 						</c:if>
-
 					</c:if>
+					<c:if test="${list.paymethod=='무통장입금' }">
+						<c:if test="${list.buyconfirm!='C' }">
+						<c:if test="${list.buyconfirm!='취소요청' }">
+							<button type="button"
+								onclick="CancelAlert2('${list.ocode}','${list.cscode}');"
+								class="white">부분취소요청</button>
+						</c:if>
+						<c:if test="${list.buyconfirm=='취소요청' }">
+						( 취소 대기 중 )
+						</c:if>
+						</c:if>
+					</c:if>
+
+
 				</c:if> <c:if test="${list.dstate=='배송중' }"> &nbsp;&nbsp;
+					<c:if test="${list.buyconfirm!='C' }">
 					<button type="button" id="btnConfirm" class="white">배송확인</button>
-				</c:if> <c:if test="${list.dstate=='배송완료' }">
+					</c:if>
+				</c:if> 
+				<c:if test="${list.dstate=='배송완료' }">
 					<c:if test="${list.buyconfirm=='N' }"> &nbsp;&nbsp;
 						<input type="hidden" value="${list.pcode }" disabled />
 						<button type="button" class="white" id="buyConfirm">구매확정</button>
+						<button type="button"
+								onclick="CancelAlert2('${list.ocode}','${list.cscode}');"
+								class="white">부분취소요청</button>
 					</c:if>
+					
 					<c:if test="${list.buyconfirm=='Y' }">
 						<c:if test="${list.reviewconfirm=='N' }"> &nbsp;&nbsp;
-					<button type="button" class="white"
+						<button type="button" class="white"
 								onclick="location.href='/reviewWrite.do?pcode=${list.pcode}&ocode=${list.ocode }'">리뷰쓰기</button>
 						</c:if>
 					</c:if>
-				</c:if> <c:if test="${list.dstate=='구매확정' }">
+				</c:if> 
+				
+				<c:if test="${list.dstate=='구매확정' }">
 					<c:if test="${list.buyconfirm=='Y' }">
 						<c:if test="${list.reviewconfirm=='N' }"> &nbsp;&nbsp;
 					<button type="button" class="white"

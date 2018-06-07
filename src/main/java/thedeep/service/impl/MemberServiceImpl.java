@@ -323,5 +323,15 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectDisRate(ocode);
 	}
 
+	@Override
+	public int updateBuyConfirm3(OrderListVO vo) throws Exception {
+		return memberDAO.updateBuyConfirm3(vo);
+	}
+
+	@Override
+	public int selectCancelConfirm(String ocode) throws Exception {
+		return memberDAO.selectCancelConfirm(ocode);
+	}
+
 
 }

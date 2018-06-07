@@ -159,6 +159,7 @@ public class AdminController {
 	@ResponseBody
 	public Map<String,String> CancelApply(HttpServletRequest request, @RequestParam("merchant_uid") String merchant_uid) throws Exception{
 		
+		//무통장 전체 주문 취소 적용
 		String result="fail";
 		Map<String,String> map = new HashMap<String,String>();
 		System.out.println("inin");
@@ -207,6 +208,7 @@ public class AdminController {
 	@RequestMapping(value="/CancelAlert.do")
 	@ResponseBody
 	public Map<String,String> CancelAlert(HttpServletRequest request, @RequestParam(name="ocode", required=false) String ocode) throws Exception{
+		//무통장 전체주문 취소요청
 		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
 		String userid = (String) a.get("ThedeepUserId");
 		String result="fail";
@@ -224,6 +226,26 @@ public class AdminController {
 	@RequestMapping(value="/CancelAlert2.do")
 	@ResponseBody
 	public Map<String,String> CancelAlert2(HttpServletRequest request, @RequestParam(name="ocode", required=false) String ocode, @RequestParam(name="cscode", required=false) String cscode) throws Exception{
+		//부분 주문 취소요청
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		String result="fail";
+		Map<String,String> map = new HashMap<String,String>();
+		
+		OrderListVO vo = new OrderListVO();
+		vo.setOcode(ocode);
+		vo.setCscode(cscode);
+		int cnt = memberService.updateBuyConfirm3(vo);
+		if(cnt>0){
+			result="ok";
+		}
+		map.put("result",result);
+		return map;
+	}
+	@RequestMapping(value="/iamportCancelPart.do")
+	@ResponseBody
+	public Map<String,String> iamportCancelPart(HttpServletRequest request, @RequestParam(name="ocode", required=false) String ocode, @RequestParam(name="cscode", required=false) String cscode) throws Exception{
+		//카드결제 부분 취소
 		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
 		String userid = (String) a.get("ThedeepUserId");
 		String result="fail";
@@ -239,6 +261,7 @@ public class AdminController {
 		pvo.setCscode(cscode);
 		pvo.setAmount(lvo.getAmount());
 		productService.updateAmount(pvo);
+		
 		//적립금회수
 		PointVO point = new PointVO();
 		point.setUserid(userid);
@@ -261,6 +284,57 @@ public class AdminController {
 		if(cancelpayment2.getMessage()==null){
 			result="ok";
 		}
+		//취소가 아닌게 0개면 dstate 취소로 변경
+		cnt = memberService.selectCancelConfirm(ocode);
+		if(cnt ==0){
+			DeliveryVO dvo = new DeliveryVO();
+			dvo.setOcode(ocode);
+			dvo.setDstate("취소");
+			adminService.updateDstate(dvo); 
+		}
+		map.put("result",result);
+		return map;
+	}
+	@RequestMapping(value="/depositCancelPart.do")
+	@ResponseBody
+	public Map<String,String> depositCancelPart(HttpServletRequest request, @RequestParam(name="ocode", required=false) String ocode, @RequestParam(name="cscode", required=false) String cscode) throws Exception{
+		//무통장입금 결제 부분 취소
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		String result="fail";
+		Map<String,String> map = new HashMap<String,String>();
+		//BuyConfirm C(취소)로 변경
+		OrderListVO vo = new OrderListVO();
+		vo.setOcode(ocode);
+		vo.setCscode(cscode);
+		int cnt = memberService.updateBuyConfirm2(vo);
+		//재고수정
+		System.out.println("aaaaaaaaaaaaaa"+ocode+cscode);
+		OrderListVO lvo = memberService.selectOrderInfoByOVO(vo);
+		ProductVO pvo = new ProductVO();
+		pvo.setCscode(cscode);
+		pvo.setAmount(lvo.getAmount());
+		productService.updateAmount(pvo);
+		
+		//적립금회수
+		PointVO point = new PointVO();
+		point.setUserid(userid);
+		point.setContent("구매취소("+ocode+")");
+		point.setUsepoint((int) Math.floor(lvo.getTotalmoney()*0.001));
+		point.setSavepoint(0);
+		String ablepoint = adminService.selectAblePoint(userid);
+		int ablepoint2 = Integer.parseInt(ablepoint) - point.getUsepoint();
+		point.setAblepoint(ablepoint2);
+		memberService.insertPoint(point);
+		//취소가 아닌게 0개면 dstate 취소로 변경
+		cnt = memberService.selectCancelConfirm(ocode);
+		if(cnt ==0){
+			DeliveryVO dvo = new DeliveryVO();
+			dvo.setOcode(ocode);
+			dvo.setDstate("취소");
+			adminService.updateDstate(dvo); 
+		}
+		result="ok";
 		map.put("result",result);
 		return map;
 	}

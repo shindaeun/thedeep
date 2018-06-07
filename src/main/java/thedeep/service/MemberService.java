@@ -126,6 +126,10 @@ public interface MemberService {
 
 	int selectDisRate(String ocode) throws Exception;
 
+	int updateBuyConfirm3(OrderListVO vo) throws Exception;
+
+	int selectCancelConfirm(String ocode) throws Exception;
+
 
 
 
