@@ -77,7 +77,7 @@
 						success : function(data) {
 							if (data.result == "ok") {
 								alert("취소하였습니다.");
-								location.href = "/iamportList.do";
+								location.href = "/userOrderList.do";
 							} else {
 								alert("취소실패했습니다. 다시 시도해 주세요.");
 							}

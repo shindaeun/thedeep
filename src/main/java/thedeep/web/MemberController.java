@@ -509,15 +509,37 @@ public class MemberController {
 		return "member/coupon";
 	}
 	@RequestMapping(value="/point.do")
-	public String point(HttpServletRequest request, ModelMap model) throws Exception{
+	public String point(HttpServletRequest request, DefaultVO searchVO,ModelMap model) throws Exception{
 		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
 		String userid = (String) a.get("ThedeepUserId");
 		String allpoint = memberService.selectAllPoint(userid);
-		List<?> list = memberService.selectPointList(userid);
+		
+		searchVO.setUserid(userid);
+		searchVO.setPageUnit(4);// 한 화면에 출력 개수
+		searchVO.setPageSize(4);// 페이지 개수
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		System.out.println(searchVO.getFirstIndex() + "/"+searchVO.getLastIndex());
+		List<?> list = memberService.selectPointList(searchVO);
+		
+		int totCnt = memberService.selectPointTotCnt(userid);
+		paginationInfo.setTotalRecordCount(totCnt);
+		System.out.println("total"+totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+
 		model.addAttribute("allpoint",allpoint);
-		Map<String,String> map = new HashMap<String,String>();
-		map = (Map<String, String>) list.get(0);
-		String ablepoint = String.valueOf(map.get("ablepoint"));
+		//Map<String,String> map = new HashMap<String,String>();
+		//map = (Map<String, String>) list.get(0);
+		//String ablepoint = String.valueOf(map.get("ablepoint"));
+		int ablepoint=memberService.selectMemberPoint(userid);
 		model.addAttribute("ablepoint",ablepoint);
 		model.addAttribute("List",list);
 		System.out.println(list);
@@ -553,21 +575,23 @@ public class MemberController {
 		String userid = (String) a.get("ThedeepUserId");
 		String pcode=vo.getPcode();
 		List<CartVO> olist = new ArrayList<CartVO>();
-
-		for(int i=0;i<csarr.length;i++){
-			vo = new CartVO();
-			String tmp[]=csarr[i].split(" ");
-			String[] color=tmp[0].split("-");
-			String[] size=tmp[1].split("-");
-			String cscode=pcode+size[1]+color[1];
-			vo.setCscode(cscode);
-			vo = memberService.selectProductInfo(vo);
-			vo.setAmount(Integer.parseInt(amarr[i]));
-			vo.setPrice(vo.getPrice()*Integer.parseInt(amarr[i]));
-			vo.setSavepoint(vo.getSavepoint()*Integer.parseInt(amarr[i]));
-			vo.setUserid(userid);
-			olist.add(vo);
+		if(csarr!=null){
+			for(int i=0;i<csarr.length;i++){
+				vo = new CartVO();
+				String tmp[]=csarr[i].split(" ");
+				String[] color=tmp[0].split("-");
+				String[] size=tmp[1].split("-");
+				String cscode=pcode+size[1]+color[1];
+				vo.setCscode(cscode);
+				vo = memberService.selectProductInfo(vo);
+				vo.setAmount(Integer.parseInt(amarr[i]));
+				vo.setPrice(vo.getPrice()*Integer.parseInt(amarr[i]));
+				vo.setSavepoint(vo.getSavepoint()*Integer.parseInt(amarr[i]));
+				vo.setUserid(userid);
+				olist.add(vo);
+			}
 		}
+		
 		model.addAttribute("olist",olist);
 		MemberVO mvo = new MemberVO();
 		mvo = memberService.selectMemeberDetail(userid);
@@ -633,40 +657,44 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/orderComplete.do")
-	public String orderComplete(HttpServletRequest request,ModelMap model,PointVO point,@RequestParam("ocode") String ocode,@RequestParam(value="paymethod",required=false) String paymethod) throws Exception{
+	public String orderComplete(HttpServletRequest request,ModelMap model,PointVO point,@RequestParam(value="ocode",required=false) String ocode,@RequestParam(value="paymethod",required=false) String paymethod) throws Exception{
 		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
 		String userid = (String) a.get("ThedeepUserId");
-		if(paymethod!=null && paymethod.equals("신용카드")){
-			DeliveryVO dvo = new DeliveryVO();
-			dvo.setOcode(ocode);
-			dvo.setDstate("결제완료");
-			adminService.updateDstate(dvo);
+		if(ocode != null){
+			if(paymethod!=null && paymethod.equals("신용카드")){
+				DeliveryVO dvo = new DeliveryVO();
+				dvo.setOcode(ocode);
+				dvo.setDstate("결제완료");
+				adminService.updateDstate(dvo);
+			}
+			OrderVO ovo  = memberService.selectOrderInfo(ocode);
+			String olist = memberService.selectOrderList(ocode);
+			model.addAttribute("ovo",ovo);
+			model.addAttribute("olist",olist);
+		
+			//적립금 지급
+			point.setUserid(userid);
+			point.setContent("구매("+ocode+")");
+			System.out.println("point : "+point.getUsepoint()+","+ point.getSavepoint());
+			String ablepoint = adminService.selectAblePoint(userid);
+			int ablepoint2 = Integer.parseInt(ablepoint) - point.getUsepoint() + point.getSavepoint();
+			point.setAblepoint(ablepoint2);
+			memberService.insertPoint(point);
+			//쿠폰 사용으로 수정
+			int cnt = memberService.updateUseCoupon(ovo);
+			//재고수정
+			List<?> list = memberService.selectOrderListByOcode(ocode);
+			Map<String,String> map = new HashMap<String,String>();
+			ProductVO pvo;
+			for(int i=0;i<list.size();i++){
+				map = (Map<String, String>) list.get(i);
+				pvo = new ProductVO();
+				pvo.setCscode(map.get("cscode"));
+				pvo.setAmount(Integer.parseInt(String.valueOf(map.get("amount")))*-1);
+				productService.updateAmount(pvo);
+			}
 		}
-		OrderVO ovo  = memberService.selectOrderInfo(ocode);
-		String olist = memberService.selectOrderList(ocode);
-		model.addAttribute("ovo",ovo);
-		model.addAttribute("olist",olist);
-		//적립금 지급
-		point.setUserid(userid);
-		point.setContent("구매("+ocode+")");
-		System.out.println("point : "+point.getUsepoint()+","+ point.getSavepoint());
-		String ablepoint = adminService.selectAblePoint(userid);
-		int ablepoint2 = Integer.parseInt(ablepoint) - point.getUsepoint() + point.getSavepoint();
-		point.setAblepoint(ablepoint2);
-		memberService.insertPoint(point);
-		//쿠폰 사용으로 수정
-		int cnt = memberService.updateUseCoupon(ovo);
-		//재고수정
-		List<?> list = memberService.selectOrderListByOcode(ocode);
-		Map<String,String> map = new HashMap<String,String>();
-		ProductVO pvo;
-		for(int i=0;i<list.size();i++){
-			map = (Map<String, String>) list.get(i);
-			pvo = new ProductVO();
-			pvo.setCscode(map.get("cscode"));
-			pvo.setAmount(Integer.parseInt(String.valueOf(map.get("amount")))*-1);
-			productService.updateAmount(pvo);
-		}
+		
 		return "member/orderComplete";
 	}
 	
@@ -742,6 +770,8 @@ public class MemberController {
 			dvo.setOcode(ocode);
 			dvo.setDstate("구매확정");
 			cnt = adminService.updateDstate(dvo);
+			OrderVO ovo = memberService.selectOrderInfo(ocode);
+			cnt = memberService.deleteUseCoupon(ovo);
 		}
 		
 		return map;

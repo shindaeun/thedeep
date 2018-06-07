@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script type="text/javascript">
+$( document ).ready(function() {
+	var ocode= "${ovo.ocode}";
+	if(ocode==""){
+		alert("주문완료 처리되었습니다. 주문목록페이지로 이동합니다.");
+		location.href="userOrderList.do";
+	} 
+});
+</script>
 <br>
 <br>
 <br>

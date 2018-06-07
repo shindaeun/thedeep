@@ -384,7 +384,7 @@ p {
 </div>
 <c:set var="pageIndex" value="<%=pageIndex%>" />
 <c:set var="totalPage" value="${paginationInfo.getTotalPageCount() }" />
-<table border="0" width="800">
+<table border="0" width="100%">
 	<tr>
 		<td style="border: 0px; text-align: center">
 			<div id="paging">
@@ -500,7 +500,7 @@ p {
 <br>
 <c:set var="pageIndex2" value="<%=pageIndex2%>" />
 <c:set var="totalPage" value="${paginationInfo2.getTotalPageCount() }" />
-<table border="0" width="800">
+<table border="0" width="100%">
 	<tr>
 		<td style="border: 0px; text-align: center">
 			<div id="paging">
