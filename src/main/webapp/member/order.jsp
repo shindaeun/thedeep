@@ -32,25 +32,19 @@
 %>
 
 <script type="text/javascript">
-//새로고침 방지
-function noRefresh()
-{
- /* CTRL + N키 막음. */
- if ((event.keyCode == 78) && (event.ctrlKey == true))
- {
-     event.keyCode = 0;
-     return false;
- }
- /* F5 번키 막음. */
- if(event.keyCode == 116)
- {
-     event.keyCode = 0;
-     return false;
- }
-}
-document.onkeydown = noRefresh ;
-
+$( document ).ready(function() {
+	var list1 = new Array();
+	<c:forEach items="${olist}" var="item1">
+	list1.push("${item1.price}");
+	</c:forEach>
+	if(list1.length<1){
+		alert("주문 정보를 잃었습니다. 이전 페이지로 돌아갑니다.");
+		history.back();
+	}
+    
+});
 $(function() {
+	
 	
 	$("#btnBuy").click(function() {
 		
@@ -145,6 +139,7 @@ $(function() {
 	$("#applypoint").click(function() {
 		var use = $("#usepoint").val();
 		var able = ${ablepoint};
+		var total = $("#money2").text();
 		if (parseInt(use) == 0 || use == "") {
 			$("#usepoint").val("0");
 			document.getElementById("usepointresult").innerHTML = "0";
@@ -153,7 +148,11 @@ $(function() {
 			$("#usepoint").val("0");
 			document.getElementById("usepointresult").innerHTML = "0";
 
-		} else {
+		} else if(Math.floor(total) < use){
+			alert("결제 금액보다 많습니다! 다시 시도해주세요.");
+			$("#usepoint").val("0");
+			document.getElementById("usepointresult").innerHTML = "0";
+		}else {
 			document.getElementById("usepointresult").innerHTML = $("#applypoint").val();
 			document.getElementById("usepointresult").innerHTML = use;
 			alert("적용되었습니다.");

@@ -45,12 +45,33 @@
 	 ]]>
 	</select>
 	<select id="memberDAO.selectPointList" resultClass="egovMap">
-	 <![CDATA[
-	select userid,content,'-'||usepoint point,ablepoint,rdate rdate1,to_char(rdate,'yyyy-mm-dd') rdate from point p where usepoint !=0 and userid=#userid#
-	union
-	select userid,content,'+'||savepoint,ablepoint,rdate rdate1,to_char(rdate,'yyyy-mm-dd') rdate from point p where savepoint !=0 and userid=#userid#
- 	order by rdate1 desc
-	 ]]>
+
+	 select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+			select userid,content,'-'||usepoint point,ablepoint,rdate rdate1,to_char(rdate,'yyyy-mm-dd') rdate from point p where usepoint !=0 and userid=#userid#
+			union
+			select userid,content,'+'||savepoint,ablepoint,rdate rdate1,to_char(rdate,'yyyy-mm-dd') rdate from point p where savepoint !=0 and userid=#userid#
+		 	order by rdate1 desc
+		 ) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	 
+	</select>
+	<select id="memberDAO.selectPointTotCnt" resultClass="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		(select userid,content,'-'||usepoint point,ablepoint,rdate rdate1,to_char(rdate,'yyyy-mm-dd') rdate from point p where usepoint !=0 and userid='test'
+			union
+			select userid,content,'+'||savepoint,ablepoint,rdate rdate1,to_char(rdate,'yyyy-mm-dd') rdate from point p where savepoint !=0 and userid='test'
+		 	order by rdate1 desc)
+		WHERE
+		userid=#userid#
 	</select>
 	<select id="memberDAO.selectAllPoint" resultClass="java.lang.String">
 	 <![CDATA[
@@ -449,7 +470,6 @@
 		select decode(count(buyconfirm),0,'Y','N') from orderlist where ocode=#ocode# and buyconfirm='N'
 	 ]]>
 	</select>
-	
 	<insert id="memberDAO.insertOrder">
 		insert into ordermain values(#ocode#,#userid#,#totalmoney#,#payresult#,#paymethod#,#depositname#,#usepoint#,#savepoint#,'',sysdate,#usecoupon#)
 	</insert>

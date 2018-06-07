@@ -14,7 +14,7 @@ public interface MemberService {
 
 	List<?> selectCouponList(String userid) throws Exception;
 
-	List<?> selectPointList(String userid) throws Exception;
+	List<?> selectPointList(DefaultVO searchVO) throws Exception;
 
 	String selectAllPoint(String userid) throws Exception;
 
@@ -116,7 +116,7 @@ public interface MemberService {
 
 	int selectOnMoneyCnt(String userid) throws Exception;
 
-
+	int selectPointTotCnt(String userid) throws Exception;
 
 
 

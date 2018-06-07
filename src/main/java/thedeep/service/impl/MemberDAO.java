@@ -35,8 +35,8 @@ public class MemberDAO extends EgovAbstractDAO{
 		return list("memberDAO.selectCouponList",userid);
 	}
 
-	public List<?> selectPointList(String userid) {
-		return list("memberDAO.selectPointList",userid);
+	public List<?> selectPointList(DefaultVO searchVO) {
+		return list("memberDAO.selectPointList",searchVO);
 	}
 
 	public String selectAllPoint(String userid) {
@@ -240,6 +240,11 @@ public class MemberDAO extends EgovAbstractDAO{
 	public int selectOnMoneyCnt(String userid) {
 		return (int) select("memberDAO.selectOnMoneyCnt", userid);
 	}
+
+	public int selectPointTotCnt(String userid) {
+		return (int) select("memberDAO.selectPointTotCnt", userid);
+	}
+
 
 	
 }

@@ -44,8 +44,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<?> selectPointList(String userid) throws Exception {
-		return memberDAO.selectPointList(userid);
+	public List<?> selectPointList(DefaultVO searchVO) throws Exception {
+		return memberDAO.selectPointList(searchVO);
 	}
 
 	@Override
@@ -297,5 +297,11 @@ public class MemberServiceImpl implements MemberService {
 	public int selectOnMoneyCnt(String userid) throws Exception {
 		return memberDAO.selectOnMoneyCnt(userid);
 	}
+
+	@Override
+	public int selectPointTotCnt(String userid) throws Exception {
+		return memberDAO.selectPointTotCnt(userid);
+	}
+
 
 }
