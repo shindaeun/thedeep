@@ -106,7 +106,6 @@ $(function(){
 						} else if(data.errCode == "1") {
 							alert("첨부파일은 5M 미만이어야 합니다.");
 						}
-						
 						var pcode= document.frm.pcode.value
 						//alert(pcode);
 						
@@ -129,6 +128,8 @@ $(function(){
 						});
 						
 						location.href = "<c:url value='/productListView.do'/>";
+					} else if(data.CS == "no") {
+						alert("현재 있는 색상과 사이즈는 추가되지 않습니다.");
 					} else {
 						alert("저장 실패했습니다. 다시 시도해 주세요.");
 					}

@@ -41,11 +41,6 @@ $(function(){
 			alert("메인사진을 입력해주세요.");
 			return;
 		}
-		if($("#content").val() == "") {
-			alert("내용을 입력해주세요.");
-			$("#content").focus();
-			return;
-		}
 		if($("#price").val() == "") {
 			alert("가격을 입력해주세요.");
 			$("#price").focus();
@@ -57,6 +52,10 @@ $(function(){
 		}
 		if ($("input#color:checked").length < 1) {
 		   alert("색상을 한개 이상 체크주십시오");
+		   return false;
+		}
+		if ($("input#gcode:checked").length < 1) {
+		   alert("상품분류를 체크주십시오");
 		   return false;
 		}
 		

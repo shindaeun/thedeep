@@ -13,6 +13,7 @@ import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
 import thedeep.service.OrderVO;
 import thedeep.service.PointVO;
+import thedeep.service.ProductVO;
 import thedeep.service.PwdCkVO;
 import thedeep.service.ReviewReplyVO;
 
@@ -128,10 +129,6 @@ public class AdminDAO extends EgovAbstractDAO {
 		return update("adminDAO.updateAdminCoupon", vo);
 	}
 
-	public List<?> selectPointList() {
-		return list("adminDAO.selectPointList");
-	}
-
 	public String insertPoint(PointVO vo) {
 		return (String) insert("adminDAO.insertPoint", vo);
 	}
@@ -148,7 +145,6 @@ public class AdminDAO extends EgovAbstractDAO {
 		return delete("adminDAO.deleteAdminCoupon", ccode);
 	}
 
-
 	public int deleteReviewReply(String unq) {
 		return delete("adminDAO.deleteReviewReply", unq);
 	}
@@ -158,6 +154,18 @@ public class AdminDAO extends EgovAbstractDAO {
 
 	public String selectCouponName(String ccode) {
 		return (String) select("adminDAO.selectCouponName", ccode);
+	}
+
+	public List<?> selectPointList(DefaultVO searchVO) {
+		return list("adminDAO.selectPointList",searchVO);
+	}
+
+	public int selectPointListTotCnt(DefaultVO searchVO) {
+		return (int) select("adminDAO.selectPointListTotCnt",searchVO);
+	}
+
+	public int selectColorSize(ProductVO vo) {
+		return (int) select("adminDAO.selectColorSize",vo);
 	}
 
 

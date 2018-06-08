@@ -57,7 +57,6 @@ public interface AdminService {
 
 	int updateAdminCoupon(CouponVO vo) throws Exception;
 
-	List<?> selectPointList() throws Exception;
 
 	String insertPoint(PointVO vo) throws Exception;
 
@@ -73,5 +72,11 @@ public interface AdminService {
 	String insertAdminCouponOut(CheckVO cvo) throws Exception;
 
 	String selectCouponName(String ccode) throws Exception;
+
+	List<?> selectPointList(DefaultVO searchVO) throws Exception;
+
+	int selectPointListTotCnt(DefaultVO searchVO) throws Exception;
+
+	int selectColorSize(ProductVO vo) throws Exception;
 
 }

@@ -364,10 +364,21 @@ public class BoardController {
 	
 	
 	@RequestMapping(value="/reviewWrite.do")
-	public String reviewWrite(ModelMap model, HttpServletRequest request, MemberVO vo) throws Exception{
+	public String reviewWrite(ModelMap model, HttpServletRequest request, MemberVO vo, OrderListVO ovo) throws Exception{
 		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
 		String userid = (String) a.get("ThedeepUserId");
 		vo.setUserid(userid);
+		
+		String pcode = request.getParameter("pcode");
+		String ocode = request.getParameter("ocode");
+		ovo.setPcode(pcode);
+		ovo.setOcode(ocode);
+		ovo.setUserid(userid);
+		
+		String psize = boardService.selectPsize(ovo);
+		model.addAttribute("psize", psize);
+		
+		System.out.println(psize);
 		
 		String name = boardService.selectUserName(userid);
 		model.addAttribute("name", name);

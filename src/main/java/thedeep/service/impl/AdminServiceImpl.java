@@ -15,6 +15,7 @@ import thedeep.service.CouponVO;
 import thedeep.service.DefaultVO;
 import thedeep.service.DeliveryVO;
 import thedeep.service.PointVO;
+import thedeep.service.ProductVO;
 import thedeep.service.PwdCkVO;
 import thedeep.service.ReviewReplyVO;
 
@@ -155,11 +156,6 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 	}
 
 	@Override
-	public List<?> selectPointList() throws Exception {
-		return adminDAO.selectPointList();
-	}
-
-	@Override
 	public String insertPoint(PointVO vo) throws Exception {
 		return adminDAO.insertPoint(vo);
 	}
@@ -192,6 +188,21 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 	@Override
 	public String selectCouponName(String ccode) throws Exception {
 		return adminDAO.selectCouponName(ccode);
+	}
+
+	@Override
+	public List<?> selectPointList(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectPointList(searchVO);
+	}
+
+	@Override
+	public int selectPointListTotCnt(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectPointListTotCnt(searchVO);
+	}
+
+	@Override
+	public int selectColorSize(ProductVO vo) throws Exception {
+		return adminDAO.selectColorSize(vo);
 	}
 
 

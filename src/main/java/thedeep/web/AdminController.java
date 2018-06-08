@@ -947,10 +947,30 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/pointAdd.do")
-	public String selectgroup(ModelMap model, PointVO vo) throws Exception{
-		List<?> pointList = adminService.selectPointList();
-		model.addAttribute("resultList", pointList);
+	public String selectgroup(ModelMap model, PointVO vo, @ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
+		
+		/** EgovPropertyService.sample */
+		/* context-properties.xml */
+		searchVO.setPageUnit(30); // 한화면의 출력 개수
+		searchVO.setPageSize(30); // 페이지 너버 개수
 
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<?> sampleList = adminService.selectPointList(searchVO);
+		model.addAttribute("resultList", sampleList);
+
+		int totCnt = adminService.selectPointListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		
 		return "admin/pointAdd";
 	}
 	
@@ -1137,53 +1157,59 @@ public class AdminController {
 
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
-		String result="",result1="",result2="";
+		String result="",result1="",result2="", CS="";
 		int pcode,cnt;
-
-		String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\productImages";
-		
-		File saveFolder = new File(uploadPath);
-		if (!saveFolder.exists()) {
-			saveFolder.mkdirs();
-		}
-		pcode = Integer.parseInt(vo.getPcode().substring(1));
-		//System.out.println("123"+vo.getMainfile()+"456");
-		HashMap imap = (HashMap) multipartProcess(files,uploadPath,pcode);
-		String test = (String) imap.get("fileName");
-		
-		if(test==null || test.equals("")) {
-			vo.getFilename();
+		//현재 있는 색상,사이즈 추가안되게
+		int cnt2 = adminService.selectColorSize(vo);
+		if(cnt2 > 0) {
+			CS = "no";
+			map.put("CS", CS);
 		} else {
-			vo.setMainfile(test);
-		}
-		//System.out.println("123"+vo.getMainfile()+"456");
-		
-		if(vo.getPsize()==null || vo.getColor()==null) {
-			cnt = productService.updateProduct(vo);
-			if(cnt>0) result = "ok";
-			map.put("result", result);
-		} else {
-			cnt = productService.updateProduct(vo);
-			String psize = vo.getPsize();
-			String color = vo.getColor();
-			String[] splitpsize = psize.split(",");
-			String[] splitcolor = color.split(",");
+			String uploadPath = "C:\\eGovFrameDev-3.7.0-64bit\\workspace\\thedeep\\src\\main\\webapp\\productImages";
 			
-			for(int i=0; i<splitpsize.length; i++) {
-				for(int j=0; j<splitcolor.length; j++) {
-					vo.setPsize(splitpsize[i]);
-					vo.setColor(splitcolor[j]);
-		
-					result1 = productService.insertProductModify(vo);
-					result2 = productService.insertProductStockModify(vo);
-				}
+			File saveFolder = new File(uploadPath);
+			if (!saveFolder.exists()) {
+				saveFolder.mkdirs();
 			}
-			if(result1 == null && result2 == null) result = "ok";
-			map.put("result", result);
+			pcode = Integer.parseInt(vo.getPcode().substring(1));
+			//System.out.println("123"+vo.getMainfile()+"456");
+			HashMap imap = (HashMap) multipartProcess(files,uploadPath,pcode);
+			String test = (String) imap.get("fileName");
+			
+			if(test==null || test.equals("")) {
+				vo.getFilename();
+			} else {
+				vo.setMainfile(test);
+			}
+			//System.out.println("123"+vo.getMainfile()+"456");
+			
+			if(vo.getPsize()==null || vo.getColor()==null) {
+				cnt = productService.updateProduct(vo);
+				if(cnt>0) result = "ok";
+				map.put("result", result);
+			} else {
+				cnt = productService.updateProduct(vo);
+				String psize = vo.getPsize();
+				String color = vo.getColor();
+				String[] splitpsize = psize.split(",");
+				String[] splitcolor = color.split(",");
+				
+				for(int i=0; i<splitpsize.length; i++) {
+					for(int j=0; j<splitcolor.length; j++) {
+						vo.setPsize(splitpsize[i]);
+						vo.setColor(splitcolor[j]);
+			
+						result1 = productService.insertProductModify(vo);
+						result2 = productService.insertProductStockModify(vo);
+					}
+				}
+				if(result1 == null && result2 == null) result = "ok";
+				map.put("result", result);
+			}
+		
+			map.put("cnt", (String) imap.get("cnt")); // 0,1
+			map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
 		}
-
-		map.put("cnt", (String) imap.get("cnt")); // 0,1
-		map.put("errCode",(String) imap.get("errCode")); // => -1,0,1
 		
 		return map;
 

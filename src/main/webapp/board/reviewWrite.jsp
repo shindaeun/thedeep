@@ -88,6 +88,7 @@
 <form name="frm" id="frm" method="post" enctype="multipart/form-data">
 <input type="hidden" id="pcode" name="pcode" value="<%=pcode%>">
 <input type="hidden" id="ocode" name="ocode" value="<%=ocode%>">
+<input type="hidden" id="psize" name="psize" value="${psize}">
 <table class="board">
 
 	<tr class="board">
@@ -131,13 +132,7 @@
 			<option value="70-75">70-75kg</option>
 			<option value="75-80">75-80kg</option>
 		</select>
-		&nbsp;&nbsp;사이즈 :
-		<select name="psize" id="psize">
-			<option value="S">S</option>
-			<option value="M">M</option>
-			<option value="L">L</option>
-			<option value="F">free</option>
-		</select>
+		&nbsp;&nbsp;사이즈 : ${psize}
 		</td>
 	</tr>
 	

@@ -195,6 +195,11 @@ public class BoardServiceImpl extends EgovAbstractServiceImpl implements BoardSe
 		return boardDAO.updateOrderList(ovo);
 	}
 
+	@Override
+	public String selectPsize(OrderListVO ovo) throws Exception {
+		return boardDAO.selectPsize(ovo);
+	}
+
 	
 	
 	

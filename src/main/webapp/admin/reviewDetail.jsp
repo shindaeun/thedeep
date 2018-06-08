@@ -85,9 +85,9 @@ function fnDelete(unq){
     </table>
 <div style="width:100%;padding:5px;text-align:right">
 
-		<button type="button" id="btnBefore">이전</button>
+		<button type="button" id="btnBefore" class="white">이전</button>
 		&nbsp;
-		<button type="button" id="btnNext">다음</button>
+		<button type="button" id="btnNext" class="white">다음</button>
 </div>
 <table class="board">
 

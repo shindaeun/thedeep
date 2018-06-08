@@ -154,6 +154,10 @@ public class BoardDAO extends EgovAbstractDAO {
 		return update("boardDAO.updateOrderList",ovo);
 	}
 
+	public String selectPsize(OrderListVO ovo) {
+		return (String) select("boardDAO.selectPsize", ovo);
+	}
+
 
 	
 

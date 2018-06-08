@@ -6,7 +6,6 @@
 <script src="/js/jquery-1.12.4.js"></script>
 <script src="/js/jquery-ui.js"></script>
 
-
 <script>
 $(function() {
 	$("#btnSubmit").click(function() {
@@ -22,7 +21,7 @@ $(function() {
 		}
 		
 		if(confirm("등록하시겠습니까?")) {
-			var formData = $("#frm").serialize();//비 동기 전송
+			var formData = $("#frm2").serialize();//비 동기 전송
 
 			$.ajax({
 			     type: "POST",
@@ -44,8 +43,21 @@ $(function() {
 			});
 		}
 	});
+ 
 });
-
+ $(function() {
+   $("#btnSearch").click(function() {
+      if($("#searchKeyword").val()=="") {
+         alert("검색어를 입력해주세요.");
+         $("#searchKeyword").focus();
+         return;
+      }
+      $("#frm1").attr({
+         action:'/pointAdd.do',method:'post'
+      }).submit();
+   });
+   
+});
 </script>
 
 <table class="top">
@@ -54,7 +66,22 @@ $(function() {
    </tr>
 </table>
 
-<form id="frm" name="frm">
+<form name="frm1" id="frm1">
+<table style="width:100%">
+   <tr>
+      <td>
+         <select name="searchCondition">
+            <option value="userid">아이디</option>
+            <option value="content">내용</option>
+         </select>
+         <input type="text" name="searchKeyword" id="searchKeyword">
+         <button type="button" id="btnSearch" class="white">검색</button>
+      </td>
+   </tr>
+</table>
+</form>
+</br>
+<form id="frm2" name="frm2">
 <table class="board">
 	<tr class="board">
 		<th width="25%">아이디</th>
@@ -96,4 +123,18 @@ $(function() {
 	</tr>
 
 </c:forEach>
+</table>
+
+<table border="0" width="100%;">
+   <tr>
+      <td align="center" style="board:0px;">
+         <div id="paging">
+         <c:set var="parm1" value="searchCondition=${searchVO.getSearchCondition()}"/>
+         <c:set var="parm2" value="searchKeyword=${searchVO.getSearchKeyword()}"/>
+         <c:forEach var="i" begin="1" end="${paginationInfo.getTotalPageCount()}">
+            <a href="/pointAdd.do?pageIndex=${i}&${parm1}&${parm2}">${i}</a>
+         </c:forEach>
+         </div>
+      </td>
+   </tr>
 </table>
