@@ -589,6 +589,8 @@ public class MemberController {
 				vo.setPrice(vo.getPrice()*Integer.parseInt(amarr[i]));
 				vo.setSavepoint(vo.getSavepoint()*Integer.parseInt(amarr[i]));
 				vo.setUserid(userid);
+				vo.setCscolor(color[1]);
+				vo.setCssize(size[1]);
 				olist.add(vo);
 			}
 		}
