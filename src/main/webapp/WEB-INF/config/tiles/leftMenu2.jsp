@@ -8,7 +8,7 @@
             <nav role="navigation" class="nav-menu-2 w-nav-menu">
    			</br>
    			<c:if test="${sessionScope.ThedeepALoginCert.ThedeepAUserId != null}">
-   			<a href="#" class="nav-link-12 w-nav-link">메인사진관리</a>
+   			<!-- <a href="#" class="nav-link-12 w-nav-link">메인사진관리</a> -->
             <a href="/adminList.do" class="nav-link-14 w-nav-link">회원관리</a>
             <a href="/orderList.do" class="nav-link-14 w-nav-link">주문관리</a>
             <a href="/productListView.do" class="nav-link-14 w-nav-link">상품관리</a>
