@@ -136,8 +136,8 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 	}
 
 	@Override
-	public List<?> selectCouponList() throws Exception {
-		return adminDAO.selectCouponList();
+	public List<?> selectCouponList(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectCouponList(searchVO);
 	}
 
 	@Override
@@ -203,6 +203,16 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 	@Override
 	public int selectColorSize(ProductVO vo) throws Exception {
 		return adminDAO.selectColorSize(vo);
+	}
+
+	@Override
+	public int selectCouponListCnt(DefaultVO searchVO) throws Exception {
+		return adminDAO.selectCouponListCnt(searchVO);
+	}
+
+	@Override
+	public String selectMaxCode() throws Exception {
+		return adminDAO.selectMaxCode();
 	}
 
 

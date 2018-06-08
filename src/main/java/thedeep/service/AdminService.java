@@ -49,7 +49,7 @@ public interface AdminService {
 
 	int selectReviewTotCnt(DefaultVO searchVO) throws Exception;
 
-	List<?> selectCouponList() throws Exception;
+	List<?> selectCouponList(DefaultVO searchVO) throws Exception;
 
 	CouponVO selectCouponDetail(String ccode) throws Exception;
 
@@ -78,5 +78,9 @@ public interface AdminService {
 	int selectPointListTotCnt(DefaultVO searchVO) throws Exception;
 
 	int selectColorSize(ProductVO vo) throws Exception;
+
+	int selectCouponListCnt(DefaultVO searchVO) throws Exception;
+
+	String selectMaxCode() throws Exception;
 
 }

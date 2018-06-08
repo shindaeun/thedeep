@@ -252,8 +252,7 @@ a:hover {text-decoration:underline; color: #000000}
 <table style="width:100%; height:45px; border-top: 1px solid #555555; border-bottom: 1px solid #555555;">
 	<tr>
 		<th width="10%" style="background-color: #dcdcdc;">등록</th>
-		<th width="15%">
-			code <input type="text" id="ccode" name="ccode" style="width:50%"/>
+		<th width="6%">
 		</th>
 		<th width="20%">
 			name <input type="text" id="cname" name="cname" style="width:70%"/>
@@ -267,7 +266,9 @@ a:hover {text-decoration:underline; color: #000000}
 		<th width="18%">
 			maxdis <input type="text" id="maxdiscmoney" name="maxdiscmoney" style="width:60%"/>
 		</th>
-		<th width="10%">
+		<th width="6%">
+		</th>
+		<th width="13%">
 			<button type="button" id="btnCreate" class="white">등록</button>
 		</th>
 	</tr>
@@ -340,6 +341,19 @@ a:hover {text-decoration:underline; color: #000000}
 	</c:forEach>
 </table>
 </form>
+
+<table border="0" width="100%">
+	<tr>
+		<td align="center" style="board:0px;">
+			<div id="paging">
+			<c:forEach var="i" begin="1" end="${paginationInfo2.getTotalPageCount()}">
+				<a href="/adminCoupon.do?pageIndex2=${i}&${parm1}&${parm2}">${i}</a>
+			</c:forEach>
+			</div>
+		</td>
+	</tr>
+</table>
+
 <hr class="coupon"/>
 <br/>
 <form id="frm2" name="frm2">
