@@ -274,8 +274,13 @@ public class AdminController {
 		memberService.insertPoint(point);
 		//카드취소
 		IamportClient client;
-		int disrate = memberService.selectDisRate(ocode);
-		BigDecimal cancelAmount = new BigDecimal(lvo.getTotalmoney()/100*(100-disrate));
+		BigDecimal cancelAmount = new BigDecimal(lvo.getTotalmoney());
+		OrderVO ovo = memberService.selectOrderInfo(ocode);
+		if(ovo.getUsecoupon()!=null){
+			int disrate = memberService.selectDisRate(ocode);
+			cancelAmount = new BigDecimal(lvo.getTotalmoney()/100*(100-disrate));
+		}
+		
 		client = new IamportClient(api_key, api_secret);
 		String token = client.getToken();
 		
