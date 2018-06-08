@@ -88,6 +88,8 @@ public interface ProductService {
 
 	int selectVisitorToday() throws Exception;
 
+	List<?> selectColorList(String pcode) throws Exception;
+
 
 
 

@@ -1163,9 +1163,13 @@ public class AdminController {
 		
 		List<?> groupList = productService.selectGroupList();
 		model.addAttribute("group", groupList);
-
+		
 		List<?> CsList = productService.selectCsList(pcode);
-		model.addAttribute("cs", CsList);	
+		model.addAttribute("cs", CsList);
+		
+		List<?> color = productService.selectColorList(pcode);
+		model.addAttribute("color", color);
+		
 		
 		return "admin/productModify";
 	}
@@ -1181,9 +1185,23 @@ public class AdminController {
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
 		String result="",result1="",result2="", CS="";
-		int pcode,cnt;
-		//현재 있는 색상,사이즈 추가안되게
-		int cnt2 = adminService.selectColorSize(vo);
+		int pcode,cnt,cnt2=0;
+		String psize = vo.getPsize();
+		String color = vo.getColor();
+		if(vo.getPsize()!=null || vo.getColor()!=null) {
+			String[] splitpsize = psize.split(",");
+			String[] splitcolor = color.split(",");
+			//현재 있는 색상,사이즈 추가안되게
+			for(int i=0; i<splitpsize.length; i++) {
+				for(int j=0; j<splitcolor.length; j++) {
+					vo.setPsize(splitpsize[i]);
+					vo.setColor(splitcolor[j]);
+					cnt2 = adminService.selectColorSize(vo);
+					cnt2 += cnt2;
+				}
+			}
+		}
+		
 		if(cnt2 > 0) {
 			CS = "no";
 			map.put("CS", CS);
@@ -1212,8 +1230,8 @@ public class AdminController {
 				map.put("result", result);
 			} else {
 				cnt = productService.updateProduct(vo);
-				String psize = vo.getPsize();
-				String color = vo.getColor();
+				vo.setColor(color);
+				vo.setPsize(psize);
 				String[] splitpsize = psize.split(",");
 				String[] splitcolor = color.split(",");
 				
