@@ -301,45 +301,42 @@
 	</select>
 
 	<select resultClass="egovMap" id="memberDAO.selectUserOrderList">
-		<!-- SELECT b.* FROM (
+	<![CDATA[
+		SELECT b.* FROM (
    			SELECT rownum rn, a.* FROM (
-   				SELECT 
-   					unq, title, name, to_char(rdate, 'yyyy-mm-dd') rdate, pcode, hit, forder, fid
-   				FROM 
-   					qna
-   				WHERE 
-   					1=1
-   					<isNotNull property="searchKeyword">
-   						<isNotEmpty property="searchKeyword">
-   							AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
-   						</isNotEmpty>
-   					</isNotNull>
-   				ORDER BY m.odate DESC
+	   				SELECT m.userid userid
+					, m.ocode ocode
+					, m.paymethod
+					, m.adminmemo
+					, p.cscode cscode
+					, p.pcode pcode
+					, p.pname pname
+					, l.reviewconfirm
+					, l.buyconfirm
+					, TO_CHAR(m.odate,'YYYY-MM-DD') odate
+					,(SELECT dstate FROM delivery d WHERE d.ocode = m.ocode) dstate
+					FROM (SELECT userid, ocode, odate ,paymethod,adminmemo
+					      FROM ordermain
+						  WHERE userid = #userid#) m, orderlist l, product p
+					WHERE m.ocode = l.ocode
+					AND l.cscode = p.cscode
+					ORDER BY m.odate DESC
 			) a
 		) b
    			
-   		WHERE
-   		
-   			rn >= $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$
-   			 -->
-		SELECT m.userid userid
-		, m.ocode ocode
-		, m.paymethod
-		, m.adminmemo
-		, p.cscode cscode
-		, p.pcode pcode
-		, p.pname pname
-		, l.reviewconfirm
-		, l.buyconfirm
-		, TO_CHAR(m.odate,'YYYY-MM-DD') odate
-		,(SELECT dstate FROM delivery d WHERE d.ocode = m.ocode) dstate
-		FROM (SELECT userid, ocode, odate ,paymethod,adminmemo
+   		WHERE rn >= $firstIndex$ AND rn <= $lastIndex$
+	]]>
+	</select>
+	
+	<select id="memberDAO.selectUserOrderListCnt" resultClass="java.lang.Integer">
+   		SELECT COUNT(*)
+   		FROM (SELECT userid, ocode, odate ,paymethod,adminmemo
 		      FROM ordermain
 			  WHERE userid = #userid#) m, orderlist l, product p
 		WHERE m.ocode = l.ocode
 		AND l.cscode = p.cscode
-		ORDER BY m.odate DESC
-	</select>
+   		AND 1=1
+   </select>
 
 	<select resultClass="java.lang.Integer" id="memberDAO.selectFindid">
 	<![CDATA[ 

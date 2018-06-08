@@ -95,8 +95,8 @@ public class MemberDAO extends EgovAbstractDAO{
 		return (int) select("memberDAO.selectMemberMoney", userid);
 	}
 
-	public List<?> selectUserOrderList(String userid) {
-		return list("memberDAO.selectUserOrderList", userid);
+	public List<?> selectUserOrderList(DefaultVO searchVO) {
+		return list("memberDAO.selectUserOrderList", searchVO);
 	}
 
 	public int selectFindid(FindVO vo) {
