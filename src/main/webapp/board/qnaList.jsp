@@ -3,6 +3,7 @@
 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <%@ page import="java.io.File" %>
 <%@ page import="javax.imageio.ImageIO" %>
@@ -10,6 +11,13 @@
 <%@ page import="java.awt.Image" %>
 <%@ page import="javax.swing.ImageIcon" %>
 
+<%
+	String pageIndex = request.getParameter("pageIndex");
+	if (pageIndex == null)
+		pageIndex = "1";
+	if (Integer.parseInt(pageIndex) < 0)
+		pageIndex = "1";
+%>
 <script>
 $(function() {
    $("#btnSearch").click(function() {
@@ -23,6 +31,12 @@ $(function() {
       }).submit();
    });
 });
+function submit(i){
+	$("#frm").attr({
+		method : 'post',
+		action : '/qnaList.do?pageIndex='+i
+	}).submit();
+}
 </script>
 
 <style>
@@ -113,15 +127,39 @@ a:hover {text-decoration:underline; color: #000000}
 	</c:forEach>
 </table>
 <br>
+<c:set var="pageIndex" value="<%=pageIndex%>" />
+<c:set var="totalPage" value="${paginationInfo.getTotalPageCount() }" />
 <table border="0" width="100%">
 	<tr>
 		<td align="center" style="board:0px;">
 			<div id="paging">
-			<c:set var="parm1" value="searchCondition=${searchVO.getSearchCondition()}"/>
-			<c:set var="parm2" value="searchKeyword=${searchVO.getSearchKeyword()}"/>
-			<c:forEach var="i" begin="1" end="${paginationInfo.getTotalPageCount()}">
-				<a href="/qnaList.do?pageIndex=${i}&${parm1}&${parm2}">${i}</a>
-			</c:forEach>
+				<c:set var="a" value="${(pageIndex-1)/5-((pageIndex-1)/5%1)}" />
+				<fmt:parseNumber var="a" integerOnly="true" value="${a}" />
+				<c:set var="start" value="${a*5+1}" />
+				<c:set var="last" value="${start+4}" />
+
+				<c:if test="${last>paginationInfo.getTotalPageCount() }">
+					<c:set var="last" value="${paginationInfo.getTotalPageCount() }" />
+				</c:if>
+
+				<fmt:parseNumber var="start2" integerOnly="true" value="${start-1}" />
+				<c:if test="${start2 >0}">
+					<a href="#" onclick="submit(${start2});">before</a>
+				</c:if>
+
+				<c:forEach var="i" begin="${ start}" end="${last }">
+					<c:if test="${i ==pageIndex}">
+						<span style="font-size: 13px; color: red;">${i }</span>
+					</c:if>
+					<c:if test="${i !=pageIndex}">
+						<a href="#" onclick="submit(${i});">${i}</a>
+					</c:if>
+				</c:forEach>
+
+				<fmt:parseNumber var="last2" integerOnly="true" value="${last+1}" />
+				<c:if test="${last2 <=paginationInfo.getTotalPageCount()}">
+					<a href="#" onclick="submit(${last2});">next</a>
+				</c:if>
 			</div>
 		</td>
 	</tr>
