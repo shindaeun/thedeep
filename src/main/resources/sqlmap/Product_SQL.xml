@@ -198,7 +198,7 @@
 
 	<insert id="productDAO.insertgroup">
 		INSERT INTO productgroup(gcode,gname)
-		VALUES (#gcode#,#gname#)
+		VALUES ('g'||lpad(group_SEQ.nextval,'3','0'),#gname#)
 	</insert>
 
 	<update id="productDAO.updateGroup">

@@ -10,11 +10,6 @@
 <script>
 $(function() {
 	$("#btnSubmit").click(function() {
-		if($("#gcode").val()=="") {
-			alert("상품분류코드를 입력해주세요.");
-			$("#gcode").focus();
-			return;
-		}
 		if($("#gname").val()=="") {
 			alert("상품분류명을 입력해주세요.");
 			$("#gname").focus();
@@ -115,12 +110,12 @@ $(function() {
 <table class="board">
 <c:if test="${group.gcode == null}">
 	<tr class="board">
-		<th width="33%">상품분류코드</th>
+		
 		<th width="33%">상품분류명</th>
 		<th width="33%">등록/수정</th>
 	</tr>
 	<tr class="board">
-		<th width="33%"><input type="text" name="gcode" id="gcode" style="width:50%;"></th>
+		
 		<th width="33%"><input type="text" name="gname" id="gname" style="width:50%;"></th>
 		<th width="33%"><button type="button" id="btnSubmit" class="white">등록</button></th>
 	</tr>
