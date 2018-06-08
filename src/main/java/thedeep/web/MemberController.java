@@ -705,7 +705,7 @@ public class MemberController {
 		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
 		String userid = (String) a.get("ThedeepUserId");
 		
-		/*searchVO.setPageUnit(10);
+		searchVO.setPageUnit(10);
 		searchVO.setPageSize(10);
 		
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -715,16 +715,17 @@ public class MemberController {
 		
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());*/
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		List<?> list = memberService.selectUserOrderList(userid);
-		model.addAttribute("list", list);
-		/*
+		System.out.println("userid  :  " + userid);
 		searchVO.setUserid(userid);
+		
+		List<?> list = memberService.selectUserOrderList(searchVO);
+		model.addAttribute("list", list);
 		
 		int totCnt = memberService.selectUserOrderListCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
-		model.addAttribute("paginationInfo", paginationInfo);*/
+		model.addAttribute("paginationInfo", paginationInfo);
 		
 		
 		

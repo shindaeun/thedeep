@@ -44,7 +44,7 @@ public interface MemberService {
 
 	int selectMemberMoney(String userid) throws Exception;
 
-	List<?> selectUserOrderList(String userid) throws Exception;
+	List<?> selectUserOrderList(DefaultVO searchVO) throws Exception;
 
 	int selectFindid(FindVO vo) throws Exception;
 
