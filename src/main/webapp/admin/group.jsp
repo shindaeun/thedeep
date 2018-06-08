@@ -83,6 +83,8 @@ $(function() {
 					if(data.result == "1") {
 						alert("삭제하였습니다.");
 						location.href = "<c:url value="/group.do"/>";
+					} else if(data.result == "0") {
+						alert("그룹에 속하는 상품이 존재합니다.");
 					} else {
 						alert("삭제 실패하였습니다. 다시 시도해 주세요.");
 					}

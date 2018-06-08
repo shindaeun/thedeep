@@ -90,6 +90,8 @@ public interface ProductService {
 
 	List<?> selectColorList(String pcode) throws Exception;
 
+	int selectProduct(String gcode) throws Exception;
+
 
 
 
