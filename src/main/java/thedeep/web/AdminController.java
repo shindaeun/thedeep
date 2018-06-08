@@ -856,13 +856,9 @@ public class AdminController {
 		String result = "";
 		
 		int tmonth = cal.get(Calendar.MONTH)+1;
-		int tday = cal.get(Calendar.DATE);
-		String today = "";
-		if(tmonth<10) today += "0" + tmonth;
-		else today += tmonth + "";
-		if(tday<10) today += "0" + tday;
-		else today += tday + "";
-		
+		String bmonth = "";
+		if (tmonth<10) bmonth = "0" + tmonth;
+		else bmonth = tmonth + "";
 		String userid = "";
 		
 		cal.add(Calendar.MONTH, 1);
@@ -875,14 +871,14 @@ public class AdminController {
 		if(day<10) edate += "0" + day;
 		else edate += day + "";
 		
-		List<?> list = memberService.selectMemberBTD(today);
+		List<?> list = memberService.selectMemberBTD(bmonth);
 		Map<String,String> map2;
 		for(int i=0;i<list.size();i++){
 			map2 = new HashMap<String,String>();
 			map2 = (Map<String, String>) list.get(i);
 			userid += map2.get("userid") + " ";
 		}
-		System.out.println("userid  /  " + userid + "  today  /" + today);
+		System.out.println("userid  /  " + userid + "  today  /" + bmonth);
 		String[] id = userid.split(" ");
 		if(id[0]!="") {
 			for(int i=0; i<id.length; i++) {
