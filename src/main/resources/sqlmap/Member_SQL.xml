@@ -319,7 +319,18 @@
 		AND l.cscode = p.cscode
 		ORDER by m.odate DESC
 	</select>
-
+	<select id="memberDAO.selectCancelCnt" resultClass="egovMap">
+		select l.ocode,i.cnt 
+		from (
+		    select o.ocode,o.odate,count(decode(buyconfirm,'C',1,'취소요청',1)) cnt
+		            from orderlist l  ,ordermain o 
+		            where l.ocode = o.ocode
+		            and userid=#userid#
+		            group by o.ocode,o.odate ) i, orderlist l
+		where i.ocode = l.ocode
+		ORDER by i.ocode DESC
+	</select>
+	
 	<select resultClass="java.lang.Integer" id="memberDAO.selectFindid">
 	<![CDATA[ 
 		SELECT count(*) cnt 

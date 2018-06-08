@@ -333,5 +333,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectCancelConfirm(ocode);
 	}
 
+	@Override
+	public List<?> selectCancelCnt(String userid) throws Exception {
+		return memberDAO.selectCancelCnt(userid);
+	}
+
 
 }

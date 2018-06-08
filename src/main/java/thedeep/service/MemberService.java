@@ -130,6 +130,8 @@ public interface MemberService {
 
 	int selectCancelConfirm(String ocode) throws Exception;
 
+	List<?> selectCancelCnt(String userid) throws Exception;
+
 
 
 
