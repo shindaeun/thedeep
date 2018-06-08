@@ -133,6 +133,8 @@ public interface MemberService {
 	int selectUserOrderListCnt(DefaultVO searchVO) throws Exception;
 
 
+	List<?> selectCancelCnt(String userid) throws Exception;
+
 
 
 
