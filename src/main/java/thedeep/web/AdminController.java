@@ -1431,13 +1431,16 @@ public class AdminController {
 	public Map<String,Object> deleteGroup (GroupVO vo) throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
 		String result="";
-		
-		int cnt = productService.deleteGroup(vo.getGcode());
-		if(cnt > 0) result="1";
-		else result = "-1";
+		int cnt2 = productService.selectProduct(vo.getGcode());
+		if(cnt2 > 0) {
+			result = "0";
+		} else {
+			int cnt = productService.deleteGroup(vo.getGcode());
+			if(cnt > 0) result="1";
+			else result = "-1";
+		}
 		
 		map.put("result",result);
-		
 		return map;
 	}
 	

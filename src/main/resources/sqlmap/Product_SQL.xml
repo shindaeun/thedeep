@@ -443,5 +443,9 @@
 	
 	<select id="productDAO.selectColorList" resultClass="egovMap">
 		select distinct(color) from stock where pcode=#pcode#
-	</select> 
+	</select>
+	
+	<select id="productDAO.selectProduct" resultClass="java.lang.Integer">
+		select count(*) from product where gcode=#gcode#
+	</select>
 </sqlMap>
