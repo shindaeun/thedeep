@@ -119,8 +119,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<?> selectUserOrderList(String userid) throws Exception {
-		return memberDAO.selectUserOrderList(userid);
+	public List<?> selectUserOrderList(DefaultVO searchVO) throws Exception {
+		return memberDAO.selectUserOrderList(searchVO);
 	}
 
 	@Override

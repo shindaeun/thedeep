@@ -31,6 +31,7 @@
    		
    			rn > $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$
 	</select>
+	
 	<select id="boardDAO.selectReviewReplyList" resultClass="egovMap">
 		select fid,content,rdate,unq from reviewreply where fid=#unq#
 	</select>
