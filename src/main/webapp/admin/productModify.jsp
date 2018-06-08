@@ -73,11 +73,6 @@ $(function(){
 			return;
 		}
 		<%}%> 
-		if($("#content").val() == "") {
-			alert("내용을 입력해주세요.");
-			$("#content").focus();
-			return;
-		}
 		if($("#price").val() == "") {
 			alert("가격을 입력해주세요.");
 			$("#price").focus();
@@ -283,6 +278,11 @@ function removeBox(obj) {
 		<input type="text" id="putcolor" name="putcolor">
 		<button type="button" onclick="addBox()">+</button>
 		<span id="textBoxArea" style="text-align:left;"></span>
+		
+		<c:forEach var="i" items="${color}" varStatus="status">
+			<input type="checkbox" name="color" id="color" value="${i.color}"/>${i.color}&nbsp;&nbsp;
+		</c:forEach>
+
 		</td>
 	</tr>
 	

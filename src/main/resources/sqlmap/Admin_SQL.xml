@@ -472,9 +472,9 @@
 	<select id="adminDAO.selectColorSize" resultClass="java.lang.Integer">
 		select count(pcode) 
 		from stock 
-		where color=#color# 
-		and psize=#psize# 
-		and pcode=#pcode#
+		where color = #color# 
+		and psize = #psize#
+		and pcode = #pcode#
 	</select>
 	
 	

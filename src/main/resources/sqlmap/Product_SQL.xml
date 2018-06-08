@@ -400,7 +400,7 @@
 	</update>
 	
 	<select id="productDAO.selectCsList" resultClass="egovMap">
-		select color,psize from stock where pcode=#pcode#
+		select color,psize from stock where pcode=#pcode# order by color,psize desc
 	</select>
 	
 	<update id="productDAO.updateSmartEditor">
@@ -440,5 +440,9 @@
 	<select id="productDAO.selectVisitorToday" resultClass="java.lang.Integer">
 		select hit from home
 		where to_char(rdate,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
+	</select>
+	
+	<select id="productDAO.selectColorList" resultClass="egovMap">
+		select distinct(color) from stock where pcode=#pcode#
 	</select> 
 </sqlMap>
