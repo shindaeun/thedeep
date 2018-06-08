@@ -161,6 +161,10 @@ $(function() {
 		totalcalcul();
 	});
 	$("#btnCoupon").click(function() {
+		if($("#sumpoint").val()=="0") {
+			alert("결제금액이 0원입니다.");
+			return;
+		}
 		var totalmoney = $("#money1").text();
 		url = "/couponPopup.do?totalmoney=" + totalmoney;
 		windowObj = window.open(url, "쿠폰리스트", "width=700,height=300");
