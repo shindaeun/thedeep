@@ -119,8 +119,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<?> selectUserOrderList(DefaultVO searchVO) throws Exception {
-		return memberDAO.selectUserOrderList(searchVO);
+	public List<?> selectUserOrderList(String userid) throws Exception {
+		return memberDAO.selectUserOrderList(userid);
 	}
 
 	@Override
@@ -334,8 +334,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int selectUserOrderListCnt(DefaultVO searchVO) throws Exception {
-		return memberDAO.selectUserOrderListCnt(searchVO);
+	public List<?> selectCancelCnt(String userid) throws Exception {
+		return memberDAO.selectCancelCnt(userid);
 	}
 	@Override
 	public List<?> selectCancelCnt(String userid) throws Exception {
