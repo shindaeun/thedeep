@@ -12,6 +12,7 @@
             <a href="/adminList.do" class="nav-link-14 w-nav-link">회원관리</a>
             <a href="/orderList.do" class="nav-link-14 w-nav-link">주문관리</a>
             <a href="/productListView.do" class="nav-link-14 w-nav-link">상품관리</a>
+            <a href="/group.do" class="nav-link-14 w-nav-link">상품그룹관리</a>
             <a href="/adminBoard.do" class="nav-link-14 w-nav-link">게시판관리</a>
             <a href="/adminNoticeList.do" class="nav-link-14 w-nav-link">공지사항</a>
             
