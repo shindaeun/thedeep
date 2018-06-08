@@ -53,7 +53,7 @@ $(function() {
 					success : function(data) {
 						if (data.result == "ok") {
 							alert("취소요청하였습니다.");
-							location.href = "/userOrderList.do";
+							location.href = "/orderList.do";
 						} else {
 							alert("취소요청실패했습니다. 다시 시도해 주세요.");
 						}

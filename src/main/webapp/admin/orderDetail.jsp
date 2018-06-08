@@ -65,7 +65,7 @@ function iamportCancelPart(ocode, cscode) {
 		success : function(data) {
 			if (data.result == "ok") {
 				alert("취소하였습니다.");
-				location.href = "/userOrderList.do";
+				location.href = "/orderList.do";
 			} else {
 				alert("취소실패했습니다. 다시 시도해 주세요.");
 			}
@@ -85,7 +85,7 @@ function depositCancelPart(ocode, cscode) {
 		success : function(data) {
 			if (data.result == "ok") {
 				alert("취소하였습니다.");
-				location.href = "/userOrderList.do";
+				location.href = "/orderList.do";
 			} else {
 				alert("취소실패했습니다. 다시 시도해 주세요.");
 			}
@@ -127,7 +127,7 @@ function depositCancelPart(ocode, cscode) {
 		<tr class="board" align="center">
 			<td class="gubun">${i.name }</td>
 			<%-- <td class="gubun">${i.pcode }</td> --%>
-			<td class="gubun">${i.pname }<br>( ${i.buyconfirm } )<br>
+			<td>${i.pname }<br>( ${i.buyconfirm } )<br>
 			<c:if test="${i.buyconfirm=='취소요청' }">
 				<c:if test="${i.paymethod=='신용카드' }">
 				<button type="button"

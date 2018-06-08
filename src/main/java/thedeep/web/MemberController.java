@@ -722,6 +722,9 @@ public class MemberController {
 		
 		List<?> list = memberService.selectUserOrderList(searchVO);
 		model.addAttribute("list", list);
+		//부분취소된 상품의 개수
+		List<?> clist = memberService.selectCancelCnt(userid);
+		model.addAttribute("clist", clist);
 		
 		int totCnt = memberService.selectUserOrderListCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);

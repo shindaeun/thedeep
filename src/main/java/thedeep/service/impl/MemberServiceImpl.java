@@ -337,6 +337,10 @@ public class MemberServiceImpl implements MemberService {
 	public int selectUserOrderListCnt(DefaultVO searchVO) throws Exception {
 		return memberDAO.selectUserOrderListCnt(searchVO);
 	}
+	@Override
+	public List<?> selectCancelCnt(String userid) throws Exception {
+		return memberDAO.selectCancelCnt(userid);
+	}
 
 
 }
