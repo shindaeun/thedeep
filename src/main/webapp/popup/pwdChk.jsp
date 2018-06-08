@@ -37,9 +37,30 @@ $(function(){
 					var check = "1";
 					var npwd = $("#npwd").val();
 					npwd = $.trim(npwd);
+					opener.document.frm.check.value = check;
 					opener.document.frm.opwd.value = npwd;
-					$(opener.location).attr("href", "javascript:$('#btnSubmit').click;");
-					self.close();
+			 		//var formData = $("#frm").serialize();
+			 		var formData = $("#frmp").serialize();
+			 		// 비 동기 전송
+					$.ajax({
+						type: "POST",
+						data: formData,
+						url: "/memberModifySave.do",
+
+						success: function(data) {
+							if(data.result == "ok") {
+								alert("저장하였습니다.");
+								self.close();
+								opener.location.href = "/myPage.do";
+							} else {
+								alert("저장 실패했습니다. 다시 시도해 주세요.");
+							}
+						},
+						error: function () {
+							alert("오류발생 ");
+						}
+					}); 
+
 				} else {
 					alert("기존 비밀번호와 일치하지 않습니다. 다시 시도해 주세요.");
 					return;
@@ -64,6 +85,16 @@ $(function(){
 		<td class="top">비밀번호 확인</td>
 	</tr>
 </table>
+<form name="frmp" id="frmp">
+<input type="hidden" name="userid" id="userid" value="${vo.userid}">
+<input type="hidden" name="pwd" id="pwd" value="${vo.pwd}">
+<input type="hidden" name="gender" id="gender" value="${vo.gender}">
+<input type="hidden" name="post" id="post" value="${vo.post}">
+<input type="hidden" name="phone" id="phone" value="${vo.phone}">
+<input type="hidden" name="email" id="email" value="${vo.email}">
+<input type="hidden" name="emailreceive" id="emailreceive" value="${vo.emailreceive}">
+<input type="hidden" name="phonereceive" id="phonereceive" value="${vo.phonereceive}">
+</form>
 <form name="frm" id="frm">
 <input type="hidden" name="userid" id="userid" value="${vo.userid}">
 <input type="hidden" name="npwd" id="npwd" value="${vo.pwd}">

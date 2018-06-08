@@ -37,6 +37,7 @@ public class PopupController {
 	@RequestMapping(value="/pwdChk.do")
 	public String PwdChk(ModelMap model, MemberVO mvo) throws Exception{
 		model.put("vo", mvo);
+		
 		return "popup/pwdChk";
 	}
 	
