@@ -117,6 +117,15 @@ $(function(){
 			return;
 		}
 		
+		var hangle = /(^[a-zA-Z0-9가-힣]*$)/;
+		var sang = $("#sample6_address2").val();
+		
+		if(!hangle.test(sang)) {
+			alert("상세주소에는 특수문자가 올 수 없습니다.");
+			$("#sample6_address2").focus();
+			return;
+		}
+		
 		var phone  = $("#phone1").val();
 		phone += "-" +  $("#phone2").val(); 
 		phone += "-" +  $("#phone3").val();
