@@ -119,11 +119,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<?> selectUserOrderList(String userid) throws Exception {
-		return memberDAO.selectUserOrderList(userid);
-	}
-
-	@Override
 	public int selectFindid(FindVO vo) throws Exception {
 		return memberDAO.selectFindid(vo);
 	}
@@ -275,7 +270,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-
 	public String insertMemPoint(String userid) throws Exception {
 		return memberDAO.insertMemPoint(userid);
 	}
@@ -284,6 +278,8 @@ public class MemberServiceImpl implements MemberService {
 	public int selectMemberPoint(String userid) throws Exception {
 		return memberDAO.selectMemberPoint(userid);
 	}
+	
+	@Override
 	public int updateBuyConfirm(OrderListVO vo) throws Exception {
 		return memberDAO.updateBuyConfirm(vo);
 	}
@@ -337,6 +333,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<?> selectCancelCnt(String userid) throws Exception {
 		return memberDAO.selectCancelCnt(userid);
+	}
+
+	@Override
+	public List<?> selectUserOrderList(DefaultVO searchVO) throws Exception {
+		return memberDAO.selectUserOrderList(searchVO);
+	}
+
+	@Override
+	public int selectUserOrderListCnt(DefaultVO searchVO) throws Exception {
+		return memberDAO.selectUserOrderListCnt(searchVO);
 	}
 
 
