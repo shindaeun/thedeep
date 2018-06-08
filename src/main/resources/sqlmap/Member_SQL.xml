@@ -329,7 +329,7 @@
    			rn > $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$
 	</select>
 	
-	<select id="boardDAO.selectQnaListTotCnt" resultClass="java.lang.Integer">
+	<select id="memberDAO.selectUserOrderListCnt" resultClass="java.lang.Integer">
    		SELECT COUNT(*)
    		FROM (SELECT userid, ocode, odate ,paymethod,adminmemo
 				FROM ordermain
