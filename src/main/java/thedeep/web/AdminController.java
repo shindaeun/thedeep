@@ -757,9 +757,25 @@ public class AdminController {
 	@RequestMapping(value="/adminCoupon.do")
 	public String selectAdminCoupon(CouponVO vo, ModelMap model,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
 		
-		List<?> list = adminService.selectCouponList();
+		searchVO.setPageUnit(10); 	// 한 화면 출력 개수
+		searchVO.setPageSize(10);	// 페이지 너비 개수
+		
+		PaginationInfo paginationInfo2 = new PaginationInfo();
+		paginationInfo2.setCurrentPageNo(searchVO.getPageIndex2());
+		paginationInfo2.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo2.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo2.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo2.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo2.getRecordCountPerPage());
+
+		List<?> list = adminService.selectCouponList(searchVO);
 		model.addAttribute("list", list);
 		
+		int totCnt2 = adminService.selectCouponListCnt(searchVO);
+		paginationInfo2.setTotalRecordCount(totCnt2);
+		model.addAttribute("paginationInfo2", paginationInfo2);
+
 		String ccode = vo.getCcode();
 		
 		if(ccode!=null) {
@@ -767,9 +783,6 @@ public class AdminController {
 		}
 		
 		model.addAttribute("vo", vo);
-		
-		searchVO.setPageUnit(10); 	// 한 화면 출력 개수
-		searchVO.setPageSize(10);	// 페이지 너비 개수
 		
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -795,7 +808,17 @@ public class AdminController {
 	public Map<String,Object> insertAdminCoupon(CouponVO vo, HttpServletRequest request) throws Exception {
 		
 		Map<String,Object> map = new HashMap<String, Object>();
-
+		
+		String maxCode = adminService.selectMaxCode();
+		int add = Integer.parseInt(maxCode) + 1;
+		
+		String creatCode = "";
+		if(add<10) creatCode += "c00" + add;
+		else if(add<100) creatCode += "c0" + add;
+		else creatCode += "c" + add;
+		
+		vo.setCcode(creatCode);
+		
 		String result = adminService.insertAdminCoupon(vo);
 		if(result==null) result = "ok";
 		else result = "1";
