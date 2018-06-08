@@ -3,7 +3,7 @@ package thedeep.service;
 import java.util.List;
 
 public class OrderListVO {
-	private String ocode,pcode,cscode;
+	private String ocode,pcode,cscode,userid;
 	private int amount,totalmoney;
 	private List<OrderListVO> olist;
 	public List<OrderListVO> getOlist() {
@@ -11,6 +11,12 @@ public class OrderListVO {
 	}
 	public void setOlist(List<OrderListVO> olist) {
 		this.olist = olist;
+	}
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 	public String getOcode() {
 		return ocode;

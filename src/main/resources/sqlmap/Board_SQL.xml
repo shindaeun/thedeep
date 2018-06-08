@@ -29,7 +29,7 @@
    			
    		WHERE
    		
-   			rn >= $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$
+   			rn > $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$
 	</select>
 	<select id="boardDAO.selectReviewReplyList" resultClass="egovMap">
 		select fid,content,rdate,unq from reviewreply where fid=#unq#
@@ -456,5 +456,14 @@
 		where pcode=#pcode#
 		and ocode=#ocode#
 	</update>
+	
+	<select id="boardDAO.selectPsize" resultClass="java.lang.String">
+		select substr(l.cscode,7,1) psize
+		  from orderList l, ordermain m
+		 where l.OCODE = m.OCODE
+		   and l.ocode = #ocode#
+           and l.pcode = #pcode#
+           and m.userid = #userid#
+	</select>	
 	
 </sqlMap>

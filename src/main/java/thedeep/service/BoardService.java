@@ -74,6 +74,8 @@ public interface BoardService {
 
 	int updateOrderList(OrderListVO ovo) throws Exception;
 
+	String selectPsize(OrderListVO ovo) throws Exception;
+
 
 
 
