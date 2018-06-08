@@ -178,6 +178,7 @@ public class MemberServiceImpl implements MemberService {
 	public int selectCompleteCnt(String userid) throws Exception {
 		return memberDAO.selectCompleteCnt(userid);
 	}
+	@Override
 	public List<?> selectUserCouponList(String userid) throws Exception {
 		return memberDAO.selectUserCouponList(userid);
 	}
