@@ -103,8 +103,6 @@ $(function(){
 		${vo.name}
 		</td>
 	</tr>
-<<<<<<< HEAD:src/main/webapp/admin/qnaReDetail.jsp
-=======
 	<c:set var="filenames" value="${vo.filename}"></c:set>
 
 <%
@@ -138,9 +136,6 @@ if(filenames != null && !filenames.equals("")) {
  // int y = (imgHeight * 100) / imgWidth
 */
 %>
-	
-	
->>>>>>> qna 수정 완:src/main/webapp/admin/adminQnaDetail.jsp
 	<tr class="board">
 		<th class="head">content</th>
 		<td style="text-align:left;height:150px">
