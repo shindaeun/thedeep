@@ -200,6 +200,7 @@
 	select c.ccode ccode,c.cname||' '||discountrate||'% 할인' coupon, applymoney||'원 이상 주문 시 사용가능' subject1, '최대 '||maxDiscmoney||'원 할인 가능' subject2,sdate||'~'||edate usedate
 	from couponList l, coupon c 
 	where c.CCODE = l.CCODE and userid=#userid# and sysdate<edate and able='Y'
+	order by sdate desc
 	 ]]>
 	</select>
 

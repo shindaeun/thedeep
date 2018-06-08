@@ -66,6 +66,7 @@ $(function(){
 			$("#userid").focus();
 			return;
 		}
+		
 		if(    $("#pwd").val().length < 4 
 			|| $("#pwd").val().length > 12 )
 		{
@@ -73,11 +74,63 @@ $(function(){
 			$("#pwd").focus();
 			return;
 		}
+		
+		var pwdck = /(^[a-zA-Z0-9]*$)/;
+		var pwd = $("#pwd").val();
+		
+		if(!pwdck.test(pwd)) {
+			alert("암호는 숫자 혹은 영어만 올 수 있습니다.");
+			$("#pwd").focus();
+			return;
+		}
+		
 		if($("#pwd").val() != $("#pwd2").val()) {
 			alert("암호가 일치하지 않습니다");
 			$("#npwd").focus();
 			return;
 		}
+		
+		if($('input:radio[id=gender]:checked').val()==undefined) {
+			alert("성별을 입력해주세요.");
+			$("#gender").focus();
+			return;
+		}
+		
+		if($("#email1").val() == "") {
+			alert("이메일을 입력해주세요.");
+			$("#email1").focus();
+			return;
+		}
+		if($("#phone2").val() == "" || $("#phone3").val() == "") {
+			alert("연락처를 입력해주세요.");
+			$("#phone2").focus();
+			return;
+		}
+		if($("#sample6_postcode").val() == "") {
+			alert("우편번호를 입력해주세요");
+			$("#sample6_postcode").focus();
+			return;
+		}
+		if($("#sample6_address2").val() == "") {
+			alert("상세주소를 입력해주세요");
+			$("#sample6_address2").focus();
+			return;
+		}
+		
+		var phone  = $("#phone1").val();
+		phone += "-" +  $("#phone2").val(); 
+		phone += "-" +  $("#phone3").val();
+		$("#phone").val(phone);
+		
+		var post  = $("#sample6_postcode").val();
+			post += "/" + $("#sample6_address").val();
+			post += "/" + $("#sample6_address2").val();
+		$("#post").val(post);
+		
+		var email  = $("#email1").val();
+			email += "@" + $("#email2").val();
+		$("#email").val(email);
+		
 		if($("#pwd").val() != $("#opwd").val()) {
 
 			var f = document.frm;
@@ -88,22 +141,9 @@ $(function(){
 			f.submit();
 			return;
 		}
+		
 		if(confirm("저장하시겠습니까?")) {		
 	 		//var formData = $("#frm").serialize();
-	 		var phone  = $("#phone1").val();
-	 			phone += "-" +  $("#phone2").val(); 
-	 			phone += "-" +  $("#phone3").val();
-	 		$("#phone").val(phone);
-	 		
-	 		var post  = $("#sample6_postcode").val();
-	 			post += "/" + $("#sample6_address").val();
-	 			post += "/" + $("#sample6_address2").val();
-	 		$("#post").val(post);
-	 		
-	 		var email  = $("#email1").val();
-	 			email += "@" + $("#email2").val();
-	 		$("#email").val(email);
-	 		
 	 		var formData = $("#frm").serialize();
 	 		// 비 동기 전송
 			$.ajax({
