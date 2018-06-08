@@ -114,7 +114,7 @@ public class AdminController {
 		String result = "fail";
 		client = new IamportClient(api_key, api_secret);
 		String token = client.getToken();
-		
+		System.out.println(merchant_uid);
 		CancelData cancel2 = new CancelData(merchant_uid, false);
 		IamportResponse<Payment> cancelpayment2 = client.cancelPayment(cancel2);
 		if(cancelpayment2.getMessage()==null){

@@ -25,33 +25,7 @@
 	}); 
 
 	$(function() {
-		$("#btnCancel").click(
-				function() {
-					var btn = $(this);
-					var tr = btn.parent().parent();
-					var td = tr.children();
-					var merchant_uid = td.eq(0).text();
-					var param = "merchant_uid=" + merchant_uid;
-
-					$.ajax({
-						type : "POST",
-						data : param,
-						url : "/iamportCancel.do",
-						success : function(data) {
-							if (data.result == "ok") {
-								alert("취소하였습니다.");
-								location.href = "/userOrderList.do";
-							} else {
-								alert("취소실패했습니다. 다시 시도해 주세요.");
-							}
-						},
-						error : function(request, status, error) {
-							alert("code:" + request.status + "\n" + "message:"
-									+ request.responseText + "\n" + "error:"
-									+ error);
-						}
-					});
-				});
+		
 
 	});
 	function cancelAlert(ocode) {
@@ -114,6 +88,28 @@
 			}
 		});
 	}
+	function iamportCancel(ocode) {
+		var param = "merchant_uid=" + ocode;
+		$.ajax({
+			type : "POST",
+			data : param,
+			url : "/iamportCancel.do",
+			success : function(data) {
+				if (data.result == "ok") {
+					alert("취소하였습니다.");
+					location.href = "/userOrderList.do";
+				} else {
+					alert("취소실패했습니다. 다시 시도해 주세요.");
+				}
+			},
+			error : function(request, status, error) {
+				alert("code:" + request.status + "\n" + "message:"
+						+ request.responseText + "\n" + "error:"
+						+ error);
+			}
+		});
+	}
+				
 	function deliConfirm(ocode) {
 		var param = "dstate=배송완료&ocode=" + ocode;
 		$.ajax({
@@ -180,7 +176,7 @@
 				<c:if test="${clist.get(index).cnt<1  }">
 					<c:if test="${list.paymethod=='신용카드' }">
 						<br>
-						<button type="button" id="btnCancel" class="white">취소</button>
+						<button type="button" onclick="iamportCancel('${list.ocode}');" class="white">취소</button>
 					</c:if>
 					<c:if test="${list.paymethod=='무통장입금' }">
 						<c:if test="${list.adminmemo!='취소요청' }">

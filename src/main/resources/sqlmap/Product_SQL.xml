@@ -166,7 +166,7 @@
 	</select>
 
 	<select id="productDAO.selectProductTotCnt" resultClass="java.lang.Integer">
-		SELECT sum(count( distinct pcode))
+		SELECT nvl(sum(count( distinct pcode)),0)
 			FROM product
 			WHERE lower(gcode)=lower(#gcode#) and wait='N'
 			group by pcode
