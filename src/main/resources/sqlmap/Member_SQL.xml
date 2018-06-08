@@ -561,7 +561,7 @@
 	<select id="memberDAO.selectMemberBTD" resultClass="egovMap">
 		SELECT userid
 		FROM memberinfo
-		WHERE to_char(birthday,'MMDD') = #today#
+		WHERE to_char(birthday,'MM') = #bmonth#
 	</select>
 	
 	<insert id="memberDAO.insertBTDCoupon">

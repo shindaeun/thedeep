@@ -90,7 +90,7 @@ public interface MemberService {
 
 	String insertCoupon(CouponVO cvo) throws Exception;
 
-	List<?> selectMemberBTD(String today) throws Exception;
+	List<?> selectMemberBTD(String bmonth) throws Exception;
 
 	String insertBTDCoupon(CouponVO cvo) throws Exception;
 

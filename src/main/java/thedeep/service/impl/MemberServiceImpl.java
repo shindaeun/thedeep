@@ -231,8 +231,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<?> selectMemberBTD(String today) throws Exception {
-		return memberDAO.selectMemberBTD(today);
+	public List<?> selectMemberBTD(String bmonth) throws Exception {
+		return memberDAO.selectMemberBTD(bmonth);
 	}
 
 	@Override
