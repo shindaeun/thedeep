@@ -160,9 +160,13 @@ $(function() {
 		}
 		totalcalcul();
 	});
+	
+	
+
 	$("#btnCoupon").click(function() {
-		if($("#sumpoint").val()=="0") {
-			alert("결제금액이 0원입니다.");
+		var cmoney = $("#money2").text();
+		if(cmoney=="0") {
+			alert("결제금액이 0원이므로 쿠폰 사용을 할 수 없습니다.");
 			return;
 		}
 		var totalmoney = $("#money1").text();
@@ -418,7 +422,7 @@ function sample6_execDaumPostcode() {
 			<td colspan="10">결제금액 <span id="money1">${sumprice + delprice }</span>원
 				- <span id="usecouponresult">0</span>원(쿠폰) - <span
 				id="usepointresult">0</span>원(적립금) =<span id="money2">${sumprice + delprice }</span>(적립금
-				<span id="point">${sumpoint }</span>원)
+				<span id="point">${sumpoint}</span>원)
 			</td>
 		</tr>
 	</table>
