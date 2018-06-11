@@ -54,7 +54,6 @@ $(function() {
 });	
 </script>
 <div>
-<
 <table class="top">
 		<tr class="top">
 			<td class="top">보유 쿠폰 내역</td>

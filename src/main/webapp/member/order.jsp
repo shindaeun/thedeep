@@ -6,6 +6,7 @@
 <c:set var="phone" value="${vo.phone}" />
 <c:set var="email" value="${vo.email}" />
 <c:set var="post" value="${vo.post}" />
+<c:set var="latestpost" value="${vo.latestpost}" />
 <%
 
 	String ph = (String) pageContext.getAttribute("phone");
@@ -15,13 +16,18 @@
 		pageContext.setAttribute("phone2", phone[1]);
 		pageContext.setAttribute("phone3", phone[2]);
 	
- 	String po = (String)pageContext.getAttribute("post");
-	 if(po !=null){
-		String[] post = po.split("/");
+ 	String latestpo = (String)pageContext.getAttribute("latestpost");
+	 if(latestpo !=null){
+		String[] latest = latestpo.split("/");
+		pageContext.setAttribute("lpostnum", latest[0]);
+		pageContext.setAttribute("larr1", latest[1]);
+		pageContext.setAttribute("larr2", latest[2]); 
+	} 
+	 String po = (String)pageContext.getAttribute("post");
+	 String[] post = po.split("/");
 		pageContext.setAttribute("postnum", post[0]);
 		pageContext.setAttribute("arr1", post[1]);
 		pageContext.setAttribute("arr2", post[2]); 
-	} 
 	
 	String em = (String) pageContext.getAttribute("email");
 	
@@ -163,7 +169,7 @@ $(function() {
 	$("#btnCoupon").click(function() {
 		var totalmoney = $("#money1").text();
 		url = "/couponPopup.do?totalmoney=" + totalmoney;
-		windowObj = window.open(url, "쿠폰리스트", "width=700,height=300");
+		windowObj = window.open(url, "쿠폰리스트", "width=700,height=400");
 
 	});
 	$("#btnCouponReset").click(function() {
@@ -174,6 +180,10 @@ $(function() {
 	$("input[name=adminmemo]").click(function() {
 		
 		if($("input[name=adminmemo]:checked").val()=="최근배송지"){
+			$("#sample6_postcode").val("${lpostnum}");
+			$("#sample6_address").val("${larr1}");
+			$("#sample6_address2").val("${larr2}");
+		}else if($("input[name=adminmemo]:checked").val()=="내 주소"){
 			$("#sample6_postcode").val("${postnum}");
 			$("#sample6_address").val("${arr1}");
 			$("#sample6_address2").val("${arr2}");
@@ -190,11 +200,18 @@ $(function() {
 			$("#phone4").val($("#phone1").val()).prop("selected", true);
 			$("#phone5").val($("#phone2").val());
 			$("#phone6").val($("#phone3").val());
+			$("#sample6_postcode").val("${postnum}");
+			$("#sample6_address").val("${arr1}");
+			$("#sample6_address2").val("${arr2}"); 
+			jQuery("input[value='내 주소']").attr('checked', true);
 		} else {
 			$("#dname").val("");
 			$("#phone4").val("011").prop("selected", true);
 			$("#phone5").val("");
 			$("#phone6").val("");
+			$("#sample6_postcode").val("");
+			$("#sample6_address").val("");
+			$("#sample6_address2").val("");
 		}
 
 	});
@@ -343,6 +360,15 @@ function sample6_execDaumPostcode() {
 						<c:if test="${email2=='gmail.com'}">selected</c:if>>gmail.com</option>
 			</select></td>
 		</tr>
+		<tr class="board">
+			<th class="head">주소</th>
+			<td style="text-align: left; padding: 5px;">
+			<input type="text"
+				style="width: 30%; margin-top: 1%;" value="${postnum }" readonly/>
+				<br /> <input type="text"
+				style="width: 70%; margin-top: 1%;" value="${arr1 }"readonly/><br /> <input type="text"
+				style="width: 70%; margin-top: 1%; margin-bottom: 1%;" value="${larr2 }"readonly/><br /></td>
+		</tr>
 	</table>
 	<br>
 	<h5>> 수취인 정보</h5>
@@ -368,15 +394,16 @@ function sample6_execDaumPostcode() {
 			<th class="head">주소</th>
 			<td style="text-align: left; padding: 5px;">
 			<input type="radio" name="adminmemo" checked value="최근배송지"/>최근배송지
-			<input type="radio" name="adminmemo" value="새로운 배송지"/>새로운 배송지<br>
+			<input type="radio" name="adminmemo" value="새로운 배송지"/>새로운 배송지
+			<input type="radio" name="adminmemo" value="내 주소" readonly/>내 주소<br>
 			<input type="text"
 				id="sample6_postcode" placeholder="우편번호"
-				style="width: 30%; margin-top: 1%;" value="${postnum }"/>
+				style="width: 30%; margin-top: 1%;" value="${lpostnum }"/>
 				<button type="button" onclick="sample6_execDaumPostcode()"class="white" />우편번호찾기</button>
 				<br /> <input type="text" id="sample6_address" placeholder="주소"
-				style="width: 70%; margin-top: 1%;" value="${arr1 }"/><br /> <input type="text"
+				style="width: 70%; margin-top: 1%;" value="${larr1 }"/><br /> <input type="text"
 				id="sample6_address2" placeholder="상세주소"
-				style="width: 70%; margin-top: 1%; margin-bottom: 1%;" value="${arr2 }"/><br /></td>
+				style="width: 70%; margin-top: 1%; margin-bottom: 1%;" value="${larr2 }"/><br /></td>
 		</tr>
 		<tr class="board">
 			<th class="head" width="20%">주문 메세지</th>

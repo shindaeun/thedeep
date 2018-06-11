@@ -266,7 +266,7 @@ public class AdminController {
 		PointVO point = new PointVO();
 		point.setUserid(userid);
 		point.setContent("구매취소("+ocode+")");
-		point.setUsepoint((int) Math.floor(lvo.getTotalmoney()*0.001));
+		point.setUsepoint((int) Math.floor(lvo.getTotalmoney()*0.01));
 		point.setSavepoint(0);
 		String ablepoint = adminService.selectAblePoint(userid);
 		int ablepoint2 = Integer.parseInt(ablepoint) - point.getUsepoint();
@@ -320,7 +320,7 @@ public class AdminController {
 		PointVO point = new PointVO();
 		point.setUserid(userid);
 		point.setContent("구매취소("+ocode+")");
-		point.setUsepoint((int) Math.floor(lvo.getTotalmoney()*0.001));
+		point.setUsepoint((int) Math.floor(lvo.getTotalmoney()*0.01));
 		point.setSavepoint(0);
 		String ablepoint = adminService.selectAblePoint(userid);
 		int ablepoint2 = Integer.parseInt(ablepoint) - point.getUsepoint();
@@ -561,8 +561,8 @@ public class AdminController {
 	@RequestMapping(value="/adminBoard.do")
 	public String adminBoard(ModelMap model,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
 
-		searchVO.setPageUnit(2);// 한 화면에 출력 개수
-		searchVO.setPageSize(2);// 페이지 개수
+		searchVO.setPageUnit(20);// 한 화면에 출력 개수
+		searchVO.setPageSize(20);// 페이지 개수
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
