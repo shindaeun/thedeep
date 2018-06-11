@@ -50,7 +50,6 @@ background: white;
 <input type="hidden" id="happyBTD" name="happyBTD" value="${happyBTD}">
 </form>
 
-
 <div class="w-container">
 	<div data-delay="4000" data-animation="slide" data-autoplay="1"
 		data-duration="500" data-infinite="1" class="slider-3 w-slider">
@@ -69,12 +68,12 @@ background: white;
 	</div>
 	<br>
 	<div>new arrivals<br>
-	<table class="board">
+	<table width="100%" style="border:solid 1px #FFF">
 		<colgroup>
 		<col width="50%"/>
 		<col width="50%"/>
 		</colgroup>
-		<tr class="board">
+		<tr style="border:solid 1px #FFF">
 			<c:set var="filenum" value="0"/>
 			<c:forEach var="i" items="${nlist}" varStatus="status">
 			<c:set var="filenum" value="${filenum+1}"/>

@@ -88,6 +88,14 @@ $(function(){
 			f.submit();
 			return;
 		}
+		var hangle = /(^[a-zA-Z0-9가-힣 ]*$)/;
+		var sang = $("#sample6_address2").val();
+		
+		if(!hangle.test(sang)) {
+			alert("상세주소에는 특수문자가 올 수 없습니다.");
+			$("#sample6_address2").focus();
+			return;
+		}
 		if(confirm("저장하시겠습니까?")) {		
 	 		//var formData = $("#frm").serialize();
 	 		var phone  = $("#phone1").val();
@@ -230,9 +238,9 @@ pageContext.setAttribute("email2", email[1]);
 	<tr class="board">
 		<th class="head">주소</th>
 		<td style="text-align: left; padding:5px;">
-		<input type="text" id="sample6_postcode" placeholder="우편번호" style="width:30%; margin-top: 1%;" value="${postnum}"/>
+		<input type="text" id="sample6_postcode" placeholder="우편번호" style="width:30%; margin-top: 1%;" value="${postnum}"readonly/>
 		<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="white"/><br/>
-		<input type="text" id="sample6_address" placeholder="주소" style="width:50%; margin-top: 1%;" value="${arr1}"/><br/>
+		<input type="text" id="sample6_address" placeholder="주소" style="width:50%; margin-top: 1%;" value="${arr1}"readonly/><br/>
 		<input type="text" id="sample6_address2" placeholder="상세주소" style="width:70%; margin-top: 1%; margin-bottom:1%;" value="${arr2}"/><br/>
 		</td>
 	</tr>
