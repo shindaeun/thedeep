@@ -54,13 +54,13 @@ a:hover {text-decoration:underline; color: #000000}
           <div class="container w-container">
             <nav role="navigation" class="w-nav-menu">
             <c:if test="${sessionScope.ThedeepLoginCert.ThedeepUserId == null}">	
-            <a href="/login.do" class="w-nav-link2">Login</a>
-            <a href="/memberInfo.do" class="w-nav-link2">Join</a>
+            <a href="/login.do" class="w-nav-link2" style>Login</a>
+            <a href="/memberInfo.do" class="w-nav-link2"style>Join</a>
             </c:if>
             <c:if test="${sessionScope.ThedeepLoginCert.ThedeepUserId != null}">
-            <a href="#" class="w-nav-link2"><span id="btnLogout">Logout</span></a>
-            <a href="/cart.do" class="w-nav-link2">Cart</a>
-            <a href="/myPage.do" class="w-nav-link2">My Page</a>
+            <a href="#" class="w-nav-link2"><span id="btnLogout"style>Logout</span></a>
+            <a href="/cart.do" class="w-nav-link2"style>Cart</a>
+            <a href="/myPage.do" class="w-nav-link2"style>My Page</a>
             </c:if>
            <%--  <c:if test="${sessionScope.ThedeepALoginCert.ThedeepAUserId != null}">
             <a href="#" class="w-nav-link"><span id="btnAdminLogout">Logout</span></a>
