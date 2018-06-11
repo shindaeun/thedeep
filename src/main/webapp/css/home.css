@@ -13,7 +13,8 @@
   margin-right: -43px;
   margin-left: 1px;
   border: 1px none #000;
-}
+  overflow-y:scroll;
+}  
 
 .row {
   height: 3000px;
@@ -352,7 +353,7 @@
 .nav-menu-2 {
   left: 14px;
   right: 15px;
-  margin-right: -6px;
+  margin-right: 25px;
   margin-left: 0px;
   padding-right: 0px;
   padding-left: 0px;
