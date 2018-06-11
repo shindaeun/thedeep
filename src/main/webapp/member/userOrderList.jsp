@@ -117,7 +117,6 @@ function iamportCancelPart(ocode, cscode) {
 			} else {
 				alert("취소실패했습니다. 다시 시도해 주세요.");
 			}
-<<<<<<< HEAD
 		});
 	}
 	function iamportCancel(ocode) {
@@ -160,7 +159,6 @@ function iamportCancelPart(ocode, cscode) {
 				alert("code:" + request.status + "\n" + "message:"
 						+ request.responseText + "\n" + "error:"
 						+ error);
-=======
 		},
 		error : function(request, status, error) {
 			alert("code:" + request.status + "\n" + "message:"
@@ -180,7 +178,6 @@ function deliConfirm(ocode) {
 				location.href = "/userOrderList.do";
 			} else {
 				alert("배송완료 실패했습니다. 다시 시도해 주세요.");
->>>>>>> updateM
 			}
 		},
 		error : function(request, status, error) {
