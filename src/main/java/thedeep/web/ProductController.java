@@ -124,24 +124,6 @@ public class ProductController {
 		searchVO.setPageSize(5);// 페이지 개수
 		
 		/** pageing setting */
-		PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		List<?> qlist = productService.selectQna(searchVO);
-		model.addAttribute("qlist", qlist);
-		System.out.println(qlist);
-		int totCnt = productService.selectQnaTotCnt(searchVO);
-		paginationInfo.setTotalRecordCount(totCnt);
-		
-		model.addAttribute("paginationInfo", paginationInfo);
-		
-		/** pageing setting */
 		PaginationInfo paginationInfo2 = new PaginationInfo();
 		paginationInfo2.setCurrentPageNo(searchVO.getPageIndex2());
 		paginationInfo2.setRecordCountPerPage(searchVO.getPageUnit());

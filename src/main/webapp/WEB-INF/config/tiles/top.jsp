@@ -47,20 +47,20 @@ a:hover {text-decoration:underline; color: #000000}
 <div>
     <div class="w-row">
       <div class="column-4 w-col w-col-3">
-        <a href="/theDeep.do"><h1 class="heading">TheDeep</h1></a>
+        <!-- <a href="/theDeep.do"><h1 class="heading">TheDeep</h1></a> -->
       </div>
       <div class="w-col w-col-9">
         <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
           <div class="container w-container">
             <nav role="navigation" class="w-nav-menu">
             <c:if test="${sessionScope.ThedeepLoginCert.ThedeepUserId == null}">	
-            <a href="/login.do" class="w-nav-link">Login</a>
-            <a href="/memberInfo.do" class="w-nav-link">Join</a>
+            <a href="/login.do" class="w-nav-link2">Login</a>
+            <a href="/memberInfo.do" class="w-nav-link2">Join</a>
             </c:if>
             <c:if test="${sessionScope.ThedeepLoginCert.ThedeepUserId != null}">
-            <a href="#" class="w-nav-link"><span id="btnLogout">Logout</span></a>
-            <a href="/cart.do" class="w-nav-link">Cart</a>
-            <a href="/myPage.do" class="w-nav-link">My Page</a>
+            <a href="#" class="w-nav-link2"><span id="btnLogout">Logout</span></a>
+            <a href="/cart.do" class="w-nav-link2">Cart</a>
+            <a href="/myPage.do" class="w-nav-link2">My Page</a>
             </c:if>
            <%--  <c:if test="${sessionScope.ThedeepALoginCert.ThedeepAUserId != null}">
             <a href="#" class="w-nav-link"><span id="btnAdminLogout">Logout</span></a>

@@ -69,14 +69,6 @@
   padding-left: 2px;
 }
 
-.nav-menu {
-  width: 170px;
-  margin-right: 59px;
-  margin-left: -20px;
-  padding-right: 34px;
-  padding-left: 64px;
-}
-
 .nav-link {
   height: 30px;
   margin-top: -23px;
@@ -362,8 +354,8 @@
   right: 15px;
   margin-right: -6px;
   margin-left: 0px;
-  padding-right: 60px;
-  padding-left: 35px;
+  padding-right: 0px;
+  padding-left: 0px;
   background-color: #fff;
 }
 
@@ -371,6 +363,7 @@
   margin-top: 20px;
   padding-top: 0px;
   padding-right: 50px;
+  padding-left: 60px;
   padding-bottom: 0px;
 }
 
@@ -383,6 +376,7 @@
 .nav-link-14 {
   padding-top: 0px;
   padding-right: 50px;
+  padding-left: 60px;
   padding-bottom: 0px;
 }
 
@@ -407,17 +401,20 @@
 .nav-link-18 {
   padding-top: 0px;
   padding-right: 50px;
+  padding-left: 60px;
   padding-bottom: 0px;
 }
 
 .nav-link-19 {
   padding-top: 0px;
   padding-right: 50px;
+  padding-left: 60px;
   padding-bottom: 0px;
 }
 
 .nav-link-20 {
   padding-right: 50px;
+  padding-left: 60px;
   padding-bottom: 0px;
 }
 

@@ -22,7 +22,7 @@
 		pageContext.setAttribute("lpostnum", latest[0]);
 		pageContext.setAttribute("larr1", latest[1]);
 		pageContext.setAttribute("larr2", latest[2]); 
-	} 
+	}
 	 String po = (String)pageContext.getAttribute("post");
 	 String[] post = po.split("/");
 		pageContext.setAttribute("postnum", post[0]);
@@ -388,7 +388,7 @@ function sample6_execDaumPostcode() {
 				style="width: 30%; margin-top: 1%;" value="${postnum }" readonly/>
 				<br /> <input type="text"
 				style="width: 70%; margin-top: 1%;" value="${arr1 }"readonly/><br /> <input type="text"
-				style="width: 70%; margin-top: 1%; margin-bottom: 1%;" value="${larr2 }"readonly/><br /></td>
+				style="width: 70%; margin-top: 1%; margin-bottom: 1%;" value="${arr2 }"readonly/><br /></td>
 		</tr>
 	</table>
 	<br>
@@ -416,7 +416,7 @@ function sample6_execDaumPostcode() {
 			<td style="text-align: left; padding: 5px;">
 			<input type="radio" name="adminmemo" checked value="최근배송지"/>최근배송지
 			<input type="radio" name="adminmemo" value="새로운 배송지"/>새로운 배송지
-			<input type="radio" name="adminmemo" value="내 주소" readonly/>내 주소<br>
+			<input type="radio" name="adminmemo" value="내 주소"/>내 주소<br>
 			<input type="text"
 				id="sample6_postcode" placeholder="우편번호"
 				style="width: 30%; margin-top: 1%;" value="${lpostnum }" readonly/>

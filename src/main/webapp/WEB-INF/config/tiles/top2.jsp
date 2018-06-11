@@ -33,16 +33,16 @@ a:hover {text-decoration:underline; color: #000000}
 <div>
     <div class="w-row">
       <div class="column-4 w-col w-col-3">
-        <a href="/theDeepAdmin.do"><h1 class="heading">TheDeep</h1></a>
+       <!--  <a href="/theDeepAdmin.do"><h1 class="heading">TheDeep</h1></a> -->
       </div>
       <div class="w-col w-col-9">
         <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
           <div class="container w-container">
             <nav role="navigation" class="w-nav-menu">
             <c:if test="${sessionScope.ThedeepALoginCert.ThedeepAUserId != null}">
-            <a href="#" class="w-nav-link"><span id="btnAdminLogout">Logout</span></a>
-            <a href="/adminInfo.do" class="w-nav-link">Join</a>
-            <a href="/adminModify.do" class="w-nav-link">Profile</a>
+            <a href="#" class="w-nav-link2"><span id="btnAdminLogout">Logout</span></a>
+            <a href="/adminInfo.do" class="w-nav-link2">Join</a>
+            <a href="/adminModify.do" class="w-nav-link2">Profile</a>
             </c:if>
             <c:if test="${sessionScope.ThedeepALoginCert.ThedeepAUserId == null}">
             <!-- <a href="/adminLogin.do" class="w-nav-link">Login</a> -->
