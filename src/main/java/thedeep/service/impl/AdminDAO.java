@@ -176,5 +176,9 @@ public class AdminDAO extends EgovAbstractDAO {
 		return (String) select("adminDAO.selectMaxCode");
 	}
 
+	public int upadateUserCoupon(CouponVO vo) {
+		return update("adminDAO.upadateUserCoupon", vo);
+	}
+
 
 }

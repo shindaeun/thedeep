@@ -499,5 +499,11 @@
 		FROM coupon
 	</select>
 	
+	<update id="adminDAO.upadateUserCoupon">
+		UPDATE couponlist
+		SET cname = #cname#
+		WHERE ccode = #ccode#
+	</update>
+	
 	
 </sqlMap>

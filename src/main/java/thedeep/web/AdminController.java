@@ -848,7 +848,8 @@ public class AdminController {
 		String result = "";
 
 		int cnt = adminService.updateAdminCoupon(vo);
-		if(cnt>0) result = "ok";
+		int ucnt = adminService.upadateUserCoupon(vo);
+		if(cnt>0 && cnt>0) result = "ok";
 		else result = "1";
 
 		map.put("result", result);
