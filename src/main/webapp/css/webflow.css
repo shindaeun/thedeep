@@ -1562,6 +1562,9 @@ textarea.w-select {
   color: #ffffff;
   background : #E03968;
 }
+.w-nav-link2.w--current {
+  color: #E03968; 
+}
 .w-nav-menu {
   position: relative;
   float: right;
