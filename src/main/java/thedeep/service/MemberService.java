@@ -134,6 +134,14 @@ public interface MemberService {
 
 	List<?> selectCancelCnt(String userid) throws Exception;
 
+	int deleteOrderInfo(String ocode) throws Exception;
+
+	int deleteOrderList(String ocode) throws Exception;
+
+	int deleteOrderDelivery(String ocode) throws Exception;
+
+
+
 
 
 

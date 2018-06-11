@@ -277,6 +277,18 @@ public class MemberDAO extends EgovAbstractDAO{
 		return list("memberDAO.selectCancelCnt",userid);
 	}
 
+	public int deleteOrderInfo(String ocode) {
+		return delete("memberDAO.deleteOrderInfo",ocode);
+	}
+
+	public int deleteOrderList(String ocode) {
+		return delete("memberDAO.deleteOrderList",ocode);
+	}
+
+	public int deleteOrderDelivery(String ocode) {
+		return delete("memberDAO.deleteOrderDelivery",ocode);
+	}
+
 
 	
 }

@@ -345,5 +345,20 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectUserOrderListCnt(searchVO);
 	}
 
+	@Override
+	public int deleteOrderInfo(String ocode) throws Exception {
+		return memberDAO.deleteOrderInfo(ocode);
+	}
+
+	@Override
+	public int deleteOrderList(String ocode) throws Exception {
+		return memberDAO.deleteOrderList(ocode);
+	}
+
+	@Override
+	public int deleteOrderDelivery(String ocode) throws Exception {
+		return memberDAO.deleteOrderDelivery(ocode);
+	}
+
 
 }
