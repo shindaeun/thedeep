@@ -51,12 +51,12 @@ background: white;
     	</tr>
     </table>
 
-	<table class="board">
+	<table width="100%" style="border:solid 1px #FFF">
 		<colgroup>
 		<col width="50%"/>
 		<col width="50%"/>
 	</colgroup>
-		<tr class="board">
+		<tr style="border:solid 1px #FFF">
 			<c:forEach var="i" items="${blist}" varStatus="status">
 			<c:set var="mainfile" value="${i.mainfile }"/>
 				<%
@@ -96,12 +96,12 @@ background: white;
     </table>
 
 
-	<table class="board">
+	<table width="100%">
 		<colgroup>
 		<col width="50%"/>
 		<col width="50%"/>
 		</colgroup>
-		<tr class="board">
+		<tr style="border-bottom:none">
 			<c:set var="filenum" value="0"/>
 			<c:forEach var="i" items="${plist}" varStatus="status">
 			<c:set var="filenum" value="${filenum+1}"/>
@@ -141,7 +141,7 @@ background: white;
 	
 <c:set var="pageIndex" value="<%=pageIndex %>"/>
 		<c:set var="totalPage" value="${paginationInfo.getTotalPageCount() }"/>
-		<table border="0" width="100%">
+		<table width="100%">
 				<tr>
 					<td style="border: 0px; text-align: center">
 						<div id="paging">

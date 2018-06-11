@@ -41,12 +41,12 @@ background: white;
     </table>
 
 
-	<table class="board">
+	<table width="100%"  style="border:solid 1px #FFF">
 		<colgroup>
 		<col width="50%"/>
 		<col width="50%"/>
 		</colgroup>
-		<tr class="board">
+		<tr>
 			<c:set var="filenum" value="0"/>
 			<c:forEach var="i" items="${blist}" varStatus="status">
 			<c:set var="filenum" value="${filenum+1}"/>

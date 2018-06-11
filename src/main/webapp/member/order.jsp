@@ -74,6 +74,14 @@ $(function() {
 			$("#sample6_address2").focus();
 			return;
 		}
+		var hangle = /(^[a-zA-Z0-9가-힣 ]*$)/;
+		var sang = $("#sample6_address2").val();
+		
+		if(!hangle.test(sang)) {
+			alert("상세주소에는 특수문자가 올 수 없습니다.");
+			$("#sample6_address2").focus();
+			return;
+		}
 		
 		if (confirm("결제하시겠습니까?")) {
 			
@@ -115,6 +123,11 @@ $(function() {
 		             }
 				});
 			}else{
+				var cmoney = $("#money2").text();
+				if(cmoney=="0") {
+					alert("결제금액이 0원입니다. \n무통장입금을 선택해주세요. \n실제 입금하지 않으셔도 결제가 완료됩니다.");
+					return;
+				}
 				var formData = $("#frm").serialize();
 				//var deferred = $p.defer();
 				// 비 동기 전송
@@ -406,10 +419,10 @@ function sample6_execDaumPostcode() {
 			<input type="radio" name="adminmemo" value="내 주소" readonly/>내 주소<br>
 			<input type="text"
 				id="sample6_postcode" placeholder="우편번호"
-				style="width: 30%; margin-top: 1%;" value="${lpostnum }"/>
+				style="width: 30%; margin-top: 1%;" value="${lpostnum }" readonly/>
 				<button type="button" onclick="sample6_execDaumPostcode()"class="white" />우편번호찾기</button>
 				<br /> <input type="text" id="sample6_address" placeholder="주소"
-				style="width: 70%; margin-top: 1%;" value="${larr1 }"/><br /> <input type="text"
+				style="width: 70%; margin-top: 1%;" value="${larr1 }" readonly/><br /> <input type="text"
 				id="sample6_address2" placeholder="상세주소"
 				style="width: 70%; margin-top: 1%; margin-bottom: 1%;" value="${larr2 }"/><br /></td>
 		</tr>
