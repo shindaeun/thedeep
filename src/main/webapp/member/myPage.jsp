@@ -57,6 +57,13 @@ a:link { text-decoration: none; color: #000000}
 a:visited { text-decoration: none; color: #000000} 
 a:active { text-decoration: none; color: #000000}
 a:hover {text-decoration:underline; color: #000000}
+
+.selection-none {
+ -webkit-user-select: none;  /* Chrome all / Safari all */
+ -moz-user-select: none;     /* Firefox all */
+ -ms-user-select: none;      /* IE 10+ */
+ user-select: none;          /* Likely future */      
+}
 </style>
 
 <div class="one">My Page</div>
