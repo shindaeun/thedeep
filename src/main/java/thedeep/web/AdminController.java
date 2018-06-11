@@ -797,7 +797,13 @@ public class AdminController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+		String keyword="";
+		if(searchVO.getSearchkind()==2){
+			System.out.println("in");
+			keyword=searchVO.getSearchKeyword();
+			System.out.println(keyword);
+			searchVO.setSearchKeyword("");
+		}
 		List<?> list2 = adminService.selectAdminList(searchVO);
 		model.addAttribute("list2", list2);
 		

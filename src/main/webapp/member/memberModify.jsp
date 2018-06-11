@@ -61,8 +61,18 @@ $(function(){
 			$("#name").focus();
 			return;
 		}
+		
 		if($("#userid").val() == "") {
 			alert("아이디를 입력해주세요.");
+			$("#userid").focus();
+			return;
+		}
+		
+		var idck = /(^[a-zA-Z0-9]*$)/;
+		var id = $("#userid").val();
+		
+		if(!idck.test(id)) {
+			alert("아이디에는 숫자 혹은 영어만 올 수 있습니다.");
 			$("#userid").focus();
 			return;
 		}

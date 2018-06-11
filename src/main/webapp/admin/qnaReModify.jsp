@@ -36,7 +36,7 @@ $(function() {
 				success: function(data) {
 					if(data.result == "ok") {
 						alert("수정하였습니다.");
-						location.href = "/qnaList.do";
+						location.href = "/adminBoard.do";
 					} else {
 						alert("수정 실패했습니다. 다시 시도해 주세요.");
 					}
