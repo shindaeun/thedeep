@@ -22,7 +22,9 @@
 <script src="/js/jquery-1.12.4.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script type="text/javascript">
+
 $( document ).ready(function() {
+
 	var values = [];
     $.ajax({
 		type : "POST",
@@ -31,8 +33,13 @@ $( document ).ready(function() {
 			if (data.result == "ok") {
 				values = data.glist;
 				$.each(values, function( index, value ) {
-					document.getElementById('pgnav').innerHTML += '<a href="/productList.do?gcode='+value.gcode+'" class="nav-link-14 w-nav-link">'+value.gname+'</a>';
-	              });
+					document.getElementById('pgnav').innerHTML += '<a id="'+value.gcode+'" href="/productList.do?gcode='+value.gcode+'" class="nav-link-19" style>'+value.gname+'</a>';
+					var now_url=document.location.href;
+					if ( now_url.match(value.gcode)) {
+						$("#"+value.gcode).attr('class','nav-link-18 w-nav-link w--current');
+						}
+				});
+				$(".nav-link-19").attr('class','nav-link-18 w-nav-link');
 			}
 			else {
 				alert("실패했습니다. 다시 시도해 주세요.");
@@ -42,7 +49,7 @@ $( document ).ready(function() {
         	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
           }
 	});
-    
+
 });
 	 !function(o, c) {
 		var n = c.documentElement, t = " w-mod-";

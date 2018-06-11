@@ -6,7 +6,7 @@
         <div data-collapse="medium" data-animation="default" data-duration="400" class="w-nav">
           <div class="container-8 w-container">
             <nav role="navigation" class="nav-menu-2 w-nav-menu">
-   			<a href="/theDeepAdmin.do"><img src="/images/theDeepLogo.PNG"/></a><br>
+   			<a href="/theDeepAdmin.do"><img src="/images/deep-logo.png"/></a><br>
    			<c:if test="${sessionScope.ThedeepALoginCert.ThedeepAUserId != null}">
    			<!-- <a href="#" class="nav-link-12 w-nav-link">메인사진관리</a> -->
             <a href="/adminList.do" class="nav-link-14 w-nav-link">회원관리</a>
