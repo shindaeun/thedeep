@@ -117,8 +117,14 @@ function iamportCancelPart(ocode, cscode) {
 			} else {
 				alert("취소실패했습니다. 다시 시도해 주세요.");
 			}
-		});
-	}
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"
+					+ request.responseText + "\n" + "error:" + error);
+		}
+	});
+	
+}
 	function iamportCancel(ocode) {
 		var param = "merchant_uid=" + ocode;
 		$.ajax({

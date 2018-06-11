@@ -517,6 +517,17 @@
 		select discountrate from ordermain o ,coupon c where o.usecoupon = c.cname and ocode=#ocode#
 	 ]]>
 	</select>
+	
+	<delete id="memberDAO.deleteOrderInfo">
+	delete from ordermain where ocode=#ocode#
+	</delete>
+	<delete id="memberDAO.deleteOrderList">
+	delete from orderlist where ocode=#ocode#
+	</delete>
+	<delete id="memberDAO.deleteOrderDelivery">
+	delete from delivery where ocode=#ocode#
+	</delete>
+	
 	<insert id="memberDAO.insertOrder">
 		insert into ordermain values(#ocode#,#userid#,#totalmoney#,#payresult#,#paymethod#,#depositname#,#usepoint#,#savepoint#,'',sysdate,#usecoupon#)
 	</insert>

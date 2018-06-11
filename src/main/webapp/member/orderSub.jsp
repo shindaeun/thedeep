@@ -51,7 +51,27 @@ $(function() {
 	        var msg = '결제에 실패하였습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;
 	        alert(msg);
-	        location.href="/theDeep.do";
+	        var param = "ocode=" + rsp.merchant_uid;
+	        alert(param);
+			$.ajax({
+				type : "POST",
+				data : param,
+				url : "/deleteOrder.do",
+				success : function(data) {
+					if (data.result == "ok") {
+						location.href="/theDeep.do";
+					} else{
+						 location.href="/theDeep.do";
+					}
+					
+				},
+				error : function(request, status, error) {
+					alert("code:" + request.status + "\n" + "message:"
+							+ request.responseText + "\n" + "error:"
+							+ error);
+				}
+			});
+	       
 	    }
     
     

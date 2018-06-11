@@ -658,7 +658,21 @@ public class MemberController {
 		System.out.println("point1 : "+ovo.getUsepoint() +","+ovo.getSavepoint() );
 		return "member/orderSub";
 	}
-	
+	@RequestMapping(value="/deleteOrder.do")
+	@ResponseBody
+	public Map<String,Object> deleteOrder(HttpServletRequest request,OrderVO ovo) throws Exception{
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		String result = "fail";
+		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
+		String userid = (String) a.get("ThedeepUserId");
+		String ocode = ovo.getOcode();
+		int cnt = memberService.deleteOrderInfo(ocode);
+		cnt = memberService.deleteOrderList(ocode);
+		cnt = memberService.deleteOrderDelivery(ocode);
+		map.put("result", result);
+		return map;
+	}
 	@RequestMapping(value="/orderComplete.do")
 	public String orderComplete(HttpServletRequest request,ModelMap model,PointVO point,@RequestParam(value="ocode",required=false) String ocode,@RequestParam(value="paymethod",required=false) String paymethod) throws Exception{
 		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
