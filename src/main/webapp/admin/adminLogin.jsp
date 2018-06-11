@@ -48,8 +48,8 @@ tr.login {
 	border-bottom: 2px solid #808080;
 	margin-top: 5px;
 }
-a:link { text-decoration: none; color: #000000} 
-a:visited { text-decoration: none; color: #000000} 
+a:link { text-decoration: none; color: #000000;text-align:center } 
+a:visited { text-decoration: none; color: #000000 } 
 a:active { text-decoration: none; color: #000000}
 a:hover {text-decoration:underline; color: #000000}
 

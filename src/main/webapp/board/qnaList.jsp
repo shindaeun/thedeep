@@ -40,7 +40,7 @@ function submit(i){
 </script>
 
 <style>
-a:link { text-decoration: none; color: #000000} 
+a:link { text-decoration: none; color: #000000;text-align:center} 
 a:visited { text-decoration: none; color: #000000} 
 a:active { text-decoration: none; color: #000000}
 a:hover {text-decoration:underline; color: #000000}
