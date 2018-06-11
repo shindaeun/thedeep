@@ -1536,7 +1536,7 @@ textarea.w-select {
   text-decoration: none;
   color: #333333;
 }
-.w-nav-link {
+.w-nav-link2 {
   position: relative;
   display: inline-block;
   vertical-align: top;
@@ -1547,8 +1547,20 @@ textarea.w-select {
   margin-left: auto;
   margin-right: auto;
 }
+.w-nav-link {
+  position: relative;
+  display: block;
+  vertical-align: top;
+  text-decoration: none;
+  color: #222222;
+  padding: 20px;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+}
 .w-nav-link.w--current {
-  color: #0082f3;
+  color: #ffffff;
+  background : #E03968;
 }
 .w-nav-menu {
   position: relative;

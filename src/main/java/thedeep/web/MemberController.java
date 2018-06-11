@@ -598,7 +598,7 @@ public class MemberController {
 		model.addAttribute("olist",olist);
 		MemberVO mvo = new MemberVO();
 		mvo = memberService.selectMemeberDetail(userid);
-		mvo.setPost(memberService.selectLatestPost(userid));
+		mvo.setLatestpost(memberService.selectLatestPost(userid));
 		model.addAttribute("vo",mvo);
 		String ablepoint = adminService.selectAblePoint(userid);
 		model.addAttribute("ablepoint",ablepoint);
