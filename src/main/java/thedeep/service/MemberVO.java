@@ -7,6 +7,13 @@ public class MemberVO {
 	private String birthday;
 	private String gender;
 	private String post;
+	private String latestpost;
+	public String getLatestpost() {
+		return latestpost;
+	}
+	public void setLatestpost(String latestpost) {
+		this.latestpost = latestpost;
+	}
 	private String phone;
 	private String email;
 	private String emailreceive;

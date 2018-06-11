@@ -206,7 +206,7 @@
 
 	<select id="memberDAO.selectCartList" resultClass="egovMap">
 	 <![CDATA[
-	select userid,c.cscode,c.pcode,pname,price*c.amount price,c.amount,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.001*c.amount) savepoint, s.amount stock
+	select userid,c.cscode,c.pcode,pname,price*c.amount price,c.amount,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.01*c.amount) savepoint, s.amount stock
 	from cart c, product p,stock s
 	where userid=#userid#
 	and c.cscode=p.cscode
@@ -376,7 +376,7 @@
 
 	<select id="memberDAO.selectCartProductInfo" resultClass="cartVO">
 	 <![CDATA[
-	select userid,c.cscode cscode ,c.pcode pcode,pname,price*amount price,amount,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*amount*0.001) savepoint
+	select userid,c.cscode cscode ,c.pcode pcode,pname,price*amount price,amount,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*amount*0.01) savepoint
 	from cart c, product p
 	where userid=#userid#
 	and c.cscode=#cscode#
@@ -456,7 +456,7 @@
 
 	<select id="memberDAO.selectProductInfo" resultClass="cartVO">
 	 <![CDATA[
-	select pcode,cscode,pname,price,round(price*0.001) savepoint
+	select pcode,cscode,pname,price,round(price*0.01) savepoint
 	from product
 	where cscode=#cscode#
 	 ]]>

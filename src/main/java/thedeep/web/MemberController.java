@@ -376,8 +376,8 @@ public class MemberController {
 		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
 		String userid = (String) a.get("ThedeepUserId");
 		searchVO.setUserid(userid);
-		searchVO.setPageUnit(1);// 한 화면에 출력 개수
-		searchVO.setPageSize(1);// 페이지 개수
+		searchVO.setPageUnit(5);// 한 화면에 출력 개수
+		searchVO.setPageSize(5);// 페이지 개수
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -516,8 +516,8 @@ public class MemberController {
 		String allpoint = memberService.selectAllPoint(userid);
 		
 		searchVO.setUserid(userid);
-		searchVO.setPageUnit(4);// 한 화면에 출력 개수
-		searchVO.setPageSize(4);// 페이지 개수
+		searchVO.setPageUnit(10);// 한 화면에 출력 개수
+		searchVO.setPageSize(10);// 페이지 개수
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -563,7 +563,7 @@ public class MemberController {
 		}
 		MemberVO vo = new MemberVO();
 		vo = memberService.selectMemeberDetail(userid);
-		vo.setPost(memberService.selectLatestPost(userid));
+		vo.setLatestpost(memberService.selectLatestPost(userid));
 		model.addAttribute("vo",vo);
 		String ablepoint = adminService.selectAblePoint(userid);
 		model.addAttribute("ablepoint",ablepoint);

@@ -120,8 +120,8 @@ public class ProductController {
 		searchVO.setSearchCondition("pcode");
 		searchVO.setSearchKeyword(pcode);
 		
-		searchVO.setPageUnit(1);// 한 화면에 출력 개수
-		searchVO.setPageSize(1);// 페이지 개수
+		searchVO.setPageUnit(5);// 한 화면에 출력 개수
+		searchVO.setPageSize(5);// 페이지 개수
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
