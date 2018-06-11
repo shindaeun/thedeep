@@ -10,11 +10,6 @@
 <script>
 $(function() {
 	$("#btnSubmit").click(function() {
-		if($("#gcode").val()=="") {
-			alert("상품분류코드를 입력해주세요.");
-			$("#gcode").focus();
-			return;
-		}
 		if($("#gname").val()=="") {
 			alert("상품분류명을 입력해주세요.");
 			$("#gname").focus();
@@ -88,6 +83,8 @@ $(function() {
 					if(data.result == "1") {
 						alert("삭제하였습니다.");
 						location.href = "<c:url value="/group.do"/>";
+					} else if(data.result == "0") {
+						alert("그룹에 속하는 상품이 존재합니다.");
 					} else {
 						alert("삭제 실패하였습니다. 다시 시도해 주세요.");
 					}
@@ -115,12 +112,12 @@ $(function() {
 <table class="board">
 <c:if test="${group.gcode == null}">
 	<tr class="board">
-		<th width="33%">상품분류코드</th>
+		
 		<th width="33%">상품분류명</th>
 		<th width="33%">등록/수정</th>
 	</tr>
 	<tr class="board">
-		<th width="33%"><input type="text" name="gcode" id="gcode" style="width:50%;"></th>
+		
 		<th width="33%"><input type="text" name="gname" id="gname" style="width:50%;"></th>
 		<th width="33%"><button type="button" id="btnSubmit" class="white">등록</button></th>
 	</tr>

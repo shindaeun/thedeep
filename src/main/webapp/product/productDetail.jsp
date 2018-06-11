@@ -458,33 +458,26 @@ p {
 						</c:if>
 						<c:if test="${i.cnt!='0'}">
       								[${i.cnt}]
-      								</c:if>
-
-      								</p>
-						<c:if test="${i.filename!='0'}">
-							<img src="/icon/photo.JPG" width="23" height="18" />
-						</c:if>
-						<c:if test="${i.cnt!='0'}">
-      								[${i.cnt}]
-      								</c:if>
-
+      					</c:if>
 					</p>
 					<div class="content">
 					<c:set var="filenames" value="${i.filename}"></c:set>
 							<%
 							int i=0;
-							String[] filename={};
-							String filenames = (String)pageContext.getAttribute("filenames");
-							if(filenames != null && !filenames.equals("")) {
-								filename= filenames.split(",");
+							String[] filename2={};
+							String filenames2 = (String)pageContext.getAttribute("filenames");
+							if(!filenames2.equals("0") && !filenames2.equals("")) {
+								filename2= filenames2.split(",");
 							}
-							if(filenames != null) {
-								for(i=0; i<filename.length; i++) {
+							if(!filenames2.equals("0")) {
+								for(i=0; i<filename2.length; i++) {
 							%>
-							<img src="/reviewImages/<%=filename[i]%>" width="<%=x%>" height="<%=y%>"><br>
+							<img src="/reviewImages/<%=filename2[i]%>" width="<%=x%>" height="<%=y%>"><br>
 							<%
 								}
 							}
+							pageContext.setAttribute("newLine","\n"); //Space, Enter
+		      				pageContext.setAttribute("br", "<br/>"); //br 태그
 							%>
 						${fn:replace(i.content,newLine,br)}<br>
 						<button type="button" class="white"

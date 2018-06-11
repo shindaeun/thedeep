@@ -113,8 +113,8 @@ public class AdminDAO extends EgovAbstractDAO {
 		return (int) select("adminDAO.selectReviewTotCnt",searchVO);
 	}
 
-	public List<?> selectCouponList() {
-		return list("adminDAO.selectCouponList");
+	public List<?> selectCouponList(DefaultVO searchVO) {
+		return list("adminDAO.selectCouponList", searchVO);
 	}
 
 	public CouponVO selectCouponDetail(String ccode) {
@@ -166,6 +166,14 @@ public class AdminDAO extends EgovAbstractDAO {
 
 	public int selectColorSize(ProductVO vo) {
 		return (int) select("adminDAO.selectColorSize",vo);
+	}
+
+	public int selectCouponListCnt(DefaultVO searchVO) {
+		return (int) select("adminDAO.selectCouponListCnt", searchVO);
+	}
+
+	public String selectMaxCode() {
+		return (String) select("adminDAO.selectMaxCode");
 	}
 
 

@@ -3,103 +3,129 @@
 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<%
+	String pageIndex = request.getParameter("pageIndex");
+	if (pageIndex == null)
+		pageIndex = "1";
+	if (Integer.parseInt(pageIndex) < 0)
+		pageIndex = "1";
+%>
 
 <script>
-	 $(window).load(function() {
-		$(".gubun").each(function() {
-			var rows = $(".gubun:contains('" + $(this).text() + "')");
-			//var date = rows.parent().children();
-			if (rows.length > 1) {
-				rows.eq(0).attr("rowspan", rows.length);
-				//var d = date.eq(2).text();
-				
-				rows.not(":eq(0)").remove();
-				/* alert(rows.not(":eq(0)").text());
-				date.eq(2).attr("rowspan", rows.length);
-		
-				date.eq(2).not(":eq(0)").remove();
-				alert(date.eq(2).not(":eq(0)").text());
-				//date.eq(3).not(":eq(0)").remove(); */
-			}
-		});
-	}); 
-
-	$(function() {
-		$("#btnCancel").click(
-				function() {
-					var btn = $(this);
-					var tr = btn.parent().parent();
-					var td = tr.children();
-					var merchant_uid = td.eq(0).text();
-					var param = "merchant_uid=" + merchant_uid;
-
-					$.ajax({
-						type : "POST",
-						data : param,
-						url : "/iamportCancel.do",
-						success : function(data) {
-							if (data.result == "ok") {
-								alert("취소하였습니다.");
-								location.href = "/userOrderList.do";
-							} else {
-								alert("취소실패했습니다. 다시 시도해 주세요.");
-							}
-						},
-						error : function(request, status, error) {
-							alert("code:" + request.status + "\n" + "message:"
-									+ request.responseText + "\n" + "error:"
-									+ error);
-						}
-					});
-				});
-
+ $(window).load(function() {
+	$(".gubun").each(function() {
+		var rows = $(".gubun:contains('" + $(this).text() + "')");
+		//var date = rows.parent().children();
+		if (rows.length > 1) {
+			rows.eq(0).attr("rowspan", rows.length);
+			//var d = date.eq(2).text();
+			
+			rows.not(":eq(0)").remove();
+			/* alert(rows.not(":eq(0)").text());
+			date.eq(2).attr("rowspan", rows.length);
+	
+			date.eq(2).not(":eq(0)").remove();
+			alert(date.eq(2).not(":eq(0)").text());
+			//date.eq(3).not(":eq(0)").remove(); */
+		}
 	});
-	function cancelAlert(ocode) {
-		var param = "ocode=" + ocode;
-		$.ajax({
-			type : "POST",
-			data : param,
-			url : "/CancelAlert.do",
-			success : function(data) {
-				if (data.result == "ok") {
-					alert("취소요청하였습니다.");
-					location.href = "/userOrderList.do";
-				} else {
-					alert("취소요청실패했습니다. 다시 시도해 주세요.");
-				}
-			},
-			error : function(request, status, error) {
-				alert("code:" + request.status + "\n" + "message:"
-						+ request.responseText + "\n" + "error:" + error);
+}); 
+
+
+$(function() {
+	$("#btnCancel").click(
+			function() {
+				var btn = $(this);
+				var tr = btn.parent().parent();
+				var td = tr.children();
+				var merchant_uid = td.eq(0).text();
+				var param = "merchant_uid=" + merchant_uid;
+
+				$.ajax({
+					type : "POST",
+					data : param,
+					url : "/iamportCancel.do",
+					success : function(data) {
+						if (data.result == "ok") {
+							alert("취소하였습니다.");
+							location.href = "/userOrderList.do";
+						} else {
+							alert("취소실패했습니다. 다시 시도해 주세요.");
+						}
+					},
+					error : function(request, status, error) {
+						alert("code:" + request.status + "\n" + "message:"
+								+ request.responseText + "\n" + "error:"
+								+ error);
+					}
+				});
+			});
+
+});
+function cancelAlert(ocode) {
+	var param = "ocode=" + ocode;
+	$.ajax({
+		type : "POST",
+		data : param,
+		url : "/CancelAlert.do",
+		success : function(data) {
+			if (data.result == "ok") {
+				alert("취소요청하였습니다.");
+				location.href = "/userOrderList.do";
+			} else {
+				alert("취소요청실패했습니다. 다시 시도해 주세요.");
 			}
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"
+					+ request.responseText + "\n" + "error:" + error);
+		}
+	});
+}
+	function CancelAlert2(ocode, cscode) {
+	var param = "ocode=" + ocode + "&cscode=" + cscode;
+	$.ajax({
+		type : "POST",
+		data : param,
+		url : "/CancelAlert2.do",
+		success : function(data) {
+			if (data.result == "ok") {
+				alert("취소요청하였습니다.");
+				location.href = "/userOrderList.do";
+			} else {
+				alert("취소요청실패했습니다. 다시 시도해 주세요.");
+			}
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"
+					+ request.responseText + "\n" + "error:" + error);
+		}
+	});
+}
+function iamportCancelPart(ocode, cscode) {
+	var param = "ocode=" + ocode + "&cscode=" + cscode;
+	$.ajax({
+		type : "POST",
+		data : param,
+		url : "/iamportCancelPart.do",
+		success : function(data) {
+			if (data.result == "ok") {
+				alert("취소하였습니다.");
+				location.href = "/userOrderList.do";
+			} else {
+				alert("취소실패했습니다. 다시 시도해 주세요.");
+			}
+<<<<<<< HEAD
 		});
 	}
- 	function CancelAlert2(ocode, cscode) {
-		var param = "ocode=" + ocode + "&cscode=" + cscode;
+	function iamportCancel(ocode) {
+		var param = "merchant_uid=" + ocode;
 		$.ajax({
 			type : "POST",
 			data : param,
-			url : "/CancelAlert2.do",
-			success : function(data) {
-				if (data.result == "ok") {
-					alert("취소요청하였습니다.");
-					location.href = "/userOrderList.do";
-				} else {
-					alert("취소요청실패했습니다. 다시 시도해 주세요.");
-				}
-			},
-			error : function(request, status, error) {
-				alert("code:" + request.status + "\n" + "message:"
-						+ request.responseText + "\n" + "error:" + error);
-			}
-		});
-	}
-	function iamportCancelPart(ocode, cscode) {
-		var param = "ocode=" + ocode + "&cscode=" + cscode;
-		$.ajax({
-			type : "POST",
-			data : param,
-			url : "/iamportCancelPart.do",
+			url : "/iamportCancel.do",
 			success : function(data) {
 				if (data.result == "ok") {
 					alert("취소하였습니다.");
@@ -110,10 +136,12 @@
 			},
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:"
-						+ request.responseText + "\n" + "error:" + error);
+						+ request.responseText + "\n" + "error:"
+						+ error);
 			}
 		});
 	}
+				
 	function deliConfirm(ocode) {
 		var param = "dstate=배송완료&ocode=" + ocode;
 		$.ajax({
@@ -132,30 +160,63 @@
 				alert("code:" + request.status + "\n" + "message:"
 						+ request.responseText + "\n" + "error:"
 						+ error);
+=======
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"
+					+ request.responseText + "\n" + "error:" + error);
+		}
+	});
+}
+function deliConfirm(ocode) {
+	var param = "dstate=배송완료&ocode=" + ocode;
+	$.ajax({
+		type : "POST",
+		data : param,
+		url : "/updateDstate.do",
+		success : function(data) {
+			if (data.result == "ok") {
+				alert("배송완료하였습니다.");
+				location.href = "/userOrderList.do";
+			} else {
+				alert("배송완료 실패했습니다. 다시 시도해 주세요.");
+>>>>>>> updateM
 			}
-		});
-	}
-	function buyConfirm(ocode,pcode) {
-		var param = "pcode=" + pcode + "&ocode=" + ocode;
-		$.ajax({
-			type : "POST",
-			data : param,
-			url : "/buyConfirm.do",
-			success : function(data) {
-				if (data.result == "ok") {
-					alert("구매확정하였습니다.");
-					location.href = "/userOrderList.do";
-				} else {
-					alert("구매확정실패");
-				}
-			},
-			error : function(request, status, error) {
-				alert("code:" + request.status + "\n" + "message:"
-						+ request.responseText + "\n" + "error:"
-						+ error);
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"
+					+ request.responseText + "\n" + "error:"
+					+ error);
+		}
+	});
+}
+function buyConfirm(ocode,pcode) {
+	var param = "pcode=" + pcode + "&ocode=" + ocode;
+	$.ajax({
+		type : "POST",
+		data : param,
+		url : "/buyConfirm.do",
+		success : function(data) {
+			if (data.result == "ok") {
+				alert("구매확정하였습니다.");
+				location.href = "/userOrderList.do";
+			} else {
+				alert("구매확정실패");
 			}
-		});
-	}
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:"
+					+ request.responseText + "\n" + "error:"
+					+ error);
+		}
+	});
+}
+function submit(i){
+	$("#frm").attr({
+		method : 'post',
+		action : '/userOrderList.do?pageIndex='+i
+	}).submit();
+}
 </script>
 <table class="top">
 	<tr class="top">
@@ -180,7 +241,7 @@
 				<c:if test="${clist.get(index).cnt<1  }">
 					<c:if test="${list.paymethod=='신용카드' }">
 						<br>
-						<button type="button" id="btnCancel" class="white">취소</button>
+						<button type="button" onclick="iamportCancel('${list.ocode}');" class="white">취소</button>
 					</c:if>
 					<c:if test="${list.paymethod=='무통장입금' }">
 						<c:if test="${list.adminmemo!='취소요청' }">
@@ -258,15 +319,39 @@
 		</tr>
 	</c:forEach>
 </table>
+<c:set var="pageIndex" value="<%=pageIndex%>" />
+<c:set var="totalPage" value="${paginationInfo.getTotalPageCount() }" />
 <table border="0" width="100%">
 	<tr>
 		<td align="center" style="board:0px;">
 			<div id="paging">
-			<c:set var="parm1" value="searchCondition=${searchVO.getSearchCondition()}"/>
-			<c:set var="parm2" value="searchKeyword=${searchVO.getSearchKeyword()}"/>
-			<c:forEach var="i" begin="1" end="${paginationInfo.getTotalPageCount()}">
-				<a href="/userOrderList.do?pageIndex=${i}&${parm1}&${parm2}">${i}</a>
-			</c:forEach>
+				<c:set var="a" value="${(pageIndex-1)/5-((pageIndex-1)/5%1)}" />
+				<fmt:parseNumber var="a" integerOnly="true" value="${a}" />
+				<c:set var="start" value="${a*5+1}" />
+				<c:set var="last" value="${start+4}" />
+
+				<c:if test="${last>paginationInfo.getTotalPageCount() }">
+					<c:set var="last" value="${paginationInfo.getTotalPageCount() }" />
+				</c:if>
+
+				<fmt:parseNumber var="start2" integerOnly="true" value="${start-1}" />
+				<c:if test="${start2 >0}">
+					<a href="#" onclick="submit(${start2});">before</a>
+				</c:if>
+
+				<c:forEach var="i" begin="${ start}" end="${last }">
+					<c:if test="${i ==pageIndex}">
+						<span style="font-size: 13px; color: red;">${i }</span>
+					</c:if>
+					<c:if test="${i !=pageIndex}">
+						<a href="#" onclick="submit(${i});">${i}</a>
+					</c:if>
+				</c:forEach>
+
+				<fmt:parseNumber var="last2" integerOnly="true" value="${last+1}" />
+				<c:if test="${last2 <=paginationInfo.getTotalPageCount()}">
+					<a href="#" onclick="submit(${last2});">next</a>
+				</c:if>
 			</div>
 		</td>
 	</tr>

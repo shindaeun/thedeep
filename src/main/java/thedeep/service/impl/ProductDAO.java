@@ -183,6 +183,14 @@ public class ProductDAO extends EgovAbstractDAO {
 		return (int) select("productDAO.selectVisitorToday");
 	}
 
+	public List<?> selectColorList(String pcode) {
+		return list("productDAO.selectColorList", pcode);
+	}
+
+	public int selectProduct(String gcode) {
+		return (int) select("productDAO.selectProduct", gcode);
+	}
+
 
 
 

@@ -231,6 +231,16 @@ public class ProductServiceImpl extends EgovAbstractServiceImpl implements Produ
 		return productDAO.selectVisitorToday();
 	}
 
+	@Override
+	public List<?> selectColorList(String pcode) throws Exception {
+		return productDAO.selectColorList(pcode);
+	}
+
+	@Override
+	public int selectProduct(String gcode) throws Exception {
+		return productDAO.selectProduct(gcode);
+	}
+
 
 	
 

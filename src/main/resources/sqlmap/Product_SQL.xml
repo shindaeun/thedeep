@@ -115,25 +115,24 @@
 		unq DESC
 	</select>
 	<select id="productDAO.selectBest3Product" resultClass="egovMap">
-		select distinct pp.pcode,pname,price,editor,mainfile 
+		select distinct pcode,pname,price,editor,mainfile ,amount
 		from(
-			select p.pcode,nvl(sum(amount),0) amount 
-	        from product p,orderlist l 
-	        where p.pcode = l.pcode(+) and p.gcode=#gcode# 
-	        group by p.pcode) i,
-			(select distinct pcode,pname,price,editor,mainfile 
-			from product 
-			where gcode=#gcode#) pp
-		where i.pcode(+)=pp.pcode and rownum <![CDATA[<=]]>2
+	        select distinct p.pcode,pname,price,editor,mainfile ,nvl(sum(amount),0) amount
+	        from orderlist l, product p
+	        where l.cscode(+) =p.cscode and p.gcode=#gcode# and wait='N'
+	        group by p.pcode,pname,price,editor,mainfile) 
+	    where rownum <![CDATA[<=]]>2
+	    order by amount desc
 	</select>
 	<select id="productDAO.selectBest50Product" resultClass="egovMap">
-		select distinct pp.pcode,pname,price,editor,mainfile from(
-			select p.pcode,nvl(sum(amount),0) amount 
-			from orderList l,product p
-			where p.pcode=l.pcode(+) and wait='N'
-			group by p.pcode
-			order by amount desc) i,product pp
-		where i.pcode(+)=pp.pcode and rownum<![CDATA[<=]]>50
+		select distinct pcode,pname,price,editor,mainfile ,amount
+		from(
+	        select distinct p.pcode,pname,price,editor,mainfile ,nvl(sum(amount),0) amount
+	        from orderlist l, product p
+	        where l.cscode(+) =p.cscode and wait='N'
+	        group by p.pcode,pname,price,editor,mainfile) 
+	    where rownum <![CDATA[<=]]>50
+	    order by amount desc
 	</select>
 	<select id="productDAO.selectNew50Product" resultClass="egovMap">
 		select pcode,pname,price,editor,mainfile from(
@@ -167,7 +166,7 @@
 	</select>
 
 	<select id="productDAO.selectProductTotCnt" resultClass="java.lang.Integer">
-		SELECT sum(count( distinct pcode))
+		SELECT nvl(sum(count( distinct pcode)),0)
 			FROM product
 			WHERE lower(gcode)=lower(#gcode#) and wait='N'
 			group by pcode
@@ -198,7 +197,7 @@
 
 	<insert id="productDAO.insertgroup">
 		INSERT INTO productgroup(gcode,gname)
-		VALUES (#gcode#,#gname#)
+		VALUES ('g'||lpad(group_SEQ.nextval,'3','0'),#gname#)
 	</insert>
 
 	<update id="productDAO.updateGroup">
@@ -400,7 +399,7 @@
 	</update>
 	
 	<select id="productDAO.selectCsList" resultClass="egovMap">
-		select color,psize from stock where pcode=#pcode#
+		select color,psize from stock where pcode=#pcode# order by color,psize desc
 	</select>
 	
 	<update id="productDAO.updateSmartEditor">
@@ -440,5 +439,13 @@
 	<select id="productDAO.selectVisitorToday" resultClass="java.lang.Integer">
 		select hit from home
 		where to_char(rdate,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
-	</select> 
+	</select>
+	
+	<select id="productDAO.selectColorList" resultClass="egovMap">
+		select distinct(color) from stock where pcode=#pcode#
+	</select>
+	
+	<select id="productDAO.selectProduct" resultClass="java.lang.Integer">
+		select count(*) from product where gcode=#gcode#
+	</select>
 </sqlMap>

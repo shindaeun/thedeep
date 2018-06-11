@@ -349,9 +349,26 @@
 	</delete>
 	
 	<select id="adminDAO.selectCouponList" resultClass="egovMap">
-		SELECT *
-		FROM coupon
-		ORDER BY ccode ASC
+		SELECT b.* FROM (
+   			SELECT rownum rn, a.* FROM (
+   				SELECT 
+   					*
+   				FROM 
+   					coupon
+   				WHERE 
+   					1=1
+   				ORDER BY ccode ASC
+			) a
+		) b
+   			
+   		WHERE rn > $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$
+	</select>
+	
+	<select id="adminDAO.selectCouponListCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(*)
+   		FROM coupon
+   		WHERE 
+   			1=1
 	</select>
 	
 	<select id="adminDAO.selectCouponDetail"  resultClass="couponVO">
@@ -472,9 +489,14 @@
 	<select id="adminDAO.selectColorSize" resultClass="java.lang.Integer">
 		select count(pcode) 
 		from stock 
-		where color=#color# 
-		and psize=#psize# 
-		and pcode=#pcode#
+		where color = #color# 
+		and psize = #psize#
+		and pcode = #pcode#
+	</select>
+	
+	<select id="adminDAO.selectMaxCode" resultClass="java.lang.String">
+		SELECT SUBSTR(MAX(ccode),2,4) ccode
+		FROM coupon
 	</select>
 	
 	

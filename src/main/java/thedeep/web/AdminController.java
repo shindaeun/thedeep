@@ -114,7 +114,7 @@ public class AdminController {
 		String result = "fail";
 		client = new IamportClient(api_key, api_secret);
 		String token = client.getToken();
-		
+		System.out.println(merchant_uid);
 		CancelData cancel2 = new CancelData(merchant_uid, false);
 		IamportResponse<Payment> cancelpayment2 = client.cancelPayment(cancel2);
 		if(cancelpayment2.getMessage()==null){
@@ -274,8 +274,13 @@ public class AdminController {
 		memberService.insertPoint(point);
 		//카드취소
 		IamportClient client;
-		int disrate = memberService.selectDisRate(ocode);
-		BigDecimal cancelAmount = new BigDecimal(lvo.getTotalmoney()/100*(100-disrate));
+		BigDecimal cancelAmount = new BigDecimal(lvo.getTotalmoney());
+		OrderVO ovo = memberService.selectOrderInfo(ocode);
+		if(ovo.getUsecoupon()!=null){
+			int disrate = memberService.selectDisRate(ocode);
+			cancelAmount = new BigDecimal(lvo.getTotalmoney()/100*(100-disrate));
+		}
+		
 		client = new IamportClient(api_key, api_secret);
 		String token = client.getToken();
 		
@@ -757,9 +762,25 @@ public class AdminController {
 	@RequestMapping(value="/adminCoupon.do")
 	public String selectAdminCoupon(CouponVO vo, ModelMap model,@ModelAttribute("searchVO") DefaultVO searchVO) throws Exception{
 		
-		List<?> list = adminService.selectCouponList();
+		searchVO.setPageUnit(10); 	// 한 화면 출력 개수
+		searchVO.setPageSize(10);	// 페이지 너비 개수
+		
+		PaginationInfo paginationInfo2 = new PaginationInfo();
+		paginationInfo2.setCurrentPageNo(searchVO.getPageIndex2());
+		paginationInfo2.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo2.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo2.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo2.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo2.getRecordCountPerPage());
+
+		List<?> list = adminService.selectCouponList(searchVO);
 		model.addAttribute("list", list);
 		
+		int totCnt2 = adminService.selectCouponListCnt(searchVO);
+		paginationInfo2.setTotalRecordCount(totCnt2);
+		model.addAttribute("paginationInfo2", paginationInfo2);
+
 		String ccode = vo.getCcode();
 		
 		if(ccode!=null) {
@@ -767,9 +788,6 @@ public class AdminController {
 		}
 		
 		model.addAttribute("vo", vo);
-		
-		searchVO.setPageUnit(10); 	// 한 화면 출력 개수
-		searchVO.setPageSize(10);	// 페이지 너비 개수
 		
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -779,7 +797,13 @@ public class AdminController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
+		String keyword="";
+		if(searchVO.getSearchkind()==2){
+			System.out.println("in");
+			keyword=searchVO.getSearchKeyword();
+			System.out.println(keyword);
+			searchVO.setSearchKeyword("");
+		}
 		List<?> list2 = adminService.selectAdminList(searchVO);
 		model.addAttribute("list2", list2);
 		
@@ -795,7 +819,17 @@ public class AdminController {
 	public Map<String,Object> insertAdminCoupon(CouponVO vo, HttpServletRequest request) throws Exception {
 		
 		Map<String,Object> map = new HashMap<String, Object>();
-
+		
+		String maxCode = adminService.selectMaxCode();
+		int add = Integer.parseInt(maxCode) + 1;
+		
+		String creatCode = "";
+		if(add<10) creatCode += "c00" + add;
+		else if(add<100) creatCode += "c0" + add;
+		else creatCode += "c" + add;
+		
+		vo.setCcode(creatCode);
+		
 		String result = adminService.insertAdminCoupon(vo);
 		if(result==null) result = "ok";
 		else result = "1";
@@ -833,13 +867,9 @@ public class AdminController {
 		String result = "";
 		
 		int tmonth = cal.get(Calendar.MONTH)+1;
-		int tday = cal.get(Calendar.DATE);
-		String today = "";
-		if(tmonth<10) today += "0" + tmonth;
-		else today += tmonth + "";
-		if(tday<10) today += "0" + tday;
-		else today += tday + "";
-		
+		String bmonth = "";
+		if (tmonth<10) bmonth = "0" + tmonth;
+		else bmonth = tmonth + "";
 		String userid = "";
 		
 		cal.add(Calendar.MONTH, 1);
@@ -852,14 +882,14 @@ public class AdminController {
 		if(day<10) edate += "0" + day;
 		else edate += day + "";
 		
-		List<?> list = memberService.selectMemberBTD(today);
+		List<?> list = memberService.selectMemberBTD(bmonth);
 		Map<String,String> map2;
 		for(int i=0;i<list.size();i++){
 			map2 = new HashMap<String,String>();
 			map2 = (Map<String, String>) list.get(i);
 			userid += map2.get("userid") + " ";
 		}
-		System.out.println("userid  /  " + userid + "  today  /" + today);
+		System.out.println("userid  /  " + userid + "  today  /" + bmonth);
 		String[] id = userid.split(" ");
 		if(id[0]!="") {
 			for(int i=0; i<id.length; i++) {
@@ -1140,9 +1170,13 @@ public class AdminController {
 		
 		List<?> groupList = productService.selectGroupList();
 		model.addAttribute("group", groupList);
-
+		
 		List<?> CsList = productService.selectCsList(pcode);
-		model.addAttribute("cs", CsList);	
+		model.addAttribute("cs", CsList);
+		
+		List<?> color = productService.selectColorList(pcode);
+		model.addAttribute("color", color);
+		
 		
 		return "admin/productModify";
 	}
@@ -1158,9 +1192,23 @@ public class AdminController {
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, MultipartFile> files = multiRequest.getFileMap();
 		String result="",result1="",result2="", CS="";
-		int pcode,cnt;
-		//현재 있는 색상,사이즈 추가안되게
-		int cnt2 = adminService.selectColorSize(vo);
+		int pcode,cnt,cnt2=0;
+		String psize = vo.getPsize();
+		String color = vo.getColor();
+		if(vo.getPsize()!=null || vo.getColor()!=null) {
+			String[] splitpsize = psize.split(",");
+			String[] splitcolor = color.split(",");
+			//현재 있는 색상,사이즈 추가안되게
+			for(int i=0; i<splitpsize.length; i++) {
+				for(int j=0; j<splitcolor.length; j++) {
+					vo.setPsize(splitpsize[i]);
+					vo.setColor(splitcolor[j]);
+					cnt2 = adminService.selectColorSize(vo);
+					cnt2 += cnt2;
+				}
+			}
+		}
+		
 		if(cnt2 > 0) {
 			CS = "no";
 			map.put("CS", CS);
@@ -1189,8 +1237,8 @@ public class AdminController {
 				map.put("result", result);
 			} else {
 				cnt = productService.updateProduct(vo);
-				String psize = vo.getPsize();
-				String color = vo.getColor();
+				vo.setColor(color);
+				vo.setPsize(psize);
 				String[] splitpsize = psize.split(",");
 				String[] splitcolor = color.split(",");
 				
@@ -1389,13 +1437,16 @@ public class AdminController {
 	public Map<String,Object> deleteGroup (GroupVO vo) throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
 		String result="";
-		
-		int cnt = productService.deleteGroup(vo.getGcode());
-		if(cnt > 0) result="1";
-		else result = "-1";
+		int cnt2 = productService.selectProduct(vo.getGcode());
+		if(cnt2 > 0) {
+			result = "0";
+		} else {
+			int cnt = productService.deleteGroup(vo.getGcode());
+			if(cnt > 0) result="1";
+			else result = "-1";
+		}
 		
 		map.put("result",result);
-		
 		return map;
 	}
 	

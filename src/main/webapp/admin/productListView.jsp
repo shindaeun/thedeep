@@ -81,6 +81,7 @@ function fnDel(cscode) {
 		});
 	}
 }
+
 </script>
 
 <table class="top">
@@ -156,3 +157,4 @@ function fnDel(cscode) {
       </td>
    </tr>
 </table>
+<br>
