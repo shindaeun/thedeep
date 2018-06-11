@@ -66,7 +66,7 @@ $(function(){
 				success: function(data) {
 					if(data.result == "ok") {
 						alert("삭제하였습니다.");
-						location.href = "/qnaList.do";
+						location.href = "/adminBoard.do";
 					} else if(data.result == "1"){
 						alert("패스워드가 일치하지 않습니다.");	
 					} else {
