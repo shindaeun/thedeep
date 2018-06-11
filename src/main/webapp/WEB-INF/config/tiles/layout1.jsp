@@ -105,18 +105,6 @@ function _addBlockEvent() {
 }
 
 
-//특정키 사용을 방지
-//이 함수는 복사, 붙여넣기의 단축키인 ctrl+c, ctrl+v 키를 막음
-document.onkeydown = function(e){
-
-    var code = document.all ? event.keyCode : e.keyCode;
-    var ctrl = document.all ? event.ctrlKey : e.ctrlKey;
-
-    if (ctrl && (code==86 || code==67)) {
-        blockEvent(e);
-    }
-}
-
 //JavaScript 오른쪽 마우스 사용금지 함수 (IE용)
 
 function clickIE4(){

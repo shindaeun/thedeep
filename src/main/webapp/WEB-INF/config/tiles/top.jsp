@@ -6,19 +6,21 @@
 <script>
 $(function() { 
 	$("#btnLogout").click(function() { 
-		$.ajax({
-			type:'POST',
-			data:'',
-			url:"/logout.do",
-			dataType:"json",
-			success:function(data) {
-				alert("로그아웃 처리 완료");
-				location.href="/theDeep.do";
-			},
-			error:function(error) {
-				alert("error:"+error);
-			}
-		});
+		if(confirm("로그아웃하시겠습니까?")) {
+			$.ajax({
+				type:'POST',
+				data:'',
+				url:"/logout.do",
+				dataType:"json",
+				success:function(data) {
+					alert("로그아웃 처리 완료");
+					location.href="/theDeep.do";
+				},
+				error:function(error) {
+					alert("error:"+error);
+				}
+			});
+		}
 	});
 	$("#btnAdminLogout").click(function() { 
 		$.ajax({
