@@ -46,6 +46,14 @@ $(function(){
 			$("#maxdiscmoney").focus();
 			return;
 		}
+		var hangle = /(^[a-zA-Z0-9가-힣 ]*$)/;
+		var sang = $("#cname").val();
+		
+		if(!hangle.test(sang)) {
+			alert("쿠폰이름에는 특수문자가 올 수 없습니다.");
+			$("#cname").focus();
+			return;
+		}
 		var formData = $("#frm").serialize();
 	 		// 비 동기 전송
 			$.ajax({
@@ -90,6 +98,14 @@ $(function(){
 		if($("#maxdiscmoney").val() == "") {
 			alert("최대 할인 금액을 입력해주세요");
 			$("#maxdiscmoney").focus();
+			return;
+		}
+		var hangle = /(^[a-zA-Z0-9가-힣 ]*$)/;
+		var sang = $("#cname").val();
+		
+		if(!hangle.test(sang)) {
+			alert("쿠폰이름에는 특수문자가 올 수 없습니다.");
+			$("#cname").focus();
 			return;
 		}
 		var formData = $("#frm").serialize();
@@ -324,7 +340,7 @@ a:hover {text-decoration:underline; color: #000000}
 		<th class="head" style="width:10%">DISCOUNTRATE</th>
 		<th class="head" style="width:20%">MAXDISCMONEY</th>
 		<th class="head" style="width:8%;"></th>
-		<th class="head" style="width:8%; border-left: 1px solid #555555;">////</th>
+		<th class="head" style="width:8%; border-left: 1px solid #555555;">&nbsp;</th>
 	</tr>
 	<c:forEach var="list" items="${list}" varStatus="status">
 	<tr class="board" style="text-align:center;">
