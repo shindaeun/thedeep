@@ -195,14 +195,46 @@ function fnaction() {
 
 function addBox() {
 	var color = eval("$('#putcolor').val()");
+	
 	if(color=="" || color==null) {
 		alert("색상을 입력해주세요");
 	} else {
-		var txt = "&nbsp;&nbsp;<input type='checkbox' name='color' id='color' value='"+color+"' checked>"+color;
-		txt += "<input type='button' value='X' onClick='removeBox(this)'>";
-		var area = document.createElement('span');
-		area.innerHTML = txt;
-		document.getElementById('textBoxArea').appendChild(area);
+		if(document.getElementsByName('color').length==0) {
+			var txt = "&nbsp;&nbsp;<input type='checkbox' name='color' id='color' value='"+color+"' checked>"+color;
+    		txt += "<input type='button' value='X' onClick='removeBox(this)'>";
+    		var area = document.createElement('span');
+    		area.innerHTML = txt;
+    		document.getElementById('textBoxArea').appendChild(area);
+    		
+    		//초기화
+    		$('#putcolor').val('');
+		} else {
+			var size = document.getElementsByName('color').length;
+			var bool = "N";
+		    for(var i = 0; i < size; i++){
+		        if(color==document.getElementsByName('color')[i].value) {
+		        	bool="Y";
+		        	break;
+		        } else {
+		    		bool="N";
+		        }
+		    }
+		    if(bool=="Y") {
+	        	alert("같은 색상이 존재합니다.");
+	        	
+	        	//초기화
+	    		$('#putcolor').val('');
+	        } else {
+	        	var txt = "&nbsp;&nbsp;<input type='checkbox' name='color' id='color' value='"+color+"' checked>"+color;
+	    		txt += "<input type='button' value='X' onClick='removeBox(this)'>";
+	    		var area = document.createElement('span');
+	    		area.innerHTML = txt;
+	    		document.getElementById('textBoxArea').appendChild(area);
+	    		
+	    		//초기화
+	    		$('#putcolor').val('');
+	        }
+		}
 	}
 }
 function removeBox(obj) {

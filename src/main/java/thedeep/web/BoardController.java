@@ -44,8 +44,8 @@ public class BoardController {
 	public String selectUploadList(@ModelAttribute("searchVO") DefaultVO searchVO, ModelMap model, BoardVO vo,HttpServletRequest request) throws Exception {
 		
 
-		searchVO.setPageUnit(10);
-		searchVO.setPageSize(10);
+		searchVO.setPageUnit(20);
+		searchVO.setPageSize(20);
 		
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -316,8 +316,8 @@ public class BoardController {
 
 		/** EgovPropertyService.sample */
 		/* context-properties.xml */
-		searchVO.setPageUnit(10); // 한화면의 출력 개수
-		searchVO.setPageSize(10); // 페이지 너버 개수
+		searchVO.setPageUnit(20); // 한화면의 출력 개수
+		searchVO.setPageSize(20); // 페이지 너버 개수
 
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -523,8 +523,8 @@ public class BoardController {
 
 		/** EgovPropertyService.sample */
 		/* context-properties.xml */
-		searchVO.setPageUnit(10); // 한화면의 출력 개수
-		searchVO.setPageSize(10); // 페이지 너버 개수
+		searchVO.setPageUnit(20); // 한화면의 출력 개수
+		searchVO.setPageSize(20); // 페이지 너버 개수
 
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
