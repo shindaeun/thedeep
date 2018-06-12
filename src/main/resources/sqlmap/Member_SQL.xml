@@ -630,4 +630,87 @@
 		AND p.userid = #userid#
 	</select>
 	
+	<select id="memberDAO.selectDstateCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(r.ocode) cnt
+		FROM ordermain r, delivery d
+		WHERE d.DSTATE in ('결제완료','배송중','배송준비중')
+		and r.userid = #userid#
+		and r.ocode=d.ocode
+	</select>
+	
+	<select id="memberDAO.selectDstateInCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(r.ocode) cnt
+		FROM ordermain r, delivery d
+		WHERE d.DSTATE in ('입금전')
+		and r.userid = #userid#
+		and r.ocode=d.ocode
+	</select>
+	
+	<delete id="memberDAO.memberInfoDelete">
+		DELETE FROM memberinfo
+		WHERE userid=#userid#
+	</delete>
+	
+	<delete id="memberDAO.memberPoinDelete">
+		DELETE FROM point
+		WHERE userid=#userid#
+	</delete>
+	
+	<delete id="memberDAO.memberCouDelete">
+		DELETE FROM couponlist
+		WHERE userid=#userid#
+	</delete>
+	
+	<delete id="memberDAO.memberCartDelete">
+		DELETE FROM cart
+		WHERE userid=#userid#
+	</delete>
+	
+	<select id="memberDAO.selectQnaFid" resultClass="egovMap">
+		SELECT to_char(fid) fid
+		FROM qna
+		WHERE userid=#userid#
+	</select>
+	
+	<delete id="memberDAO.memberQnaDelete">
+		DELETE FROM qna
+		WHERE fid=#fid#
+	</delete>
+	
+	<delete id="memberDAO.memberReDelete">
+		DELETE FROM review
+		WHERE userid=#userid#
+	</delete>
+	
+	<select id="memberDAO.selectOcode" resultClass="egovMap">
+		SELECT d.ocode
+		FROM delivery d, (SELECT ocode 
+		                    FROM ordermain
+		                    WHERE userid = #userid#) r
+		WHERE d.ocode = r.ocode
+	</select>
+	
+	<delete id="memberDAO.memberDeliDelete">
+		DELETE FROM delivery
+		WHERE ocode=#ocode#
+	</delete>
+	
+	<select id="memberDAO.selectOcode2" resultClass="egovMap">
+		SELECT d.ocode
+		FROM orderlist d, (SELECT ocode 
+		                    FROM ordermain
+		                    WHERE userid = #userid#) r
+		WHERE d.ocode = r.ocode
+	</select>
+	
+	<delete id="memberDAO.memberOrListDelete">
+		DELETE FROM orderlist
+		WHERE ocode=#ocode#
+	</delete>
+	
+	<delete id="memberDAO.memberOrderDelete">
+		DELETE FROM ordermain
+		WHERE userid=#userid#
+	</delete>
+	
 </sqlMap>

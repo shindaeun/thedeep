@@ -133,6 +133,35 @@ public interface MemberService {
 	int selectUserOrderListCnt(DefaultVO searchVO) throws Exception;
 
 	List<?> selectCancelCnt(String userid) throws Exception;
+	
+	int selectDstateCnt(String userid) throws Exception;
+
+	int selectDstateInCnt(String userid) throws Exception;
+	
+	int memberInfoDelete(String userid) throws Exception;
+
+	int memberPoinDelete(String userid) throws Exception;
+
+	int memberCouDelete(String userid) throws Exception;
+
+	int memberCartDelete(String userid) throws Exception;
+
+	List<?> selectQnaFid(String userid) throws Exception;
+
+	int memberQnaDelete(String fid) throws Exception;
+
+	int memberReDelete(String userid) throws Exception;
+
+	int memberDeliDelete(String ocode) throws Exception;
+
+	List<?> selectOcode(String userid) throws Exception;
+
+	int memberOrderDelete(String userid) throws Exception;
+
+	List<?> selectOcode2(String userid) throws Exception;
+
+	int memberOrListDelete(String ocode2) throws Exception;
+
 
 	int deleteOrderInfo(String ocode) throws Exception;
 

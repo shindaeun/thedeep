@@ -824,5 +824,133 @@ public class MemberController {
 		
 		return map;
 	}
+	
+	@RequestMapping(value="/memberDstate.do")
+	@ResponseBody
+	public Map<String,String> selectMemberDstate(MemberVO vo) throws Exception{
+		
+		String userid = vo.getUserid();
+		String result = "ok";
+		
+		Map<String,String> map = new HashMap<String,String>();
+		
+		int cnt = memberService.selectDstateCnt(userid);
+		if(cnt>0) result = "2";
+		else {
+			int nt = memberService.selectDstateInCnt(userid);
+			if(nt>0) result = "1";
+			else result = "ok";
+		}
+		
+		System.out.println("resultd  :  " + result);
+		
+		map.put("result", result);
+			
+		return map;
+	}
+	
+	@RequestMapping(value="/memberDelete.do")
+	@ResponseBody
+	public Map<String,Object> deleteMember(MemberVO vo) throws Exception{
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		String userid = vo.getUserid();
+		
+		String result = "";
+		String qnaDel = "";
+		String fid = "";
+		String total = "";
+		String ocode = "";
+		String deli = "";
+		String ocode2 = "";
+		String olist = "";
+		
+		int cnt4 = 0;
+		int cnt5 = 0;
+		int cnt6 = 0;
+		int cnt7 = 0;
+		
+		
+		int cnt1 = memberService.memberPoinDelete(userid);
+		int cnt2 = memberService.memberCouDelete(userid);
+		int cnt3 = memberService.memberCartDelete(userid);
+		
+		List<?> list = memberService.selectQnaFid(userid);
+		Map<String,String> map2;
+		System.out.println("list  :  " + list);
+		for(int i=0;i<list.size();i++){
+			map2 = new HashMap<String,String>();
+			map2 = (Map<String, String>) list.get(i);
+			fid += map2.get("fid") + ",";
+		}
+		String[] dFid = fid.split(",");
+		if(dFid[0]!="") {
+			for(int i=0; i<dFid.length; i++) {
+				fid = dFid[i];
+				cnt4 = memberService.memberQnaDelete(fid);
+				if(cnt4>0) qnaDel = "ok";
+				else qnaDel = "1";
+			}
+		} else qnaDel = "ok";
+		
+		if (qnaDel.equals("ok")) {
+			cnt5 = memberService.memberReDelete(userid);
+			
+			List<?> list1 = memberService.selectOcode(userid);
+			Map<String,String> map3;
+			for(int i=0;i<list1.size();i++){
+				map3 = new HashMap<String,String>();
+				map3 = (Map<String, String>) list1.get(i);
+				ocode += map3.get("ocode") + ",";
+			}
+			String[] code = ocode.split(",");
+			if(code[0]!="") {
+				for(int i=0; i<code.length; i++) {
+					ocode = code[i];
+					cnt6 = memberService.memberDeliDelete(ocode);
+					if(cnt6>0) deli = "ok";
+					else deli = "1";
+				}
+			} else deli = "ok";
+			
+			List<?> list2 = memberService.selectOcode2(userid);
+			Map<String,String> map4;
+			for(int i=0;i<list2.size();i++){
+				map4 = new HashMap<String,String>();
+				map4 = (Map<String, String>) list2.get(i);
+				ocode2 += map4.get("ocode") + ",";
+			}
+			String[] rcode = ocode2.split(",");
+			if(rcode[0]!="") {
+				for(int i=0; i<rcode.length; i++) {
+					ocode2 = rcode[i];
+					cnt6 = memberService.memberOrListDelete(ocode2);
+					if(cnt6>0) olist = "ok";
+					else olist = "1";
+				}
+			} else deli = "ok";
+			
+			if(deli.equals("ok")&&olist.equals("ok")) {
+				cnt7 = memberService.memberOrderDelete(userid);
+				total="ok";
+			} else total = "1";
+		} else total = "1";
+
+		System.out.println("total  :  "  + total);
+		
+		if(total.equals("ok")) {
+			int cnt = memberService.memberInfoDelete(userid);
+			if(cnt>0) result = "ok";
+			else result = "1";
+		}
+
+		
+		System.out.println("result  :  " + result);
+		
+		map.put("result", result);
+		
+		return map;
+	}
 
 }
