@@ -928,7 +928,7 @@ public class MemberController {
 					if(cnt6>0) olist = "ok";
 					else olist = "1";
 				}
-			} else deli = "ok";
+			} else olist = "ok";
 			
 			if(deli.equals("ok")&&olist.equals("ok")) {
 				cnt7 = memberService.memberOrderDelete(userid);
