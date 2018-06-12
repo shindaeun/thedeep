@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BoardSpace">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="thedeep.service.DefaultVO"/>
+	<typeAlias  alias="boardVO" type="thedeep.service.BoardVO"/>
+	<typeAlias  alias="reviewVO" type="thedeep.service.ReviewVO"/>
+	<typeAlias  alias="noticeVO" type="thedeep.service.NoticeVO"/>
+
+	<select id="boardDAO.selectQnaList" resultClass="egovMap">
+	SELECT b.* FROM (
+   			SELECT rownum rn, a.* FROM (
+   				SELECT 
+   					unq, title, name, to_char(rdate, 'yyyy-mm-dd') rdate, pcode, hit, forder, fid
+   				FROM 
+   					qna
+   				WHERE 
+   					1=1
+   					<isNotNull property="searchKeyword">
+   						<isNotEmpty property="searchKeyword">
+   							AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+   						</isNotEmpty>
+   					</isNotNull>
+   				ORDER BY fid DESC, forder
+			) a
+		) b
+   			
+   		WHERE
+   		
+   			rn > $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$
+	</select>
+	
+	<select id="boardDAO.selectReviewReplyList" resultClass="egovMap">
+		select fid,content,rdate,unq from reviewreply where fid=#unq#
+	</select>
+	
+	<select id="boardDAO.selectQnaListTotCnt" resultClass="java.lang.Integer">
+   		SELECT COUNT(*)
+   		FROM qna
+   		WHERE 
+   			1=1
+   			<isNotNull property="searchKeyword">
+				<isNotEmpty property="searchKeyword">
+					AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+				</isNotEmpty>
+   			</isNotNull>
+   </select>
+   
+   <select id="boardDAO.selectQnaImage" resultClass="boardVO">
+   	<![CDATA[
+   		SELECT	unq unq,
+				nvl(filename,'') filename,
+				nvl(filesize,0) filesize
+		FROM qna
+		WHERE unq = #unq#
+	]]>
+   </select>
+   
+    <insert id="boardDAO.insertReview">
+         INSERT INTO review
+            (  unq
+            , userid
+            <isNotNull property="pcode">
+				<isNotEmpty property="pcode">
+			, pcode
+				</isNotEmpty>
+   			</isNotNull>
+			, name
+			, pwd
+			, title
+			, height
+			, weight
+			, psize
+			, fit
+			, content
+			, rdate
+			, hit
+			<isNotNull property="filename">
+				<isNotEmpty property="filename">
+			, filename
+				</isNotEmpty>
+   			</isNotNull>
+			)
+         VALUES ( review_seq.nextval
+         		, #userid#
+         		<isNotNull property="pcode">
+					<isNotEmpty property="pcode">
+				, #pcode#
+					</isNotEmpty>
+   				</isNotNull>
+             	 , #name#
+             	 , #pwd#
+             	 , #title#
+             	 , #height#
+             	 , #weight#
+             	 , #psize#
+             	 , #fit#
+             	 , #content#
+             	 , sysdate
+             	 , '0'
+             	 <isNotNull property="filename">
+             	 	<isNotEmpty property="filename">
+             	 , #filename#
+             	 	</isNotEmpty>
+             	 </isNotNull>
+             	 ) 
+   </insert>
+   
+   <select id="boardDAO.selectReviewList" resultClass="egovMap">
+	
+	SELECT b.* FROM (
+	
+	SELECT rownum rn,a.* FROM (
+	
+		SELECT 
+			r.unq unq,
+			r.pcode pcode,
+			r.title title,
+			r.name name,
+			to_char(r.rdate,'yyyy-mm-dd') rdate,
+			nvl(r.hit,0) hit,
+			nvl(r.filename,0) filename,
+			p.cnt cnt
+		FROM
+			review r, (select count(fid) cnt, r.unq from reviewreply p, review r where p.fid(+) = r.unq group by r.unq) p 
+		WHERE
+			1 = 1
+			and r.unq = p.unq
+			<isNotNull property="searchKeyword">
+				<isNotEmpty property="searchKeyword">
+			AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+				</isNotEmpty>
+			</isNotNull>
+		ORDER BY unq DESC 
+		) a
+	) b
+	
+	WHERE 
+		  rn > $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$ 
+
+	</select>
+	
+	<select id="boardDAO.selectReviewListTotCnt" 
+							resultClass = "java.lang.Integer">
+		SELECT COUNT(*) FROM review
+			WHERE
+				1 = 1
+				<isNotNull property="searchKeyword">
+					<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+					</isNotEmpty>
+				</isNotNull>
+	</select>
+
+	<select id="boardDAO.selectReviewDetail" resultClass="reviewVO">
+		SELECT 
+			unq unq,
+			title title,
+			name name,
+			height height,
+			weight weight,
+			psize psize,
+			fit fit,
+			content content,
+			filename filename,
+			(SELECT nvl(min(unq),0) FROM review WHERE unq > #unq#) nexInt,
+			(SELECT nvl(max(unq),0) FROM review WHERE unq <![CDATA[<]]> #unq#) befInt
+		FROM
+			review
+		WHERE 
+			unq = #unq#
+	</select>
+	
+	<update id="boardDAO.updateReviewHit">
+		UPDATE review SET 
+			hit = hit+1
+		WHERE
+			unq = #unq#
+	</update>
+	
+	<select id="boardDAO.selectReviewPwd" resultClass = "java.lang.Integer">
+		SELECT count(unq)
+		FROM review
+		where unq=#unq#
+		AND pwd=#pwd#
+	</select>
+	
+	<delete id="boardDAO.deleteReview">
+		DELETE FROM review
+		WHERE unq = #unq#
+	</delete>
+	
+	<update id="boardDAO.updateReviewFile">
+		UPDATE review SET 
+			filename = #filename#
+		WHERE
+			unq = #unq#
+	</update>
+	
+	<select id="boardDAO.selectReviewNowFilename" resultClass="java.lang.String">
+		select nvl(filename,'') filename from review where unq=#unq#
+	</select>
+	
+	<update id="boardDAO.updateReview">
+		UPDATE review SET
+			title = #title#,
+			height = #height#,
+			weight = #weight#,
+			psize = #psize#,
+			fit = #fit#,
+			content = #content#,
+			filename = #filename#
+		WHERE
+			unq = #unq#
+	</update>
+	
+	<insert id="boardDAO.insertnotice">
+         INSERT INTO notice
+            (  unq
+			, name
+			, pwd
+			, title
+			, content
+			, rdate
+			, hit
+			<isNotNull property="filename">
+				<isNotEmpty property="filename">
+			, filename
+				</isNotEmpty>
+   			</isNotNull>
+			)
+         VALUES ( notice_seq.nextval
+             	 , #name#
+             	 , #pwd#
+             	 , #title#
+             	 , #content#
+             	 , sysdate
+             	 , '0'
+             	 <isNotNull property="filename">
+             	 	<isNotEmpty property="filename">
+             	 , #filename#
+             	 	</isNotEmpty>
+             	 </isNotNull>
+             	 ) 
+   </insert>
+   
+   <select id="boardDAO.selectNoticeList" resultClass="egovMap">
+	
+	SELECT b.* FROM (
+	
+	SELECT rownum rn,a.* FROM (
+	
+		SELECT 
+			unq unq,
+			title title,
+			name name,
+			to_char(rdate,'yyyy-mm-dd') rdate,
+			nvl(hit,0) hit
+		FROM
+			notice 
+		WHERE
+			1 = 1
+			<isNotNull property="searchKeyword">
+				<isNotEmpty property="searchKeyword">
+			AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+				</isNotEmpty>
+			</isNotNull>
+		ORDER BY unq DESC 
+		) a
+	) b
+	
+	WHERE 
+		  rn > $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$ 
+
+	</select>
+	
+	<select id="boardDAO.selectNoticeListTotCnt" 
+							resultClass = "java.lang.Integer">
+		SELECT COUNT(*) FROM notice
+			WHERE
+				1 = 1
+				<isNotNull property="searchKeyword">
+					<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+					</isNotEmpty>
+				</isNotNull>
+	</select>
+	
+	<select id="boardDAO.selectNoticeDetail" resultClass="noticeVO">
+		SELECT 
+			unq unq,
+			title title,
+			name name,
+			rdate rdate,
+			content content,
+			filename filename,
+			(SELECT nvl(min(unq),0) FROM notice WHERE unq > #unq#) nexInt,
+			(SELECT nvl(max(unq),0) FROM notice WHERE unq <![CDATA[<]]> #unq#) befInt
+		FROM
+			notice
+		WHERE 
+			unq = #unq#
+	</select>
+	
+	<select id="boardDAO.selectNoticePwd" resultClass = "java.lang.Integer">
+		SELECT count(unq)
+		FROM notice
+		where unq=#unq#
+		AND pwd=#pwd#
+	</select>
+	
+	<update id="boardDAO.updateNoticeHit">
+		UPDATE notice SET 
+			hit = hit+1
+		WHERE
+			unq = #unq#
+	</update>
+	
+	<update id="boardDAO.updateNoticeFile">
+		UPDATE notice SET 
+			filename = #filename#
+		WHERE
+			unq = #unq#
+	</update>
+	
+	
+	<select id="boardDAO.selectNoticeNowFilename" resultClass="java.lang.String">
+		select nvl(filename,'') filename from notice where unq=#unq#
+	</select>
+	
+	<update id="boardDAO.updateNotice">
+		UPDATE notice SET
+			title = #title#,
+			content = #content#,
+			filename = #filename#,
+			rdate = sysdate
+		WHERE
+			unq = #unq#
+	</update>
+	
+	<delete id="boardDAO.deleteNotice">
+		DELETE FROM notice
+		WHERE unq = #unq#
+	</delete>
+	
+	<insert id="boardDAO.insertQnaWrite">
+	        INSERT INTO qna
+	           (  unq 
+			, name
+			, pwd
+			, title
+			, content
+			, rdate
+			, hit
+			, forder
+			<isNotNull property="filename">
+				<isNotEmpty property="filename">
+			, filename
+				</isNotEmpty>
+  			</isNotNull>
+  			, userid
+  			, pcode
+  			, fid
+			)
+	        VALUES ( qna_seq.nextval
+	            	 , #name#
+	            	 , #pwd#
+	            	 , #title#
+	            	 , #content#
+	            	 , sysdate
+	            	 , '0'
+	            	 , 'a'
+	            	 <isNotNull property="filename">
+	            	 	<isNotEmpty property="filename">
+	            	 , #filename#
+	            	 	</isNotEmpty>
+	            	 </isNotNull>
+	            	 , #userid#
+		  		  	 , #pcode#
+	            	 , qna_seq.nextval
+	            	 ) 
+	  </insert>
+	  
+	  <update id="boardDAO.updateQnaHit">
+	   UPDATE qna
+	   SET hit = hit+1
+	   WHERE unq = #unq#
+	  </update>
+	  
+	  <select id="boardDAO.selectQnaDetail" resultClass="boardVO">
+		SELECT 
+			unq unq,
+			pwd pwd,
+			fid fid,
+			title title,
+			name name,
+			content content,
+			filename filename,
+			(SELECT nvl(min(unq),0) FROM qna WHERE unq > #unq#) nexInt,
+			(SELECT nvl(max(unq),0) FROM qna WHERE unq <![CDATA[<]]> #unq#) befInt
+		FROM
+			qna
+		WHERE 
+			unq = #unq#
+	  </select>
+	  
+	  <select id="boardDAO.selectQnaPwdChk" resultClass="java.lang.Integer">
+	   SELECT COUNT(*) cnt
+	   FROM qna
+	   WHERE pwd=#pwd#
+	   AND unq = #unq#
+	  </select>
+	  
+	  <update id="boardDAO.updateQnaFile">
+		UPDATE qna SET 
+			filename = #filename#
+		WHERE
+			unq = #unq#
+	</update>
+	  
+	<select id="boardDAO.selectQnaNowFilename" resultClass="java.lang.String">
+		SELECT NVL(filename,'') filename 
+		FROM qna 
+		WHERE unq=#unq#
+	</select>
+	
+	<update id="boardDAO.updateQna">
+		UPDATE qna SET
+			title = #title#,
+			content = #content#,
+			filename = #filename#
+		WHERE
+			unq = #unq#
+	</update>
+	
+	<delete id="boardDAO.deleteQna">
+		DELETE FROM qna
+		WHERE fid = #fid#
+	</delete>
+	
+	<select id="boardDAO.selectUserName" resultClass="java.lang.String">
+		SELECT name
+		FROM memberinfo
+		WHERE userid = #userid#
+	</select>
+	
+	<select id="boardDAO.selectQnaTitle" resultClass="java.lang.String">
+		SELECT title
+		FROM qna
+		WHERE unq=#unq#
+	</select>
+	
+	<update id="boardDAO.updateOrderList">
+		update orderlist set reviewconfirm='Y'
+		where pcode=#pcode#
+		and ocode=#ocode#
+	</update>
+	
+	<select id="boardDAO.selectPsize" resultClass="java.lang.String">
+		select substr(l.cscode,7,1) psize
+		  from orderList l, ordermain m
+		 where l.OCODE = m.OCODE
+		   and l.ocode = #ocode#
+           and l.pcode = #pcode#
+           and m.userid = #userid#
+	</select>	
+	
+</sqlMap>

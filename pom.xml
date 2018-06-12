@@ -12,9 +12,17 @@
 	<properties>
 		<spring.maven.artifact.version>4.2.4.RELEASE</spring.maven.artifact.version>
 		<egovframework.rte.version>3.7.0</egovframework.rte.version>
+		<org.apache.tiles-version>3.0.3</org.apache.tiles-version>
+
 	</properties>
 
+
+
 	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
 		<repository>
 			<id>mvn2</id>
 			<url>http://repo1.maven.org/maven2/</url>
@@ -48,6 +56,205 @@
 	</repositories>
 
 	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.iamport</groupId>
+			<artifactId>iamport-rest-client-java-hc</artifactId>
+			<version>0.0.2</version>
+		</dependency>
+		<!-- multipart s -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<!-- multipart e -->
+
+		<!-- 메일 관련 api s -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<!-- 메일 관련 api e -->
+
+		<!-- json 설정 s -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+		<!-- json 설정 e -->
+
+		<!-- tiles 설정 S -->
+
+
+
+		<dependency>
+
+			<groupId>org.apache.tiles</groupId>
+
+			<artifactId>tiles-core</artifactId>
+
+			<version>${org.apache.tiles-version}</version>
+
+
+
+			<!-- needed to exclude slf4j which causes incompatibilities -->
+
+			<exclusions>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>slf4j-nop</artifactId>
+
+				</exclusion>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>slf4j-api</artifactId>
+
+				</exclusion>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>jcl-over-slf4j</artifactId>
+
+				</exclusion>
+
+			</exclusions>
+
+		</dependency>
+
+
+
+		<dependency>
+
+			<groupId>org.apache.tiles</groupId>
+
+			<artifactId>tiles-servlet</artifactId>
+
+			<version>${org.apache.tiles-version}</version>
+
+
+
+			<!-- needed to exclude slf4j which causes incompatibilities -->
+
+			<exclusions>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>slf4j-nop</artifactId>
+
+				</exclusion>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>slf4j-api</artifactId>
+
+				</exclusion>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>jcl-over-slf4j</artifactId>
+
+				</exclusion>
+
+			</exclusions>
+
+		</dependency>
+
+
+
+		<dependency>
+
+			<groupId>org.apache.tiles</groupId>
+
+			<artifactId>tiles-extras</artifactId>
+
+			<version>${org.apache.tiles-version}</version>
+
+
+
+			<!-- needed to exclude slf4j which causes incompatibilities -->
+
+			<exclusions>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>slf4j-nop</artifactId>
+
+				</exclusion>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>slf4j-api</artifactId>
+
+				</exclusion>
+
+				<exclusion>
+
+					<groupId>org.slf4j</groupId>
+
+					<artifactId>jcl-over-slf4j</artifactId>
+
+				</exclusion>
+
+			</exclusions>
+
+		</dependency>
+
+
+
+
+		<!-- tiles 설정 E -->
 		<!-- oracle -->
 		<dependency>
 			<groupId>com.oracle</groupId>
@@ -60,6 +267,7 @@
 			<version>1.4</version>
 		</dependency>
 		<!-- oracle -->
+
 		<!-- 표준프레임워크 실행환경 -->
 		<dependency>
 			<groupId>egovframework.rte</groupId>

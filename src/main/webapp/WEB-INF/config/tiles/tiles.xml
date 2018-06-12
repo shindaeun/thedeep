@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+	<!-- Default Main Template -->
+	<!-- =>layout 설정 -->
+	<definition name="layout1" template="/WEB-INF/config/tiles/layout1.jsp">
+
+		<put-attribute name="title" value="TheDeep" type="string" />
+
+		<put-attribute name="topMenu" value="/WEB-INF/config/tiles/top.jsp" />
+
+		<put-attribute name="footer" value="/WEB-INF/config/tiles/bottom.jsp" />
+		<put-attribute name="leftMenu" value="/WEB-INF/config/tiles/leftMenu.jsp" />
+		<put-attribute name="content" />
+
+	</definition>
+
+
+	<!-- =>layout2 설정 -->
+	<definition name="layout2" template="/WEB-INF/config/tiles/layout2.jsp">
+
+		<put-attribute name="title" value="TheDeep" type="string" />
+		<put-attribute name="topMenu" value="/WEB-INF/config/tiles/top2.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/config/tiles/bottom.jsp" />
+		<put-attribute name="leftMenu" value="/WEB-INF/config/tiles/leftMenu2.jsp" />
+		<put-attribute name="content" />
+
+	</definition>
+
+
+	<!-- =>layout 적용 -->
+	<definition name="home/*" extends="layout1"><!-- =>layout1 적용할 범위 설정 -->
+		<put-attribute name="content" value="/home/{1}.jsp" />
+	</definition>
+	<definition name="product/*" extends="layout1"><!-- =>layout1 적용할 범위 설정 -->
+		<put-attribute name="content" value="/product/{1}.jsp" />
+	</definition>
+	<definition name="board/*" extends="layout1"><!-- =>layout1 적용할 범위 설정 -->
+		<put-attribute name="content" value="/board/{1}.jsp" />
+	</definition>
+	
+	<definition name="member/*" extends="layout1"><!-- =>layout1 적용할 범위 설정 -->
+		<put-attribute name="content" value="/member/{1}.jsp" />
+	</definition>
+	<definition name="admin/*" extends="layout2">
+		<put-attribute name="content" value="/admin/{1}.jsp" />
+	</definition>
+	<definition name="adminHome/*" extends="layout2">
+		<put-attribute name="content" value="/adminHome/{1}.jsp" />
+	</definition>
+
+
+
+	<!-- <definition name="/*" extends="layout2"> <put-attribute name="content" 
+		value="/WEB-INF/jsp/{1}.jsp" /> </definition> -->
+
+</tiles-definitions>

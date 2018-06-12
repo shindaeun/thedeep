@@ -41,7 +41,79 @@ public class DefaultVO implements Serializable {
 	 *  serialVersion UID
 	 */
 	private static final long serialVersionUID = -858838578081269359L;
+	private String dstate1,dstate2,dstate3,dstate4,dstate5,dstate6,dstate7;
 
+	public String getDstate1() {
+		return dstate1;
+	}
+
+	public void setDstate1(String dstate1) {
+		this.dstate1 = dstate1;
+	}
+
+	public String getDstate2() {
+		return dstate2;
+	}
+
+	public void setDstate2(String dstate2) {
+		this.dstate2 = dstate2;
+	}
+
+	public String getDstate3() {
+		return dstate3;
+	}
+
+	public void setDstate3(String dstate3) {
+		this.dstate3 = dstate3;
+	}
+
+	public String getDstate4() {
+		return dstate4;
+	}
+
+	public void setDstate4(String dstate4) {
+		this.dstate4 = dstate4;
+	}
+
+	public String getDstate5() {
+		return dstate5;
+	}
+
+	public void setDstate5(String dstate5) {
+		this.dstate5 = dstate5;
+	}
+	public String getDstate6() {
+		return dstate6;
+	}
+
+	public void setDstate6(String dstate6) {
+		this.dstate6 = dstate6;
+	}
+	public String getDstate7() {
+		return dstate7;
+	}
+
+	public void setDstate7(String dstate7) {
+		this.dstate7 = dstate7;
+	}
+	private String userid;
+	private String pcode;
+	public String getPcode() {
+		return pcode;
+	}
+
+	public void setPcode(String pcode) {
+		this.pcode = pcode;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	
 	/** 검색조건 */
 	private String searchCondition = "";
 
@@ -53,6 +125,23 @@ public class DefaultVO implements Serializable {
 
 	/** 현재페이지 */
 	private int pageIndex = 1;
+	private int pageIndex2 = 1;
+	private int searchkind;
+	public int getSearchkind() {
+		return searchkind;
+	}
+
+	public void setSearchkind(int searchkind) {
+		this.searchkind = searchkind;
+	}
+
+	public int getPageIndex2() {
+		return pageIndex2;
+	}
+
+	public void setPageIndex2(int pageIndex2) {
+		this.pageIndex2 = pageIndex2;
+	}
 
 	/** 페이지갯수 */
 	private int pageUnit = 10;

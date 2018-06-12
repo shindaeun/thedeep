@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MemberSpace">
+
+	<typeAlias alias="egovMap"
+		type="egovframework.rte.psl.dataaccess.util.EgovMap" />
+
+	<typeAlias type="thedeep.service.MemberVO" alias="memberVO" />
+	<typeAlias type="thedeep.service.FindVO" alias="findVO" />
+
+	<typeAlias alias="cartVO" type="thedeep.service.CartVO" />
+	<typeAlias alias="orderVO" type="thedeep.service.OrderVO" />
+	<typeAlias alias="orderListVO" type="thedeep.service.OrderListVO" />
+
+
+	<insert id="memberDAO.insertCartList">
+		insert into cart(userid,cscode,pcode,amount)
+		values(#userid#,#cscode#,#pcode#,#amount#)
+	</insert>
+	<select id="memberDAO.selectCartCscodeCount" resultClass="java.lang.Integer">
+		SELECT
+		count(cscode) count
+		FROM
+		cart
+		WHERE
+		userid=#userid# and cscode=#cscode#
+	</select>
+	<update id="memberDAO.updateCart">
+	<![CDATA[
+	update cart set amount=#amount# where userid=#userid# and cscode=#cscode#
+	]]>
+	</update>
+
+	<delete id="memberDAO.cartDelete">
+		delete from cart where userid=#userid# and
+		cscode=#cscode#
+	</delete>
+
+	<select id="memberDAO.selectUserCouponList" resultClass="egovMap">
+	 <![CDATA[
+		select c.ccode ccode, c.cname cname,applymoney,discountrate,maxdiscmoney,to_char(sdate,'yyyy-mm-dd') sdate,to_char(edate,'yyyy-mm-dd') edate 
+		from coupon c, couponlist l 
+		where c.ccode =l.ccode and userid=#userid# and edate>sysdate and able='Y'
+	 ]]>
+	</select>
+	<select id="memberDAO.selectPointList" resultClass="egovMap">
+
+	 select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+			select userid,content,'-'||usepoint point,ablepoint,rdate rdate1,to_char(rdate,'yyyy-mm-dd') rdate from point p where usepoint !=0 and userid=#userid#
+			union
+			select userid,content,'+'||savepoint,ablepoint,rdate rdate1,to_char(rdate,'yyyy-mm-dd') rdate from point p where savepoint !=0 and userid=#userid#
+		 	order by rdate1 desc
+		 ) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	 
+	</select>
+	<select id="memberDAO.selectPointTotCnt" resultClass="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		(select userid,content,'-'||usepoint point,ablepoint,rdate rdate1,to_char(rdate,'yyyy-mm-dd') rdate from point p where usepoint !=0 and userid='test'
+			union
+			select userid,content,'+'||savepoint,ablepoint,rdate rdate1,to_char(rdate,'yyyy-mm-dd') rdate from point p where savepoint !=0 and userid='test'
+		 	order by rdate1 desc)
+		WHERE
+		userid=#userid#
+	</select>
+	<select id="memberDAO.selectAllPoint" resultClass="java.lang.String">
+	 <![CDATA[
+	 select sum(savepoint) from point where userid=#userid#
+	 ]]>
+	</select>
+	<delete id="memberDAO.deleteUseCoupon">
+		delete from couponList 
+		where userid=#userid# 
+		and able='N' and cname = #usecoupon#
+	</delete>
+	<update id="memberDAO.updateUseCoupon">
+		update couponList
+		set able='N' 
+		where userid=#userid# and able='Y'
+		and cname = #usecoupon#
+	</update>
+	<update id="memberDAO.updateUseCoupon2">
+		update couponList
+		set able='Y' 
+		where userid=#userid# and able='N'
+		and cname = #usecoupon#
+	</update>
+	<select id="memberDAO.selectUserReview" resultClass="egovMap">
+		select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+		SELECT
+		unq unq,
+		title title,
+		filename,
+		name,
+		content content,
+		hit
+		hit,
+		to_char(rdate,'yyyy-mm-dd') rdate
+		FROM
+		review
+		WHERE
+		userid=#userid#
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' ||
+				#searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+		) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	</select>
+
+	<select id="memberDAO.selectUserReviewTotCnt" resultClass="java.lang.Integer">
+		SELECT
+		count(unq)
+		FROM
+		review
+		WHERE
+		userid=#userid#
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' ||
+				#searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+	</select>
+	<select id="memberDAO.selectUserQna" resultClass="egovMap">
+		select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+		SELECT
+		unq unq,
+		title title,
+		name,
+		filename,
+		content content,
+		hit
+		hit,
+		to_char(rdate,'yyyy-mm-dd') rdate
+		FROM
+		qna
+		WHERE
+		userid=#userid#
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' ||
+				#searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+		) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	</select>
+
+	<select id="memberDAO.selectUserQnaTotCnt" resultClass="java.lang.Integer">
+		SELECT
+		count(unq)
+		FROM
+		qna
+		WHERE
+		userid=#userid#
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' ||
+				#searchKeyword# || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+	</select>
+	<select id="memberDAO.selectCouponList" resultClass="egovMap">
+	 <![CDATA[
+	select c.ccode ccode,c.cname||' '||discountrate||'% 할인' coupon, applymoney||'원 이상 주문 시 사용가능' subject1, '최대 '||maxDiscmoney||'원 할인 가능' subject2,sdate||'~'||edate usedate
+	from couponList l, coupon c 
+	where c.CCODE = l.CCODE and userid=#userid# and sysdate<edate and able='Y'
+	order by sdate desc
+	 ]]>
+	</select>
+
+	<select id="memberDAO.selectCartList" resultClass="egovMap">
+	 <![CDATA[
+	select userid,c.cscode,c.pcode,pname,price*c.amount price,c.amount,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.01*c.amount) savepoint, s.amount stock
+	from cart c, product p,stock s
+	where userid=#userid#
+	and c.cscode=p.cscode
+	and p.cscode=s.cscode
+	 ]]>
+	</select>
+	
+	<select resultClass="java.lang.Integer" id="memberDAO.selectIdChk"> 
+		SELECT COUNT(*) cnt
+		FROM memberinfo 
+		WHERE userid=#userid# 
+	</select>
+
+	<insert id="memberDAO.insertMember">
+		INSERT INTO memberinfo
+		( userid
+		, name
+		, pwd
+		, birthday
+		, gender
+		, post
+		, phone
+		, email
+		, emailreceive
+		, phonereceive
+		, joindate )
+		VALUES ( #userid#
+		, #name#
+		, #pwd#
+		, #birthday#
+		, #gender#
+		, #post#
+		, #phone#
+		, #email#
+		, #emailreceive#
+		, #phonereceive#
+		, sysdate )
+	</insert>
+
+	<select resultClass="java.lang.Integer" id="memberDAO.selectMemberCertCnt">
+		SELECT count(*) cnt
+		FROM memberinfo
+		WHERE userid=#userid#
+		AND pwd=#pwd#
+	</select>
+
+	<select resultClass="memberVO" id="memberDAO.selectMemeberDetail">
+		SELECT userid
+		, name
+		, pwd
+		, to_char(birthday,'YYYY-MM-DD') birthday
+		, gender
+		, post
+		, phone
+		, email
+		, emailreceive
+		, phonereceive
+		, to_char(joindate,'YYYY-MM-DD') joindate
+		FROM memberinfo
+		WHERE userid=#userid#
+	</select>
+
+	<select resultClass="java.lang.Integer" id="memberDAO.selectPwdChk">
+		SELECT COUNT(*)
+		FROM memberinfo
+		WHERE pwd=#pwd#
+		AND userid=#userid#
+	</select>
+
+	<update id="memberDAO.updateMember">
+		UPDATE memberinfo
+		SET pwd = #pwd#
+		, gender = #gender#
+		, post = #post#
+		, phone = #phone#
+		, email = #email#
+		, emailreceive = #emailreceive#
+		, phonereceive = #phonereceive#
+		WHERE userid = #userid#
+	</update>
+
+	<select resultClass="java.lang.Integer" id="memberDAO.selectMemberCoupon">
+		SELECT COUNT(*) cnt
+		FROM couponlist
+		WHERE userid=#userid#
+		AND able = 'Y'
+	</select>
+
+	<select resultClass="java.lang.Integer" id="memberDAO.selectMemberMoney">
+		SELECT NVL(SUM(totalmoney),0) total
+		FROM ordermain
+		WHERE userid=#userid#
+	</select>
+
+	<select resultClass="egovMap" id="memberDAO.selectUserOrderList">
+		SELECT b.* FROM (
+   			SELECT rownum rn, a.* FROM (
+   				SELECT m.userid userid
+				, m.ocode ocode
+				, m.paymethod
+				, m.adminmemo
+				, p.cscode cscode
+				, p.pcode pcode
+				, p.pname pname
+				, l.reviewconfirm
+				, l.buyconfirm
+				, to_char(m.odate,'YYYY-MM-DD') odate
+				,(select dstate from delivery d where d.ocode = m.ocode) dstate
+				FROM (SELECT userid, ocode, odate ,paymethod,adminmemo
+				FROM ordermain
+				WHERE userid = #userid#) m, orderlist l, product p
+				WHERE m.ocode = l.ocode
+				AND l.cscode = p.cscode
+				ORDER by m.odate DESC
+			) a
+		) b
+   			
+   		WHERE
+   		
+   			rn > $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$
+	</select>
+	
+	<select id="memberDAO.selectUserOrderListCnt" resultClass="java.lang.Integer">
+   		SELECT COUNT(*)
+   		FROM (SELECT userid, ocode, odate ,paymethod,adminmemo
+				FROM ordermain
+				WHERE userid = #userid#) m, orderlist l, product p
+		WHERE m.ocode = l.ocode
+		AND l.cscode = p.cscode
+   		AND 1=1
+	</select>
+	
+	<select id="memberDAO.selectCancelCnt" resultClass="egovMap">
+		select l.ocode,i.cnt 
+		from (
+		    select o.ocode,o.odate,count(decode(buyconfirm,'C',1,'취소요청',1)) cnt
+		            from orderlist l  ,ordermain o 
+		            where l.ocode = o.ocode
+		            and userid=#userid#
+		            group by o.ocode,o.odate ) i, orderlist l
+		where i.ocode = l.ocode
+		ORDER by i.ocode DESC
+	</select>
+	
+	<select resultClass="java.lang.Integer" id="memberDAO.selectFindid">
+	<![CDATA[ 
+		SELECT count(*) cnt 
+		FROM memberinfo 
+		WHERE name=#name# 
+		AND email=#email# 
+	]]>
+	</select>
+
+	<select resultClass="egovMap" id="memberDAO.selectFindIdList">
+		SELECT userid, to_char(joindate,'YYYY-MM-DD')joindate
+		FROM memberinfo
+		WHERE name=#name#
+		AND email=#email#
+	</select>
+
+	<select resultClass="java.lang.Integer" id="memberDAO.selectFindidCnt">
+		SELECT COUNT(*) cnt
+		FROM memberinfo
+		WHERE name=#name#
+		AND email=#email#
+	</select>
+
+	<select id="memberDAO.selectCartProductInfo" resultClass="cartVO">
+	 <![CDATA[
+	select userid,c.cscode cscode ,c.pcode pcode,pname,price*amount price,amount,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*amount*0.01) savepoint
+	from cart c, product p
+	where userid=#userid#
+	and c.cscode=#cscode#
+	and c.cscode=p.cscode
+	 ]]>
+	</select>
+	
+	<select id="memberDAO.selectFindPwd" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(*) cnt
+		FROM memberinfo
+		WHERE userid = #userid#
+		AND name = #name#
+		AND email = #email#
+	]]>
+	</select>
+	
+	<update id="memberDAO.updatePwd">
+	<![CDATA[
+		UPDATE memberinfo
+		SET pwd = #pwd#
+		WHERE userid = #userid#
+		AND name = #name#
+		AND email = #email#
+	]]>
+	</update>
+	
+	<select id="memberDAO.selectInMoneyCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(d.ocode) cnt
+		FROM delivery d, memberinfo m, ordermain o
+		WHERE d.dstate = '입금전'
+		AND m.userid = #userid#
+		AND d.oname = m.name
+		AND m.userid = o.userid
+		AND o.ocode = d.ocode
+	</select>
+	
+	<select id="memberDAO.selectOnMoneyCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(d.ocode) cnt
+		FROM delivery d, memberinfo m, ordermain o
+		WHERE d.dstate = '결제완료'
+		AND m.userid = #userid#
+		AND d.oname = m.name
+		AND m.userid = o.userid
+		AND o.ocode = d.ocode
+	</select>
+	
+	<select id="memberDAO.selectPreparingCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(d.ocode) cnt
+		FROM delivery d, memberinfo m, ordermain o
+		WHERE d.dstate = '배송준비중'
+		AND m.userid = #userid#
+		AND d.oname = m.name
+		AND m.userid = o.userid
+		AND o.ocode = d.ocode
+	</select>
+	
+	<select id="memberDAO.selectDeliverCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(d.ocode) cnt
+		FROM delivery d, memberinfo m, ordermain o
+		WHERE d.dstate = '배송중'
+		AND m.userid = #userid#
+		AND d.oname = m.name
+		AND m.userid = o.userid
+		AND o.ocode = d.ocode
+	</select>
+	
+	<select id="memberDAO.selectCompleteCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(d.ocode) cnt
+		FROM delivery d, memberinfo m, ordermain o
+		WHERE d.dstate = '배송완료'
+		AND m.userid = #userid#
+		AND d.oname = m.name
+		AND m.userid = o.userid
+		AND o.ocode = d.ocode
+	</select>
+
+	<select id="memberDAO.selectProductInfo" resultClass="cartVO">
+	 <![CDATA[
+	select pcode,cscode,pname,price,round(price*0.01) savepoint
+	from product
+	where cscode=#cscode#
+	 ]]>
+	</select>
+	<select id="memberDAO.selectOcodeNext" resultClass="java.lang.String">
+	 <![CDATA[
+	select makeOcode from dual
+	 ]]>
+	</select>
+	<select id="memberDAO.selectOrderInfo" resultClass="orderVO">
+	 <![CDATA[
+	select ocode,userid,totalmoney,paymethod,to_char(odate,'yyyy-mm-dd') odate ,usecoupon,savepoint,usepoint,adminmemo
+	from ordermain 
+	where ocode=upper(#ocode#)
+	 ]]>
+	</select>
+	<select id="memberDAO.selectOrderList" resultClass="java.lang.String">
+	 <![CDATA[
+	select list 
+	from(select rownum,decode(count(ocode)over(),1,pname,pname||' 外 '|| (count(ocode)over()-1) ||'개') list 
+		from orderlist l,product p 
+		where l.cscode = p.cscode and ocode=upper(#ocode#))
+	where rownum=1
+	 ]]>
+	</select>
+	<select id="memberDAO.selectOrderListByOcode" resultClass="egovMap">
+	 <![CDATA[
+	select ocode,cscode,amount
+	from orderlist
+	where ocode=#ocode#
+	 ]]>
+	</select>
+	
+	<select id="memberDAO.selectLatestPost" resultClass="java.lang.String">
+	 <![CDATA[
+		select dpost 
+		from delivery 
+		where ocode=(select max(ocode) from ordermain where userid=#userid#)
+	 ]]>
+	</select>
+	<select id="memberDAO.selectBuyConfirm" resultClass="java.lang.String">
+	 <![CDATA[
+		select decode(count(buyconfirm),0,'Y','N') from orderlist where ocode=#ocode# and buyconfirm='N'
+	 ]]>
+	</select>
+	<select id="memberDAO.selectCancelConfirm" resultClass="java.lang.Integer">
+	 <![CDATA[
+		select count(cscode) from orderlist where ocode=#ocode# and buyconfirm not in ('C')
+	 ]]>
+	</select>
+	<select id="memberDAO.selectOrderInfoByOVO" resultClass="orderListVO">
+	 <![CDATA[
+		select ocode,pcode,cscode,amount,totalmoney from orderlist where ocode=#ocode# and cscode=#cscode#
+	 ]]>
+	</select>
+	<select id="memberDAO.selectDisRate" resultClass="java.lang.Integer">
+	 <![CDATA[
+		select discountrate from ordermain o ,coupon c where o.usecoupon = c.cname and ocode=#ocode#
+	 ]]>
+	</select>
+	
+	<delete id="memberDAO.deleteOrderInfo">
+	delete from ordermain where ocode=#ocode#
+	</delete>
+	<delete id="memberDAO.deleteOrderList">
+	delete from orderlist where ocode=#ocode#
+	</delete>
+	<delete id="memberDAO.deleteOrderDelivery">
+	delete from delivery where ocode=#ocode#
+	</delete>
+	
+	<insert id="memberDAO.insertOrder">
+		insert into ordermain values(#ocode#,#userid#,#totalmoney#,#payresult#,#paymethod#,#depositname#,#usepoint#,#savepoint#,'',sysdate,#usecoupon#)
+	</insert>
+	<insert id="memberDAO.insertDelivery">
+		insert into delivery values(#ocode#,'취소','',#oname#,#ophone#,#oemail#,#dname#,#dphone#,#dpost#,#message#)
+	</insert>
+	<insert id="memberDAO.insertOrderList">
+		insert into orderList values(#ocode#,#pcode#,#cscode#,#amount#,#totalmoney#,'N','N')
+	</insert>
+	<insert id="memberDAO.insertPoint">
+		insert into point values(#userid#,#usepoint#,#ablepoint#,#savepoint#,sysdate,#content#)
+	</insert>
+	<update id="memberDAO.updateBuyConfirm">
+	 update orderlist set buyconfirm='Y' where ocode=#ocode# and pcode=#pcode#
+	</update>
+	<update id="memberDAO.updateBuyConfirm2">
+	 update orderlist set buyconfirm='C' where ocode=#ocode# and cscode=#cscode#
+	</update>
+	<update id="memberDAO.updateBuyConfirm3">
+	 update orderlist set buyconfirm='취소요청' where ocode=#ocode# and cscode=#cscode#
+	</update>
+	<update id="memberDAO.updateAdminMemo">
+	 update ordermain set adminmemo=#adminmemo# where ocode=#ocode#
+	</update>
+	<insert id="memberDAO.insertCoupon">
+		INSERT INTO couponlist
+		( userid
+		, ccode
+		, sdate
+		, edate
+		, able
+		, cname
+		) VALUES ( #userid#
+				 , 'c001'
+				 , sysdate
+				 , #edate#
+				 , 'Y'
+				 , '신규가입'
+				 )
+	</insert>
+	
+	<select id="memberDAO.selectMemberBTD" resultClass="egovMap">
+		SELECT userid
+		FROM memberinfo
+		WHERE to_char(birthday,'MM') = #bmonth#
+	</select>
+	
+	<insert id="memberDAO.insertBTDCoupon">
+		INSERT INTO couponlist
+		( userid
+		, ccode
+		, sdate
+		, edate
+		, able
+		, cname
+		) VALUES ( #userid#
+				 , 'c002'
+				 , sysdate
+				 , #edate#
+				 , 'Y'
+				 , '생일축하쿠폰'
+				 )
+	</insert>
+	
+	<select id="memberDAO.selectBTDCoupon" resultClass="java.lang.Integer">
+		SELECT COUNT(*) cnt
+		FROM couponlist
+		WHERE userid = #userid#
+		AND ccode = 'c002'
+	</select>
+	
+	<select id="memberDAO.selectBtdCheck" resultClass="java.lang.String">
+		SELECT to_char(birthday,'MMDD') birthday
+		FROM memberinfo
+		WHERE userid = #userid#
+	</select>
+	
+	<insert id="memberDAO.insertMemPoint">
+		INSERT INTO point
+		( userid
+		, content
+		, usepoint
+		, ablepoint
+		, savepoint
+		, rdate
+		) VALUES ( #userid#
+				 , '신규가입'
+				 , '0'
+				 , '1000'
+				 , '1000'
+				 , sysdate
+				 )
+	</insert>
+	
+	<select id="memberDAO.selectMemberPoint" resultClass="java.lang.Integer">
+
+		SELECT p.ablepoint point
+		FROM point p, (SELECT MAX(rdate) rdate FROM point WHERE userid=#userid#) r
+		WHERE p.rdate = r.rdate
+		AND p.userid = #userid#
+	</select>
+	
+	<select id="memberDAO.selectDstateCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(r.ocode) cnt
+		FROM ordermain r, delivery d
+		WHERE d.DSTATE in ('결제완료','배송중','배송준비중')
+		and r.userid = #userid#
+		and r.ocode=d.ocode
+	</select>
+	
+	<select id="memberDAO.selectDstateInCnt" resultClass="java.lang.Integer">
+		SELECT COUNT(r.ocode) cnt
+		FROM ordermain r, delivery d
+		WHERE d.DSTATE in ('입금전')
+		and r.userid = #userid#
+		and r.ocode=d.ocode
+	</select>
+	
+	<delete id="memberDAO.memberInfoDelete">
+		DELETE FROM memberinfo
+		WHERE userid=#userid#
+	</delete>
+	
+	<delete id="memberDAO.memberPoinDelete">
+		DELETE FROM point
+		WHERE userid=#userid#
+	</delete>
+	
+	<delete id="memberDAO.memberCouDelete">
+		DELETE FROM couponlist
+		WHERE userid=#userid#
+	</delete>
+	
+	<delete id="memberDAO.memberCartDelete">
+		DELETE FROM cart
+		WHERE userid=#userid#
+	</delete>
+	
+	<select id="memberDAO.selectQnaFid" resultClass="egovMap">
+		SELECT to_char(fid) fid
+		FROM qna
+		WHERE userid=#userid#
+	</select>
+	
+	<delete id="memberDAO.memberQnaDelete">
+		DELETE FROM qna
+		WHERE fid=#fid#
+	</delete>
+	
+	<delete id="memberDAO.memberReDelete">
+		DELETE FROM review
+		WHERE userid=#userid#
+	</delete>
+	
+	<select id="memberDAO.selectOcode" resultClass="egovMap">
+		SELECT d.ocode
+		FROM delivery d, (SELECT ocode 
+		                    FROM ordermain
+		                    WHERE userid = #userid#) r
+		WHERE d.ocode = r.ocode
+	</select>
+	
+	<delete id="memberDAO.memberDeliDelete">
+		DELETE FROM delivery
+		WHERE ocode=#ocode#
+	</delete>
+	
+	<select id="memberDAO.selectOcode2" resultClass="egovMap">
+		SELECT d.ocode
+		FROM orderlist d, (SELECT ocode 
+		                    FROM ordermain
+		                    WHERE userid = #userid#) r
+		WHERE d.ocode = r.ocode
+	</select>
+	
+	<delete id="memberDAO.memberOrListDelete">
+		DELETE FROM orderlist
+		WHERE ocode=#ocode#
+	</delete>
+	
+	<delete id="memberDAO.memberOrderDelete">
+		DELETE FROM ordermain
+		WHERE userid=#userid#
+	</delete>
+	
+</sqlMap>

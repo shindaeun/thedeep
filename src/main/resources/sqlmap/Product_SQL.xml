@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="EmpSpace">
+
+	<typeAlias alias="egovMap"
+		type="egovframework.rte.psl.dataaccess.util.EgovMap" />
+	<typeAlias alias="searchVO" type="thedeep.service.DefaultVO" />
+	<typeAlias alias="groupVO" type="thedeep.service.GroupVO" />
+	<typeAlias alias="productVO" type="thedeep.service.ProductVO" />
+	<select id="productDAO.selectReviewResult" resultClass="egovMap">
+	select i.*, sum(cnt)over() total 
+	from(
+		select height,weight,psize,fit,count(fit) cnt  
+		from review 
+		where lower(pcode)=lower(#pcode#)
+		and height=#height# 
+		and weight=#weight# 
+		and psize=#psize# 
+		group by fit,height,weight,psize) i
+	</select>
+	<select id="productDAO.selectReview" resultClass="egovMap">
+		select b.* from(
+			select rownum rn,a.* from(
+				SELECT 
+					r.unq unq,
+					r.pcode pcode,
+					r.title title,
+					r.name name,
+					to_char(r.rdate,'yyyy-mm-dd') rdate,
+					nvl(r.hit,0) hit,
+					nvl(r.filename,0) filename,
+					r.content content,
+					p.cnt cnt
+				FROM
+					review r, (select count(fid) cnt, r.unq from reviewreply p, review r where p.fid(+) = r.unq group by r.unq) p 
+				WHERE
+					1 = 1
+					and r.unq = p.unq
+					<isNotNull property="searchKeyword">
+						<isNotEmpty property="searchKeyword">
+						AND lower($searchCondition$) LIKE '%' ||
+						lower(#searchKeyword#) || '%'
+						</isNotEmpty>
+					</isNotNull>
+				ORDER BY unq DESC
+				) a
+			) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]> $lastIndex$
+	</select>
+	
+	<select id="productDAO.selectReviewTotCnt" resultClass="java.lang.Integer">
+	SELECT
+		count(unq)
+		FROM
+		review
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND lower($searchCondition$) LIKE '%' || lower(#searchKeyword#) || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+	</select>
+	<select id="productDAO.selectQna" resultClass="egovMap">
+		select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+		SELECT
+		unq unq,
+		title title,
+		content content,
+		filename,
+		name,
+		hit
+		hit,
+		to_char(rdate,'yyyy-mm-dd') rdate
+		FROM
+		qna
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND lower($searchCondition$) LIKE '%' ||
+				lower(#searchKeyword#) || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+		) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	</select>
+	
+	<select id="productDAO.selectQnaTotCnt" resultClass="java.lang.Integer">
+	SELECT
+		count(unq)
+		FROM
+		qna
+		WHERE
+		1=1
+		<isNotNull property="searchKeyword">
+			<isNotEmpty property="searchKeyword">
+				AND lower($searchCondition$) LIKE '%' || lower(#searchKeyword#) || '%'
+			</isNotEmpty>
+		</isNotNull>
+		ORDER BY
+		unq DESC
+	</select>
+	<select id="productDAO.selectBest3Product" resultClass="egovMap">
+		select distinct pcode,pname,price,editor,mainfile ,amount
+		from(
+	        select distinct p.pcode,pname,price,editor,mainfile ,nvl(sum(amount),0) amount
+	        from orderlist l, product p
+	        where l.cscode(+) =p.cscode and p.gcode=#gcode# and wait='N'
+	        group by p.pcode,pname,price,editor,mainfile) 
+	    where rownum <![CDATA[<=]]>2
+	    order by amount desc
+	</select>
+	<select id="productDAO.selectBest50Product" resultClass="egovMap">
+		select distinct pcode,pname,price,editor,mainfile ,amount
+		from(
+	        select distinct p.pcode,pname,price,editor,mainfile ,nvl(sum(amount),0) amount
+	        from orderlist l, product p
+	        where l.cscode(+) =p.cscode and wait='N'
+	        group by p.pcode,pname,price,editor,mainfile) 
+	    where rownum <![CDATA[<=]]>50
+	    order by amount desc
+	</select>
+	<select id="productDAO.selectNew50Product" resultClass="egovMap">
+		select pcode,pname,price,editor,mainfile from(
+			select distinct pcode,pname,price,editor,mainfile
+			from product
+			where wait='N'
+			order by pcode desc)
+		where rownum<![CDATA[<=]]>100
+	</select>
+	<select id="productDAO.selectProductList" resultClass="egovMap">
+		select b.*
+		from(
+		select
+		rownum rn,a.*
+		from(
+		SELECT
+		distinct
+		pcode,pname,price,mainfile,editor
+		FROM
+		product
+		WHERE
+		lower($searchCondition$) =
+		lower(#searchKeyword#) and wait='N'
+		ORDER BY
+		pcode DESC
+		) a
+		) b
+		where
+		rn > $firstIndex$ and rn  <![CDATA[<=]]>
+		$lastIndex$
+	</select>
+
+	<select id="productDAO.selectProductTotCnt" resultClass="java.lang.Integer">
+		SELECT nvl(sum(count( distinct pcode)),0)
+			FROM product
+			WHERE lower(gcode)=lower(#gcode#) and wait='N'
+			group by pcode
+	</select>
+	<select id="productDAO.selectProductInfo" resultClass="productVO">
+		select distinct pcode,pname,price,price*0.01 point ,editor,mainfile
+		from product
+		where lower(pcode)=lower(#pcode#)
+	</select>
+	<select id="productDAO.selectSelOptions" resultClass="egovMap">
+		select
+		'color-'||color||' size-'|| psize as seloption,amount
+		from stock
+		where lower(pcode)=lower(#pcode#)
+	</select>
+
+	<select id="productDAO.selectGroupList" resultClass="egovMap">
+		SELECT
+		gcode,gname FROM productgroup
+		ORDER BY gcode ASC
+	</select>
+
+	<select id="productDAO.selectGroup" resultClass="groupVO">
+		SELECT
+		gcode,gname FROM productgroup
+		WHERE gcode=#gcode#
+	</select>
+
+	<insert id="productDAO.insertgroup">
+		INSERT INTO productgroup(gcode,gname)
+		VALUES ('g'||lpad(group_SEQ.nextval,'3','0'),#gname#)
+	</insert>
+
+	<update id="productDAO.updateGroup">
+		UPDATE productgroup SET
+		gname = #gname#
+		WHERE
+		gcode = #gcode#
+	</update>
+
+	<delete id="productDAO.deleteGroup">
+		DELETE FROM productgroup WHERE gcode = #gcode#
+	</delete>
+	
+	<select id="productDAO.selectGname" resultClass="egovMap">
+		select gname,gcode from productgroup
+	</select>
+	
+	<insert id="productDAO.insertProduct">
+		insert into product(
+			  cscode
+			, pcode
+			, pname
+			, price
+			, gcode
+			, soldout
+			, wait
+			<isNotNull property="mainfile">
+			<isNotEmpty property="mainfile">
+			, mainfile
+			</isNotEmpty>
+			</isNotNull> )
+		values (
+			  'P'||lpad(#maxpcode#,'5','0')||#psize#||#color#
+			, 'P'||lpad(#maxpcode#,'5','0')
+			, #pname#
+			, #price#
+			, #gcode#
+			, 'Y'
+			, #wait#
+			<isNotNull property="mainfile">
+			<isNotEmpty property="mainfile">
+			, #mainfile#
+			</isNotEmpty>
+			</isNotNull>)
+	</insert>
+	
+	<select id="productDAO.selectPcode" resultClass="java.lang.Integer">
+		select product_seq.nextval
+		from dual
+	</select>
+	
+	<insert id="productDAO.insertProductStock">
+		insert into stock(
+			  cscode
+			, pcode
+			, psize
+			, color
+			, amount )
+		values (
+			 'P'||lpad(#maxpcode#,'5','0')||#psize#||#color#
+		   , 'P'||lpad(#maxpcode#,'5','0')
+		   , #psize#
+		   , #color#
+		   , 0)
+	</insert>
+	
+	
+	<select id="productDAO.selectProductListView" resultClass="egovMap">
+	
+	SELECT b.* FROM (
+	
+	SELECT rownum rn,a.* FROM (
+	
+		SELECT p.cscode ,p.pcode ,p.pname ,p.price ,p.soldout,p.wait, s.amount, g.GNAME
+  		  FROM product p, stock s, productgroup g
+         WHERE p.cscode = s.cscode
+  		   AND p.GCODE = g.GCODE
+			<isNotNull property="searchKeyword">
+				<isNotEmpty property="searchKeyword">
+					AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+				</isNotEmpty>
+			</isNotNull>
+		ORDER BY cscode DESC 
+		) a
+	) b
+	
+	WHERE 
+		  rn > $firstIndex$ AND rn <![CDATA[<=]]> $lastIndex$ 
+
+	</select>
+	
+	<select id="productDAO.selectProductListTotCnt" resultClass = "java.lang.Integer">
+		SELECT COUNT(*) FROM product p
+			WHERE
+				1 = 1
+				<isNotNull property="searchKeyword">
+					<isNotEmpty property="searchKeyword">
+				AND $searchCondition$ LIKE '%' || #searchKeyword# || '%'
+					</isNotEmpty>
+				</isNotNull>
+	</select>
+	
+	<update id="productDAO.updateAmount">
+		UPDATE stock SET
+			amount = amount+(#amount#)
+		WHERE
+			cscode = #cscode#
+	</update>
+	
+	<select id="productDAO.selectProductDetail" resultClass = "productVO">
+		select distinct(pcode) pcode ,pname ,price ,gcode ,wait ,mainfile, editor
+		from product
+		where pcode=#pcode#
+	</select>
+	
+	<update id="productDAO.updateProductFile">
+		update product set mainfile=#mainfile#
+		where pcode=#pcode#
+	</update>
+	
+	<delete id="productDAO.deleteProduct">
+		DELETE from product where pcode=#pcode#
+	</delete>
+	
+	<delete id="productDAO.deleteCsProduct">
+		DELETE from product where cscode=#cscode#
+	</delete>
+	
+	<insert id="productDAO.insertProductModify">
+		insert into product(
+			  cscode
+			, pcode
+			, pname
+			, price
+			, gcode
+			, soldout
+			, wait
+			<isNotNull property="mainfile">
+			<isNotEmpty property="mainfile">
+			, mainfile
+			</isNotEmpty>
+			</isNotNull> )
+		values (
+			  #pcode#||#psize#||#color#
+			, #pcode#
+			, #pname#
+			, #price#
+			, #gcode#
+			, 'Y'
+			, #wait#
+			<isNotNull property="mainfile">
+			<isNotEmpty property="mainfile">
+			, #mainfile#
+			</isNotEmpty>
+			</isNotNull>)
+	</insert>
+	
+	<insert id="productDAO.insertProductStockModify">
+		insert into stock(
+			  cscode
+			, pcode
+			, psize
+			, color
+			, amount )
+		values (
+			 #pcode#||#psize#||#color#
+		   , #pcode#
+		   , #psize#
+		   , #color#
+		   , 0)
+	</insert>
+	
+	<update id="productDAO.updateSoldout">
+		update product set soldout='Y'
+		where cscode=#cscode#
+	</update>
+	
+	<update id="productDAO.updateProduct">
+		update product set
+			pname=#pname#
+			,price=#price#
+			,gcode=#gcode#
+			,wait=#wait#
+			<isNotNull property="mainfile">
+			<isNotEmpty property="mainfile">
+			,mainfile=#mainfile#
+			</isNotEmpty>
+			</isNotNull>
+		where pcode=#pcode#
+	</update>
+	
+	<select id="productDAO.selectAmount" resultClass="java.lang.Integer">
+		select amount from stock where cscode=#cscode#
+	</select>
+	
+	<update id="productDAO.updateNotSoldout">
+		update product set soldout='N'
+		where cscode=#cscode#
+	</update>
+	
+	<select id="productDAO.selectCsList" resultClass="egovMap">
+		select color,psize from stock where pcode=#pcode# order by color,psize desc
+	</select>
+	
+	<update id="productDAO.updateSmartEditor">
+		update product set editor=#editor#
+		where pcode = #pcode#
+	</update>
+	
+	<select id="productDAO.selectVisitor" resultClass="java.lang.String">
+		select rdate 
+		from home
+		where to_char(rdate,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
+	</select>
+	
+	<insert id="productDAO.insertVisitor">
+		insert into home(rdate,hit) values(sysdate,1)
+	</insert>
+	
+	<update id="productDAO.updateVisitor">
+		update home set hit=hit+1 where to_char(rdate,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
+	</update>
+	
+	<select id="productDAO.selectVisitorList" resultClass="egovMap">
+		select b.* from 
+			(select a.*,rownum rn from
+				(select hit, to_char(rdate,'yyyy-mm-dd') rdate 
+				   from home
+				  group by hit,rdate
+		          order by rdate desc)a
+		    )b
+		where rn between 1 and 7
+	</select>
+	
+	<select id="productDAO.selectVisitorTotal" resultClass="java.lang.Integer">
+		select sum(hit) total from home
+	</select>
+	
+	<select id="productDAO.selectVisitorToday" resultClass="java.lang.Integer">
+		select hit from home
+		where to_char(rdate,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
+	</select>
+	
+	<select id="productDAO.selectColorList" resultClass="egovMap">
+		select distinct(color) from stock where pcode=#pcode#
+	</select>
+	
+	<select id="productDAO.selectProduct" resultClass="java.lang.Integer">
+		select count(*) from product where gcode=#gcode#
+	</select>
+</sqlMap>
