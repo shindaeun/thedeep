@@ -245,7 +245,7 @@ $(function(){
 	<tr>
 		<th style="align:center;">
 		<button type="button" id="btnSubmit" class="white">관리자 등록</button>&nbsp;
-		<button type="button" class="white" onclick="location.href= '/theDeep.do'">취소</button>
+		<button type="button" class="white" onclick="location.href= '/theDeepAdmin.do'">취소</button>
 		</th>
 	</tr>
 </table>
