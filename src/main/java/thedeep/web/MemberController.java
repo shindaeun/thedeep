@@ -878,7 +878,6 @@ public class MemberController {
 		
 		List<?> list = memberService.selectQnaFid(userid);
 		Map<String,String> map2;
-		System.out.println("list  :  " + list);
 		for(int i=0;i<list.size();i++){
 			map2 = new HashMap<String,String>();
 			map2 = (Map<String, String>) list.get(i);

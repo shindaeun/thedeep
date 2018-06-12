@@ -186,7 +186,7 @@ $(function(){
 	});
 	$("#btnOut").click(function(){
 		
-		if($("#pwd").val()=="") {
+		if($("#pwd").val()=="" && $("#pwd2").val()=="") {
 			alert("비밀번호를 입력해 주세요.");
 			return;
 		}
