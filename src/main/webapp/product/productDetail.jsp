@@ -293,7 +293,7 @@ p {
 						<c:if test="${i.fit=='S'}">작음</c:if>
 						<c:if test="${i.fit=='VS'}">매우작음</c:if>
 					<div
-						style="width: ${100.0*i.cnt/i.total}%; height: 5px; background: skyblue; float: left;"></div>
+						style="width: ${100.0*i.cnt/i.total}%; height: 5px; background: #E03968; float: left;"></div>
 					<div>${100.0*i.cnt/i.total}%(${i.cnt }표)</div>
 				</c:forEach>
 			</c:if></td>

@@ -100,7 +100,7 @@ a:hover {text-decoration:underline; color: #000000}
 	<table>
 		<c:forEach var="i" items="${visitorlist}">
 		<tr height= "40px" width="100%">
-			<td>${i.rdate}</td><td><span style="width: ${i.hit/10.0}px; height: 20px; background: skyblue; float: left;"></span>${i.hit}</td>
+			<td>${i.rdate}</td><td><span style="width: ${i.hit/10.0}px; height: 20px; background: #E03968; float: left;"></span>${i.hit}</td>
 		</tr>
 		</c:forEach>
 		
