@@ -667,9 +667,9 @@ public class MemberController {
 		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
 		String userid = (String) a.get("ThedeepUserId");
 		String ocode = ovo.getOcode();
-		int cnt = memberService.deleteOrderInfo(ocode);
-		cnt = memberService.deleteOrderList(ocode);
+		int cnt = memberService.deleteOrderList(ocode);
 		cnt = memberService.deleteOrderDelivery(ocode);
+		cnt = memberService.deleteOrderInfo(ocode);
 		map.put("result", result);
 		return map;
 	}

@@ -531,14 +531,6 @@ public class AdminController {
 		List<?> olist = adminService.selectOrderDetail(ocode);
 		model.addAttribute("olist",olist);
 		System.out.println(olist);
-		Map<String,String> map = new HashMap<String,String>();
-		map = (Map<String, String>) olist.get(0);
-		if(map.get("dstate").equals("결제완료")){
-			DeliveryVO dvo = new DeliveryVO();
-			dvo.setOcode(ocode);
-			dvo.setDstate("배송준비중");
-			adminService.updateDstate(dvo);
-		}
 			
 		return "admin/orderDetail";
 	}

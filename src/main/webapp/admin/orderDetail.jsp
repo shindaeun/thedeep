@@ -98,7 +98,6 @@ function depositCancelPart(ocode, cscode) {
 }
 </script>
 
-
 <table class="top">
    <tr class="top">
       <td class="top">주문상세조회</td>
@@ -112,21 +111,16 @@ function depositCancelPart(ocode, cscode) {
 <form name="frm" id="frm">
 <table class="board" id="order">
 	<tr class="board">
-		<th width="10%" >구매자</th>
-		<!-- <th width="10%" >상품코드</th> -->
 		<th width="10%" >상품명(buy state)</th>
-		<th width="10%" >품목코드(개)</th>
-		<th width="10%" >총금액</th>
-		<!-- <th width="10%" >결제결과/방법</th>
-		<th width="10%" >입금자명</th> -->
-		<th width="10%" >사용/적립포인트/사용쿠폰</th>
+		<th width="15%" >품목코드(개)</th>
+		<!-- <th width="10%" >총금액</th> -->
+		<th width="10%" >결제방법(입금자명)</th>
+		<th width="15%" >사용포인트/적립포인트/쿠폰</th>
 		<th width="10%" >배송상태</th>
 		<th width="10%" >운송장번호</th>
 	</tr>
 	<c:forEach var="i" items="${olist }">
 		<tr class="board" align="center">
-			<td class="gubun">${i.name }</td>
-			<%-- <td class="gubun">${i.pcode }</td> --%>
 			<td>${i.pname }<br>( ${i.buyconfirm } )<br>
 			<c:if test="${i.buyconfirm=='취소요청' }">
 				<c:if test="${i.paymethod=='신용카드' }">
@@ -141,11 +135,13 @@ function depositCancelPart(ocode, cscode) {
 				</c:if>
 			</c:if>
 			</td>
-			<td>${i.cscode }(${i.amount }개)</td>
-			<td class="gubun">${i.sum }</td>
-			<%-- <td class="gubun">${i.payresult }/${i.paymethod }</td>
-			<td class="gubun">${i.depositname }</td> --%>
-			<td class="gubun">${i.usepoint }/${i.savepoint }/${i.usecoupon }</td>
+			<td>${i.cscode }(${i.amount }개,${i.sum }원)</td>	
+			<td class="gubun">${i.paymethod }
+			<c:if test="${i.depositname !=null}">(${i.depositname })</c:if>
+			</td>
+			<td class="gubun">${i.usepoint }/${i.savepoint }
+			<c:if test="${i.usecoupon !=null}">/${i.usecoupon }</c:if>
+			</td>
 			<td class="gubun">${i.dstate }<c:if test="${i.dstate=='입금전' }"><button type="button" class="white" id="btnPayChk">입금확인</button></c:if></td>
 			<td class="gubun">
 			<input type="hidden" name="ocode" value="${i.ocode }"/>
