@@ -684,6 +684,12 @@ public class MemberController {
 				dvo.setDstate("결제완료");
 				adminService.updateDstate(dvo);
 			}
+			else if(paymethod!=null && paymethod.equals("무통장입금")){
+				DeliveryVO dvo = new DeliveryVO();
+				dvo.setOcode(ocode);
+				dvo.setDstate("입금전");
+				adminService.updateDstate(dvo);
+			}
 			OrderVO ovo  = memberService.selectOrderInfo(ocode);
 			String olist = memberService.selectOrderList(ocode);
 			model.addAttribute("ovo",ovo);

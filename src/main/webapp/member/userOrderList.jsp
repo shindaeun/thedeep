@@ -244,7 +244,7 @@ function submit(i){
 				<c:if test="${clist.get(index).cnt<1  }">
 					<c:if test="${list.paymethod=='신용카드' }">
 						<br>
-						<button type="button" onclick="iamportCancel('${list.ocode}');" class="white">취소</button>
+						<button type="button" onclick="iamportCancel('${list.ocode}');" class="white">결제취소</button>
 					</c:if>
 					<c:if test="${list.paymethod=='무통장입금' }">
 						<c:if test="${list.adminmemo!='취소요청' }">
@@ -262,7 +262,9 @@ function submit(i){
 			</td>
 			<td>${list.pname}</td>
 			<td>${list.dstate}
-			<c:if test="${list.dstate=='결제완료' }"> &nbsp;&nbsp;
+			<c:if test="${list.dstate=='결제완료' }">
+			<c:if test="${list.adminmemo!='취소요청' }">
+			 &nbsp;&nbsp;
 					<c:if test="${list.paymethod=='신용카드' }">
 						<c:if test="${list.buyconfirm!='C' }">
 							<button type="button"
@@ -280,7 +282,7 @@ function submit(i){
 						</c:if>
 					</c:if>
 
-
+				</c:if>
 				</c:if> <c:if test="${list.dstate=='배송중' }"> &nbsp;&nbsp;
 					<c:if test="${list.buyconfirm!='C' }">
 					<button type="button" onclick="deliConfirm('${list.ocode}')" class="white">배송확인</button>
@@ -344,7 +346,7 @@ function submit(i){
 
 				<c:forEach var="i" begin="${ start}" end="${last }">
 					<c:if test="${i ==pageIndex}">
-						<span style="font-size: 13px; color: red;">${i }</span>
+						<span style="font-size: 13px; color: #E03968;">${i }</span>
 					</c:if>
 					<c:if test="${i !=pageIndex}">
 						<a href="#" onclick="submit(${i});">${i}</a>

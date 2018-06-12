@@ -113,7 +113,7 @@ a:hover {text-decoration:underline; color: #000000}
 
 				<c:forEach var="i" begin="${ start}" end="${last }">
 					<c:if test="${i ==pageIndex}">
-						<span style="font-size: 13px; color: red;">${i }</span>
+						<span style="font-size: 13px; color: #E03968;">${i }</span>
 					</c:if>
 					<c:if test="${i !=pageIndex}">
 						<a href="#" onclick="submit(${i});">${i}</a>

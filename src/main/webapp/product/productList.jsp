@@ -138,7 +138,7 @@ background: white;
 			</c:if>
 		</tr>
 	</table>
-	
+	<br>
 <c:set var="pageIndex" value="<%=pageIndex %>"/>
 		<c:set var="totalPage" value="${paginationInfo.getTotalPageCount() }"/>
 		<table width="100%">
@@ -164,7 +164,7 @@ background: white;
 						</c:if>
 						
         				<c:forEach var="i" begin="${ start}" end="${last }">
-        					<c:if test="${i ==pageIndex}"><span style="font-size:13px;color:red;">${i }</span></c:if>
+        					<c:if test="${i ==pageIndex}"><span style="font-size:13px;color:#E03968;">${i }</span></c:if>
         					<c:if test="${i !=pageIndex}">
         					<a href="/productList.do?pageIndex=${i}&${parm1}&${ parm2}">${i}</a></c:if>
         				</c:forEach>

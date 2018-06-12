@@ -159,7 +159,7 @@ p {
 
 				<c:forEach var="i" begin="${ start}" end="${last }">
 					<c:if test="${i ==pageIndex}">
-						<span style="font-size: 13px; color: red;">${i }</span>
+						<span style="font-size: 13px; color: #E03968;">${i }</span>
 					</c:if>
 					<c:if test="${i !=pageIndex}">
 						<a href="/adminBoard.do?pageIndex=${i}&${parm1}&${ parm2}">${i}</a>
@@ -256,7 +256,7 @@ p {
 
 				<c:forEach var="i" begin="${ start}" end="${last }">
 					<c:if test="${i ==pageIndex2}">
-						<span style="font-size: 13px; color: red;">${i }</span>
+						<span style="font-size: 13px; color: #E03968;">${i }</span>
 					</c:if>
 					<c:if test="${i !=pageIndex2}">
 						<a href="/adminBoard.do?pageIndex2=${i}&${parm1}&${ parm2}">${i}</a>

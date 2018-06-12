@@ -432,7 +432,7 @@ p {
 
 				<c:forEach var="i" begin="${ start}" end="${last }">
 					<c:if test="${i ==pageIndex2}">
-						<span style="font-size: 13px; color: red;">${i }</span>
+						<span style="font-size: 13px; color: #E03968;">${i }</span>
 					</c:if>
 					<c:if test="${i !=pageIndex2}">
 						<a href="/productDetail.do?pageIndex2=${i}&pcode=${pvo.pcode}">${i}</a>

@@ -532,7 +532,7 @@
 		insert into ordermain values(#ocode#,#userid#,#totalmoney#,#payresult#,#paymethod#,#depositname#,#usepoint#,#savepoint#,'',sysdate,#usecoupon#)
 	</insert>
 	<insert id="memberDAO.insertDelivery">
-		insert into delivery values(#ocode#,'입금전','',#oname#,#ophone#,#oemail#,#dname#,#dphone#,#dpost#,#message#)
+		insert into delivery values(#ocode#,'취소','',#oname#,#ophone#,#oemail#,#dname#,#dphone#,#dpost#,#message#)
 	</insert>
 	<insert id="memberDAO.insertOrderList">
 		insert into orderList values(#ocode#,#pcode#,#cscode#,#amount#,#totalmoney#,'N','N')
