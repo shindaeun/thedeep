@@ -1120,7 +1120,8 @@ public class AdminController {
 					if(    !exeName.equals("jpg") 
 					    && !exeName.equals("jpeg") 
 					    && !exeName.equals("gif") 
-					    && !exeName.equals("bmp") )
+					    && !exeName.equals("bmp")
+					    && !exeName.equals("png"))
 					{
 						errCode = "0";
 					} else {
