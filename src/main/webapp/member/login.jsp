@@ -28,7 +28,7 @@ $(function(){
 					alert("로그인 되었습니다.");
 					location.href="/theDeep.do";
 				} else if(data.result == "-1") {
-					alert("아이디와 패스워드가 일치하지 않습니다.");
+					alert("없는 회원이시거나 아이디와 패스워드가 일치하지 않습니다.");
 				}
 			},
 			error: function(error) {

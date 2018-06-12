@@ -345,5 +345,76 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectUserOrderListCnt(searchVO);
 	}
 
+	@Override
+	public int selectDstateCnt(String userid) throws Exception {
+		return memberDAO.selectDstateCnt(userid);
+	}
+
+	@Override
+	public int selectDstateInCnt(String userid) throws Exception {
+		return memberDAO.selectDstateInCnt(userid);
+	}
+	
+	@Override
+	public int memberInfoDelete(String userid) throws Exception {
+		return memberDAO.memberInfoDelete(userid);
+	}
+
+	@Override
+	public int memberPoinDelete(String userid) throws Exception {
+		return memberDAO.memberPoinDelete(userid);
+	}
+
+	@Override
+	public int memberCouDelete(String userid) throws Exception {
+		return memberDAO.memberCouDelete(userid);
+	}
+
+	@Override
+	public int memberCartDelete(String userid) throws Exception {
+		return memberDAO.memberCartDelete(userid);
+	}
+
+	@Override
+	public List<?> selectQnaFid(String userid) throws Exception {
+		return memberDAO.selectQnaFid(userid);
+	}
+
+	@Override
+	public int memberQnaDelete(String fid) throws Exception {
+		return memberDAO.memberQnaDelete(fid);
+	}
+
+	@Override
+	public int memberReDelete(String userid) throws Exception {
+		return memberDAO.memberReDelete(userid);
+	}
+
+	@Override
+	public int memberDeliDelete(String ocode) throws Exception {
+		return memberDAO.memberDeliDelete(ocode);
+	}
+
+	@Override
+	public List<?> selectOcode(String userid) throws Exception {
+		return memberDAO.selectOcode(userid);
+	}
+
+	@Override
+	public int memberOrderDelete(String userid) throws Exception {
+		return memberDAO.memberOrderDelete(userid);
+	}
+
+	@Override
+	public List<?> selectOcode2(String userid) throws Exception {
+		return memberDAO.selectOcode2(userid);
+	}
+
+	@Override
+	public int memberOrListDelete(String ocode2) throws Exception {
+		return memberDAO.memberOrListDelete(ocode2);
+	}
+
+
 
 }

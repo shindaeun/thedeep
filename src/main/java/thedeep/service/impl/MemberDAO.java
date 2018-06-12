@@ -276,7 +276,62 @@ public class MemberDAO extends EgovAbstractDAO{
 	public List<?> selectCancelCnt(String userid) {
 		return list("memberDAO.selectCancelCnt",userid);
 	}
+	
+	public int selectDstateCnt(String userid) {
+		return (int) select("memberDAO.selectDstateCnt", userid);
+	}
+	
+	public int selectDstateInCnt(String userid) {
+		return (int) select("memberDAO.selectDstateInCnt", userid);
+	}
+	
+	public int memberInfoDelete(String userid) {
+		return delete("memberDAO.memberInfoDelete", userid);
+	}
 
+	public int memberPoinDelete(String userid) {
+		return delete("memberDAO.memberPoinDelete", userid);
+	}
+
+	public int memberCouDelete(String userid) {
+		return delete("memberDAO.memberCouDelete", userid);
+	}
+
+	public int memberCartDelete(String userid) {
+		return delete("memberDAO.memberCartDelete", userid);
+	}
+
+	public List<?> selectQnaFid(String userid) {
+		return list("memberDAO.selectQnaFid", userid);
+	}
+
+	public int memberQnaDelete(String fid) {
+		return delete("memberDAO.memberQnaDelete", fid);
+	}
+
+	public int memberReDelete(String userid) {
+		return delete("memberDAO.memberReDelete", userid);
+	}
+
+	public int memberDeliDelete(String ocode) {
+		return delete("memberDAO.memberDeliDelete", ocode);
+	}
+
+	public List<?> selectOcode(String userid) {
+		return list("memberDAO.selectOcode", userid);
+	}
+
+	public int memberOrderDelete(String userid) {
+		return delete("memberDAO.memberOrderDelete", userid);
+	}
+
+	public List<?> selectOcode2(String userid) {
+		return list("memberDAO.selectOcode2", userid);
+	}
+
+	public int memberOrListDelete(String ocode2) {
+		return delete("memberDAO.memberOrListDelete", ocode2);
+	}
 
 	
 }

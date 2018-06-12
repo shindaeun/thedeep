@@ -165,7 +165,7 @@ $(function(){
 	 		//var formData = $("#frm").serialize();
 	 		var formData = $("#frm").serialize();
 	 		// 비 동기 전송
-			$.ajax({
+	 		$.ajax({
 				type: "POST",
 				data: formData,
 				url: "/memberModifySave.do",
@@ -176,6 +176,98 @@ $(function(){
 						location.href = "/myPage.do";
 					} else {
 						alert("저장 실패했습니다. 다시 시도해 주세요.");
+					}
+				},
+				error: function () {
+					alert("오류발생 ");
+				}
+			}); 
+		}
+	});
+	$("#btnOut").click(function(){
+		
+		if($("#pwd").val()=="") {
+			alert("비밀번호를 입력해 주세요.");
+			return;
+		}
+		
+		if($("#pwd").val() != $("#opwd").val()) {
+			alert("비밀번호가 맞지 않습니다.");
+			return;
+		}
+		
+		if(confirm("정말 탈퇴하시겠습니까?")) {		
+	 		//var formData = $("#frm").serialize();
+	 		var formData = $("#frm").serialize();
+	 		// 비 동기 전송
+			$.ajax({
+				type: "POST",
+				data: formData,
+				url: "/memberDstate.do",
+
+				success: function(data) {
+					if(data.result == "ok") {
+						$.ajax({
+							type: "POST",
+							data: formData,
+							url: "/memberDelete.do",
+
+							success: function(data) {
+								if(data.result == "ok") {
+									alert("탈퇴되셨습니다. 그동안 이용해 주셔서 감사합니다. ^^*");
+									$.ajax({
+										type:'POST',
+										data:'',
+										url:"/logout.do",
+										dataType:"json",
+										success:function(data) {
+											location.href="/theDeep.do";
+										},
+										error:function(error) {
+											alert("error:"+error);
+										}
+									});
+								} else {
+									alert("탈퇴에 실패했습니다. QNA에 문의해 주시기 바랍니다.");
+								}
+							},
+							error: function () {
+								alert("오류발생 ");
+							}
+						}); 
+					} else if(data.result == '1'){
+						if(confirm("입금 전인 상품이 있습니다. 취소하시고 탈퇴하시겠습니까?")) {
+							$.ajax({
+								type: "POST",
+								data: formData,
+								url: "/memberDelete.do",
+
+								success: function(data) {
+									if(data.result == "ok") {
+										alert("탈퇴되셨습니다. 그동안 이용해 주셔서 감사합니다. ^^*");
+										$.ajax({
+											type:'POST',
+											data:'',
+											url:"/logout.do",
+											dataType:"json",
+											success:function(data) {
+												location.href="/theDeep.do";
+											},
+											error:function(error) {
+												alert("error:"+error);
+											}
+										});
+									} else {
+										alert("탈퇴에 실패했습니다. QNA에 문의해 주시기 바랍니다.");
+									}
+								},
+								error: function () {
+									alert("오류발생 ");
+								}
+							});
+						}
+					} else {
+						alert("배송 진행 중인 상품이 있어 탈퇴하실 수 없습니다. QNA에 문의해 주시기 바랍니다.");
 					}
 				},
 				error: function () {
@@ -313,9 +405,12 @@ pageContext.setAttribute("email2", email[1]);
 </table>
 <table style="width:100%;">
 	<tr>
-		<th style="align:center;">
+		<th style="text-align:right; width:55%;">
 		<button type="button" id="btnSubmit" class="white">수정</button>&nbsp;
 		<button type="button" class="white" onclick="location.href= '/myPage.do'">취소</button>
+		</th>
+		<th style="text-align:right;">
+		<button type="button" id="btnOut" class="white">탈퇴</button>&nbsp;
 		</th>
 	</tr>
 </table>
