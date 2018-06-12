@@ -145,8 +145,8 @@ function checkAll(){
 	<tr class="board">
 		<th width="5%" >NO</th>
 		<th width="15%" >주문번호</th>
-		<th width="10%" >구매자</th>
-		<th width="15%" >상품코드</th>
+		<th width="15%" >구매자</th>
+		<th width="10%" >상품코드</th>
 		<th width="20%" >상품명</th>
 		<th width="10%">구매개수</th>
 		<th width="15%" >주문일자</th>

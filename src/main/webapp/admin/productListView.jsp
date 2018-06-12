@@ -19,7 +19,7 @@ $(function() {
    
 });
 function fnAdd(cscode,num,nowAmount) {
-	var amount = document.frm2.amount[num].value;
+	var amount = document.getElementsByName('amount')[num].value;
 	var test = eval(nowAmount+amount);
 	if(test < 0) {
 		alert("수량은 0보다 작을 수 없습니다.")
