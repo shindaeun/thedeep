@@ -1,11 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <link rel="stylesheet" href="/css/jquery-ui.css">
 <script src="/js/jquery-1.12.4.js"></script>
 <script src="/js/jquery-ui.js"></script>
 
+<%
+	String pageIndex = request.getParameter("pageIndex");
+	if (pageIndex == null)
+		pageIndex = "1";
+	if (Integer.parseInt(pageIndex) < 0)
+		pageIndex = "1";
+%>
 <script>
 $(function() {
 	$("#btnSubmit").click(function() {
@@ -58,6 +66,12 @@ $(function() {
    });
    
 });
+function submit(i){
+	$("#frm1").attr({
+		method : 'post',
+		action : '/pointAdd.do?pageIndex='+i
+	}).submit();
+} 
 </script>
 
 <table class="top">
@@ -124,17 +138,41 @@ $(function() {
 
 </c:forEach>
 </table>
+<br>
+<c:set var="pageIndex" value="<%=pageIndex%>" />
+<c:set var="totalPage" value="${paginationInfo.getTotalPageCount() }" />
+<table border="0" width="100%">
+	<tr>
+		<td align="center" style="board:0px;">
+			<div id="paging">
+				<c:set var="a" value="${(pageIndex-1)/5-((pageIndex-1)/5%1)}" />
+				<fmt:parseNumber var="a" integerOnly="true" value="${a}" />
+				<c:set var="start" value="${a*5+1}" />
+				<c:set var="last" value="${start+4}" />
 
-<table border="0" width="100%;">
-   <tr>
-      <td align="center" style="board:0px;">
-         <div id="paging">
-         <c:set var="parm1" value="searchCondition=${searchVO.getSearchCondition()}"/>
-         <c:set var="parm2" value="searchKeyword=${searchVO.getSearchKeyword()}"/>
-         <c:forEach var="i" begin="1" end="${paginationInfo.getTotalPageCount()}">
-            <a href="/pointAdd.do?pageIndex=${i}&${parm1}&${parm2}">${i}</a>
-         </c:forEach>
-         </div>
-      </td>
-   </tr>
+				<c:if test="${last>paginationInfo.getTotalPageCount() }">
+					<c:set var="last" value="${paginationInfo.getTotalPageCount() }" />
+				</c:if>
+
+				<fmt:parseNumber var="start2" integerOnly="true" value="${start-1}" />
+				<c:if test="${start2 >0}">
+					<a href="#" onclick="submit(${start2});">before</a>
+				</c:if>
+
+				<c:forEach var="i" begin="${ start}" end="${last }">
+					<c:if test="${i ==pageIndex}">
+						<span style="font-size: 13px; color: #E03968;">${i }</span>
+					</c:if>
+					<c:if test="${i !=pageIndex}">
+						<a href="#" onclick="submit(${i});">${i}</a>
+					</c:if>
+				</c:forEach>
+
+				<fmt:parseNumber var="last2" integerOnly="true" value="${last+1}" />
+				<c:if test="${last2 <=paginationInfo.getTotalPageCount()}">
+					<a href="#" onclick="submit(${last2});">next</a>
+				</c:if>
+			</div>
+		</td>
+	</tr>
 </table>

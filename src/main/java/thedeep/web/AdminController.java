@@ -982,8 +982,8 @@ public class AdminController {
 		
 		/** EgovPropertyService.sample */
 		/* context-properties.xml */
-		searchVO.setPageUnit(30); // 한화면의 출력 개수
-		searchVO.setPageSize(30); // 페이지 너버 개수
+		searchVO.setPageUnit(20); // 한화면의 출력 개수
+		searchVO.setPageSize(20); // 페이지 너버 개수
 
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
