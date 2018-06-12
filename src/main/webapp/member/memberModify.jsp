@@ -186,8 +186,14 @@ $(function(){
 	});
 	$("#btnOut").click(function(){
 		
-		if($("#pwd").val()=="" && $("#pwd2").val()=="") {
+		if($("#pwd").val()=="" || $("#pwd2").val()=="") {
 			alert("비밀번호를 입력해 주세요.");
+			return;
+		}
+		
+		if($("#pwd").val() != $("#pwd2").val()) {
+			alert("암호가 일치하지 않습니다");
+			$("#npwd").focus();
 			return;
 		}
 		
