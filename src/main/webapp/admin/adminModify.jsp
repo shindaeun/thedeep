@@ -249,7 +249,7 @@ pageContext.setAttribute("email2", email[1]);
 	<tr>
 		<th style="align:center;">
 		<button type="button" id="btnSubmit" class="white">수정</button>&nbsp;
-		<button type="button" class="white" onclick="location.href= '/myPage.do'">취소</button>
+		<button type="button" class="white" onclick="location.href= '/theDeepAdmin.do'">취소</button>
 		</th>
 	</tr>
 </table>
