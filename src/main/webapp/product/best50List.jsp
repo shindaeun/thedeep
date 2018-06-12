@@ -41,7 +41,7 @@ background: white;
     </table>
 
 
-	<table width="100%"  style="border:solid 1px #FFF">
+	<table width="100%">
 		<colgroup>
 		<col width="50%"/>
 		<col width="50%"/>

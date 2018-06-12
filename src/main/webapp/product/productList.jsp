@@ -51,12 +51,12 @@ background: white;
     	</tr>
     </table>
 
-	<table width="100%" style="border:solid 1px #FFF">
+	<table width="100%">
 		<colgroup>
 		<col width="50%"/>
 		<col width="50%"/>
 	</colgroup>
-		<tr style="border:solid 1px #FFF">
+		<tr>
 			<c:forEach var="i" items="${blist}" varStatus="status">
 			<c:set var="mainfile" value="${i.mainfile }"/>
 				<%
@@ -101,7 +101,7 @@ background: white;
 		<col width="50%"/>
 		<col width="50%"/>
 		</colgroup>
-		<tr style="border-bottom:none">
+		<tr>
 			<c:set var="filenum" value="0"/>
 			<c:forEach var="i" items="${plist}" varStatus="status">
 			<c:set var="filenum" value="${filenum+1}"/>

@@ -24,7 +24,6 @@
 <script type="text/javascript">
 
 $( document ).ready(function() {
-
 	var values = [];
     $.ajax({
 		type : "POST",
