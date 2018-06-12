@@ -83,6 +83,8 @@ a:hover {text-decoration:underline; color: #000000}
 <div style="width:100%; margin-left:340px; margin-top:10px;">
 <button type="button" class="white" style="width:280px;" id="btnLogin">Login</button>
 </div>
+<table style="border:0px; height:80px; width:100%;">
+</table>
 </c:if>
 <c:if test="${sessionScope.ThedeepALoginCert.ThedeepAUserId != null}">
 	<table border="3">
@@ -104,3 +106,4 @@ a:hover {text-decoration:underline; color: #000000}
 		
 	</table>
 </c:if>
+

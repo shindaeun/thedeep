@@ -215,6 +215,11 @@ public class AdminServiceImpl extends EgovAbstractServiceImpl implements AdminSe
 		return adminDAO.selectMaxCode();
 	}
 
+	@Override
+	public int upadateUserCoupon(CouponVO vo) throws Exception {
+		return adminDAO.upadateUserCoupon(vo);
+	}
+
 
 
 }

@@ -83,4 +83,6 @@ public interface AdminService {
 
 	String selectMaxCode() throws Exception;
 
+	int upadateUserCoupon(CouponVO vo) throws Exception;
+
 }
