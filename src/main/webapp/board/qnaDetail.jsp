@@ -63,14 +63,7 @@ $(function(){
 		}
 	});
 	
-	/* 답글은 관리자만 허용 */
-	$("#btnReboard").click(function() { 
-		location.href="/qnaReply.do";
-		var form = document.refrm;
-		form.method = "post";
-		form.action = "/qnaReply.do";
-		form.submit();
-	});
+	
 });
 </script>
 
@@ -171,11 +164,6 @@ if(filenames != null && !filenames.equals("")) {
 		<button type="button" id="btnModify" class="white">수정</button>&nbsp;
 		<button type="button" id="btnDelete" class="white">삭제</button>
 		</th>
-		<td style="text-align:right; width:10%">
-		<c:if test="${login==1}">
-		<button type="button" id="btnReboard" class="white">답글</button>
-		</c:if>
-		</td>
 	</tr>
 </table>
 </form>
