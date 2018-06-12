@@ -13,7 +13,9 @@
   margin-right: -43px;
   margin-left: 1px;
   border: 1px none #000;
+  overflow-y:scroll;
 }
+
 
 .row {
   height: 3000px;

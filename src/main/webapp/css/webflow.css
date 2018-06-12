@@ -1522,6 +1522,12 @@ textarea.w-select {
   background: #dddddd;
   z-index: 1000;
 }
+.w-nav2 {
+  position: fixed;
+  background: #dddddd;
+  z-index: 1000;
+  margin-left:100px;
+}
 .w-nav:before,
 .w-nav:after {
   content: " ";
