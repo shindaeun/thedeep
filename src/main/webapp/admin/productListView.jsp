@@ -26,8 +26,10 @@ $(function() {
    });
    
 });
-function fnAdd(cscode,num,nowAmount) {
+
+function fnAdd(cscode,num,nowAmount,i) {
 	var amount = document.getElementsByName('amount')[num].value;
+
 	var test = eval(nowAmount+amount);
 	if(test < 0) {
 		alert("수량은 0보다 작을 수 없습니다.")
@@ -50,7 +52,7 @@ function fnAdd(cscode,num,nowAmount) {
 			success: function(data) {
 				if(data.result == "1") {
 					alert("저장하였습니다.");
-					location.href="/productListView.do";
+					location.href="/productListView.do?pageIndex="+i;
 				} else {
 					alert("저장 실패하였습니다. 다시 시도해 주세요.");
 				}
@@ -120,7 +122,8 @@ function submit(i){
    </tr>
 </table>
 </form>
-
+<c:set var="pageIndex" value="<%=pageIndex%>" />
+<c:set var="totalPage" value="${paginationInfo.getTotalPageCount() }" />
 <form name="frm2" id="frm2">
 <c:set var="total" value="1"/>
 <table class="board">
@@ -148,7 +151,7 @@ function submit(i){
       <td style="text-align:center">${result.soldout}</td>
       <td style="text-align:center">${result.wait}</td>
       <td style="text-align:center">${result.amount}</td>
-      <td style="text-align:center"><input type="text" name="amount" id="amount" size="4"><a href="javascript:fnAdd('${result.cscode}','${status.count-1}',${result.amount})" class="white">&nbsp;저장&nbsp;</a></td>
+      <td style="text-align:center"><input type="text" name="amount" id="amount" size="4"><a href="javascript:fnAdd('${result.cscode}','${status.count-1}',${result.amount},'${pageIndex}')" class="white">&nbsp;저장&nbsp;</a></td>
       <td style="text-align:center"><a href="javascript:fnDel('${result.cscode}')" class="white">&nbsp;삭제&nbsp;</a></td>
     </tr>
    </c:forEach>
@@ -156,8 +159,7 @@ function submit(i){
 </form>
 
 <br>
-<c:set var="pageIndex" value="<%=pageIndex%>" />
-<c:set var="totalPage" value="${paginationInfo.getTotalPageCount() }" />
+
 <table border="0" width="100%">
 	<tr>
 		<td align="center" style="board:0px;">
