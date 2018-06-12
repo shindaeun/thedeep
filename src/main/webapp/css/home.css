@@ -14,7 +14,10 @@
   margin-left: 1px;
   border: 1px none #000;
   overflow-y:scroll;
-}  
+  overflow-x:hidden;
+  
+}
+
 
 .row {
   height: 3000px;

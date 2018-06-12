@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-        <div data-collapse="medium" data-animation="default" data-duration="400" class="w-nav">
+        <div data-collapse="medium" data-animation="default" data-duration="400" class="w-nav2">
           <div class="container-8 w-container">
             <nav role="navigation" class="nav-menu-2 w-nav-menu">
             <a href="/theDeep.do"><img src="/images/deep-logo.png"/></a><br>
