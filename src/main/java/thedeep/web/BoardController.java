@@ -359,6 +359,8 @@ public class BoardController {
 		int unq = vo.getUnq();
 		boardService.updateNoticeHit(unq);
 		vo = boardService.selectNoticeDetail(unq);
+		String test = stringReplace(vo.getContent());
+		vo.setContent(test);
 		model.addAttribute("vo", vo);
 		
 		return "board/noticeDetail";
