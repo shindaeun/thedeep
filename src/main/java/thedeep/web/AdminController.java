@@ -1795,6 +1795,8 @@ public class AdminController {
 		int unq = vo.getUnq();
 		boardService.updateQnaHit(unq);
 		vo = boardService.selectQnaDetail(unq);
+		String test = stringReplace(vo.getContent());
+		vo.setContent(test);
 		model.addAttribute("vo", vo);
 		
 		String a12 = null;
@@ -1812,5 +1814,11 @@ public class AdminController {
 		model.addAttribute("login", login);
 		
 		return "admin/adminQnaDetail";
+	}
+	public static String stringReplace(String str) {
+		
+		 str = str.replaceAll(" ", "&nbsp;");
+
+		return str;
 	}
 }
