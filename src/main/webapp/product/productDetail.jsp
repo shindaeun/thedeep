@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page import="java.io.File"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="javax.imageio.ImageIO"%>
 <%@page import="java.awt.image.BufferedImage"%>
 <%@page import="java.awt.Image"%>
@@ -209,11 +210,11 @@ p {
 	</tr>
 	<tr class="board">
 		<td>가격</td>
-		<td>${pvo.price }</td>
+		<td><fmt:formatNumber value="${pvo.price}" type="number"/>원</td>
 	</tr>
 	<tr class="board">
 		<td>적립금</td>
-		<td>${pvo.point }</td>
+		<td><fmt:formatNumber value="${pvo.point }" type="number"/>원</td>
 	</tr>
 	<tr class="board">
 		<td>옵션</td>
@@ -319,23 +320,13 @@ p {
 	</tr>
 </table>
 
-<table>
-	<tr>
-		<th>qna</th>
-	</tr>
-</table>
-<table class="line">
-	<tr class="line">
-		<td class="line"></td>
-	</tr>
-</table>
 <div>
 	<br>
 	<table style="width: 100%">
 		<tr>
 			<td style="border: 0px; text-align: right;">
 				<button type="button" class="white"
-					onClick="location.href='/qnaWrite.do?pcode=${pvo.pcode}'">Write</button>
+					onClick="location.href='/qnaWrite.do?pcode=${pvo.pcode}'">QnA Write</button>
 			</td>
 		</tr>
 	</table>

@@ -124,7 +124,9 @@ background: white;
 					} 
 				}
 				%>
-			<th class="mouse"><a href="/productDetail.do?pcode=${i.pcode }"><img src="/productImages/${i.mainfile }" style="cursur:pointer"width="<%=x %>" height="<%=y %>"/></a><br>${i.pname }<br>${i.price }</th>
+			<th class="mouse"><a href="/productDetail.do?pcode=${i.pcode }"><img src="/productImages/${i.mainfile }" style="cursur:pointer"width="<%=x %>" height="<%=y %>"/></a>
+				<br>${i.pname }<br>
+				<fmt:formatNumber value="${i.price}" type="number"/>원</th>
 			<c:if test="${filenum==2}">
 				<c:set var="filenum" value="0"/>
 				</tr>
