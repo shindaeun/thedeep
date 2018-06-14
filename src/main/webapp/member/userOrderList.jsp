@@ -270,6 +270,19 @@ function submit(i){
 			<td>${list.amount}개</td>
 			<td>${list.totalmoney}원</td>
 			<td>${list.dstate}
+			<c:if test="${list.dstate=='입금전' }"><br>
+			<c:if test="${fn:contains(list.depositname,'우리')}">
+			입금계좌 : 1102-845-1594346(우리)</c:if>
+		
+			<c:if test="${fn:contains(list.depositname,'신한')}">
+			입금계좌 : 01-123-5243-5(신한)</c:if>
+			
+			<c:if test="${fn:contains(list.depositname,'농협')}">
+			입금계좌 : 195-42156-564-1(농협)</c:if>
+			
+			<c:if test="${fn:contains(list.depositname,'국민')}">
+			입금계좌 : 945205-22-2824(국민)</c:if>
+			</c:if>
 			<c:if test="${list.dstate=='결제완료' }">
 			<c:if test="${list.adminmemo!='취소요청' }">
 			 &nbsp;&nbsp;

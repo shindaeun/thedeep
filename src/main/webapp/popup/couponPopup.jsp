@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <link href="/css/board.css" rel="stylesheet" type="text/css">
     <link href="/css/product.css" rel="stylesheet" type="text/css">
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <% String totalmoney = request.getParameter("totalmoney"); %>
 <script src="/js/jquery-1.12.4.js"></script>
 <script src="/js/jquery-ui.js"></script>
@@ -12,8 +13,8 @@ function couponApply(cname) {
 	var tr = $("#list").find("#" + cname).parent();
 	var rate = tr.children().eq(3).text();
 	rate = rate.substring(0,rate.length-1);
-	var maxdiscmoney = tr.children().eq(2).text();
-	var applymoney = tr.children().eq(1).text();
+	var maxdiscmoney = tr.children().eq(2).text().replace(',','');
+	var applymoney = tr.children().eq(1).text().replace(',','');
 	
 	 if(cname=="쿠폰선택"){
 		document.getElementById("discountmoney").innerHTML ="";
@@ -29,10 +30,13 @@ function couponApply(cname) {
 		if(discount > maxdiscmoney) {discount=maxdiscmoney};
 		var discountMoney = money-discount;
 		
-		document.getElementById("discountmoney").innerHTML = discountMoney;
-		document.getElementById("discount").innerHTML =discount;
+		document.getElementById("discountmoney").innerHTML = numberWithCommas(discountMoney);
+		document.getElementById("discount").innerHTML =numberWithCommas(discount);
 	}
 }
+function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 $(function() {
 	
 	$("#btnCoupon").click(function() {
@@ -196,8 +200,8 @@ document.onkeydown = processKey;
 			<tr class="board" align="center">
 				<td id="${ i.cname}">
 				${i.cname}</td>
-				<td>${i.applymoney}</td>
-				<td>${i.maxdiscmoney}</td>
+				<td><fmt:formatNumber value="${i.applymoney}" type="number"/></td>
+				<td><fmt:formatNumber value="${i.maxdiscmoney}" type="number"/></td>
 				<td>${i.discountrate}%</td>
 				<td>${i.sdate}~${i.edate}</td>
 			</tr>
@@ -219,7 +223,7 @@ document.onkeydown = processKey;
 				</c:forEach>
 			</select>
 			</td>
-			<td><%=totalmoney %></td>
+			<td><fmt:formatNumber value="<%=totalmoney %>" type="number"/></td>
 			<td><span id= "discount"></span></td>
 			<td><span id= "discountmoney"></span></td>
 		</tr>

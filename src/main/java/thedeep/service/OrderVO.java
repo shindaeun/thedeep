@@ -1,7 +1,13 @@
 package thedeep.service;
 
 public class OrderVO {
-	private String ocode,userid,payresult,paymethod,depositname,adminmemo,odate,usecoupon;
+	private String ocode,userid,payresult,paymethod,depositname,adminmemo,odate,usecoupon,bank;
+	public String getBank() {
+		return bank;
+	}
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
 	public String getUsecoupon() {
 		return usecoupon;
 	}

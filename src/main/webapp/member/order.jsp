@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="phone" value="${vo.phone}" />
 <c:set var="email" value="${vo.email}" />
 <c:set var="post" value="${vo.post}" />
@@ -38,6 +38,9 @@
 %>
 
 <script type="text/javascript">
+function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 $( document ).ready(function() {
 	var list1 = new Array();
 	<c:forEach items="${olist}" var="item1">
@@ -94,10 +97,10 @@ $(function() {
 			dphone += "-" + $("#phone6").val();
 			$("#dphone").val(dphone);
 		
-			$("#totalmoney").val($("#money2").text());
-			$("#savepoint").val($("#point").text());
-			$("#savepoint1").val($("#point").text());
-			$("#usepoint1").val($("#usepoint").val());
+			$("#totalmoney").val($("#money2").text().replace(',',''));
+			$("#savepoint").val($("#point").text().replace(',',''));
+			$("#savepoint1").val($("#point").text().replace(',',''));
+			$("#usepoint1").val($("#usepoint").val().replace(',',''));
 			
 			 if($("input[name=paymethod]:checked").val()=="무통장입금"){
 				var formData = $("#frm").serialize();
@@ -123,7 +126,7 @@ $(function() {
 		             }
 				});
 			}else{
-				var cmoney = $("#money2").text();
+				var cmoney = $("#money2").text().replace(',','');
 				if(cmoney=="0") {
 					alert("결제금액이 0원입니다. \n무통장입금을 선택해주세요. \n실제 입금하지 않으셔도 결제가 완료됩니다.");
 					return;
@@ -156,9 +159,9 @@ $(function() {
 	});
 
 	$("#applypoint").click(function() {
-		var use = $("#usepoint").val();
+		var use = $("#usepoint").val().replace(',','');
 		var able = ${ablepoint};
-		var total = $("#money2").text();
+		var total = $("#money2").text().replace(',','');
 		if (parseInt(use) == 0 || use == "") {
 			$("#usepoint").val("0");
 			document.getElementById("usepointresult").innerHTML = "0";
@@ -172,8 +175,8 @@ $(function() {
 			$("#usepoint").val("0");
 			document.getElementById("usepointresult").innerHTML = "0";
 		}else {
-			document.getElementById("usepointresult").innerHTML = $("#applypoint").val();
-			document.getElementById("usepointresult").innerHTML = use;
+			document.getElementById("usepointresult").innerHTML = numberWithCommas($("#applypoint").val());
+			document.getElementById("usepointresult").innerHTML = numberWithCommas(use);
 			alert("적용되었습니다.");
 
 		}
@@ -183,12 +186,12 @@ $(function() {
 	
 
 	$("#btnCoupon").click(function() {
-		var cmoney = $("#money2").text();
+		var cmoney = $("#money2").text().replace(',','');
 		if(cmoney=="0") {
 			alert("결제금액이 0원이므로 쿠폰 사용을 할 수 없습니다.");
 			return;
 		}
-		var totalmoney = $("#money1").text();
+		var totalmoney = $("#money1").text().replace(',','');
 		url = "/couponPopup.do?totalmoney=" + totalmoney;
 		windowObj = window.open(url, "쿠폰리스트", "width=700,height=400");
 
@@ -215,6 +218,17 @@ $(function() {
 		}
 
 	});
+	$("input[name=paymethod]").click(function() {
+		
+		if($("input[name=paymethod]:checked").val()=="신용카드"){
+			$(".hidden").css("display", "none");
+
+		}else{
+			$(".hidden").css("display", "");
+		}
+
+	});
+
 	$("#same").click(function() {
 		if ($("#same").is(":checked")) {
 			$("#dname").val("${vo.name}");
@@ -287,10 +301,10 @@ function sample6_execDaumPostcode() {
 }
 
  function totalcalcul() {
-	var money = $("#money1").text();
-	var point = $("#usepointresult").text();
-	var coupon = $("#usecouponresult").text();
-	$("#money2").text(money - point - coupon);
+	var money = $("#money1").text().replace(',','');
+	var point = $("#usepointresult").text().replace(',','');
+	var coupon = $("#usecouponresult").text().replace(',','');
+	$("#money2").text(numberWithCommas(money - point - coupon));
 } 
 </script>
 <form name="frm2" id="frm2">
@@ -335,8 +349,8 @@ function sample6_execDaumPostcode() {
 					<td>${i.cssize}</td>
 					<td>${i.cscolor}</td>
 					<td>${i.amount}</td>
-					<td>${i.price}</td>
-					<td>${i.savepoint}</td>
+					<td><fmt:formatNumber value="${i.price}" type="number"/></td>
+					<td><fmt:formatNumber value="${i.savepoint}" type="number"/></td>
 					<c:set var="index" value="${index+1 }" />
 				</tr>
 			</c:forEach>
@@ -431,17 +445,13 @@ function sample6_execDaumPostcode() {
 			<td><textarea name="message" id="message" rows="3" cols="50"
 					size="50" style="resize: none;"></textarea></td>
 		</tr>
-		<tr class="board">
-			<th class="head" width="20%">무통장 임금자명</th>
-			<td><input type="text" name="depositname" id="depositname" />(주문자와
-				같은 경우 생략 가능)</td>
-		</tr>
+		
 	</table>
 	<h5>> 결제 정보</h5>
 	<table class="board">
 		<tr class="board">
 			<th class="head" width="20%">적립금 사용</th>
-			<td>${ablepoint }원&nbsp; (사용 가능 적립금) <br>
+			<td><fmt:formatNumber value="${ablepoint }" type="number"/>원&nbsp; (사용 가능 적립금) <br>
 			<input type="text" name="usepoint" id="usepoint" value="0"
 				style="text-align: right;" />원
 				<button type="button" id="applypoint" class="white">적용</button></td>
@@ -458,11 +468,26 @@ function sample6_execDaumPostcode() {
 			<td><input type="radio" name="paymethod" value="신용카드" checked />신용카드
 				<input type="radio" name="paymethod" value="무통장입금" />무통장입금</td>
 		</tr>
+		
+		<tr class="board hidden" style="display:none;">
+
+			<th class="head" width="20%">무통장 임금자명</th>
+			<td><input type="text" name = "depositname" id="depositname" />(주문자와
+				같은 경우 생략 가능)</td>
+		</tr>
+		<tr class="board hidden" style="display:none;">
+
+			<th class="head" width="20%">은행</th>
+			<td><input type="radio" name="bank" value="신한" checked />01-123-5243-5(신한)<br>
+				<input type="radio" name="bank" value="우리" />1102-845-1594346(우리)<br>
+				<input type="radio" name="bank" value="농협" />195-42156-564-1(농협)<br>
+				<input type="radio" name="bank" value="국민" />945205-22-2824(국민)</td>
+		</tr>
 		<tr class="board" align="right">
-			<td colspan="10">결제금액 <span id="money1">${sumprice + delprice }</span>원
+			<td colspan="10">결제금액 <span id="money1"><fmt:formatNumber value="${sumprice + delprice }" type="number"/></span>원
 				- <span id="usecouponresult">0</span>원(쿠폰) - <span
-				id="usepointresult">0</span>원(적립금) =<span id="money2">${sumprice + delprice }</span>(적립금
-				<span id="point">${sumpoint}</span>원)
+				id="usepointresult">0</span>원(적립금) =<span id="money2"><fmt:formatNumber value="${sumprice + delprice }" type="number"/></span>(적립금
+				<span id="point"><fmt:formatNumber value="${sumpoint }" type="number"/></span>원)
 			</td>
 		</tr>
 	</table>

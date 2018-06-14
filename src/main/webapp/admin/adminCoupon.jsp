@@ -54,6 +54,30 @@ $(function(){
 			$("#cname").focus();
 			return;
 		}
+		hangle = /(^[0-9]*$)/;
+		sang = $("#applymoney").val();
+		
+		if(!hangle.test(sang)) {
+			alert("적용금액에는 문자가 올 수 없습니다.");
+			$("#applymoney").focus();
+			return;
+		}
+		
+		sang = $("#discountrate").val();
+		
+		if(!hangle.test(sang)) {
+			alert("할인률에는 문자가 올 수 없습니다.");
+			$("#discountrate").focus();
+			return;
+		}
+		
+		sang = $("#maxdiscmoney").val();
+		
+		if(!hangle.test(sang)) {
+			alert("최대 할인 금액에는 문자가 올 수 없습니다.");
+			$("#maxdiscmoney").focus();
+			return;
+		}
 		var formData = $("#frm").serialize();
 	 		// 비 동기 전송
 			$.ajax({

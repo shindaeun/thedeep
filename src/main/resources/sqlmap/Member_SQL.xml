@@ -206,7 +206,7 @@
 
 	<select id="memberDAO.selectCartList" resultClass="egovMap">
 	 <![CDATA[
-	select userid,c.cscode,c.pcode,pname,price*c.amount price,c.amount,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,round(price*0.01*c.amount) savepoint, s.amount stock
+	select userid,c.cscode,c.pcode,pname,to_char(price*c.amount,'999,999,999,999,999') price,c.amount,mainfile,substr(c.cscode,7,1) cssize,substr(c.cscode,8) cscolor,to_char(round(price*0.01*c.amount),'999,999,999,999,999') savepoint, s.amount stock
 	from cart c, product p,stock s
 	where userid=#userid#
 	and c.cscode=p.cscode
@@ -308,6 +308,7 @@
 				, m.ocode ocode
 				, m.paymethod
 				, m.adminmemo
+				, m.depositname
 				, p.cscode cscode
 				, substr(p.cscode,7,1) cssize
 				, substr(p.cscode,8) cscolor
@@ -319,7 +320,7 @@
 				, l.buyconfirm
 				, to_char(m.odate,'YYYY-MM-DD') odate
 				,(select dstate from delivery d where d.ocode = m.ocode) dstate
-				FROM (SELECT userid, ocode, odate ,paymethod,adminmemo
+				FROM (SELECT userid, ocode, odate ,paymethod,adminmemo,depositname
 				FROM ordermain
 				WHERE userid = #userid#) m, orderlist l, product p
 				WHERE m.ocode = l.ocode
@@ -472,7 +473,7 @@
 	</select>
 	<select id="memberDAO.selectOrderInfo" resultClass="orderVO">
 	 <![CDATA[
-	select ocode,userid,totalmoney,paymethod,to_char(odate,'yyyy-mm-dd') odate ,usecoupon,savepoint,usepoint,adminmemo
+	select ocode,userid,totalmoney,paymethod,to_char(odate,'yyyy-mm-dd') odate ,depositname,usecoupon,savepoint,usepoint,adminmemo
 	from ordermain 
 	where ocode=upper(#ocode#)
 	 ]]>
