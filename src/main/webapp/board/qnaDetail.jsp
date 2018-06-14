@@ -81,13 +81,13 @@ $(function(){
 <form name="frm" id="frm">
 <table class="board">
 	<tr class="board">
-		<th style="height:30px;" class="head">title</th>
+		<th style="height:30px;width:20%;" class="head">title</th>
 		<td style="text-align:left; padding:5px;">
 		${vo.title}
 		</td>
 	</tr>
 	<tr class="board">
-		<th class="head" style="height:30px;" >name</th>
+		<th class="head" style="height:30px;width:20%;">name</th>
 		<td style="text-align:left; padding:5px;">
 		${vo.name}
 		</td>
@@ -128,8 +128,8 @@ if(filenames != null && !filenames.equals("")) {
 	
 	
 	<tr class="board">
-		<th class="head">content</th>
-		<td style="text-align:left;height:150px">
+		<th class="head" style="width:20%;">content</th>
+		<td style="text-align:left;height:150px;">
 		<%
 		if(filenames != null && !filenames.equals("")) {
 			for(i=0; i<filename.length; i++) {
@@ -144,11 +144,13 @@ if(filenames != null && !filenames.equals("")) {
       	pageContext.setAttribute("newLine","\n"); //Space, Enter
       	pageContext.setAttribute("br", "<br/>"); //br 태그
 		%> 
+		<div style="width:600x; word-break:break-all;">
 		${fn:replace(vo.content,newLine,br)}
+		</div>
 		</td>
 	</tr>
 	<tr class="board">
-		<th class="head">password</th>
+		<th class="head" style="width:20%;">password</th>
 		<td style="text-align:left; padding:5px;">
 		 <input type="password" id="pwd" name="pwd"/>
 		 <input type="hidden" id="unq" name="unq" value="${vo.unq}"/>
