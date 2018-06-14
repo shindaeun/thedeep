@@ -155,7 +155,7 @@ if(filenames != null && !filenames.equals("")) {
 	<tr><td>
 	<c:forEach var="i" items="${rlist}" varStatus="status">
 			<tr class="board">
-				<td>${fn:replace(i.content,newLine,br)}<br><br></td>
+				<td><div style="width:900px; word-break:break-all;">${fn:replace(i.content,newLine,br)}</div><br><br></td>
 			</tr>
 	</c:forEach>
 	</td></tr>

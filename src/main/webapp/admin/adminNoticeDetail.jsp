@@ -122,7 +122,7 @@ if(filenames != null && !filenames.equals("")) {
       	pageContext.setAttribute("newLine","\n"); //Space, Enter
       	pageContext.setAttribute("br", "<br/>"); //br 태그
 		%> 
-		${fn:replace(vo.content,newLine,br)}
+		<div style="width:700px; word-break:break-all;">${fn:replace(vo.content,newLine,br)}</div>
 		</td>
 	</tr>
 	

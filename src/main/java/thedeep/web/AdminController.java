@@ -419,6 +419,8 @@ public class AdminController {
 		int unq = vo.getUnq();
 		boardService.updateReviewHit(unq);
 		vo = boardService.selectReviewDetail(unq);
+		String test = stringReplace(vo.getContent());
+		vo.setContent(test);
 		model.addAttribute("vo", vo);
 		
 		List<?> rlist = boardService.selectReviewReplyList(unq);
@@ -1622,6 +1624,8 @@ public class AdminController {
 		int unq = vo.getUnq();
 		boardService.updateNoticeHit(unq);
 		vo = boardService.selectNoticeDetail(unq);
+		String test = stringReplace(vo.getContent());
+		vo.setContent(test);
 		model.addAttribute("vo", vo);
 		
 		return "admin/adminNoticeDetail";
