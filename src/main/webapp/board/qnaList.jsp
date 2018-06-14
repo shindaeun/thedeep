@@ -114,11 +114,12 @@ a:hover {text-decoration:underline; color: #000000}
 	    </c:if>
 		<td>
 		<c:if test="${login==1}">
-		<c:if test="${result.forder=='aa'}"><a href="/qnaReDetail.do?unq=${result.unq}">└ [re] ${result.title}</a></c:if>
-		<c:if test="${result.forder!='aa'}"><a href="/qnaDetail.do?unq=${result.unq}">${result.title}</a></c:if>
+		<c:if test="${result.forder=='aa'}"><a href="/qnaReDetail.do?unq=${result.unq}">└ <img src="/qnaImages/lock.png" width="10px" height="10px"/>[re] ${result.title}</a></c:if>
+		<c:if test="${result.forder!='aa'}"><a href="/qnaDetail.do?unq=${result.unq}"><img src="/qnaImages/lock.png" width="10px" height="10px"/>${result.title}</a></c:if>
 		</c:if>
 		<c:if test="${login!=1}">
-		<c:if test="${result.forder=='aa'}">└ [re] </c:if>
+		<c:if test="${result.forder=='aa'}">└ <img src="/qnaImages/lock.png" width="10px" height="10px"/>[re] </c:if>
+		<img src="/qnaImages/lock.png" width="10px" height="10px"/>
 		<a href="/qnaLock.do?unq=${result.unq}">${result.title}</a>
 		</c:if>
 		</td>
