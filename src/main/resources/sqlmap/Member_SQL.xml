@@ -309,9 +309,13 @@
 				, m.paymethod
 				, m.adminmemo
 				, p.cscode cscode
+				, substr(p.cscode,7,1) cssize
+				, substr(p.cscode,8) cscolor
 				, p.pcode pcode
 				, p.pname pname
 				, l.reviewconfirm
+				, l.amount
+				, l.totalmoney
 				, l.buyconfirm
 				, to_char(m.odate,'YYYY-MM-DD') odate
 				,(select dstate from delivery d where d.ocode = m.ocode) dstate

@@ -233,6 +233,10 @@ function submit(i){
 		<th>DATE</th>
 		<th>ORDER CODE</th>
 		<th>ITEM</th>
+		<th>COLOR</th>
+		<th>SIZE</th>
+		<th>AMOUNT</th>
+		<th>MONEY</th>
 		<th>STATE</th>
 	</tr>
 	<c:forEach var="list" items="${list}" varStatus="status">
@@ -261,6 +265,10 @@ function submit(i){
 			</c:if>
 			</td>
 			<td>${list.pname}</td>
+			<td>${list.cscolor}</td>
+			<td>${list.cssize}</td>
+			<td>${list.amount}개</td>
+			<td>${list.totalmoney}원</td>
 			<td>${list.dstate}
 			<c:if test="${list.dstate=='결제완료' }">
 			<c:if test="${list.adminmemo!='취소요청' }">
