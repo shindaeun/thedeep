@@ -358,8 +358,8 @@ function sample6_execDaumPostcode() {
 				<c:set var="delprice" value="0" />
 			</c:if>
 			<tr class="board" align="right">
-				<td colspan="10">결제금액 ${sumprice }원 + 배송비 ${delprice } 원 =
-					${sumprice + delprice }원(적립금 ${sumpoint }원)</td>
+				<td colspan="10">결제금액 <fmt:formatNumber value="${sumprice }" type="number"/>원 + 배송비 ${delprice } 원 =
+					<fmt:formatNumber value="${sumprice +delprice }" type="number"/>원(적립금  <fmt:formatNumber value="${sumpoint }" type="number"/>원)</td>
 			</tr>
 		</table>
 	</div>
