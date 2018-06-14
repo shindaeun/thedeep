@@ -155,6 +155,8 @@ public class BoardController {
 		int unq = vo.getUnq();
 		boardService.updateQnaHit(unq);
 		vo = boardService.selectQnaDetail(unq);
+		String test = stringReplace(vo.getContent());
+		vo.setContent(test);
 		model.addAttribute("vo", vo);
 		
 		String a12 = null;
@@ -357,6 +359,8 @@ public class BoardController {
 		int unq = vo.getUnq();
 		boardService.updateNoticeHit(unq);
 		vo = boardService.selectNoticeDetail(unq);
+		String test = stringReplace(vo.getContent());
+		vo.setContent(test);
 		model.addAttribute("vo", vo);
 		
 		return "board/noticeDetail";
@@ -552,11 +556,20 @@ public class BoardController {
 		int unq = vo.getUnq();
 		boardService.updateReviewHit(unq);
 		vo = boardService.selectReviewDetail(unq);
+		String test = stringReplace(vo.getContent());
+		vo.setContent(test);
 		model.addAttribute("vo", vo);
 		
 		List<?> rlist = boardService.selectReviewReplyList(unq);
 		model.addAttribute("rlist", rlist);
 		return "board/reviewDetail";
+	}
+	
+	public static String stringReplace(String str) {
+		
+		 str = str.replaceAll(" ", "&nbsp;");
+
+		return str;
 	}
 
 	
@@ -678,6 +691,8 @@ public class BoardController {
 		int unq = vo.getUnq();
 		
 		vo = boardService.selectQnaDetail(unq);
+		String test = stringReplace(vo.getContent());
+		vo.setContent(test);
 		model.addAttribute("vo", vo);
 		
 		String a12 = null;

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script>
 $(function() {
 	$("#btnList").click(function() {
@@ -135,7 +136,7 @@ function depositCancelPart(ocode, cscode) {
 				</c:if>
 			</c:if>
 			</td>
-			<td>${i.cscode }(${i.amount }개,${i.sum }원)</td>	
+			<td>${i.cscode }(${i.amount }개/<fmt:formatNumber value="${i.sum}" type="number"/>원)</td>	
 			<td class="gubun">${i.paymethod }
 			<c:if test="${i.depositname !=null}">(${i.depositname })</c:if>
 			</td>

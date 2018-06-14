@@ -29,12 +29,16 @@
 	<!-- 인터셉터 s -->
 		<mvc:interceptors>
 			<mvc:interceptor>		
+				<mvc:mapping path="/cart.do"/>
 				<mvc:mapping path="/coupon.do"/>
 				<mvc:mapping path="/order.do"/>
-				<mvc:mapping path="/point.do"/>
-				<mvc:mapping path="/userOrderList.do"/>
 				<mvc:mapping path="/orderComplete.do"/>
-				<mvc:mapping path="/orderSub.do"/>		
+				<mvc:mapping path="/point.do"/>
+				<mvc:mapping path="/myPage.do"/>
+				<mvc:mapping path="/userOrderList.do"/>
+				<mvc:mapping path="/orderSub.do"/>
+				<mvc:mapping path="/orderNow.do"/>	
+				<mvc:mapping path="/memberInfo.do"/>			
 				<mvc:mapping path="/memberModify.do"/>		
 				<mvc:mapping path="/userOrderList.do"/>
 				<mvc:mapping path="/userBoard.do"/>	
@@ -44,7 +48,33 @@
 				<mvc:mapping path="/reviewModify.do"/>	
 				<!-- 인터셉터 가동 -->		
 				<bean id="sessionInterceptor" class="thedeep.web.SessionInterceptor"/>		
-			</mvc:interceptor>		
+			</mvc:interceptor>
+			<mvc:interceptor>		
+				<mvc:mapping path="/adminBoard.do"/>
+				<mvc:mapping path="/adminCoupon.do"/>
+				<mvc:mapping path="/adminInfo.do"/>		
+				<mvc:mapping path="/adminList.do"/>	
+				<mvc:mapping path="/adminModify.do"/>
+				<mvc:mapping path="/adminNoticeDetail.do"/>
+				<mvc:mapping path="/adminNoticeList.do"/>
+				<mvc:mapping path="/adminNoticeModify.do"/>
+				<mvc:mapping path="/adminNoticeWrite.do"/>
+				<mvc:mapping path="/adminQnaDetail.do"/>
+				<mvc:mapping path="/group.do"/>	
+				<mvc:mapping path="/iamportList.do"/>	
+				<mvc:mapping path="/orderDetail.do"/>
+				<mvc:mapping path="/orderList.do"/>	
+				<mvc:mapping path="/pointAdd.do"/>	
+				<mvc:mapping path="/productAdd.do"/>
+				<mvc:mapping path="/productListView.do"/>
+				<mvc:mapping path="/productModify.do"/>	
+				<mvc:mapping path="/qnaReDetail.do"/>
+				<mvc:mapping path="/qnaReModify.do"/>
+				<mvc:mapping path="/qnaReply.do"/>
+				<mvc:mapping path="/reviewDetail.do"/>
+				<mvc:mapping path="/reviewReply.do"/>
+				<bean id="sessionInterceptor2" class="thedeep.web.SessionInterceptor2"/>		
+			</mvc:interceptor>				
 		</mvc:interceptors>	
 	<!-- 인터셉터 e -->
 	

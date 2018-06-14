@@ -74,17 +74,17 @@ a:hover {text-decoration:underline; color: #000000}
 <c:set var="total" value="1"/>
 <table class="board">
 	<tr class="board" style="height:30px;">
-	 	<th>NO</th>
-	 	<th>ITEM</th>
-	 	<th>SUBJECT</th>
-	 	<th>WRITER</th>
-	 	<th>DATE</th>
-	 	<th>HIT</th>
+		<th width="10%">NO</th>
+		<th width="20%">ITEM</th>
+		<th width="20%">SUBJECT</th>
+		<th width="20%">WRITER</th>
+		<th width="20%">DATE</th>
+		<th width="10%">HIT</th>
 	</tr>
 	<c:forEach var="result" items="${list}" varStatus="status">
 	<tr class="board" style="height:30px; text-align:center;">
 		<td><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
-		<c:set var="pcode" value="${result.pcode }"/>
+		<c:set var="pcode" value="${result.pcode}"/>
 		<c:if test="${pcode!=null}">
        <%
 		int x=0,y=0;
@@ -105,18 +105,21 @@ a:hover {text-decoration:underline; color: #000000}
 			}
 		}
 		%>
-	    <td style="text-align:center"><img src="/productImages/${result.pcode}.jpg" width="<%=x %>" height="<%=y %>"/></td>
+	    <td style="text-align:center">
+	    	<a href="/productDetail.do?pcode=${result.pcode}"><img src="/productImages/${result.pcode}.jpg" width="<%=x %>" height="<%=y %>"/></a>
+	    </td>
 	    </c:if>
 	    <c:if test="${pcode==null}">
 	    <td style="text-align:center"></td>
 	    </c:if>
 		<td>
 		<c:if test="${login==1}">
-		<c:if test="${result.forder=='aa'}"><a href="/qnaReDetail.do?unq=${result.unq}">└ [re] ${result.title}</a></c:if>
-		<c:if test="${result.forder!='aa'}"><a href="/qnaDetail.do?unq=${result.unq}">${result.title}</a></c:if>
+		<c:if test="${result.forder=='aa'}"><a href="/qnaReDetail.do?unq=${result.unq}">└ <img src="/qnaImages/lock.png" width="10px" height="10px"/>[re] ${result.title}</a></c:if>
+		<c:if test="${result.forder!='aa'}"><a href="/qnaDetail.do?unq=${result.unq}"><img src="/qnaImages/lock.png" width="10px" height="10px"/>${result.title}</a></c:if>
 		</c:if>
 		<c:if test="${login!=1}">
-		<c:if test="${result.forder=='aa'}">└ [re] </c:if>
+		<c:if test="${result.forder=='aa'}">└ <img src="/qnaImages/lock.png" width="10px" height="10px"/>[re] </c:if>
+		<img src="/qnaImages/lock.png" width="10px" height="10px"/>
 		<a href="/qnaLock.do?unq=${result.unq}">${result.title}</a>
 		</c:if>
 		</td>

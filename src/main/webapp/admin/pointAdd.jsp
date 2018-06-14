@@ -131,9 +131,9 @@ function submit(i){
 	<tr class="board">
 		<th width="20%">${result.userid}</th>
 		<th width="20%">${result.content}</th>
-		<th width="20%">${result.usepoint}</th>
-		<th width="20%">${result.savepoint}</th>
-		<th width="20%">${result.ablepoint}</th>
+		<th width="20%"><fmt:formatNumber value="${result.usepoint}" type="number"/></th>
+		<th width="20%"><fmt:formatNumber value="${result.savepoint}" type="number"/></th>
+		<th width="20%"><fmt:formatNumber value="${result.ablepoint}" type="number"/></th>
 	</tr>
 
 </c:forEach>

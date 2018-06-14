@@ -419,6 +419,8 @@ public class AdminController {
 		int unq = vo.getUnq();
 		boardService.updateReviewHit(unq);
 		vo = boardService.selectReviewDetail(unq);
+		String test = stringReplace(vo.getContent());
+		vo.setContent(test);
 		model.addAttribute("vo", vo);
 		
 		List<?> rlist = boardService.selectReviewReplyList(unq);
@@ -678,6 +680,8 @@ public class AdminController {
 		int unq = vo.getUnq();
 		
 		vo = boardService.selectQnaDetail(unq);
+		String test = stringReplace(vo.getContent());
+		vo.setContent(test);
 		model.addAttribute("vo", vo);
 		
 		String a12 = null;
@@ -1620,6 +1624,8 @@ public class AdminController {
 		int unq = vo.getUnq();
 		boardService.updateNoticeHit(unq);
 		vo = boardService.selectNoticeDetail(unq);
+		String test = stringReplace(vo.getContent());
+		vo.setContent(test);
 		model.addAttribute("vo", vo);
 		
 		return "admin/adminNoticeDetail";
@@ -1795,6 +1801,8 @@ public class AdminController {
 		int unq = vo.getUnq();
 		boardService.updateQnaHit(unq);
 		vo = boardService.selectQnaDetail(unq);
+		String test = stringReplace(vo.getContent());
+		vo.setContent(test);
 		model.addAttribute("vo", vo);
 		
 		String a12 = null;
@@ -1812,5 +1820,11 @@ public class AdminController {
 		model.addAttribute("login", login);
 		
 		return "admin/adminQnaDetail";
+	}
+	public static String stringReplace(String str) {
+		
+		 str = str.replaceAll(" ", "&nbsp;");
+
+		return str;
 	}
 }

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public class SessionInterceptor extends HandlerInterceptorAdapter {
+public class SessionInterceptor2 extends HandlerInterceptorAdapter {
 
 	/*
 	 * Controller가 수행되기 전R
@@ -17,9 +17,10 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
     			HttpServletResponse response, 
     			Object handler) throws Exception {
         
+    	     System.out.println("11111");
     	     HttpSession session = request.getSession();
-    	     if(session == null || session.getAttribute("ThedeepLoginCert")==null) {
-    	    	 response.sendRedirect("/login.do");
+    	     if(session == null || session.getAttribute("ThedeepALoginCert")==null) {
+    	    	 response.sendRedirect("/adminLogin.do");
     	    	 return false;
     	     /*} else if(session.getAttribute("ThedeepALoginCert")==null) {
     	    	 response.sendRedirect("/adminLogin.do");
@@ -41,6 +42,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
                 Object handler, 
                 ModelAndView modelAndView) throws Exception {
 		
+		System.out.println("22222");
         	
 	}
 	
@@ -53,6 +55,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
                 Object handler, 
                 Exception ex) throws Exception {
 		
+		System.out.println("33333");
         	
 	}
  

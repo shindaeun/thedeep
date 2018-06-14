@@ -147,10 +147,10 @@ function submit(i){
       <td style="text-align:center"><a href="/productModify.do?pcode=${result.pcode}">${result.pcode}</td>
       <td style="text-align:center">${result.cscode}</td>
       <td style="text-align:center">${result.pname}</td>
-      <td style="text-align:center">${result.price}</td>
+      <td style="text-align:center"><fmt:formatNumber value="${result.price}" type="number"/>원</td>
       <td style="text-align:center">${result.soldout}</td>
       <td style="text-align:center">${result.wait}</td>
-      <td style="text-align:center">${result.amount}</td>
+      <td style="text-align:center"><fmt:formatNumber value="${result.amount}" type="number"/></td>
       <td style="text-align:center"><input type="text" name="amount" id="amount" size="4"><a href="javascript:fnAdd('${result.cscode}','${status.count-1}',${result.amount},'${pageIndex}')" class="white">&nbsp;저장&nbsp;</a></td>
       <td style="text-align:center"><a href="javascript:fnDel('${result.cscode}')" class="white">&nbsp;삭제&nbsp;</a></td>
     </tr>

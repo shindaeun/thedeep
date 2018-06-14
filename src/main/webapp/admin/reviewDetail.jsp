@@ -177,7 +177,7 @@ if(filenames != null && !filenames.equals("")) {
       	pageContext.setAttribute("newLine","\n"); //Space, Enter
       	pageContext.setAttribute("br", "<br/>"); //br 태그
 		%> 
-		${fn:replace(vo.content,newLine,br)}
+		<div style="width:700px; word-break:break-all;">${fn:replace(vo.content,newLine,br)}</div>
 		</td>
 	</tr>
 	
@@ -192,7 +192,7 @@ if(filenames != null && !filenames.equals("")) {
 	<tr><td>
 	<c:forEach var="i" items="${rlist}" varStatus="status">
 			<tr class="board">
-				<td>${fn:replace(i.content,newLine,br)}<br><br>
+				<td><div style="width:900px; word-break:break-all;">${fn:replace(i.content,newLine,br)}</div><br><br>
 					<button type="button" class="white" onclick="fnDelete(${i.unq})">삭제</button>
 				</td>
 			</tr>
