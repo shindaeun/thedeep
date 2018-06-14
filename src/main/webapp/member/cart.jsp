@@ -6,6 +6,7 @@
 <%@page import="java.awt.image.BufferedImage"%>
 <%@page import="java.awt.Image"%>
 <%@page import="javax.swing.ImageIcon"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <script>
 
@@ -18,19 +19,20 @@
 			checkbox.each(function(i) {
 				var tr=checkbox.parent().parent().eq(i);
 				var td=tr.children();
-				sum=parseInt(sum)+parseInt(td.eq(6).children().text());
-				point=parseInt(point)+parseInt(td.eq(7).children().text());
+				
+				sum=parseInt(sum)+parseInt(td.eq(6).children().text().replace(',',''));
+				point=parseInt(point)+parseInt(td.eq(7).children().text().replace(',',''));
 			});
 			if(sum<50000 && sum!=0){
-				document.getElementById("sum").innerHTML=sum;
-				document.getElementById("deli").innerHTML="3000";
-				document.getElementById("total").innerHTML=parseInt(sum)+parseInt(3000);
+				document.getElementById("sum").innerHTML=numberWithCommas(sum);
+				document.getElementById("deli").innerHTML="3,000";
+				document.getElementById("total").innerHTML=numberWithCommas(parseInt(sum)+parseInt(3000));
 			}else{
-				document.getElementById("sum").innerHTML=sum;
+				document.getElementById("sum").innerHTML=numberWithCommas(sum);
 				document.getElementById("deli").innerHTML="0";
-				document.getElementById("total").innerHTML=sum;
+				document.getElementById("total").innerHTML=numberWithCommas(parseInt(sum)+parseInt(3000));
 			}
-			document.getElementById("point").innerHTML=point;
+			document.getElementById("point").innerHTML=numberWithCommas(point);
 
 		});
 		$("input[type=checkbox]").click(function() {
@@ -57,31 +59,6 @@
 			$("#frm").attr({method:'post',action:'/order.do'}).submit();
 			
 	
-		});
-		$("button[name=btnChange]").click(function() {
-			var btn=$(this);
-			var tr=btn.parent().parent();
-			var td=tr.children();
-			var cscode=td.eq(1).text();
-			var amount=td.eq(8).children().val();
-			var param = "cscode="+cscode+"&amount="+amount;
-			$.ajax({
-				type : "POST",
-				data: param,
-				url : "/cartUpdate.do",
-				success : function(data) {
-					if (data.result == "ok") {
-						alert("변경하였습니다.");
-						location.href = "/cart.do";
-					}
-					else {
-						alert("변경 실패했습니다. 다시 시도해 주세요.");
-					}
-				},
-				error: function (request,status,error) {
-	            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	              }
-			});
 		});
 		$("button[name=btnDelete]").click(function() {
 			var btn=$(this);
@@ -129,20 +106,64 @@
 	 if(a=="+" && now_num<=now_stock){
 		 if (now_num == now_stock) {
 			 alert("재고량보다 많습니다. 재고량["+now_stock+"개]");
-		} else {
+		} else if(now_num >=10){
+			alert("10개 이상 구매 불가능합니다.");
+		} else{
 			document.getElementsByName("amount")[index].value++;
-		} 
+			var cscode=document.getElementsByName("ordercheck")[index].value;
+			var amount=document.getElementsByName("amount")[index].value;
+			var param = "cscode="+cscode+"&amount="+amount;
+			$.ajax({
+				type : "POST",
+				data: param,
+				url : "/cartUpdate.do",
+				success : function(data) {
+					if (data.result == "ok") {
+						alert("변경하였습니다.");
+						location.href = "/cart.do";
+					}
+					else {
+						alert("변경 실패했습니다. 다시 시도해 주세요.");
+					}
+				},
+				error: function (request,status,error) {
+	            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	              }
+			});
+		}
 	}
 	else if(a=="-" && now_num>=1){
 		if (now_num == 1) {
 			alert("1개 이하 구매 불가능합니다.");
 		} else {
 			document.getElementsByName("amount")[index].value--;
+			var cscode=document.getElementsByName("ordercheck")[index].value;
+			var amount=document.getElementsByName("amount")[index].value;
+			var param = "cscode="+cscode+"&amount="+amount;
+			$.ajax({
+				type : "POST",
+				data: param,
+				url : "/cartUpdate.do",
+				success : function(data) {
+					if (data.result == "ok") {
+						alert("변경하였습니다.");
+						location.href = "/cart.do";
+					}
+					else {
+						alert("변경 실패했습니다. 다시 시도해 주세요.");
+					}
+				},
+				error: function (request,status,error) {
+	            	  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	              }
+			});
 		}
 	}  
 	
 }
- 	
+ 	function numberWithCommas(x) {
+ 	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+ 	}
 
 </script> 
 
@@ -202,7 +223,6 @@
 				</td>
 				<td style="text-align:center"><button type="button" name="plus" onclick="fncnt('+',${status.count-1})"class="white">+</button>
 				<button type="button" name="minus" onclick="fncnt('-',${status.count-1})"class="white">-</button>
-				<button type="button" name="btnChange" class="white">변경</button></td>
 				<td style="text-align:center"><button type="button" name="btnDelete" class="white">삭제</button></td>
 			</tr>
 		</c:forEach>

@@ -471,6 +471,7 @@ public class MemberController {
 		HashMap a = (HashMap) request.getSession().getAttribute("ThedeepLoginCert");
 		String userid = (String) a.get("ThedeepUserId");
 		vo.setUserid(userid);
+		System.out.println(vo.getAmount() + vo.getCscode());
 		int cnt = memberService.updateCart(vo);
 		if(cnt>0){
 			result="ok";
@@ -618,7 +619,10 @@ public class MemberController {
 		
 		ovo.setOcode(ocode);
 		dvo.setOcode(ocode);
-		
+		if(ovo.getDepositname().equals("")){
+			ovo.setDepositname(memberService.selectMemeberDetail(userid).getName());
+		}
+		ovo.setDepositname(ovo.getDepositname() +"("+ ovo.getBank()+")");
 		ovo.setUserid(userid);
 		result = memberService.insertOrder(ovo);
 		 
@@ -692,6 +696,23 @@ public class MemberController {
 			}
 			OrderVO ovo  = memberService.selectOrderInfo(ocode);
 			String olist = memberService.selectOrderList(ocode);
+			String bank = ovo.getDepositname();
+			if(ovo.getDepositname() !=null){
+				
+				if(bank.contains("신한")){
+					ovo.setBank("01-123-5243-5(신한)");
+				}else if(bank.contains("우리")){
+					ovo.setBank("1102-845-1594346(우리)");
+				}else if(bank.contains("농협")){
+					ovo.setBank("195-42156-564-1(농협)");
+				}else if(bank.contains("국민")){
+					ovo.setBank("945205-22-2824(국민)");
+				}
+				
+			}
+			System.out.println(ovo.getBank()+"3q");
+			
+			
 			model.addAttribute("ovo",ovo);
 			model.addAttribute("olist",olist);
 		
@@ -744,6 +765,7 @@ public class MemberController {
 		
 		List<?> list = memberService.selectUserOrderList(searchVO);
 		model.addAttribute("list", list);
+		
 		//부분취소된 상품의 개수
 		List<?> clist = memberService.selectCancelCnt(userid);
 		model.addAttribute("clist", clist);
