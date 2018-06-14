@@ -37,8 +37,7 @@
 				<mvc:mapping path="/myPage.do"/>
 				<mvc:mapping path="/userOrderList.do"/>
 				<mvc:mapping path="/orderSub.do"/>
-				<mvc:mapping path="/orderNow.do"/>	
-				<mvc:mapping path="/memberInfo.do"/>			
+				<mvc:mapping path="/orderNow.do"/>				
 				<mvc:mapping path="/memberModify.do"/>		
 				<mvc:mapping path="/userOrderList.do"/>
 				<mvc:mapping path="/userBoard.do"/>	
@@ -51,8 +50,7 @@
 			</mvc:interceptor>
 			<mvc:interceptor>		
 				<mvc:mapping path="/adminBoard.do"/>
-				<mvc:mapping path="/adminCoupon.do"/>
-				<mvc:mapping path="/adminInfo.do"/>		
+				<mvc:mapping path="/adminCoupon.do"/>	
 				<mvc:mapping path="/adminList.do"/>	
 				<mvc:mapping path="/adminModify.do"/>
 				<mvc:mapping path="/adminNoticeDetail.do"/>
