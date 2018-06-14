@@ -29,12 +29,16 @@
 	<!-- 인터셉터 s -->
 		<mvc:interceptors>
 			<mvc:interceptor>		
+				<mvc:mapping path="/cart.do"/>
 				<mvc:mapping path="/coupon.do"/>
 				<mvc:mapping path="/order.do"/>
-				<mvc:mapping path="/point.do"/>
-				<mvc:mapping path="/userOrderList.do"/>
 				<mvc:mapping path="/orderComplete.do"/>
-				<mvc:mapping path="/orderSub.do"/>		
+				<mvc:mapping path="/point.do"/>
+				<mvc:mapping path="/myPage.do"/>
+				<mvc:mapping path="/userOrderList.do"/>
+				<mvc:mapping path="/orderSub.do"/>
+				<mvc:mapping path="/orderNow.do"/>	
+				<mvc:mapping path="/memberInfo.do"/>			
 				<mvc:mapping path="/memberModify.do"/>		
 				<mvc:mapping path="/userOrderList.do"/>
 				<mvc:mapping path="/userBoard.do"/>	
