@@ -268,7 +268,7 @@ function submit(i){
 			<td>${list.cscolor}</td>
 			<td>${list.cssize}</td>
 			<td>${list.amount}개</td>
-			<td>${list.totalmoney}원</td>
+			<td><fmt:formatNumber value="${list.totalmoney}" type="number"/>원</td>
 			<td>${list.dstate}
 			<c:if test="${list.dstate=='입금전' }"><br>
 			<c:if test="${fn:contains(list.depositname,'우리')}">

@@ -42,7 +42,7 @@
 			<tr class="board" align="center">
 				<td>${i.rdate}</td>
 				<td>${i.content}</td>
-				<td>${i.point}원</td>
+				<td><fmt:formatNumber value="${i.point}" type="number"/>원</td>
 			</tr>
 		</c:forEach>
 	</table>
