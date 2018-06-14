@@ -84,7 +84,7 @@ a:hover {text-decoration:underline; color: #000000}
 	<c:forEach var="result" items="${list}" varStatus="status">
 	<tr class="board" style="height:30px; text-align:center;">
 		<td><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
-		<c:set var="pcode" value="${result.pcode }"/>
+		<c:set var="pcode" value="${result.pcode}"/>
 		<c:if test="${pcode!=null}">
        <%
 		int x=0,y=0;
@@ -105,7 +105,9 @@ a:hover {text-decoration:underline; color: #000000}
 			}
 		}
 		%>
-	    <td style="text-align:center"><img src="/productImages/${result.pcode}.jpg" width="<%=x %>" height="<%=y %>"/></td>
+	    <td style="text-align:center">
+	    	<a href="/productDetail.do?pcode=${result.pcode}"><img src="/productImages/${result.pcode}.jpg" width="<%=x %>" height="<%=y %>"/></a>
+	    </td>
 	    </c:if>
 	    <c:if test="${pcode==null}">
 	    <td style="text-align:center"></td>
