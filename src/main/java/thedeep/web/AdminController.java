@@ -678,6 +678,8 @@ public class AdminController {
 		int unq = vo.getUnq();
 		
 		vo = boardService.selectQnaDetail(unq);
+		String test = stringReplace(vo.getContent());
+		vo.setContent(test);
 		model.addAttribute("vo", vo);
 		
 		String a12 = null;

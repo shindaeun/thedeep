@@ -92,7 +92,7 @@ $(function(){
 <input type="hidden" id="unq" name="unq" value="${vo.unq}"/>
 <table class="board">
 	<tr class="board">
-		<th style="height:20%;" class="head">title</th>
+		<th style="height:20%; width:20%;" class="head">title</th>
 		<td style="text-align:left; padding:5px;">
 		${vo.title}
 		</td>
@@ -143,8 +143,9 @@ if(filenames != null && !filenames.equals("")) {
       	pageContext.setAttribute("newLine","\n"); //Space, Enter
       	pageContext.setAttribute("br", "<br/>"); //br 태그
 		%> 
+		<div style="width:600x; word-break:break-all;">
 		${fn:replace(vo.content,newLine,br)}
-		</td>
+		</div>
 	</tr>
 	<c:if test="${login==1}">
 	<tr class="board">
