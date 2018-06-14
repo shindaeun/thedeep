@@ -17,7 +17,6 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
     			HttpServletResponse response, 
     			Object handler) throws Exception {
         
-    	     System.out.println("11111");
     	     HttpSession session = request.getSession();
     	     if(session == null || session.getAttribute("ThedeepLoginCert")==null) {
     	    	 response.sendRedirect("/login.do");
@@ -42,7 +41,6 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
                 Object handler, 
                 ModelAndView modelAndView) throws Exception {
 		
-		System.out.println("22222");
         	
 	}
 	
@@ -55,7 +53,6 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
                 Object handler, 
                 Exception ex) throws Exception {
 		
-		System.out.println("33333");
         	
 	}
  
