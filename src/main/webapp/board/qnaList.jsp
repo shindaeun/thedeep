@@ -74,12 +74,12 @@ a:hover {text-decoration:underline; color: #000000}
 <c:set var="total" value="1"/>
 <table class="board">
 	<tr class="board" style="height:30px;">
-	 	<th>NO</th>
-	 	<th>ITEM</th>
-	 	<th>SUBJECT</th>
-	 	<th>WRITER</th>
-	 	<th>DATE</th>
-	 	<th>HIT</th>
+		<th width="10%">NO</th>
+		<th width="20%">ITEM</th>
+		<th width="20%">SUBJECT</th>
+		<th width="20%">WRITER</th>
+		<th width="20%">DATE</th>
+		<th width="10%">HIT</th>
 	</tr>
 	<c:forEach var="result" items="${list}" varStatus="status">
 	<tr class="board" style="height:30px; text-align:center;">
