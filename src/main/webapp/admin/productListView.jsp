@@ -147,7 +147,7 @@ function submit(i){
       <td style="text-align:center"><a href="/productModify.do?pcode=${result.pcode}">${result.pcode}</td>
       <td style="text-align:center">${result.cscode}</td>
       <td style="text-align:center">${result.pname}</td>
-      <td style="text-align:center">${result.price}</td>
+      <td style="text-align:center"><fmt:formatNumber value="${result.price}" type="number"/>원</td>
       <td style="text-align:center">${result.soldout}</td>
       <td style="text-align:center">${result.wait}</td>
       <td style="text-align:center">${result.amount}</td>
