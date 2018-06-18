@@ -138,7 +138,7 @@
 	function fnSurvey() {
 		$("#frm2").attr({
 			method : 'post',
-			action : '/productDetail.do'
+			action : '/productDetail.do?pcode=${pvo.pcode}'
 		}).submit();
 	}
 	$(document).ready(
