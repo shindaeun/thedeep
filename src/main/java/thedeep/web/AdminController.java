@@ -69,6 +69,39 @@ public class AdminController {
 	@Resource(name="productService")
 	ProductService productService;
 	
+	@RequestMapping(value="/selectslickList.do")
+	@ResponseBody
+	public List<?> selectEmpList(ModelMap model,DefaultVO searchVO) throws Exception{
+
+		searchVO.setPageUnit(20);// 한 화면에 출력 개수
+		searchVO.setPageSize(20);// 페이지 개수
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		List<?> qlist = adminService.selectQnaList(searchVO);
+		model.addAttribute("qlist", qlist);
+		int totCnt = adminService.selectQnaTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		
+		model.addAttribute("paginationInfo", paginationInfo);
+		
+		return qlist;
+	}
+	
+	@RequestMapping(value="/slickList.do")
+	public String empList(ModelMap model) throws Exception{
+		/*List<?> list=empService.selectEmpList();
+		model.addAttribute("resultList",list);*/
+		return "admin/qnaList";
+	}
+	
 	@RequestMapping(value="/adminInfo.do")
 	public String insertAdminInfo() throws Exception{
 		return "admin/adminInfo";

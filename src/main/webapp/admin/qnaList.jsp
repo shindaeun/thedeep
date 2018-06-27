@@ -91,7 +91,7 @@ var options = {
 	enableAddRow: false,
 	enableCellNavigation: true,
 	asyncEditorLoading: true,
-	forceFitColumns: false,
+	forceFitColumns: true,
 	enableCellNavigation: true,
     enableColumnReorder: false,
     multiColumnSort: true,
@@ -156,7 +156,7 @@ $(function(){
 	$.ajax({
 	    type: 'POST',
 	    data : '',
-	    url: '/selectQnaList.do',
+	    url: '/selectslickList.do',
 	    dataType: 'json',
 	    success: function(data){
 	    	var num = 1;
@@ -183,8 +183,12 @@ $(function(){
 	  			}
 			});
 	  		grid.onCellChange.subscribe(function (e, args) {
-	  			alert("ch");
-	  		  	
+	  			alert(args.data);
+	  		/* // Update an existing item.
+	  			var item = dataView.getItemById('l4');
+	  			item['lang'] = 'Clojure';
+	  			dataView.updateItem('l4', item);
+	  			//dataView.updateItem(args.item.id, args.item); */
 	  		});
 	  	  grid.onSort.subscribe(function (e, args) {
 	  	      var cols = args.sortCols;
