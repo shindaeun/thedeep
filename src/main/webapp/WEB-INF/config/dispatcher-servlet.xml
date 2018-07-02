@@ -69,7 +69,7 @@
 				<mvc:mapping path="/qnaReDetail.do"/>
 				<mvc:mapping path="/qnaReModify.do"/>
 				<mvc:mapping path="/qnaReply.do"/>
-				<mvc:mapping path="/reviewDetail.do"/>
+				<mvc:mapping path="/reviewDetailAdmin.do"/>
 				<mvc:mapping path="/reviewReply.do"/>
 				<bean id="sessionInterceptor2" class="thedeep.web.SessionInterceptor2"/>		
 			</mvc:interceptor>				
